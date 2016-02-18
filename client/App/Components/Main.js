@@ -1,12 +1,9 @@
 var React = require('react-native');
 var api = require('../Utils/api');
 var Dashboard = require('./Dashboard');
-<<<<<<< HEAD
 var Camera = require('./Camera');
 var Signup = require('./Signup');
-=======
 var Settings = require('./Settings');
->>>>>>> user-settings-view
 var {
   View,
   Text,
