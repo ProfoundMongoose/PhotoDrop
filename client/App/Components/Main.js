@@ -1,6 +1,7 @@
 var React = require('react-native');
 var api = require('../Utils/api');
 var Dashboard = require('./Dashboard');
+var Camera = require('./Camera');
 var {
   View,
   Text,
@@ -131,6 +132,17 @@ class Main extends React.Component {
     });
   }
 
+  openCamera() {
+    this.props.navigator.push({
+      component: Camera
+    });
+    this.setState({
+      isLoading: false,
+      error: false,
+      username: ''
+    });
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -155,6 +167,13 @@ class Main extends React.Component {
           onPress={this.handleRedirect.bind(this)}
           underlayColor='#34495e'>
           <Text style={styles.signup}> Dont have an account? Sign Up!  </Text>
+
+        </TouchableHighlight>
+
+        <TouchableHighlight
+          onPress={this.openCamera.bind(this)}
+          underlayColor='#34495e'>
+          <Text style={styles.signup}> Link to Camera (will implement Auth Later)  </Text>
 
         </TouchableHighlight>
       </View>
