@@ -11,7 +11,7 @@ module.exports = function (app, express) {
     photoController.uploadPhoto,
     photoController.savePhotoModelToDB,
     function(req, res) {
-      res.send(200);
+      res.sendStatus(200);
   });
 
   app.post('/login', function(req, res) {
