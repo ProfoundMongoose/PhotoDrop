@@ -1,12 +1,10 @@
 var React = require('react-native');
 
-
 var {
   Text,
   View,
   StyleSheet
 } = React;
-
 
 var styles = StyleSheet.create({
   container: {
