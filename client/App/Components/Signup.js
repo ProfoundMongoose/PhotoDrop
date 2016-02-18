@@ -1,8 +1,7 @@
 var React = require('react-native');
 var api = require('../Utils/api');
-var Dashboard = require('./Dashboard');
+var Main = require('./Main');
 var Camera = require('./Camera');
-var Signup = require('./Signup');
 var {
   View,
   Text,
@@ -71,12 +70,13 @@ var styles = StyleSheet.create({
   }
 });
 
-class Main extends React.Component {
+class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
       password: '',
+      confirmedPassword: '',
       isLoading: false,
       error: false
     };
@@ -94,6 +94,12 @@ class Main extends React.Component {
     });
   }
 
+  handleConfirmedPasswordChange (event) {
+    this.setState({
+      confirmedPassword: event.nativeEvent.text
+    });
+  }
+
   handleSubmit(){
     // update our indicator spinner
     // fetch data from server
@@ -106,7 +112,7 @@ class Main extends React.Component {
       .then((res) => {
           this.props.navigator.push({
             title: res.name || 'Select an Option',
-            component: Dashboard,
+            component: Main,
             passProps: {userInfo: res}
           });
           this.setState({
@@ -123,9 +129,7 @@ class Main extends React.Component {
     }
 
   handleRedirect() {
-    this.props.navigator.push({
-      component: Signup
-    });
+    this.props.navigator.pop();
     this.setState({
       isLoading: false,
       error: false,
@@ -133,16 +137,6 @@ class Main extends React.Component {
     });
   }
 
-  openCamera() {
-    this.props.navigator.push({
-      component: Camera
-    });
-    this.setState({
-      isLoading: false,
-      error: false,
-      username: ''
-    });
-  }
 
   render() {
     return (
@@ -158,6 +152,11 @@ class Main extends React.Component {
           style={styles.searchInput}
           value={this.state.password}
           onChange={this.handlePasswordChange.bind(this)} />
+        <Text style={styles.fieldTitle}> Confirm Password </Text>
+        <TextInput
+          style={styles.searchInput}
+          value={this.state.confirmedPassword}
+          onChange={this.handleConfirmedPasswordChange.bind(this)} />
         <TouchableHighlight
           style={styles.button}
           onPress={this.handleSubmit.bind(this)}
@@ -167,19 +166,11 @@ class Main extends React.Component {
         <TouchableHighlight
           onPress={this.handleRedirect.bind(this)}
           underlayColor='#34495e'>
-          <Text style={styles.signup}> Dont have an account? Sign Up!  </Text>
-
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          onPress={this.openCamera.bind(this)}
-          underlayColor='#34495e'>
-          <Text style={styles.signup}> Link to Camera (will implement Auth Later)  </Text>
-
+          <Text style={styles.signup}> Dont have an account? Sign in!  </Text>
         </TouchableHighlight>
       </View>
     )
   }
 }
 
-module.exports = Main;
+module.exports = Signup;
