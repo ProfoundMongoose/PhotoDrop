@@ -3,6 +3,7 @@ var api = require('../Utils/api');
 var Dashboard = require('./Dashboard');
 var Camera = require('./Camera');
 var Signup = require('./Signup');
+var Settings = require('./Settings');
 var {
   View,
   Text,
@@ -122,6 +123,17 @@ class Main extends React.Component {
         })
     }
 
+  gotoSettings() {
+    this.props.navigator.push({
+      component: Settings
+    });
+    this.setState({
+      isLoading: false,
+      error: false,
+      username: ''
+    });
+  }
+
   handleRedirect() {
     this.props.navigator.push({
       component: Signup
@@ -164,11 +176,17 @@ class Main extends React.Component {
           underlayColor='white'>
           <Text style={styles.buttonText}> Sign in </Text>
         </TouchableHighlight>
+
         <TouchableHighlight
           onPress={this.handleRedirect.bind(this)}
           underlayColor='#34495e'>
           <Text style={styles.signup}> Dont have an account? Sign Up!  </Text>
+        </TouchableHighlight>
 
+        <TouchableHighlight
+          onPress={this.gotoSettings.bind(this)}
+          underlayColor='#34495e'>
+          <Text style={styles.signup}> gotoSettings  </Text>
         </TouchableHighlight>
 
         <TouchableHighlight
