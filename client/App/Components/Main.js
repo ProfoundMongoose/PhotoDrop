@@ -4,6 +4,7 @@ var Dashboard = require('./Dashboard');
 var Camera = require('./Camera');
 var Signup = require('./Signup');
 var Settings = require('./Settings');
+var MapView = require('./MapView');
 var {
   View,
   Text,
@@ -156,6 +157,17 @@ class Main extends React.Component {
     });
   }
 
+  openMaps() {
+    this.props.navigator.push({
+      component: MapView
+    });
+    this.setState({
+      isLoading: false,
+      error: false,
+      username: ''
+    });
+  }
+
   render() {
     return (
       <View style={styles.mainContainer}>
@@ -193,6 +205,13 @@ class Main extends React.Component {
           onPress={this.openCamera.bind(this)}
           underlayColor='#34495e'>
           <Text style={styles.signup}> Link to Camera (will implement Auth Later)  </Text>
+
+        </TouchableHighlight>
+
+        <TouchableHighlight
+          onPress={this.openMaps.bind(this)}
+          underlayColor='#34495e'>
+          <Text style={styles.signup}> Link to MapView </Text>
 
         </TouchableHighlight>
       </View>
