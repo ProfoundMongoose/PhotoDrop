@@ -59,7 +59,7 @@ var styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 30,
     alignSelf: 'stretch',
-    justifyContent: 'center' 
+    justifyContent: 'center'
   },
   signup: {
     marginTop: 20,
@@ -68,7 +68,6 @@ var styles = StyleSheet.create({
     textDecorationLine: 'underline'
   }
 });
-
 
 class Main extends React.Component {
   constructor(props) {
@@ -103,12 +102,6 @@ class Main extends React.Component {
 
     api.login(this.state.username, this.state.password)
       .then((res) => {
-         if(res.message === 'Not Found'){
-          this.setState({
-            error: 'User not found',
-            isLoading: false
-          });
-         } else {
           this.props.navigator.push({
             title: res.name || 'Select an Option',
             component: Dashboard,
@@ -119,12 +112,15 @@ class Main extends React.Component {
             error: false,
             username: ''
           });
-         }
-      });
+        }).catch((err) => {
+           this.setState({
+             error: 'User not found' + err,
+             isLoading: false
+           });
+        })
     }
 
   handleRedirect() {
-
     this.props.navigator.push({
       component: Dashboard
     });
@@ -136,30 +132,30 @@ class Main extends React.Component {
   }
 
   render() {
-    return ( 
+    return (
       <View style={styles.mainContainer}>
-      <Text style={styles.title}> Profound Mongoose </Text> 
-        <Text style={styles.fieldTitle}> Username </Text> 
-        <TextInput 
+      <Text style={styles.title}> Profound Mongoose </Text>
+        <Text style={styles.fieldTitle}> Username </Text>
+        <TextInput
           style={styles.searchInput}
           value={this.state.username}
           onChange={this.handleUsernameChange.bind(this)} />
-        <Text style={styles.fieldTitle}> Password </Text> 
-        <TextInput 
+        <Text style={styles.fieldTitle}> Password </Text>
+        <TextInput
           style={styles.searchInput}
           value={this.state.password}
           onChange={this.handlePasswordChange.bind(this)} />
-        <TouchableHighlight 
+        <TouchableHighlight
           style={styles.button}
           onPress={this.handleSubmit.bind(this)}
           underlayColor='white'>
           <Text style={styles.buttonText}> Sign in </Text>
         </TouchableHighlight>
-        <TouchableHighlight 
-          onPress={this.handleRedirect.bind(this)} 
+        <TouchableHighlight
+          onPress={this.handleRedirect.bind(this)}
           underlayColor='#34495e'>
           <Text style={styles.signup}> Dont have an account? Sign Up!  </Text>
-          
+
         </TouchableHighlight>
       </View>
     )
