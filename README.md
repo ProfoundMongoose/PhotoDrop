@@ -1,5 +1,3 @@
 # ProfoundMongoose
 
-Hack Reactor Greenfield Project 
-
-test
+Hack Reactor Greenfield Project
