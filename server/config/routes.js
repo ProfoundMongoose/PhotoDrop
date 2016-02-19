@@ -7,7 +7,6 @@ module.exports = function (app, express) {
 
   // upload photo to imgur and store link in database
   app.post('/imgUpload',
-    photoController.saveToTmp,
     photoController.uploadPhoto,
     photoController.savePhotoModelToDB,
     function(req, res) {
