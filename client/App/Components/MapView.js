@@ -17,8 +17,8 @@ var { width, height } = Dimensions.get('window');
 
 
 var ASPECT_RATIO = width / height;
-var LATITUDE = 37.78825;
-var LONGITUDE = -122.4324;
+var LATITUDE;
+var LONGITUDE;
 var LATITUDE_DELTA = 0.005;
 var LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 

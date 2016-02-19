@@ -13,6 +13,27 @@ import React, {
 } from 'react-native';
 import Camera from 'react-native-camera';
 
+var LATITUDE;
+var LONGITUDE;
+
+navigator.geolocation.getCurrentPosition(
+  location => {
+    // console.log(location);  <--location returns in this format
+    // { coords: 
+    //    { speed: -1,
+    //      longitude: -1.42,
+    //      latitude: 22,
+    //      accuracy: 5,
+    //      heading: -1,
+    //      altitude: 0,
+    //      altitudeAccuracy: -1 },
+    //   timestamp: 477548452582.683 }
+    // var search = location.coords.latitude + ',' + location.coords.longitude;
+    LATITUDE = location.coords.latitude;
+    LONGITUDE = location.coords.longitude;
+  }
+);
+
 class CameraView extends Component {
   render() {
     return (
@@ -34,7 +55,7 @@ class CameraView extends Component {
       .then((data) => {
         NativeModules.ReadImageData.readImage(data, (image) => {
           console.log('========image base64 encoded:  ', image);
-          api.uploadPhoto(image, '23423423.234234, 234234234.123123');
+          api.uploadPhoto(image, LATITUDE, LONGITUDE);
         })
       })
       .catch(err => console.error('ERROR', err));
