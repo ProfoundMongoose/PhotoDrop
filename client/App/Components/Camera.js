@@ -1,3 +1,5 @@
+var api = require('../Utils/api');
+
 'use strict';
 import React, {
   AppRegistry,
@@ -6,6 +8,7 @@ import React, {
   StyleSheet,
   Text,
   TouchableHighlight,
+  NativeModules,
   View
 } from 'react-native';
 import Camera from 'react-native-camera';
@@ -28,8 +31,13 @@ class CameraView extends Component {
 
   takePicture() {
     this.camera.capture()
-      .then((data) => console.log(data))
-      .catch(err => console.error(err));
+      .then((data) => {
+        NativeModules.ReadImageData.readImage(data, (image) => {
+          console.log('========image base64 encoded:  ', image);
+          api.uploadPhoto(image, '23423423.234234, 234234234.123123');
+        })
+      })
+      .catch(err => console.error('ERROR', err));
   }
 }
 
