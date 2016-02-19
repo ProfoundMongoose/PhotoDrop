@@ -1,5 +1,6 @@
 var React = require('react-native');
 var Main = require('./App/Components/Main');
+
 var {
   AppRegistry,
   Component,

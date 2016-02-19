@@ -5,12 +5,11 @@ var {
   Text,
 } = React;
 
-var PriceMarker = React.createClass({
-  getDefaultProps() {
-    return {
-      fontSize: 13,
-    };
-  },
+class PriceMarker extends React.Component{
+  constructor(props){
+    super(props);
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -21,8 +20,8 @@ var PriceMarker = React.createClass({
         <View style={styles.arrow} />
       </View>
     );
-  },
-});
+  }
+};
 
 var styles = StyleSheet.create({
   container: {

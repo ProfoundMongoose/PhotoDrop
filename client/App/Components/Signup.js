@@ -1,7 +1,7 @@
 var React = require('react-native');
 var api = require('../Utils/api');
-var Main = require('./Main');
-var Camera = require('./Camera');
+var Login = require('./Login');
+
 var {
   View,
   Text,
@@ -113,6 +113,9 @@ class Signup extends React.Component {
 
         api.signup(this.state.username, this.state.password)
           .then((res) => {
+            this.setState({
+              passwordError: false
+            });
             if (res.status === 500) {
               this.setState({
                 error: 'User already exists',
@@ -122,7 +125,8 @@ class Signup extends React.Component {
               this.setState({
                 isLoading: false,
                 error: false,
-                username: ''
+                username: '',
+                password: ''
               });
               this.props.navigator.pop();
             }
@@ -134,6 +138,7 @@ class Signup extends React.Component {
           });
       } else {
          this.setState({
+            error: false,
             passwordError: 'Passwords dont match',
             isLoading: false
           });
