@@ -5,7 +5,10 @@ var {
   Text,
 } = React;
 
-var CustomCallout = React.createClass({
+class CustomCallout extends React.Component{
+  constructor(props){
+    super(props);
+  }
   render() {
     return (
       <View style={[styles.container, this.props.style]}>
@@ -19,7 +22,7 @@ var CustomCallout = React.createClass({
       </View>
     );
   },
-});
+};
 
 var styles = StyleSheet.create({
   container: {

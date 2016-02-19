@@ -1,4 +1,6 @@
 var React = require('react-native');
+var PhotosView = require('./PhotosView');
+var Login = require('./Login');
 
 var {
   Text,
@@ -23,7 +25,7 @@ var styles = StyleSheet.create({
   button: {
     height: 45,
     flexDirection: 'row',
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     borderColor: 'white',
     borderWidth: 1,
     borderRadius: 8,
@@ -39,6 +41,13 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     backgroundColor: '#34495e'
+  },
+  title: {
+    marginTop: 5,
+    marginBottom: 25,
+    fontSize: 25,
+    textAlign: 'center',
+    color: '#fff'
   }
 });
 
@@ -47,16 +56,33 @@ class Settings extends React.Component {
         super(props);
         this.displayName = 'Settings';
     }
+
+    openPhotos() {
+      this.props.navigator.push({
+        component: PhotosView
+      });
+    }
+    logout() {
+      this.props.navigator.push({
+        component: Login
+      });
+    }
+
     render() {
         return (
           <View style={styles.mainContainer}>
-            <Text style={styles.title}> Profound Mongoose </Text>
-            <Text style={styles.fieldTitle}> Username </Text>
+            <Text style={styles.title}> Settings </Text>
             <TouchableHighlight
               style={styles.button}
-
-              underlayColor='white'>
-              <Text style={styles.buttonText}> Sign in </Text>
+              underlayColor='white'
+              onPress={this.openPhotos.bind(this)}>
+              <Text style={styles.buttonText}> PhotoView </Text>
+            </TouchableHighlight>
+            <TouchableHighlight
+              style={styles.button}
+              underlayColor='white'
+              onPress={this.logout.bind(this)}>
+              <Text style={styles.buttonText}> Logout </Text>
             </TouchableHighlight>
           </View>
           );

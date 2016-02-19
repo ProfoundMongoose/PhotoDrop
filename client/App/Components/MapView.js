@@ -1,4 +1,7 @@
 var React = require('react-native');
+var MapView = require('react-native-maps');
+var PhotoMarker = require('./PhotoMarker');
+
 var {
   StyleSheet,
   PropTypes,
@@ -10,8 +13,6 @@ var {
   TouchableHighlight
   } = React;
 
-var MapView = require('react-native-maps');
-var PhotoMarker = require('./PhotoMarker');
 
 var { width, height } = Dimensions.get('window');
 
@@ -40,52 +41,56 @@ navigator.geolocation.getCurrentPosition(
   }
 );
 
-var Overlays = React.createClass({
-  getInitialState() {
-    return {
-      userLocation:{
+class Overlays extends React.Component{
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      userLocation: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
       },
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
       },
       circle: {
         center: {
           latitude: LATITUDE,
-          longitude: LONGITUDE,
+          longitude: LONGITUDE
         },
         radius: 50, // TODO: Figure this out: how big?
       }
     };
-  },
+  }
 
   onLocationPressed() {
     navigator.geolocation.getCurrentPosition(
       location => {
-        // console.log(location);  <--location returns in this format
-        // { coords: 
-        //    { speed: -1,
-        //      longitude: -1.42,
-        //      latitude: 22,
-        //      accuracy: 5,
-        //      heading: -1,
-        //      altitude: 0,
-        //      altitudeAccuracy: -1 },
-        //   timestamp: 477548452582.683 }
-        // var search = location.coords.latitude + ',' + location.coords.longitude;
         this.setState({
           region: {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
             latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA,
-          }  
+            longitudeDelta: LONGITUDE_DELTA
+          },
+          userLocation: {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA
+          },
+          circle: {
+            center: {
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude
+            },
+            radius: 50, // TODO: Figure this out: how big?
+          }
         });
       },
       error => {
@@ -93,21 +98,21 @@ var Overlays = React.createClass({
           message: 'There was a problem with obtaining your location: ' + error
         });
       });
-  },
+  }
 
   onRegionChange(region) {
     this.setState({ region });
-  },
+  }
 
   render() {
-    const { region, circle} = this.state;
+    var { region, circle} = this.state;
     return (
       <View style={styles.container}>
         <MapView
           ref="map"
           style={styles.map}
           region={this.state.region}
-          onRegionChange={this.onRegionChange}
+          onRegionChange={this.onRegionChange.bind(this)}
         >
           <MapView.Circle
             center={circle.center}
@@ -149,8 +154,8 @@ var Overlays = React.createClass({
 
       </View>
     );
-  },
-});
+  }
+};
 
 var styles = StyleSheet.create({
   container: {
