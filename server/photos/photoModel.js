@@ -7,10 +7,13 @@ var PhotoSchema = new Schema({
     required: true,
     unique: true
   },
-  location: {
-    type: String,
-    required: true,
-    unique: true
+  latitude: {
+    type: Number,
+    required: true
+  },
+  longitude: {
+    type: Number,
+    required: true
   }
   // users: [ userID1, userID2 ];
 });

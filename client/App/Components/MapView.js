@@ -7,6 +7,7 @@ var {
   Dimensions,
   TouchableOpacity,
   Image,
+  TouchableHighlight
   } = React;
 
 var MapView = require('react-native-maps');
@@ -14,11 +15,30 @@ var PhotoMarker = require('./PhotoMarker');
 
 var { width, height } = Dimensions.get('window');
 
-const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
-const LATITUDE_DELTA = 0.005;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+var ASPECT_RATIO = width / height;
+var LATITUDE = 37.78825;
+var LONGITUDE = -122.4324;
+var LATITUDE_DELTA = 0.005;
+var LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+navigator.geolocation.getCurrentPosition(
+  location => {
+    // console.log(location);  <--location returns in this format
+    // { coords: 
+    //    { speed: -1,
+    //      longitude: -1.42,
+    //      latitude: 22,
+    //      accuracy: 5,
+    //      heading: -1,
+    //      altitude: 0,
+    //      altitudeAccuracy: -1 },
+    //   timestamp: 477548452582.683 }
+    // var search = location.coords.latitude + ',' + location.coords.longitude;
+    LATITUDE = location.coords.latitude;
+    LONGITUDE = location.coords.longitude;
+  }
+);
 
 var Overlays = React.createClass({
   getInitialState() {
@@ -48,8 +68,25 @@ var Overlays = React.createClass({
   onLocationPressed() {
     navigator.geolocation.getCurrentPosition(
       location => {
+        // console.log(location);  <--location returns in this format
+        // { coords: 
+        //    { speed: -1,
+        //      longitude: -1.42,
+        //      latitude: 22,
+        //      accuracy: 5,
+        //      heading: -1,
+        //      altitude: 0,
+        //      altitudeAccuracy: -1 },
+        //   timestamp: 477548452582.683 }
         // var search = location.coords.latitude + ',' + location.coords.longitude;
-        this.setState({ region });
+        this.setState({
+          region: {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+          }  
+        });
       },
       error => {
         this.setState({
@@ -102,20 +139,14 @@ var Overlays = React.createClass({
             </Text>
           </View>
 
-
-        </View>
-
-        <View style={styles.buttonContainer}>
-
-
-          <View style={[styles.bubble, styles.latlng]}>
-            <Text style={{ textAlign: 'center'}}>
-              Get current location
-            </Text>
-          </View>
+          <TouchableHighlight style={styles.button}
+              onPress={this.onLocationPressed.bind(this)}>
+            <Text style={styles.buttonText}>Get Current Location</Text>
+          </TouchableHighlight>
 
 
         </View>
+
       </View>
     );
   },

@@ -8,6 +8,7 @@
   "dependencies": {
     "react-native": "^0.20.0",
     "react-native-camera": "git+https://github.com/lwansbrough/react-native-camera.git",
-    "react-native-maps": "^0.3.0"
+    "react-native-maps": "^0.3.0",
+    "react-native-vector-icons": "^1.2.0"
   }
 }
