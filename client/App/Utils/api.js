@@ -15,6 +15,22 @@ var api = {
       method: 'POST',
       body: JSON.stringify(user)
     });
+  );
+},
+
+  uploadPhoto(data, coordinates) {
+    var url = 'http://127.0.0.1:8000/imgUpload';
+    return fetch(url, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type' : 'application/json'
+      },
+      body: JSON.stringify({
+        data: data,
+        location: coordinates
+      })
+    }).catch(function(err){ console.log(err) });
   }
 };
 

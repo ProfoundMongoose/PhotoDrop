@@ -6,7 +6,6 @@ module.exports = function(app, express) {
 
   // upload photo to imgur and store link in database
   app.post('/imgUpload',
-    photoController.saveToTmp,
     photoController.uploadPhoto,
     photoController.savePhotoModelToDB,
     function(req, res) {
@@ -17,6 +16,7 @@ module.exports = function(app, express) {
   app.post('/login', userController.login);
   app.post('/signup', userController.signup);
 
-app.use(helpers.errorLogger);
-app.use(helpers.errorHandler);
+  // Handle errors for unsupported requests
+  app.use(helpers.errorLogger);
+  app.use(helpers.errorHandler);
 };
