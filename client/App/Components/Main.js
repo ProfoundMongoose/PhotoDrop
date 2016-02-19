@@ -5,6 +5,7 @@ var Camera = require('./Camera');
 var Signup = require('./Signup');
 var Settings = require('./Settings');
 var MapView = require('./MapView');
+var PhotosView = require('./PhotosView');
 var {
   View,
   Text,
@@ -176,6 +177,17 @@ class Main extends React.Component {
     });
   }
 
+  openPhotos() {
+    this.props.navigator.push({
+      component: PhotosView
+    });
+    this.setState({
+      isLoading: false,
+      error: false,
+      username: ''
+    });
+  }
+
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
@@ -216,15 +228,20 @@ class Main extends React.Component {
           onPress={this.openCamera.bind(this)}
           underlayColor='#34495e'>
           <Text style={styles.signup}> Link to Camera (will implement Auth Later)  </Text>
-
         </TouchableHighlight>
 
         <TouchableHighlight
           onPress={this.openMaps.bind(this)}
           underlayColor='#34495e'>
           <Text style={styles.signup}> Link to MapView </Text>
-
         </TouchableHighlight>
+
+        <TouchableHighlight
+          onPress={this.openPhotos.bind(this)}
+          underlayColor='#34495e'>
+          <Text style={styles.signup}> Link to PhotosView </Text>
+        </TouchableHighlight>
+
         <ActivityIndicatorIOS
           animating= {this.state.isLoading}
           color='#111'
