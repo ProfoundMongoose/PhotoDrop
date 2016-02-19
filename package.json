@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/MaxKroshka/ProfoundMongoose",
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
