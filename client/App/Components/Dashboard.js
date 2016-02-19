@@ -24,21 +24,15 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.displayName = 'Dashboard';
-  }
-
-  statics: {
-    title: '<TabBarIOS>',
-    description: 'Tab-based navigation.',
-  }
-
-  displayName: 'TabBarExample'
-
-  getInitialState() {
-    return {
+    this.statics = {
+      title: '<TabBarIOS>',
+      description: 'Tab-based navigation.'
+    };
+    this.state = {
       selectedTab: 'redTab',
       notifCount: 0,
-      presses: 0,
-    };
+      presses: 0
+    }
   }
 
   _renderContent(color: string, pageText: string, num?: number) {
@@ -79,7 +73,7 @@ class Dashboard extends React.Component {
           {this._renderContent('#783E33', 'Red Tab', this.state.notifCount)}
         </TabBarIOS.Item>
         <TabBarIOS.Item
-          icon={require('./flux.png')}
+          icon={require('./mongoose.png')}
           title="More"
           selected={this.state.selectedTab === 'greenTab'}
           onPress={() => {
