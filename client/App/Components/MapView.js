@@ -17,13 +17,18 @@ var { width, height } = Dimensions.get('window');
 const ASPECT_RATIO = width / height;
 const LATITUDE = 37.78825;
 const LONGITUDE = -122.4324;
-const LATITUDE_DELTA = 0.0922;
+const LATITUDE_DELTA = 0.005;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-const SPACE = 0.01;
 
 var Overlays = React.createClass({
   getInitialState() {
     return {
+      userLocation:{
+        latitude: LATITUDE,
+        longitude: LONGITUDE,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      },
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -32,12 +37,29 @@ var Overlays = React.createClass({
       },
       circle: {
         center: {
-          latitude: LATITUDE + SPACE,
-          longitude: LONGITUDE + SPACE,
+          latitude: LATITUDE,
+          longitude: LONGITUDE,
         },
-        radius: 700, // TODO: Figure this out: how big?
+        radius: 50, // TODO: Figure this out: how big?
       }
     };
+  },
+
+  onLocationPressed() {
+    navigator.geolocation.getCurrentPosition(
+      location => {
+        // var search = location.coords.latitude + ',' + location.coords.longitude;
+        this.setState({ region });
+      },
+      error => {
+        this.setState({
+          message: 'There was a problem with obtaining your location: ' + error
+        });
+      });
+  },
+
+  onRegionChange(region) {
+    this.setState({ region });
   },
 
   render() {
@@ -45,8 +67,10 @@ var Overlays = React.createClass({
     return (
       <View style={styles.container}>
         <MapView
+          ref="map"
           style={styles.map}
-          initialRegion={region}
+          region={this.state.region}
+          onRegionChange={this.onRegionChange}
         >
           <MapView.Circle
             center={circle.center}
@@ -56,7 +80,7 @@ var Overlays = React.createClass({
           />
 
           <MapView.Marker
-            coordinate={this.state.region}
+            coordinate={this.state.userLocation}
           >
             <PhotoMarker amount={99} />
             <MapView.Callout
@@ -75,6 +99,18 @@ var Overlays = React.createClass({
           <View style={[styles.bubble, styles.latlng]}>
             <Text style={{ textAlign: 'center'}}>
               {`${this.state.region.latitude.toPrecision(7)}, ${this.state.region.longitude.toPrecision(7)}`}
+            </Text>
+          </View>
+
+
+        </View>
+
+        <View style={styles.buttonContainer}>
+
+
+          <View style={[styles.bubble, styles.latlng]}>
+            <Text style={{ textAlign: 'center'}}>
+              Get current location
             </Text>
           </View>
 
