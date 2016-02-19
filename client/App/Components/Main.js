@@ -99,29 +99,35 @@ class Main extends React.Component {
   handleSubmit(){
     // update our indicator spinner
     // fetch data from server
-    // reroute to the next page passing user info
+    // reroute to the next page passing user info 
+    this.props.navigator.push({
+      component: Dashboard
+    });
     this.setState({
-      isLoading: true
+      isLoading: false,
+      error: false,
+      username: ''
     });
 
-    api.login(this.state.username, this.state.password)
-      .then((res) => {
-          this.props.navigator.push({
-            title: res.name || 'Select an Option',
-            component: Dashboard,
-            passProps: {userInfo: res}
-          });
-          this.setState({
-            isLoading: false,
-            error: false,
-            username: ''
-          });
-        }).catch((err) => {
-           this.setState({
-             error: 'User not found' + err,
-             isLoading: false
-           });
-        })
+
+    // api.login(this.state.username, this.state.password)
+    //   .then((res) => {
+    //       this.props.navigator.push({
+    //         title: res.name || 'Select an Option',
+    //         component: Dashboard,
+    //         passProps: {userInfo: res}
+    //       });
+    //       this.setState({
+    //         isLoading: false,
+    //         error: false,
+    //         username: ''
+    //       });
+    //     }).catch((err) => {
+    //        this.setState({
+    //          error: 'User not found' + err,
+    //          isLoading: false
+    //        });
+    //     })
     }
 
   gotoSettings() {
