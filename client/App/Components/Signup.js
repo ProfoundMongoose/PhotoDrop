@@ -67,78 +67,98 @@ var styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     textDecorationLine: 'underline'
+  },
+  err: {
+    textAlign: 'center'
   }
 });
 
 class Signup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: '',
-      confirmedPassword: '',
-      isLoading: false,
-      error: false
-    };
-  }
-
-  handleUsernameChange (event) {
-    this.setState({
-      username: event.nativeEvent.text
-    });
-  }
-
-  handlePasswordChange (event) {
-    this.setState({
-      password: event.nativeEvent.text
-    });
-  }
-
-  handleConfirmedPasswordChange (event) {
-    this.setState({
-      confirmedPassword: event.nativeEvent.text
-    });
-  }
-
-  handleSubmit(){
-    // update our indicator spinner
-    // fetch data from server
-    // reroute to the next page passing user info
-    this.setState({
-      isLoading: true
-    });
-
-    api.login(this.state.username, this.state.password)
-      .then((res) => {
-          this.props.navigator.push({
-            title: res.name || 'Select an Option',
-            component: Main,
-            passProps: {userInfo: res}
-          });
-          this.setState({
-            isLoading: false,
-            error: false,
-            username: ''
-          });
-        }).catch((err) => {
-           this.setState({
-             error: 'User not found' + err,
-             isLoading: false
-           });
-        })
+    constructor(props) {
+      super(props);
+      this.state = {
+        username: '',
+        password: '',
+        confirmedPassword: '',
+        isLoading: false,
+        error: false,
+        passwordError: false
+      };
     }
 
-  handleRedirect() {
-    this.props.navigator.pop();
-    this.setState({
-      isLoading: false,
-      error: false,
-      username: ''
-    });
-  }
+    handleUsernameChange(event) {
+      this.setState({
+        username: event.nativeEvent.text
+      });
+    }
+
+    handlePasswordChange(event) {
+      this.setState({
+        password: event.nativeEvent.text
+      });
+    }
+
+    handleConfirmedPasswordChange(event) {
+      this.setState({
+        confirmedPassword: event.nativeEvent.text
+      });
+    }
+
+    handleSubmit() {
+      if (this.state.password === this.state.confirmedPassword) {
+        this.setState({
+          isLoading: true,
+          passwordError: false
+        });
+
+        api.signup(this.state.username, this.state.password)
+          .then((res) => {
+            if (res.status === 500) {
+              this.setState({
+                error: 'User already exists',
+                isLoading: false
+              });
+            } else {
+              this.setState({
+                isLoading: false,
+                error: false,
+                username: ''
+              });
+              this.props.navigator.pop();
+            }
+          }).catch((err) => {
+            this.setState({
+              error: 'User already exists' + err,
+              isLoading: false
+            });
+          });
+      } else {
+         this.setState({
+            passwordError: 'Passwords dont match',
+            isLoading: false
+          });
+      }
+    }
+
+
+    handleRedirect() {
+      this.props.navigator.pop();
+      this.setState({
+        isLoading: false,
+        error: false,
+        username: '',
+        password: ''
+      });
+    }
 
 
   render() {
+    var showErr = (
+      this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
+      );
+    var showPasswordErr = (
+      this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
+      );
     return (
       <View style={styles.mainContainer}>
       <Text style={styles.title}> Profound Mongoose </Text>
@@ -161,13 +181,20 @@ class Signup extends React.Component {
           style={styles.button}
           onPress={this.handleSubmit.bind(this)}
           underlayColor='white'>
-          <Text style={styles.buttonText}> Sign in </Text>
+          <Text style={styles.buttonText}> Sign Up </Text>
         </TouchableHighlight>
         <TouchableHighlight
           onPress={this.handleRedirect.bind(this)}
           underlayColor='#34495e'>
           <Text style={styles.signup}> Dont have an account? Sign in!  </Text>
         </TouchableHighlight>
+        <ActivityIndicatorIOS
+          animating= {this.state.isLoading}
+          color='#111'
+          size='large' />
+        
+        {showErr}
+        {showPasswordErr}
       </View>
     )
   }

@@ -70,6 +70,9 @@ var styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     textDecorationLine: 'underline'
+  },
+  err: {
+    textAlign: 'center'
   }
 });
 
@@ -96,38 +99,37 @@ class Main extends React.Component {
     });
   }
 
-  handleSubmit(){
-    // update our indicator spinner
-    // fetch data from server
-    // reroute to the next page passing user info 
-    this.props.navigator.push({
-      component: Dashboard
-    });
+  handleSubmit(){ 
     this.setState({
-      isLoading: false,
-      error: false,
-      username: ''
+      isLoading: true
     });
 
-
-    // api.login(this.state.username, this.state.password)
-    //   .then((res) => {
-    //       this.props.navigator.push({
-    //         title: res.name || 'Select an Option',
-    //         component: Dashboard,
-    //         passProps: {userInfo: res}
-    //       });
-    //       this.setState({
-    //         isLoading: false,
-    //         error: false,
-    //         username: ''
-    //       });
-    //     }).catch((err) => {
-    //        this.setState({
-    //          error: 'User not found' + err,
-    //          isLoading: false
-    //        });
-    //     })
+    api.login(this.state.username, this.state.password)
+      .then((res) => {
+        if(res.status === 500){
+          this.setState({
+             error: 'User not found',
+             isLoading: false
+           });
+        } else {
+          this.props.navigator.push({
+            title: res.name || 'Select an Option',
+            component: Dashboard,
+            passProps: {userInfo: res}
+          });
+          this.setState({
+            isLoading: false,
+            error: false,
+            username: '',
+            password: ''
+          });
+          }
+        }).catch((err) => {
+           this.setState({
+             error: 'User not found' + err,
+             isLoading: false
+           });
+        });
     }
 
   gotoSettings() {
@@ -175,6 +177,9 @@ class Main extends React.Component {
   }
 
   render() {
+    var showErr = (
+      this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
+      );
     return (
       <View style={styles.mainContainer}>
       <Text style={styles.title}> Profound Mongoose </Text>
@@ -220,6 +225,13 @@ class Main extends React.Component {
           <Text style={styles.signup}> Link to MapView </Text>
 
         </TouchableHighlight>
+        <ActivityIndicatorIOS
+          animating= {this.state.isLoading}
+          color='#111'
+          size='large' />
+        
+        {showErr}
+
       </View>
     )
   }
