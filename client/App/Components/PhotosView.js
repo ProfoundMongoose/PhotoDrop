@@ -1,5 +1,6 @@
 var React = require('react-native');
 var _ = require('lodash');
+var api = require('../Utils/api');
 
 var {
   AppRegistry,
@@ -13,7 +14,16 @@ var {
 
 var {width, height} = Dimensions.get('window');
 
-var IMAGE_URLS = _.flatten(_.times(10, () => {return ['https://trello-avatars.s3.amazonaws.com/bbbdc13fc56dfee5dcf47bfcd0c943d8/original.png', 'https://trello-avatars.s3.amazonaws.com/1556bc519bd314815e4c4a664e31be22/original.png', 'https://trello-avatars.s3.amazonaws.com/e1740bc7efd3c7117cf047c7be4d9b92/original.png']}));
+var latitude;
+var longitude;
+
+navigator.geolocation.getCurrentPosition(
+  location => {
+    latitude = location.coords.latitude;
+    longitude = location.coords.longitude;
+  }
+);
+
 var IMAGES_PER_ROW = 3
 
 class ReactNativeLayouts extends React.Component{
@@ -21,13 +31,21 @@ class ReactNativeLayouts extends React.Component{
     super(props);
     this.state = {
       currentScreenWidth: width,
-      currentScreenHeight: height
+      currentScreenHeight: height,
+      imageUrls: undefined
     };
+    api.fetchPhotos(latitude, longitude, (photos) => {
+      var photosArr = JSON.parse(photos);
+      var photosUrls = photosArr.map((photo) => {
+        return photo.url;
+      });
+      this.setState({imageUrls:photosUrls});
+    })
   }
 
   handleRotation(event) {
     var layout = event.nativeEvent.layout;
-    this.setState({currentScreenWidth: layout.width, currentScreenHeight: layout.height })
+    this.setState({currentScreenWidth: layout.width, currentScreenHeight: layout.height });
   }
 
   calculatedSize() {
@@ -44,40 +62,39 @@ class ReactNativeLayouts extends React.Component{
   }
 
   renderImagesInGroupsOf(count) {
-     return _.chunk(IMAGE_URLS, IMAGES_PER_ROW).map((imagesForRow) => {
-       return (
-         <View style={styles.row}>
-           {this.renderRow(imagesForRow)}
-         </View>
-       )
-     })
-   }
+    return _.chunk(IMAGE_URLS, IMAGES_PER_ROW).map((imagesForRow) => {
+      return (
+        <View style={styles.row}>
+          {this.renderRow(imagesForRow)}
+        </View>
+      )
+    })
+  }
 
-   render() {
-     return (
-       <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
-         {this.renderRow(IMAGE_URLS)}
-       </ScrollView>
-     );
-   }
- };
+  render() {
+    return (
+      <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
+        {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : <Text>loading</Text>}
+      </ScrollView>
+    );
+  }
+};
 
- var styles = StyleSheet.create({
+var styles = StyleSheet.create({
 
-   scrollView: {
+  scrollView: {
      flexDirection: 'row',
      flexWrap: 'wrap'
-   },
-   row: {
+  },
+  row: {
      flexDirection: 'row',
      alignItems: 'center',
      justifyContent: 'flex-start'
-   },
-
-   image: {
+  },
+  image: {
      borderWidth: 1,
      borderColor: '#fff'
-   }
- });
- 
- module.exports = ReactNativeLayouts;
+  }
+});
+
+module.exports = ReactNativeLayouts;

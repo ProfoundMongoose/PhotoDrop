@@ -1,5 +1,6 @@
 var imgur = require('imgur');
 var Photo = require('./photoModel');
+var Q = require('q');
 
 // var LATITUDE, LONGITUDE;
 
@@ -21,8 +22,9 @@ var Photo = require('./photoModel');
 //   }
 // );
 
-module.exports = {
+var getPhotos = Q.nbind(Photo.find, Photo);
 
+module.exports = {
   // send that file to imgur
   uploadPhoto: function (req, res, next) {
 
@@ -52,5 +54,19 @@ module.exports = {
     }).catch(function(err) {
       console.log('could not save to db', err)
     })
+  },
+
+  // fetch all photos from DB
+  fetchPhotos: function (req, res, next) {
+    // var location = JSON.parse(Object.keys(req.body)[0]);
+
+    getPhotos()
+      .then(function(photos) {
+        console.log('these are the photos: ', photos);
+        res.send(photos);
+      })
+      .fail(function(error) {
+        next(error);
+      });
   }
 };

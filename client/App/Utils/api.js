@@ -14,12 +14,12 @@ var api = {
       method: 'POST',
       body: JSON.stringify(user)
     });
-},
+  },
 
   uploadPhoto(data, latitude, longitude) {
     var url = 'http://localhost:8000/imgUpload';
     return fetch(url, {
-      method: "POST",
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type' : 'application/json'
@@ -30,6 +30,23 @@ var api = {
         longitude: longitude,
       })
     }).catch(function(err){ console.log(err) });
+  },
+
+  fetchPhotos(latitude, longitude, callback) {
+    var url = 'http://localhost:8000/fetchPhotos?lat='+latitude+'&lon='+longitude;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      console.log('photos===================: ', photos._bodyInit);
+      callback(photos._bodyInit);
+
+    })
+    .catch(function(err){
+      console.log(err);
+    });
   }
 };
 

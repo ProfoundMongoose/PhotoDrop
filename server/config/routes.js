@@ -12,6 +12,8 @@ module.exports = function(app, express) {
       res.sendStatus(200);
     });
 
+  app.get(/fetchPhotos/, photoController.fetchPhotos);
+
   // Sign in and sign up routes
   app.post('/login', userController.login);
   app.post('/signup', userController.signup);
