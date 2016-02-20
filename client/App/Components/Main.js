@@ -22,11 +22,9 @@ var styles = StyleSheet.create({
  }
 })
 
-var swiper = React.createClass({
+class SwiperView extends React.Component{
 
-
-  
- render: function() {
+ render () {
    return (
      <Swiper style={styles.wrapper} showsButtons={true} loop={false} showsPagination={false} index={1}>
        <Settings navigator={this.props.navigator}/>
@@ -35,6 +33,6 @@ var swiper = React.createClass({
      </Swiper>
    )
  }
-})
+}
 
-module.exports = swiper;
+module.exports = SwiperView;
