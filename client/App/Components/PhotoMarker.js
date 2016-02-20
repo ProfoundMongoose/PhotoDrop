@@ -3,22 +3,34 @@ var {
   StyleSheet,
   View,
   Text,
+  TouchableOpacity
 } = React;
+
+var PhotosView = require('./PhotosView');
+
 
 class PriceMarker extends React.Component{
   constructor(props){
     super(props);
   }
 
+  onMarkerPressed() {
+    this.props.navigator.push({
+      component: PhotosView
+    });
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.bubble}>
-          <Text style={[styles.amount, { fontSize: this.props.fontSize }]}>{this.props.amount}</Text>
+        <View style={styles.container}>
+          <View style={styles.bubble}>
+      <TouchableOpacity onPress={this.onMarkerPressed.bind(this)}>
+            <Text style={[styles.amount, { fontSize: this.props.fontSize }]}>{this.props.amount}</Text>
+      </TouchableOpacity>
+          </View>
+          <View style={styles.arrowBorder} />
+          <View style={styles.arrow} />
         </View>
-        <View style={styles.arrowBorder} />
-        <View style={styles.arrow} />
-      </View>
     );
   }
 };
