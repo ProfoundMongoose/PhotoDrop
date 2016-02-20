@@ -135,21 +135,22 @@ class Overlays extends React.Component{
           </MapView.Marker>
 
         </MapView>
+
         <View style={styles.buttonContainer}>
-
-
           <View style={[styles.bubble, styles.latlng]}>
             <Text style={{ textAlign: 'center'}}>
               {`${this.state.region.latitude.toPrecision(7)}, ${this.state.region.longitude.toPrecision(7)}`}
             </Text>
           </View>
+        </View>
 
-          <TouchableHighlight style={styles.button}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
               onPress={this.onLocationPressed.bind(this)}>
-            <Text style={styles.buttonText}>Get Current Location</Text>
-          </TouchableHighlight>
-
-
+            <View style={styles.bubble}>
+              <Text style={styles.buttonText}>Recenter</Text>
+            </View>
+          </TouchableOpacity>
         </View>
 
       </View>
@@ -185,6 +186,10 @@ var styles = StyleSheet.create({
     width: 200,
     alignItems: 'stretch',
   },
+  currentLocation: {
+    width: 100,
+    alignItems: 'stretch',
+  },
   button: {
     width: 80,
     paddingHorizontal: 12,
@@ -193,7 +198,7 @@ var styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    marginVertical: 20,
+    marginVertical: 10,
     backgroundColor: 'transparent',
   },
 });

@@ -34,21 +34,15 @@ navigator.geolocation.getCurrentPosition(
   }
 );
 
-class CameraView extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Camera
-          ref={(cam) => {
-            this.camera = cam;
-          }}
-          style={styles.preview}
-          aspect={Camera.constants.Aspect.Fill}>
-          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
-        </Camera>
-      </View>
-    );
-  }
+class CameraView extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      cameraType: "back"
+      }
+    };
+  
 
   takePicture() {
     this.camera.capture()
@@ -59,6 +53,31 @@ class CameraView extends Component {
         })
       })
       .catch(err => console.error('ERROR', err));
+  }
+
+  switchCamera() {
+    if(this.state.cameraType==="back") {
+      this.setState({cameraType:"front"});
+    } else if(this.state.cameraType="front") {
+      this.setState({cameraType:"back"});
+    }
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Camera
+          ref={(cam) => {
+            this.camera = cam;
+          }}
+          style={styles.preview}
+          aspect={Camera.constants.Aspect.Fill}
+          type={this.state.cameraType}>
+          <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
+          <Text style={styles.capture} onPress={this.switchCamera.bind(this)}>[FLIP]</Text>
+        </Camera>
+      </View>
+    );
   }
 }
 
@@ -79,7 +98,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: '#000',
     padding: 10,
-    margin: 40
+    margin: 10
   }
 });
 
