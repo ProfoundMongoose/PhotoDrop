@@ -1,107 +1,40 @@
-var React = require('react-native');
-var Icon = require('react-native-vector-icons/Ionicons');
-var Settings = require('./Settings');
-var MapView = require('./MapView');
-var Camera = require('./Camera');
 
+var Swiper = require('react-native-swiper')
+// es6
+// import Swiper from 'react-native-swiper'
+
+var React = require('react-native');
 var {
-  StyleSheet,
-  TabBarIOS,
-  Text,
-  View,
+ AppRegistry,
+ StyleSheet,
+ Text,
+ View,
 } = React;
 
+var Settings = require('./Settings');
+var Camera = require('./Camera');
+var MapView = require('./MapView');
+
+var PhotosView = require('./PhotosView');
+
 var styles = StyleSheet.create({
-  tabContent: {
-    flex: 1,
-    alignItems: 'center',
-  },
-  tabText: {
-    color: 'white',
-    margin: 50,
-  },
-});
+ wrapper: {
+ }
+})
 
-class Main extends React.Component {
-  constructor(props) {
-    super(props);
-    this.displayName = 'Main';
-    this.statics = {
-      title: '<TabBarIOS>',
-      description: 'Tab-based navigation.'
-    };
-    this.state = {
-      selectedTab: undefined,
-      notifCount: 0,
-      presses: 0
-    }
-  }
+var swiper = React.createClass({
 
-  gotoSettings() {
-    this.setState({
-      selectedTab: 'profile'
-    });
-    this.props.navigator.push({
-      component: Settings
-    });
-  }
 
-  openCamera() {
-    this.setState({
-      selectedTab: 'camera'
-    });
-    this.props.navigator.push({
-      component: Camera
-    });
-  }
+  
+ render: function() {
+   return (
+     <Swiper style={styles.wrapper} showsButtons={true} loop={false} showsPagination={false} index={1}>
+       <Settings navigator={this.props.navigator}/>
+       <Camera/>
+       <MapView navigator={this.props.navigator}/>
+     </Swiper>
+   )
+ }
+})
 
-  openMaps() {
-    this.setState({
-      selectedTab: 'map',
-    });
-    this.props.navigator.push({
-      component: MapView
-    });
-  }
-
-  _renderContent(color: string, pageText: string) {
-    return (
-      <View style={[styles.tabContent, {backgroundColor: color}]}>
-        <Text style={styles.tabText}>{pageText}</Text>
-      </View>
-    );
-  }
-
-  render() {
-    return (
-      <TabBarIOS>
-        <Icon.TabBarItem
-          title="Map"
-          iconName="map"
-          selectedIconName="map"
-          selected={this.state.selectedTab === 'map'}
-          onPress={this.openMaps.bind(this)}>
-          {this._renderContent('#414A8C', 'Map')}
-        </Icon.TabBarItem>
-        <Icon.TabBarItem
-          title="Camera"
-          iconName="ios-camera-outline"
-          selectedIconName="ios-camera"
-          selected={this.state.selectedTab === 'camera'}
-          onPress={this.openCamera.bind(this)}>
-          {this._renderContent('#414A8C', 'Camera')}
-        </Icon.TabBarItem>
-        <Icon.TabBarItem
-          title="Profile"
-          iconName="ios-person-outline"
-          selectedIconName="ios-person"
-          selected={this.state.selectedTab === 'profile'}
-          onPress={this.gotoSettings.bind(this)} >
-          {this._renderContent('#414A8C', 'Profile')}
-        </Icon.TabBarItem>
-      </TabBarIOS>
-    );
-  }
-}
-
-module.exports = Main;
+module.exports = swiper;

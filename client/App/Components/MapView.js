@@ -124,7 +124,7 @@ class Overlays extends React.Component{
           <MapView.Marker
             coordinate={this.state.userLocation}
           >
-            <PhotoMarker amount={99} />
+            <PhotoMarker amount={99} navigator={this.props.navigator}/>
             <MapView.Callout
               style={styles.callout}
             >
