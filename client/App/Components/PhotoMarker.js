@@ -1,5 +1,6 @@
 var React = require('react-native');
 var {
+  Navigator,
   StyleSheet,
   View,
   Text,
@@ -9,14 +10,16 @@ var {
 var PhotosView = require('./PhotosView');
 
 
-class PriceMarker extends React.Component{
+class MainPhotosMarker extends React.Component{
   constructor(props){
     super(props);
   }
 
   onMarkerPressed() {
     this.props.navigator.push({
-      component: PhotosView
+      component: PhotosView,
+      message: 'Swipe down to dismiss',
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
     });
   }
 
@@ -72,4 +75,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = PriceMarker;
+module.exports = MainPhotosMarker;

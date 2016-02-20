@@ -21,9 +21,12 @@ class ProfoundMongoose extends React.Component {
   render() {
     return (
       <NavigatorIOS 
+      barTintColor='#000'
+      titleTextColor='#fff'
+      tintColor='#fff'
       style={styles.container}
         initialRoute={{
-          title: 'Profound Mongoose',
+          title: 'PROFOUND MONGOOSE',
           component: Main
         }} />
       
