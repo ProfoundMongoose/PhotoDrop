@@ -52,41 +52,41 @@ var styles = StyleSheet.create({
 });
 
 class Settings extends React.Component {
-    constructor(props) {
-        super(props);
-        this.displayName = 'Settings';
-    }
+  constructor(props) {
+    super(props);
+    this.displayName = 'Settings';
+  }
 
-    openPhotos() {
-      this.props.navigator.push({
-        component: PhotosView
-      });
-    }
-    logout() {
-      this.props.navigator.push({
-        component: Login
-      });
-    }
+  openPhotos() {
+    this.props.navigator.push({
+      component: PhotosView
+    });
+  }
+  logout() {
+    this.props.navigator.push({
+      component: Login
+    });
+  }
 
-    render() {
-        return (
-          <View style={styles.mainContainer}>
-            <Text style={styles.title}> Settings </Text>
-            <TouchableHighlight
-              style={styles.button}
-              underlayColor='white'
-              onPress={this.openPhotos.bind(this)}>
-              <Text style={styles.buttonText}> PhotoView </Text>
-            </TouchableHighlight>
-            <TouchableHighlight
-              style={styles.button}
-              underlayColor='white'
-              onPress={this.logout.bind(this)}>
-              <Text style={styles.buttonText}> Logout </Text>
-            </TouchableHighlight>
-          </View>
-          );
-    }
+  render() {
+    return (
+      <View style={styles.mainContainer}>
+        <Text style={styles.title}> Settings </Text>
+        <TouchableHighlight
+          style={styles.button}
+          underlayColor='white'
+          onPress={this.openPhotos.bind(this)}>
+          <Text style={styles.buttonText}> PhotoView </Text>
+        </TouchableHighlight>
+        <TouchableHighlight
+          style={styles.button}
+          underlayColor='white'
+          onPress={this.logout.bind(this)}>
+          <Text style={styles.buttonText}> Logout </Text>
+        </TouchableHighlight>
+      </View>
+      );
+  }
 }
 
 module.exports = Settings;
