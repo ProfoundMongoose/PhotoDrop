@@ -9,7 +9,7 @@ var {
   Text,
   View,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
 } = React;
 
 var styles = StyleSheet.create({

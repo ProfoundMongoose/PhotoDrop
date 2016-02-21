@@ -10,7 +10,8 @@ var {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS, 
+  StatusBar
 } = React;
 
 var styles = StyleSheet.create({

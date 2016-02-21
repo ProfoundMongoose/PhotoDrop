@@ -10,7 +10,8 @@ var {
   View,
   Dimensions,
   Image,
-  ScrollView
+  ScrollView,
+  ActivityIndicatorIOS
 } = React;
 
 var {width, height} = Dimensions.get('window');
@@ -73,18 +74,11 @@ class ReactNativeLayouts extends React.Component{
   }
 
   render() {
-    var leftButtonConfig = {
-      title: 'V',
-      handler: function onNext() {
-        this.props.navigator.pop();
-      }
-    };
-
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
         <NavigationBar  title={{title: 'Swipe Down to Dismiss'}} />
         <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
-          {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
+          {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : <ActivityIndicatorIOS size={'large'} style={styles.centering} />}
         </ScrollView>
       </View>
     );
@@ -93,7 +87,12 @@ class ReactNativeLayouts extends React.Component{
 };
 
 var styles = StyleSheet.create({
-
+  centering: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   scrollView: {
    flexDirection: 'row',
    flexWrap: 'wrap'

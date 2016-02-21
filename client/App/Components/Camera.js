@@ -10,7 +10,6 @@ import React, {
   TouchableHighlight,
   NativeModules,
   View,
-  StatusBar
 } from 'react-native';
 import Camera from 'react-native-camera';
 
@@ -29,7 +28,7 @@ class CameraView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cameraType: "back"
+      cameraType: "back",
       }
     };
   
@@ -56,9 +55,6 @@ class CameraView extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar
-          hidden={"true"}
-        />
         <Camera
           ref={(cam) => {
             this.camera = cam;

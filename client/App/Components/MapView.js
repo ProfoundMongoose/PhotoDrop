@@ -10,7 +10,7 @@ var {
   Dimensions,
   TouchableOpacity,
   Image,
-  TouchableHighlight
+  TouchableHighlight,
   } = React;
 
 
@@ -35,7 +35,7 @@ class Overlays extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      userLocation: { //where the user is
+      userLocation: { //where the user actually is
         latitude: LATITUDE,
         longitude: LONGITUDE
       },
@@ -82,6 +82,9 @@ class Overlays extends React.Component{
           ref="map"
           style={styles.map}
           region={this.state.region}
+          showsUserLocation={false}
+          showsCompass={true}
+          scrollEnabled={true}
           onRegionChange={this.onRegionChange.bind(this)}
         >
 
