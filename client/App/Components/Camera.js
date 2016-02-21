@@ -9,26 +9,18 @@ import React, {
   Text,
   TouchableHighlight,
   NativeModules,
-  View
+  View,
+  StatusBarIOS
 } from 'react-native';
 import Camera from 'react-native-camera';
 
-var LATITUDE;
-var LONGITUDE;
+var LATITUDE = 37; //set arbitrary starting value so react can render immediatedly without an error
+var LONGITUDE = 122; //set arbitrary starting value so react can render immediatedly without an error
+
+StatusBarIOS.setHidden(true);
 
 navigator.geolocation.getCurrentPosition(
   location => {
-    // console.log(location);  <--location returns in this format
-    // { coords: 
-    //    { speed: -1,
-    //      longitude: -1.42,
-    //      latitude: 22,
-    //      accuracy: 5,
-    //      heading: -1,
-    //      altitude: 0,
-    //      altitudeAccuracy: -1 },
-    //   timestamp: 477548452582.683 }
-    // var search = location.coords.latitude + ',' + location.coords.longitude;
     LATITUDE = location.coords.latitude;
     LONGITUDE = location.coords.longitude;
   }

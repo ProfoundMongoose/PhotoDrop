@@ -17,9 +17,8 @@ class MainPhotosMarker extends React.Component{
 
   onMarkerPressed() {
     this.props.navigator.push({
-      component: PhotosView,
-      message: 'Swipe down to dismiss',
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+      component: PhotosView
     });
   }
 
@@ -27,9 +26,9 @@ class MainPhotosMarker extends React.Component{
     return (
         <View style={styles.container}>
           <View style={styles.bubble}>
-      <TouchableOpacity onPress={this.onMarkerPressed.bind(this)}>
-            <Text style={[styles.amount, { fontSize: this.props.fontSize }]}>{this.props.amount}</Text>
-      </TouchableOpacity>
+            <TouchableOpacity onPress={this.onMarkerPressed.bind(this)}>
+              <Text style={[styles.amount, { fontSize: this.props.fontSize }]}>{this.props.amount}</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.arrowBorder} />
           <View style={styles.arrow} />

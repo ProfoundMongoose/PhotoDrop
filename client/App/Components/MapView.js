@@ -16,26 +16,15 @@ var {
 
 var { width, height } = Dimensions.get('window');
 
-
 var ASPECT_RATIO = width / height;
-var LATITUDE;
-var LONGITUDE;
+var LATITUDE; //set arbitrary starting value so react can render immediatedly without an error
+var LONGITUDE; //set arbitrary starting value so react can render immediatedly without an error
 var LATITUDE_DELTA = 0.005;
 var LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
+//get the initial position
 navigator.geolocation.getCurrentPosition(
   location => {
-    // console.log(location);  <--location returns in this format
-    // { coords: 
-    //    { speed: -1,
-    //      longitude: -1.42,
-    //      latitude: 22,
-    //      accuracy: 5,
-    //      heading: -1,
-    //      altitude: 0,
-    //      altitudeAccuracy: -1 },
-    //   timestamp: 477548452582.683 }
-    // var search = location.coords.latitude + ',' + location.coords.longitude;
     LATITUDE = location.coords.latitude;
     LONGITUDE = location.coords.longitude;
   }
@@ -46,25 +35,25 @@ class Overlays extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      userLocation: {
+      userLocation: { //where the user is
+        latitude: LATITUDE,
+        longitude: LONGITUDE
+        // latitudeDelta: LATITUDE_DELTA,
+        // longitudeDelta: LONGITUDE_DELTA
+      },
+      region: {  //where the center of the map view is (changes as you pan around)
         latitude: LATITUDE,
         longitude: LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
-      },
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
-      },
-      circle: {
-        center: {
-          latitude: LATITUDE,
-          longitude: LONGITUDE
-        },
-        radius: 50, // TODO: Figure this out: how big?
       }
+      // circle: { //where the circle is
+      //   center: {
+      //     latitude: LATITUDE,
+      //     longitude: LONGITUDE
+      //   },
+      //   radius: 50, // TODO: Figure this out: how big?
+      // }
     };
   }
 
@@ -80,17 +69,17 @@ class Overlays extends React.Component{
           },
           userLocation: {
             latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA
-          },
-          circle: {
-            center: {
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude
-            },
-            radius: 50, // TODO: Figure this out: how big?
+            longitude: location.coords.longitude
+            // latitudeDelta: LATITUDE_DELTA,
+            // longitudeDelta: LONGITUDE_DELTA
           }
+          // circle: {
+          //   center: {
+          //     latitude: location.coords.latitude,
+          //     longitude: location.coords.longitude
+          //   },
+          //   radius: 50, // TODO: Figure this out: how big?
+          // }
         });
       },
       error => {
@@ -105,7 +94,7 @@ class Overlays extends React.Component{
   }
 
   render() {
-    var { region, circle} = this.state;
+    // const { region, circle} = this.state;
     return (
       <View style={styles.container}>
         <MapView
@@ -114,25 +103,17 @@ class Overlays extends React.Component{
           region={this.state.region}
           onRegionChange={this.onRegionChange.bind(this)}
         >
+
+          <MapView.Marker coordinate={this.state.userLocation}>
+            <PhotoMarker amount={99} navigator={this.props.navigator}/>
+          </MapView.Marker>
+
           <MapView.Circle
-            center={circle.center}
-            radius={circle.radius}
+            center={this.state.userLocation}
+            radius={50}
             fillColor="rgba(200, 0, 0, 0.5)"
             strokeColor="rgba(0,0,0,0.5)"
           />
-
-          <MapView.Marker
-            coordinate={this.state.userLocation}
-          >
-            <PhotoMarker amount={99} navigator={this.props.navigator}/>
-            <MapView.Callout
-              style={styles.callout}
-            >
-              <View>
-                <Text>I got 99 pics</Text>
-              </View>
-            </MapView.Callout>
-          </MapView.Marker>
 
         </MapView>
 

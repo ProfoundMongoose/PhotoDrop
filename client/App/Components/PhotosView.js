@@ -1,4 +1,5 @@
 var React = require('react-native');
+var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
 var api = require('../Utils/api');
 
@@ -72,29 +73,40 @@ class ReactNativeLayouts extends React.Component{
   }
 
   render() {
+    var leftButtonConfig = {
+      title: 'V',
+      handler: function onNext() {
+        this.props.navigator.pop();
+      }
+    };
+
     return (
-      <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
-        {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : <Text>loading</Text>}
-      </ScrollView>
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <NavigationBar title={{title: 'Swipe Down to Dismiss'}} />
+        <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
+          {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
+        </ScrollView>
+      </View>
     );
   }
+
 };
 
 var styles = StyleSheet.create({
 
   scrollView: {
-     flexDirection: 'row',
-     flexWrap: 'wrap'
+   flexDirection: 'row',
+   flexWrap: 'wrap'
   },
   row: {
-     flexDirection: 'row',
-     alignItems: 'center',
-     justifyContent: 'flex-start'
+   flexDirection: 'row',
+   alignItems: 'center',
+   justifyContent: 'flex-start'
   },
   image: {
-     borderWidth: 1,
-     borderColor: '#fff'
-  }
+   borderWidth: 1,
+   borderColor: '#fff'
+  },
 });
 
 module.exports = ReactNativeLayouts;
