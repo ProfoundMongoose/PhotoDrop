@@ -10,11 +10,12 @@ import React, {
   TouchableHighlight,
   NativeModules,
   View,
+  StatusBar
 } from 'react-native';
 import Camera from 'react-native-camera';
 
-var LATITUDE; 
-var LONGITUDE;
+var LATITUDE = 37; //set arbitrary starting value so react can render immediatedly without an error
+var LONGITUDE = 122; //set arbitrary starting value so react can render immediatedly without an error
 
 navigator.geolocation.getCurrentPosition(
   location => {
@@ -55,6 +56,9 @@ class CameraView extends React.Component {
   render() {
     return (
       <View style={styles.container}>
+        <StatusBar
+          hidden={"true"}
+        />
         <Camera
           ref={(cam) => {
             this.camera = cam;
