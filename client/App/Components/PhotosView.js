@@ -82,7 +82,7 @@ class ReactNativeLayouts extends React.Component{
 
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <NavigationBar title={{title: 'Swipe Down to Dismiss'}} />
+        <NavigationBar  title={{title: 'Swipe Down to Dismiss'}} />
         <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
           {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
         </ScrollView>
@@ -106,7 +106,7 @@ var styles = StyleSheet.create({
   image: {
    borderWidth: 1,
    borderColor: '#fff'
-  },
+  }
 });
 
 module.exports = ReactNativeLayouts;

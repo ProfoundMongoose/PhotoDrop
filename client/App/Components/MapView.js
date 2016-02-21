@@ -17,8 +17,8 @@ var {
 var { width, height } = Dimensions.get('window');
 
 var ASPECT_RATIO = width / height;
-var LATITUDE; //set arbitrary starting value so react can render immediatedly without an error
-var LONGITUDE; //set arbitrary starting value so react can render immediatedly without an error
+var LATITUDE; 
+var LONGITUDE;
 var LATITUDE_DELTA = 0.005;
 var LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
@@ -38,8 +38,6 @@ class Overlays extends React.Component{
       userLocation: { //where the user is
         latitude: LATITUDE,
         longitude: LONGITUDE
-        // latitudeDelta: LATITUDE_DELTA,
-        // longitudeDelta: LONGITUDE_DELTA
       },
       region: {  //where the center of the map view is (changes as you pan around)
         latitude: LATITUDE,
@@ -47,13 +45,6 @@ class Overlays extends React.Component{
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       }
-      // circle: { //where the circle is
-      //   center: {
-      //     latitude: LATITUDE,
-      //     longitude: LONGITUDE
-      //   },
-      //   radius: 50, // TODO: Figure this out: how big?
-      // }
     };
   }
 
@@ -70,16 +61,7 @@ class Overlays extends React.Component{
           userLocation: {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude
-            // latitudeDelta: LATITUDE_DELTA,
-            // longitudeDelta: LONGITUDE_DELTA
           }
-          // circle: {
-          //   center: {
-          //     latitude: location.coords.latitude,
-          //     longitude: location.coords.longitude
-          //   },
-          //   radius: 50, // TODO: Figure this out: how big?
-          // }
         });
       },
       error => {
@@ -94,7 +76,6 @@ class Overlays extends React.Component{
   }
 
   render() {
-    // const { region, circle} = this.state;
     return (
       <View style={styles.container}>
         <MapView
@@ -109,8 +90,8 @@ class Overlays extends React.Component{
           </MapView.Marker>
 
           <MapView.Circle
-            center={this.state.userLocation}
-            radius={50}
+            center={this.state.userLocation} //TODO: Needs Fixing
+            radius={50} //TODO: calculate how big it should be
             fillColor="rgba(200, 0, 0, 0.5)"
             strokeColor="rgba(0,0,0,0.5)"
           />
