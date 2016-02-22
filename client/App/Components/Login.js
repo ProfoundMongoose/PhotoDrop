@@ -11,7 +11,7 @@ var {
   TextInput,
   TouchableHighlight,
   ActivityIndicatorIOS, 
-  StatusBar
+  // StatusBar // not used
 } = React;
 
 

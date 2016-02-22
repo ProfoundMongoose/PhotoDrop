@@ -4,45 +4,31 @@ var PhotoMarker = require('./PhotoMarker');
 
 var {
   StyleSheet,
-  PropTypes,
+  // PropTypes, // not used
   View,
   Text,
   Dimensions,
   TouchableOpacity,
-  Image,
-  TouchableHighlight,
+  // Image, // not used
+  // TouchableHighlight // not used
   } = React;
-
-var { width, height } = Dimensions.get('window');
-
-var ASPECT_RATIO = width / height;
-var LATITUDE = 37.78379; //set arbitrary starting value so react can render immediatedly without an error
-var LONGITUDE = -122.4089; //set arbitrary starting value so react can render immediatedly without an error
-var LATITUDE_DELTA = 0.005;
-var LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
-//get the initial position
-navigator.geolocation.getCurrentPosition(
-  location => {
-    LATITUDE = location.coords.latitude;
-    LONGITUDE = location.coords.longitude;
-  }
-);
 
 class Overlays extends React.Component{
 
   constructor(props) {
     super(props);
+    this.aspect_ratio = this.props.params.width / this.props.params.height;
+
     this.state = {
       userLocation: { //where the user actually is
-        latitude: LATITUDE,
-        longitude: LONGITUDE
+        latitude: this.props.params.latitude,
+        longitude: this.props.params.longitude
       },
       region: {  //where the center of the map view is (changes as you pan around)
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
+        latitude: this.props.params.latitude,
+        longitude: this.props.params.longitude,
+        latitudeDelta: 0.005,
+        longitudeDelta: this.aspect_ratio * 0.005
       }
     };
   }
@@ -54,8 +40,8 @@ class Overlays extends React.Component{
           region: {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA
+            latitudeDelta: 0.005,
+            longitudeDelta: this.aspect_ratio * 0.005
           },
           userLocation: {
             latitude: location.coords.latitude,
@@ -81,9 +67,10 @@ class Overlays extends React.Component{
           ref="map"
           style={styles.map}
           region={this.state.region}
-          showsUserLocation={false}
+          showsUserLocation={true}
           showsCompass={true}
-          scrollEnabled={true}
+          scrollEnabled={false}
+          zoomEnabled={false}
           onRegionChange={this.onRegionChange.bind(this)}
         >
 

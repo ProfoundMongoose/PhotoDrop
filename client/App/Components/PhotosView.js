@@ -4,9 +4,7 @@ var _ = require('lodash');
 var api = require('../Utils/api');
 
 var {
-  AppRegistry,
   StyleSheet,
-  Text,
   View,
   Dimensions,
   Image,

@@ -3,13 +3,33 @@ var Main = require('./App/Components/Main');
 
 var {
   AppRegistry,
-  Component,
   StyleSheet,
-  Text,
-  Navigator,
-  View
+  Navigator
 } = React;
 
+class ProfoundMongoose extends React.Component {
+  render() {
+    return (
+      <Navigator 
+        style={styles.container}
+        initialRoute={{ 
+          component: Main
+        }}
+        configureScene={(route) => {
+          if (route.sceneConfig) {
+            return route.sceneConfig;
+          }
+          return Navigator.SceneConfigs.FloatFromBottom;
+        }}
+        renderScene={(route, navigator) => {
+          if (route.component) {
+            return React.createElement(route.component, { navigator });
+          }
+        }} 
+      />   
+    );
+  }
+}
 
 var styles = StyleSheet.create({
   messageText: {
@@ -38,31 +58,5 @@ var styles = StyleSheet.create({
     backgroundColor: 'black',
   }
 });
-
-class ProfoundMongoose extends React.Component {
-  render() {
-    return (
-      <Navigator 
-        style={styles.container}
-        initialRoute={{ 
-          component: Main
-        }}
-        configureScene={(route) => {
-          if (route.sceneConfig) {
-            return route.sceneConfig;
-          }
-          return Navigator.SceneConfigs.FloatFromBottom;
-        }}
-        renderScene={(route, navigator) => {
-          if (route.component) {
-            return React.createElement(route.component, { navigator });
-          }
-        }} 
-      />
-      
-    );
-  }
-}
-
 
 AppRegistry.registerComponent('ProfoundMongoose', () => ProfoundMongoose);

@@ -4,12 +4,11 @@ var NavigationBar = require('react-native-navbar');
 var Login = require('./Login');
 var PhotosView = require('./PhotosView');
 
-
 var {
   Text,
   View,
   StyleSheet,
-  TouchableHighlight,
+  TouchableHighlight
 } = React;
 
 
@@ -24,6 +23,13 @@ class Settings extends React.Component {
       component: PhotosView
     });
   }
+
+  openLeaderboard(){
+    this.props.navigator.push({
+      component: Leaderboard
+    })
+  }
+
   logout() {
     this.props.navigator.push({
       component: Login

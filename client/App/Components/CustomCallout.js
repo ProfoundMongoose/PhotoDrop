@@ -1,8 +1,7 @@
 var React = require('react-native');
 var {
   StyleSheet,
-  View,
-  Text,
+  View
 } = React;
 
 class CustomCallout extends React.Component{

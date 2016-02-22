@@ -3,26 +3,15 @@ var React = require('react-native');
 var api = require('../Utils/api');
 
 var {
-  AppRegistry,
-  Component,
   Dimensions,
   StyleSheet,
   Text,
-  TouchableHighlight,
+  // TouchableHighlight, // not used
   NativeModules,
-  View,
+  View
 } = React;
 
 import Camera from 'react-native-camera';
-var LATITUDE = 37.78379; //set arbitrary starting value so react can render immediatedly without an error
-var LONGITUDE = -122.4089; //set arbitrary starting value so react can render immediatedly without an error
-
-navigator.geolocation.getCurrentPosition(
-  location => {
-    LATITUDE = location.coords.latitude;
-    LONGITUDE = location.coords.longitude;
-  }
-);
 
 class CameraView extends React.Component {
 
@@ -38,7 +27,7 @@ class CameraView extends React.Component {
       .then((data) => {
         NativeModules.ReadImageData.readImage(data, (image) => {
           console.log('========image base64 encoded:  ', image);
-          api.uploadPhoto(image, LATITUDE, LONGITUDE);
+          api.uploadPhoto(image, this.props.latitude, this.props.longitude);
         })
       })
       .catch(err => console.error('ERROR', err));
