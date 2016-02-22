@@ -1,4 +1,5 @@
 var React = require('react-native');
+var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
 var api = require('../Utils/api');
 
@@ -9,7 +10,8 @@ var {
   View,
   Dimensions,
   Image,
-  ScrollView
+  ScrollView,
+  ActivityIndicatorIOS
 } = React;
 
 var {width, height} = Dimensions.get('window');
@@ -73,27 +75,36 @@ class ReactNativeLayouts extends React.Component{
 
   render() {
     return (
-      <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
-        {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : <Text>loading</Text>}
-      </ScrollView>
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
+        <NavigationBar  title={{title: 'Swipe Down to Dismiss'}} />
+        <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
+          {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : <ActivityIndicatorIOS size={'large'} style={styles.centering} />}
+        </ScrollView>
+      </View>
     );
   }
+
 };
 
 var styles = StyleSheet.create({
-
+  centering: {
+    flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   scrollView: {
-     flexDirection: 'row',
-     flexWrap: 'wrap'
+   flexDirection: 'row',
+   flexWrap: 'wrap'
   },
   row: {
-     flexDirection: 'row',
-     alignItems: 'center',
-     justifyContent: 'flex-start'
+   flexDirection: 'row',
+   alignItems: 'center',
+   justifyContent: 'flex-start'
   },
   image: {
-     borderWidth: 1,
-     borderColor: '#fff'
+   borderWidth: 1,
+   borderColor: '#fff'
   }
 });
 

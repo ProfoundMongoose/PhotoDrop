@@ -1,12 +1,15 @@
 var React = require('react-native');
-var PhotosView = require('./PhotosView');
+var NavigationBar = require('react-native-navbar');
+
 var Login = require('./Login');
+var PhotosView = require('./PhotosView');
+
 
 var {
   Text,
   View,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
 } = React;
 
 var styles = StyleSheet.create({
@@ -37,7 +40,6 @@ var styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     padding: 30,
-    marginTop: 65,
     flexDirection: 'column',
     justifyContent: 'center',
     backgroundColor: '#34495e'
@@ -70,20 +72,24 @@ class Settings extends React.Component {
 
   render() {
     return (
-      <View style={styles.mainContainer}>
-        <Text style={styles.title}> Settings </Text>
-        <TouchableHighlight
-          style={styles.button}
-          underlayColor='white'
-          onPress={this.openPhotos.bind(this)}>
-          <Text style={styles.buttonText}> PhotoView </Text>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.button}
-          underlayColor='white'
-          onPress={this.logout.bind(this)}>
-          <Text style={styles.buttonText}> Logout </Text>
-        </TouchableHighlight>
+      <View style={{ flex: 1, backgroundColor: '#ff9900'}}> 
+        <NavigationBar title={{title: 'Settings'}}/>
+
+        <View style={styles.mainContainer}>
+          <TouchableHighlight
+            style={styles.button}
+            underlayColor='white'
+            onPress={this.openPhotos.bind(this)}>
+            <Text style={styles.buttonText}> PhotoView </Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.button}
+            underlayColor='white'
+            onPress={this.logout.bind(this)}>
+            <Text style={styles.buttonText}> Logout </Text>
+          </TouchableHighlight>
+        </View>
+
       </View>
       );
   }

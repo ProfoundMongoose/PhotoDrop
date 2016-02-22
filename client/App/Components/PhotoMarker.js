@@ -7,19 +7,34 @@ var {
   TouchableOpacity
 } = React;
 
+var MapView = require('react-native-maps');
 var PhotosView = require('./PhotosView');
 
+var LATITUDE; 
+var LONGITUDE;
+//get the initial position
+navigator.geolocation.getCurrentPosition(
+  location => {
+    LATITUDE = location.coords.latitude;
+    LONGITUDE = location.coords.longitude;
+  }
+);
 
 class MainPhotosMarker extends React.Component{
   constructor(props){
     super(props);
+    this.state = {
+      userLocation: { //where the user is
+        latitude: LATITUDE,
+        longitude: LONGITUDE
+      }
+    };
   }
 
   onMarkerPressed() {
     this.props.navigator.push({
-      component: PhotosView,
-      message: 'Swipe down to dismiss',
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+      component: PhotosView
     });
   }
 
@@ -27,12 +42,18 @@ class MainPhotosMarker extends React.Component{
     return (
         <View style={styles.container}>
           <View style={styles.bubble}>
-      <TouchableOpacity onPress={this.onMarkerPressed.bind(this)}>
-            <Text style={[styles.amount, { fontSize: this.props.fontSize }]}>{this.props.amount}</Text>
-      </TouchableOpacity>
+            <TouchableOpacity onPress={this.onMarkerPressed.bind(this)}>
+              <Text style={[styles.amount, { fontSize: this.props.fontSize }]}>{this.props.amount}</Text>
+            </TouchableOpacity>
           </View>
           <View style={styles.arrowBorder} />
           <View style={styles.arrow} />
+          <MapView.Circle
+            center={this.state.userLocation} //TODO: Needs Fixing
+            radius={50} //TODO: calculate how big it should be
+            fillColor="rgba(200, 0, 0, 0.5)"
+            strokeColor="rgba(0,0,0,0.5)"
+          />
         </View>
     );
   }

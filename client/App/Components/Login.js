@@ -1,4 +1,5 @@
 var React = require('react-native');
+var NavigationBar = require('react-native-navbar');
 var api = require('../Utils/api');
 var Main = require('./Main');
 var Signup = require('./Signup');
@@ -9,14 +10,14 @@ var {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS, 
+  StatusBar
 } = React;
 
 var styles = StyleSheet.create({
   loginContainer: {
     flex: 1,
     padding: 30,
-    marginTop: 65,
     flexDirection: 'column',
     justifyContent: 'center',
     backgroundColor: '#34495e'
@@ -147,39 +148,45 @@ class Login extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
       );
     return (
-      <View style={styles.loginContainer}>
-      <Text style={styles.title}> Profound Mongoose </Text>
-        <Text style={styles.fieldTitle}> Username </Text>
-        <TextInput
-          style={styles.searchInput}
-          value={this.state.username}
-          onChange={this.handleUsernameChange.bind(this)} />
-        <Text style={styles.fieldTitle}> Password </Text>
-        <TextInput
-          style={styles.searchInput}
-          value={this.state.password}
-          onChange={this.handlePasswordChange.bind(this)} />
-        <TouchableHighlight
-          style={styles.button}
-          onPress={this.handleSubmit.bind(this)}
-          underlayColor='white'>
-          <Text style={styles.buttonText}> Sign in </Text>
-        </TouchableHighlight>
+      <View style={{flex: 1}}> 
+        <NavigationBar title={{title: 'PROFOUND MONGOOSE'}} />
 
-        <TouchableHighlight
-          onPress={this.handleRedirect.bind(this)}
-          underlayColor='#34495e'>
-          <Text style={styles.signup}> Dont have an account? Sign Up!  </Text>
-        </TouchableHighlight>
+        <View style={styles.loginContainer}>
+        <Text style={styles.title}> Profound Mongoose </Text>
+          <Text style={styles.fieldTitle}> Username </Text>
+          <TextInput
+            style={styles.searchInput}
+            value={this.state.username}
+            onChange={this.handleUsernameChange.bind(this)} />
+          <Text style={styles.fieldTitle}> Password </Text>
+          <TextInput
+            style={styles.searchInput}
+            value={this.state.password}
+            onChange={this.handlePasswordChange.bind(this)} />
+          <TouchableHighlight
+            style={styles.button}
+            onPress={this.handleSubmit.bind(this)}
+            underlayColor='white'>
+            <Text style={styles.buttonText}> Sign in </Text>
+          </TouchableHighlight>
 
-        <ActivityIndicatorIOS
-          animating= {this.state.isLoading}
-          color='#111'
-          size='large' />
-        
-        {showErr}
+          <TouchableHighlight
+            onPress={this.handleRedirect.bind(this)}
+            underlayColor='#34495e'>
+            <Text style={styles.signup}> Dont have an account? Sign Up!  </Text>
+          </TouchableHighlight>
+
+          <ActivityIndicatorIOS
+            animating= {this.state.isLoading}
+            color='#111'
+            size='large' />
+          
+          {showErr}
+
+        </View>
 
       </View>
+
     )
   }
 }
