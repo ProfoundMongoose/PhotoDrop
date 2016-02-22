@@ -4,21 +4,66 @@ var NavigationBar = require('react-native-navbar');
 var Login = require('./Login');
 var PhotosView = require('./PhotosView');
 
-
 var {
   Text,
   View,
   StyleSheet,
-  TouchableHighlight,
+  TouchableHighlight
 } = React;
 
+
+class Settings extends React.Component {
+  constructor(props) {
+    super(props);
+    this.displayName = 'Settings';
+  }
+
+  openPhotos() {
+    this.props.navigator.push({
+      component: PhotosView
+    });
+  }
+
+  openLeaderboard(){
+    this.props.navigator.push({
+      component: Leaderboard
+    })
+  }
+
+  logout() {
+    this.props.navigator.push({
+      component: Login
+    });
+  }
+
+  render() {
+    return (
+      <View style={styles.container}> 
+        <NavigationBar title={{title: 'Settings'}}/>
+
+        <View style={styles.mainContainer}>
+          <TouchableHighlight
+            style={styles.button}
+            underlayColor='white'
+            onPress={this.openPhotos.bind(this)}>
+            <Text style={styles.buttonText}> PhotoView </Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.button}
+            underlayColor='white'
+            onPress={this.logout.bind(this)}>
+            <Text style={styles.buttonText}> Logout </Text>
+          </TouchableHighlight>
+        </View>
+
+      </View>
+      );
+  }
+}
 var styles = StyleSheet.create({
   container: {
-    marginTop: 65,
+    backgroundColor: '#ff9900',
     flex: 1
-  },
-  image: {
-    height: 350
   },
   buttonText: {
     fontSize: 24,
@@ -52,47 +97,5 @@ var styles = StyleSheet.create({
     color: '#fff'
   }
 });
-
-class Settings extends React.Component {
-  constructor(props) {
-    super(props);
-    this.displayName = 'Settings';
-  }
-
-  openPhotos() {
-    this.props.navigator.push({
-      component: PhotosView
-    });
-  }
-  logout() {
-    this.props.navigator.push({
-      component: Login
-    });
-  }
-
-  render() {
-    return (
-      <View style={{ flex: 1, backgroundColor: '#ff9900'}}> 
-        <NavigationBar title={{title: 'Settings'}}/>
-
-        <View style={styles.mainContainer}>
-          <TouchableHighlight
-            style={styles.button}
-            underlayColor='white'
-            onPress={this.openPhotos.bind(this)}>
-            <Text style={styles.buttonText}> PhotoView </Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={styles.button}
-            underlayColor='white'
-            onPress={this.logout.bind(this)}>
-            <Text style={styles.buttonText}> Logout </Text>
-          </TouchableHighlight>
-        </View>
-
-      </View>
-      );
-  }
-}
 
 module.exports = Settings;

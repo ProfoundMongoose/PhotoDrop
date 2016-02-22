@@ -4,46 +4,31 @@ var PhotoMarker = require('./PhotoMarker');
 
 var {
   StyleSheet,
-  PropTypes,
+  // PropTypes, // not used
   View,
   Text,
   Dimensions,
   TouchableOpacity,
-  Image,
-  TouchableHighlight,
+  // Image, // not used
+  // TouchableHighlight // not used
   } = React;
-
-
-var { width, height } = Dimensions.get('window');
-
-var ASPECT_RATIO = width / height;
-var LATITUDE; 
-var LONGITUDE;
-var LATITUDE_DELTA = 0.005;
-var LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
-//get the initial position
-navigator.geolocation.getCurrentPosition(
-  location => {
-    LATITUDE = location.coords.latitude;
-    LONGITUDE = location.coords.longitude;
-  }
-);
 
 class Overlays extends React.Component{
 
   constructor(props) {
     super(props);
+    this.aspect_ratio = this.props.params.width / this.props.params.height;
+
     this.state = {
       userLocation: { //where the user actually is
-        latitude: LATITUDE,
-        longitude: LONGITUDE
+        latitude: this.props.params.latitude,
+        longitude: this.props.params.longitude
       },
       region: {  //where the center of the map view is (changes as you pan around)
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA
+        latitude: this.props.params.latitude,
+        longitude: this.props.params.longitude,
+        latitudeDelta: 0.005,
+        longitudeDelta: this.aspect_ratio * 0.005
       }
     };
   }
@@ -55,8 +40,8 @@ class Overlays extends React.Component{
           region: {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: LATITUDE_DELTA,
-            longitudeDelta: LONGITUDE_DELTA
+            latitudeDelta: 0.005,
+            longitudeDelta: this.aspect_ratio * 0.005
           },
           userLocation: {
             latitude: location.coords.latitude,
@@ -82,9 +67,10 @@ class Overlays extends React.Component{
           ref="map"
           style={styles.map}
           region={this.state.region}
-          showsUserLocation={false}
+          showsUserLocation={true}
           showsCompass={true}
-          scrollEnabled={true}
+          scrollEnabled={false}
+          zoomEnabled={false}
           onRegionChange={this.onRegionChange.bind(this)}
         >
 
@@ -131,41 +117,41 @@ var styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     justifyContent: 'flex-end',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   map: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
+    bottom: 0
   },
   bubble: {
     flex: 1,
     backgroundColor: 'rgba(255,255,255,0.7)',
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 20,
+    borderRadius: 20
   },
   latlng: {
     width: 200,
-    alignItems: 'stretch',
+    alignItems: 'stretch'
   },
   currentLocation: {
     width: 100,
-    alignItems: 'stretch',
+    alignItems: 'stretch'
   },
   button: {
     width: 80,
     paddingHorizontal: 12,
     alignItems: 'center',
-    marginHorizontal: 10,
+    marginHorizontal: 10
   },
   buttonContainer: {
     flexDirection: 'row',
     marginVertical: 10,
-    backgroundColor: 'transparent',
-  },
+    backgroundColor: 'transparent'
+  }
 });
 
 module.exports = Overlays;

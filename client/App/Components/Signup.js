@@ -12,67 +12,6 @@ var {
   ActivityIndicatorIOS
 } = React;
 
-var styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    padding: 30,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: '#34495e'
-  },
-  title: {
-    marginTop: 10,
-    marginBottom: 25,
-    fontSize: 35,
-    textAlign: 'center',
-    color: '#e74c3c'
-  },
-  fieldTitle: {
-    marginTop: 10,
-    marginBottom: 15,
-    fontSize: 25,
-    textAlign: 'center',
-    color: '#fff'
-  },
-  searchInput: {
-    height: 50,
-    padding: 4,
-    marginRight: 5,
-    fontSize: 23,
-    borderWidth: 1,
-    borderColor: 'white',
-    borderRadius: 8,
-    color: 'white'
-  },
-  buttonText: {
-    fontStyle: 'italic',
-    fontSize: 20,
-    color: '#000',
-    alignSelf: 'center'
-  },
-  button: {
-    height: 45,
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    borderColor: 'white',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginTop: 30,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
-  signup: {
-    marginTop: 20,
-    fontSize: 14,
-    textAlign: 'center',
-    textDecorationLine: 'underline'
-  },
-  err: {
-    textAlign: 'center'
-  }
-});
-
 class Signup extends React.Component {
     constructor(props) {
       super(props);
@@ -210,5 +149,67 @@ class Signup extends React.Component {
     )
   }
 }
+
+var styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    padding: 30,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: '#34495e'
+  },
+  title: {
+    marginTop: 10,
+    marginBottom: 25,
+    fontSize: 35,
+    textAlign: 'center',
+    color: '#e74c3c'
+  },
+  fieldTitle: {
+    marginTop: 10,
+    marginBottom: 15,
+    fontSize: 25,
+    textAlign: 'center',
+    color: '#fff'
+  },
+  searchInput: {
+    height: 50,
+    padding: 4,
+    marginRight: 5,
+    fontSize: 23,
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 8,
+    color: 'white'
+  },
+  buttonText: {
+    fontStyle: 'italic',
+    fontSize: 20,
+    color: '#000',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginTop: 30,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  signup: {
+    marginTop: 20,
+    fontSize: 14,
+    textAlign: 'center',
+    textDecorationLine: 'underline'
+  },
+  err: {
+    textAlign: 'center'
+  }
+});
+
 
 module.exports = Signup;
