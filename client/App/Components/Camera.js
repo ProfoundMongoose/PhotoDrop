@@ -8,7 +8,7 @@ var {
   Text,
   // TouchableHighlight, // not used
   NativeModules,
-  View
+  StatusBarIOS
 } = React;
 
 import Camera from 'react-native-camera';
@@ -42,6 +42,7 @@ class CameraView extends React.Component {
   }
 
   render() {
+    StatusBarIOS.setHidden(true);
     return (
       <View style={styles.container}>
         <Camera

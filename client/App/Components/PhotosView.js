@@ -9,7 +9,8 @@ var {
   Dimensions,
   Image,
   ScrollView,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  StatusBarIOS
 } = React;
 
 var {width, height} = Dimensions.get('window');
@@ -41,6 +42,10 @@ class PhotosView extends React.Component{
       });
       this.setState({imageUrls:photosUrls});
     })
+  }
+
+  componentWillUnmount() {
+    StatusBarIOS.setHidden(true);
   }
 
   handleRotation(event) {
@@ -75,7 +80,7 @@ class PhotosView extends React.Component{
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: 'white' }}>
-        <NavigationBar  title={{title: 'Swipe Down to Dismiss'}} />
+        <NavigationBar title={{title: 'Swipe Down to Dismiss', tintColor: 'white'}} tintColor={'black'} statusBar={{style: 'light-content', hidden: false}}/>
         <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
           {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : <ActivityIndicatorIOS size={'large'} style={styles.centering} />}
         </ScrollView>
@@ -88,7 +93,6 @@ class PhotosView extends React.Component{
 var styles = StyleSheet.create({
   centering: {
     flex: 1,
-    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center'
   },

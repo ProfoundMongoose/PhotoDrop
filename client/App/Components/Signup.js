@@ -105,7 +105,8 @@ class Signup extends React.Component {
       );
     return (
       <View style={{flex: 1}}> 
-        <NavigationBar title={{title: 'PROFOUND MONGOOSE'}} />
+        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: 'white'}} tintColor={'black'} statusBar={{style: 'light-content', hidden:false}}/>
+
 
         <View style={styles.mainContainer}>
         <Text style={styles.title}> Profound Mongoose </Text>
