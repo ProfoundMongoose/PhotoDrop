@@ -9,6 +9,7 @@ var {
   Text,
   Dimensions,
   TouchableOpacity,
+  StatusBarIOS
   // Image, // not used
   // TouchableHighlight // not used
   } = React;
@@ -20,6 +21,7 @@ class Overlays extends React.Component{
     this.aspect_ratio = this.props.params.width / this.props.params.height;
 
     this.state = {
+      isFirstLoad: true,
       userLocation: { //where the user actually is
         latitude: this.props.params.latitude,
         longitude: this.props.params.longitude
@@ -61,13 +63,40 @@ class Overlays extends React.Component{
   }
 
   render() {
+
+    StatusBarIOS.setHidden(true);
+
+    if(this.state.isFirstLoad) {
+      navigator.geolocation.getCurrentPosition(
+        location => {
+          this.setState({
+            isFirstLoad: false,
+            region: {
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            },
+            userLocation: {
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude,
+            },
+            circle: {
+              center: {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+              },
+              radius: 50,
+            }
+          });
+        });
+    }
+
     return (
       <View style={styles.container}>
         <MapView
           ref="map"
           style={styles.map}
           region={this.state.region}
-          showsUserLocation={true}
+          showsUserLocation={false}
           showsCompass={true}
           scrollEnabled={false}
           zoomEnabled={false}

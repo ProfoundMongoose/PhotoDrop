@@ -1,14 +1,15 @@
 var React = require('react-native');
 var Swiper = require('react-native-swiper');
-// import Swiper from 'react-native-swiper'
+
 var Settings = require('./Settings');
 var Camera = require('./Camera');
 var MapView = require('./MapView');
-var PhotosView = require('./PhotosView');
+
 
 var {
  StyleSheet,
- Dimensions
+ Dimensions,
+ StatusBarIOS
  // Text, // not used
  // View // not used
 } = React;
@@ -34,12 +35,21 @@ class SwiperView extends React.Component{
     });
   }
 
+  _onMomentumScrollEnd (e, state, context) {
+    if(state.index===1 || state.index===2) {
+      StatusBarIOS.setHidden(true);
+    } else {
+      StatusBarIOS.setHidden(false);
+      StatusBarIOS.setStyle('light-content');
+    }
+  }
+
  render () {
    return (
-     <Swiper style={styles.wrapper} showsButtons={true} loop={false} showsPagination={false} index={1}>
+   	<Swiper style={styles.wrapper} showsButtons={true} loop={false} showsPagination={false} index={1} onMomentumScrollEnd ={this._onMomentumScrollEnd}>
+       <Settings navigator={this.props.navigator}/>
        <Camera latitude={this.state.latitude} longitude={this.state.longitude}/>
        <MapView navigator={this.props.navigator} params={this.state}/>
-       <Settings navigator={this.props.navigator}/>
      </Swiper>
    )
  }
