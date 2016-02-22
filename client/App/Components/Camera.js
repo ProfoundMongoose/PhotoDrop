@@ -1,7 +1,8 @@
+var React = require('react-native');
+// var Camera = require('react-native-camera'); // Does not work the same way line 16 does
 var api = require('../Utils/api');
 
-'use strict';
-import React, {
+var {
   AppRegistry,
   Component,
   Dimensions,
@@ -10,11 +11,11 @@ import React, {
   TouchableHighlight,
   NativeModules,
   View,
-} from 'react-native';
-import Camera from 'react-native-camera';
+} = React;
 
-var LATITUDE = 37; //set arbitrary starting value so react can render immediatedly without an error
-var LONGITUDE = 122; //set arbitrary starting value so react can render immediatedly without an error
+import Camera from 'react-native-camera';
+var LATITUDE = 37.78379; //set arbitrary starting value so react can render immediatedly without an error
+var LONGITUDE = -122.4089; //set arbitrary starting value so react can render immediatedly without an error
 
 navigator.geolocation.getCurrentPosition(
   location => {
@@ -30,9 +31,8 @@ class CameraView extends React.Component {
     this.state = {
       cameraType: "back",
       }
-    };
+    }
   
-
   takePicture() {
     this.camera.capture()
       .then((data) => {

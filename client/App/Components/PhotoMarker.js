@@ -1,4 +1,7 @@
 var React = require('react-native');
+var MapView = require('react-native-maps');
+var PhotosView = require('./PhotosView');
+
 var {
   Navigator,
   StyleSheet,
@@ -6,9 +9,6 @@ var {
   Text,
   TouchableOpacity
 } = React;
-
-var MapView = require('react-native-maps');
-var PhotosView = require('./PhotosView');
 
 var LATITUDE; 
 var LONGITUDE;
@@ -62,7 +62,7 @@ class MainPhotosMarker extends React.Component{
 var styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-start'
   },
   bubble: {
     flex: 0,
@@ -72,11 +72,11 @@ var styles = StyleSheet.create({
     padding: 2,
     borderRadius: 3,
     borderColor: '#D23F44',
-    borderWidth: 0.5,
+    borderWidth: 0.5
   },
   amount: {
     color: '#FFFFFF',
-    fontSize: 13,
+    fontSize: 13
   },
   arrow: {
     backgroundColor: 'transparent',
@@ -84,7 +84,7 @@ var styles = StyleSheet.create({
     borderColor: 'transparent',
     borderTopColor: '#FF5A5F',
     alignSelf: 'center',
-    marginTop: -9,
+    marginTop: -9
   },
   arrowBorder: {
     backgroundColor: 'transparent',
@@ -92,8 +92,8 @@ var styles = StyleSheet.create({
     borderColor: 'transparent',
     borderTopColor: '#D23F44',
     alignSelf: 'center',
-    marginTop: -0.5,
-  },
+    marginTop: -0.5
+  }
 });
 
 module.exports = MainPhotosMarker;

@@ -16,19 +16,19 @@ var {
 
 var {width, height} = Dimensions.get('window');
 
-var latitude;
-var longitude;
+var LATITUDE;
+var LONGITUDE;
 
 navigator.geolocation.getCurrentPosition(
   location => {
-    latitude = location.coords.latitude;
-    longitude = location.coords.longitude;
+    LATITUDE = location.coords.latitude;
+    LONGITUDE = location.coords.longitude;
   }
 );
 
 var IMAGES_PER_ROW = 3
 
-class ReactNativeLayouts extends React.Component{
+class PhotosView extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
@@ -36,7 +36,7 @@ class ReactNativeLayouts extends React.Component{
       currentScreenHeight: height,
       imageUrls: undefined
     };
-    api.fetchPhotos(latitude, longitude, (photos) => {
+    api.fetchPhotos(LATITUDE, LONGITUDE, (photos) => {
       var photosArr = JSON.parse(photos);
       var photosUrls = photosArr.map((photo) => {
         return photo.url;
@@ -58,7 +58,8 @@ class ReactNativeLayouts extends React.Component{
   renderRow(images) {
     return images.map((uri) => {
       return (
-        <Image style={[styles.image, this.calculatedSize()]} source={{uri: uri}} />
+        // Hardcoded key value for each element below to dismiss eror message
+        <Image key={Math.random()} style={[styles.image, this.calculatedSize()]} source={{uri: uri}} />
       )
     })
   }
@@ -91,7 +92,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   scrollView: {
    flexDirection: 'row',
@@ -108,4 +109,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = ReactNativeLayouts;
+module.exports = PhotosView;

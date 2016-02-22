@@ -27,7 +27,7 @@ class CustomCallout extends React.Component{
 var styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
-    alignSelf: 'flex-start',
+    alignSelf: 'flex-start'
   },
   bubble: {
     width: 140,
@@ -38,7 +38,7 @@ var styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 6,
     borderColor: '#007a87',
-    borderWidth: 0.5,
+    borderWidth: 0.5
   },
   dollar: {
 
@@ -54,7 +54,7 @@ var styles = StyleSheet.create({
     borderColor: 'transparent',
     borderTopColor: '#4da2ab',
     alignSelf: 'center',
-    marginTop: -32,
+    marginTop: -32
   },
   arrowBorder: {
     backgroundColor: 'transparent',
@@ -62,8 +62,8 @@ var styles = StyleSheet.create({
     borderColor: 'transparent',
     borderTopColor: '#007a87',
     alignSelf: 'center',
-    marginTop: -0.5,
-  },
+    marginTop: -0.5
+  }
 });
 
 module.exports = CustomCallout;

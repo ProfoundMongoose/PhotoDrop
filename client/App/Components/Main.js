@@ -1,26 +1,17 @@
-
-var Swiper = require('react-native-swiper')
-// es6
-// import Swiper from 'react-native-swiper'
-
 var React = require('react-native');
+var Swiper = require('react-native-swiper');
+// import Swiper from 'react-native-swiper'
+var Settings = require('./Settings');
+var Camera = require('./Camera');
+var MapView = require('./MapView');
+var PhotosView = require('./PhotosView');
+
 var {
  AppRegistry,
  StyleSheet,
  Text,
  View,
 } = React;
-
-var Settings = require('./Settings');
-var Camera = require('./Camera');
-var MapView = require('./MapView');
-
-var PhotosView = require('./PhotosView');
-
-var styles = StyleSheet.create({
- wrapper: {
- }
-})
 
 class SwiperView extends React.Component{
 
@@ -34,5 +25,10 @@ class SwiperView extends React.Component{
    )
  }
 }
+
+var styles = StyleSheet.create({
+ wrapper: {
+ }
+})
 
 module.exports = SwiperView;

@@ -13,12 +13,11 @@ var {
   TouchableHighlight,
   } = React;
 
-
 var { width, height } = Dimensions.get('window');
 
 var ASPECT_RATIO = width / height;
-var LATITUDE; 
-var LONGITUDE;
+var LATITUDE = 37.78379; //set arbitrary starting value so react can render immediatedly without an error
+var LONGITUDE = -122.4089; //set arbitrary starting value so react can render immediatedly without an error
 var LATITUDE_DELTA = 0.005;
 var LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
@@ -131,41 +130,41 @@ var styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     justifyContent: 'flex-end',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   map: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0,
+    bottom: 0
   },
   bubble: {
     flex: 1,
     backgroundColor: 'rgba(255,255,255,0.7)',
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 20,
+    borderRadius: 20
   },
   latlng: {
     width: 200,
-    alignItems: 'stretch',
+    alignItems: 'stretch'
   },
   currentLocation: {
     width: 100,
-    alignItems: 'stretch',
+    alignItems: 'stretch'
   },
   button: {
     width: 80,
     paddingHorizontal: 12,
     alignItems: 'center',
-    marginHorizontal: 10,
+    marginHorizontal: 10
   },
   buttonContainer: {
     flexDirection: 'row',
     marginVertical: 10,
-    backgroundColor: 'transparent',
-  },
+    backgroundColor: 'transparent'
+  }
 });
 
 module.exports = Overlays;
