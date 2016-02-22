@@ -8,6 +8,7 @@ var MapView = require('./MapView');
 
 var {
  StyleSheet,
+ Dimensions,
  StatusBarIOS
  // Text, // not used
  // View // not used

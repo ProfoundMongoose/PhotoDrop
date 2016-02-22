@@ -96,7 +96,7 @@ class Overlays extends React.Component{
           ref="map"
           style={styles.map}
           region={this.state.region}
-          showsUserLocation={false}
+          showsUserLocation={true}
           showsCompass={true}
           scrollEnabled={false}
           zoomEnabled={false}
