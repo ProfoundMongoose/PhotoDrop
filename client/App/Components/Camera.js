@@ -6,6 +6,7 @@ var {
   Dimensions,
   StyleSheet,
   Text,
+  View,
   // TouchableHighlight, // not used
   NativeModules,
   StatusBarIOS
