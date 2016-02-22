@@ -8,7 +8,6 @@ var {
   Text,
   // TouchableHighlight, // not used
   NativeModules,
-  View,
   StatusBarIOS
 } = React;
 
