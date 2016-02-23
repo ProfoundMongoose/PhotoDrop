@@ -1,6 +1,7 @@
 var React = require('react-native');
 // var Camera = require('react-native-camera'); // Does not work the same way line 16 does
 var api = require('../Utils/api');
+var PreviewPhoto = require('./PreviewPhoto')
 
 var {
   Dimensions,
@@ -26,12 +27,23 @@ class CameraView extends React.Component {
   takePicture() {
     this.camera.capture()
       .then((data) => {
-        NativeModules.ReadImageData.readImage(data, (image) => {
-          api.uploadPhoto(image, this.props.latitude, this.props.longitude);
+        // send data into PreviewPhoto so hopefully it can render the image
+          this.props.navigator.push({
+            component: PreviewPhoto,
+            data: data,
+          })
         })
-      })
       .catch(err => console.error('ERROR', err));
   }
+  // takePicture() {
+  //   this.camera.capture()
+  //     .then((data) => {
+  //       NativeModules.ReadImageData.readImage(data, (image) => {
+  //         api.uploadPhoto(image, this.props.latitude, this.props.longitude);
+  //       })
+  //     })
+  //     .catch(err => console.error('ERROR', err));
+  // }
 
   switchCamera() {
     if(this.state.cameraType==="back") {
