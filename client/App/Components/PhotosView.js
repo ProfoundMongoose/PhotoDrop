@@ -12,7 +12,6 @@ var {
   Image,
   ScrollView,
   ActivityIndicatorIOS,
-  TouchableHighlight,
   StatusBarIOS,
   TouchableHighlight
 } = React;
