@@ -2,14 +2,17 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
 var api = require('../Utils/api');
+var PhotoView = require('./PhotoView')
 
 var {
+  Navigator,
   StyleSheet,
   View,
   Dimensions,
   Image,
   ScrollView,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  TouchableHighlight
 } = React;
 
 var {width, height} = Dimensions.get('window');
@@ -28,6 +31,7 @@ var IMAGES_PER_ROW = 3
 
 class PhotosView extends React.Component{
   constructor(props) {
+    console.log('changes reflected')
     super(props);
     this.state = {
       currentScreenWidth: width,
@@ -53,11 +57,26 @@ class PhotosView extends React.Component{
     return {width: size, height: size};
   }
 
+  // function that returns a function that knows the correct uri to render
+  showImageFullscreen(uri) {
+    return () => {
+      console.log(uri);
+      this.props.navigator.push({
+        component: PhotoView,
+        uri: uri,
+        width: this.state.currentScreenWidth,
+        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+      });
+    }
+  }
+
   renderRow(images) {
     return images.map((uri) => {
       return (
         // Hardcoded key value for each element below to dismiss eror message
-        <Image key={Math.random()} style={[styles.image, this.calculatedSize()]} source={{uri: uri}} />
+        <TouchableHighlight onPress={this.showImageFullscreen(uri)}>
+          <Image key={Math.random()} style={[styles.image, this.calculatedSize()]} source={{uri: uri}} />
+        </TouchableHighlight>
       )
     })
   }

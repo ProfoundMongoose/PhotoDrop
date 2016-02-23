@@ -40,7 +40,6 @@ var api = {
         'Content-Type': 'application/json'
       }
     }).then(function(photos) {
-      console.log('photos===================: ', photos._bodyInit);
       callback(photos._bodyInit);
 
     })

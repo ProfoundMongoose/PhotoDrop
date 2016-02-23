@@ -21,12 +21,11 @@ class CameraView extends React.Component {
       cameraType: "back",
       }
     }
-  
+
   takePicture() {
     this.camera.capture()
       .then((data) => {
         NativeModules.ReadImageData.readImage(data, (image) => {
-          console.log('========image base64 encoded:  ', image);
           api.uploadPhoto(image, this.props.latitude, this.props.longitude);
         })
       })
