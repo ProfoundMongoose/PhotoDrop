@@ -38,8 +38,8 @@ class Settings extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}> 
-        <NavigationBar title={{title: 'Settings'}}/>
+      <View style={{ flex: 1, backgroundColor: '#ff9900'}}> 
+        <NavigationBar title={{title: 'Settings', tintColor: 'white'}} tintColor={'black'}/>
 
         <View style={styles.mainContainer}>
           <TouchableHighlight

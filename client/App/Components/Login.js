@@ -11,7 +11,6 @@ var {
   TextInput,
   TouchableHighlight,
   ActivityIndicatorIOS, 
-  // StatusBar // not used
 } = React;
 
 
@@ -89,8 +88,7 @@ class Login extends React.Component {
       );
     return (
       <View style={{flex: 1}}> 
-        <NavigationBar title={{title: 'PROFOUND MONGOOSE'}} />
-
+        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: 'white'}} tintColor={'black'} statusBar={{style: 'light-content', hidden: false}}/>
         <View style={styles.loginContainer}>
         <Text style={styles.title}> Profound Mongoose </Text>
           <Text style={styles.fieldTitle}> Username </Text>
