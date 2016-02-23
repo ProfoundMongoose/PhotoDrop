@@ -13,7 +13,7 @@ var {
   ScrollView,
   ActivityIndicatorIOS,
   TouchableHighlight,
-  StatusBarIOS
+  StatusBarIOS,
   TouchableHighlight
 } = React;
 
