@@ -14,6 +14,7 @@ var {
   ActivityIndicatorIOS,
   TouchableHighlight,
   StatusBarIOS
+  TouchableHighlight
 } = React;
 
 var {width, height} = Dimensions.get('window');
