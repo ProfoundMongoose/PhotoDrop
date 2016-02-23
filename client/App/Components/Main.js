@@ -37,9 +37,9 @@ class SwiperView extends React.Component{
 
   _onMomentumScrollEnd (e, state, context) {
     if(state.index===1 || state.index===2) {
-      StatusBarIOS.setHidden(true);
+      StatusBarIOS.setHidden(true, 'fade');
     } else {
-      StatusBarIOS.setHidden(false);
+      StatusBarIOS.setHidden(false, 'fade');
       StatusBarIOS.setStyle('light-content');
     }
   }

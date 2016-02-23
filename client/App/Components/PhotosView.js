@@ -49,7 +49,7 @@ class PhotosView extends React.Component{
   }
 
   componentWillUnmount() {
-    StatusBarIOS.setHidden(true);
+    StatusBarIOS.setHidden(true, 'fade');
   }
 
   handleRotation(event) {

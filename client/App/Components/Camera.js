@@ -42,7 +42,7 @@ class CameraView extends React.Component {
   }
 
   render() {
-    StatusBarIOS.setHidden(true);
+    StatusBarIOS.setHidden(true, 'fade');
     return (
       <View style={styles.container}>
         <Camera

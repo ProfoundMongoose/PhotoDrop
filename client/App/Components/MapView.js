@@ -65,7 +65,7 @@ class Overlays extends React.Component{
 
   render() {
 
-    StatusBarIOS.setHidden(true);
+    StatusBarIOS.setHidden(true, 'fade');
 
     if(this.state.isFirstLoad) {
       navigator.geolocation.getCurrentPosition(
