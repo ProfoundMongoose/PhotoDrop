@@ -31,7 +31,8 @@ class Overlays extends React.Component{
         longitude: this.props.params.longitude,
         latitudeDelta: 0.005,
         longitudeDelta: this.aspect_ratio * 0.005
-      }
+      },
+      photoCount: 0
     };
   }
 
@@ -104,7 +105,7 @@ class Overlays extends React.Component{
         >
 
           <MapView.Marker coordinate={this.state.userLocation}>
-            <PhotoMarker amount={99} navigator={this.props.navigator}/>
+            <PhotoMarker amount={this.state.photoCount} navigator={this.props.navigator}/>
           </MapView.Marker>
 
           <MapView.Circle

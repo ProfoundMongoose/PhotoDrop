@@ -4,6 +4,6 @@ module.exports = {
     next(error);
   },
   errorHandler: function (error, req, res, next) {
-    res.send(500, {error: error.message});
+    res.status(500).send(error.message);
   }
 };
