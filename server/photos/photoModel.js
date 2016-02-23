@@ -7,15 +7,13 @@ var PhotoSchema = new Schema({
     required: true,
     unique: true
   },
-  latitude: {
-    type: Number,
-    required: true
-  },
-  longitude: {
-    type: Number,
-    required: true
+  loc: { 
+    type: { type: String }, 
+    coordinates: []
   }
   // users: [ userID1, userID2 ];
 });
+
+PhotoSchema.index({ loc: '2dsphere' });
 
 module.exports = mongoose.model('Photos', PhotoSchema);

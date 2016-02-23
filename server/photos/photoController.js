@@ -46,9 +46,12 @@ module.exports = {
     console.log(req.imgurLink, req.body);
     new Photo({
       url: req.imgurLink,
-      latitude: req.body.latitude,
-      longitude: req.body.longitude
+      loc: {
+        type: 'Point',
+        coordinates: [req.body.longitude, req.body.latitude]
+      }
     }).save().then(function(data) {
+      Photo.ensureIndexes({loc:"2dsphere"});
       console.log('saved new photo model to db ', data)
       next();
     }).catch(function(err) {
@@ -58,14 +61,28 @@ module.exports = {
 
   // fetch all photos from DB
   fetchPhotos: function (req, res, next) {
-    // var location = JSON.parse(Object.keys(req.body)[0]);
+    var maxDistance = Number(req.query.radius);
+    var coords = [];
+    coords[0] = req.query.lon;
+    coords[1] = req.query.lat;
 
-    getPhotos()
+    getPhotos({
+      loc: {
+        $near: {
+          $geometry: {
+             type: "Point" ,
+             coordinates: coords 
+          },
+          $maxDistance: maxDistance
+        }
+      }
+    })
       .then(function(photos) {
-        console.log('these are the photos: ', photos);
-        res.send(photos);
+        console.log('photos: ', photos);
+        res.status(200).send(photos);
       })
       .fail(function(error) {
+        console.log('error: ',error);
         next(error);
       });
   }

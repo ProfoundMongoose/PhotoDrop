@@ -39,7 +39,7 @@ class PhotosView extends React.Component{
       currentScreenHeight: height,
       imageUrls: undefined
     };
-    api.fetchPhotos(LATITUDE, LONGITUDE, (photos) => {
+    api.fetchPhotos(LATITUDE, LONGITUDE, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       var photosUrls = photosArr.map((photo) => {
         return photo.url;

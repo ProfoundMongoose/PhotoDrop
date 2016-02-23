@@ -26,14 +26,15 @@ var api = {
       },
       body: JSON.stringify({
         data: data,
+        // loc: [longitude, latitude]
         latitude: latitude,
         longitude: longitude,
       })
     }).catch(function(err){ console.log(err) });
   },
 
-  fetchPhotos(latitude, longitude, callback) {
-    var url = 'http://localhost:8000/fetchPhotos?lat='+latitude+'&lon='+longitude;
+  fetchPhotos(latitude, longitude, radius, callback) {
+    var url = 'http://localhost:8000/fetchPhotos?lat='+latitude+'&lon='+longitude+'&radius='+radius;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -41,7 +42,6 @@ var api = {
       }
     }).then(function(photos) {
       callback(photos._bodyInit);
-
     })
     .catch(function(err){
       console.log(err);
