@@ -88,9 +88,8 @@ class Login extends React.Component {
       );
     return (
       <View style={{flex: 1}}> 
-        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: 'white'}} tintColor={'black'} statusBar={{style: 'light-content', hidden: false}}/>
+        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
         <View style={styles.loginContainer}>
-        <Text style={styles.title}> Profound Mongoose </Text>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
             style={styles.searchInput}
@@ -104,13 +103,13 @@ class Login extends React.Component {
           <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
-            underlayColor='white'>
-            <Text style={styles.buttonText}> Sign in </Text>
+            underlayColor='#FC9396'>
+            <Text style={styles.buttonText}> Sign In </Text>
           </TouchableHighlight>
 
           <TouchableHighlight
             onPress={this.handleRedirect.bind(this)}
-            underlayColor='#34495e'>
+            underlayColor='white'>
             <Text style={styles.signup}> Dont have an account? Sign Up!  </Text>
           </TouchableHighlight>
 
@@ -135,43 +134,41 @@ var styles = StyleSheet.create({
     padding: 30,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: '#34495e'
+    backgroundColor: 'white'
   },
   title: {
     marginTop: 10,
     marginBottom: 25,
-    fontSize: 35,
+    fontSize: 18,
     textAlign: 'center',
-    color: '#e74c3c'
   },
   fieldTitle: {
     marginTop: 10,
     marginBottom: 15,
-    fontSize: 25,
+    fontSize: 18,
     textAlign: 'center',
-    color: '#fff'
+    color: 'black'
   },
   searchInput: {
     height: 50,
     padding: 4,
     marginRight: 5,
-    fontSize: 23,
+    fontSize: 18,
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: 'grey',
     borderRadius: 8,
-    color: 'white'
+    color: 'black'
   },
   buttonText: {
-    fontStyle: 'italic',
-    fontSize: 20,
-    color: '#000',
+    fontSize: 18,
+    color: 'white',
     alignSelf: 'center'
   },
   button: {
     height: 45,
     flexDirection: 'row',
-    backgroundColor: 'white',
-    borderColor: 'white',
+    backgroundColor: '#FF5A5F',
+    borderColor: '#FF5A5F',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,

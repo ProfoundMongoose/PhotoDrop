@@ -37,16 +37,16 @@ class SwiperView extends React.Component{
 
   _onMomentumScrollEnd (e, state, context) {
     if(state.index===1 || state.index===2) {
-      StatusBarIOS.setHidden(true);
+      StatusBarIOS.setHidden(true, 'fade');
     } else {
-      StatusBarIOS.setHidden(false);
+      StatusBarIOS.setHidden(false, 'fade');
       StatusBarIOS.setStyle('light-content');
     }
   }
 
  render () {
    return (
-   	<Swiper style={styles.wrapper} showsButtons={true} loop={false} showsPagination={false} index={1} onMomentumScrollEnd ={this._onMomentumScrollEnd}>
+   	<Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={1} onMomentumScrollEnd ={this._onMomentumScrollEnd}>
        <Settings navigator={this.props.navigator}/>
        <Camera latitude={this.state.latitude} longitude={this.state.longitude}/>
        <MapView navigator={this.props.navigator} params={this.state}/>
