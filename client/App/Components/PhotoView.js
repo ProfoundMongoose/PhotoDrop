@@ -8,7 +8,6 @@ var {
   ScrollView
 } = React;
 
-
 class PhotoView extends React.Component{
   constructor(props) {
     super(props);
@@ -25,8 +24,6 @@ class PhotoView extends React.Component{
     )
   }
 }
-
-
 
 var styles = StyleSheet.create({
   imageContainer: {
