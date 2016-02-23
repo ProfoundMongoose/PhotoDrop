@@ -1,17 +1,18 @@
 var React = require('react-native');
 var MapView = require('react-native-maps');
 var PhotoMarker = require('./PhotoMarker');
+var PhotoView = require('./PhotoView');
 var api = require('../Utils/api');
+var _ = require('lodash');
 
 var {
+  Navigator,
   StyleSheet,
-  // PropTypes, // not used
   View,
   Text,
   Dimensions,
   TouchableOpacity,
   StatusBarIOS
-  // Image, // not used
   // TouchableHighlight // not used
   } = React;
 
@@ -23,11 +24,7 @@ class Overlays extends React.Component{
 
     this.state = {
       isFirstLoad: true,
-      userLocation: { //where the user actually is
-        latitude: this.props.params.latitude,
-        longitude: this.props.params.longitude
-      },
-      region: {  //where the center of the map view is (changes as you pan around)
+      region: {
         latitude: this.props.params.latitude,
         longitude: this.props.params.longitude,
         latitudeDelta: 0.005,
@@ -45,21 +42,26 @@ class Overlays extends React.Component{
 
     api.fetchLocations(this.state.region.latitude, this.state.region.longitude, this.state.region.latitudeDelta, this.state.region.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      var photosLoc = photosArr.map((photo) => {
-        return photo.loc.coordinates;
-      });
-      this.setState({photosLocations: photosLoc});
+      this.setState({photosLocations: photosArr});
     });
+  }
+
+  showImage(uri) {
+    return () => {
+      console.log(uri);
+      this.props.navigator.push({
+        component: PhotoView,
+        uri: uri,
+        width: this.state.currentScreenWidth,
+        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+      });
+    }
   }
 
   onLocationPressed() {
     navigator.geolocation.getCurrentPosition(
       location => {
         this.setState({
-          userLocation: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude
-          },
           region: {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
@@ -80,7 +82,6 @@ class Overlays extends React.Component{
   }
 
   render() {
-
     StatusBarIOS.setHidden(true, 'fade');
 
     if(this.state.isFirstLoad) {
@@ -89,10 +90,6 @@ class Overlays extends React.Component{
           this.setState({
             isFirstLoad: false,
             region: {
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            },
-            userLocation: {
               latitude: location.coords.latitude,
               longitude: location.coords.longitude,
             },
@@ -106,7 +103,7 @@ class Overlays extends React.Component{
           });
         });
     }
-
+    if(this.state.photosLocations){
     return (
       <View style={styles.container}>
         <MapView
@@ -119,13 +116,21 @@ class Overlays extends React.Component{
           zoomEnabled={false}
           onRegionChange={this.onRegionChange.bind(this)}
         >
+        { this.state.photosLocations.map((photoLocation) => {
+            return (
+             <MapView.Marker image={require('../Components/assets/rsz_pin.png')} onPress={this.showImage(photoLocation.url)}
+               coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
+             />
+           )}
+          )
+        }
 
-          <MapView.Marker coordinate={this.state.userLocation}>
+          <MapView.Marker coordinate={this.state.region}> 
             <PhotoMarker amount={this.state.photoCount} navigator={this.props.navigator}/>
           </MapView.Marker>
 
           <MapView.Circle
-            center={this.state.userLocation} //TODO: Needs Fixing
+            center={this.state.region} //TODO: Needs Fixing
             radius={50} //TODO: calculate how big it should be
             fillColor="rgba(200, 0, 0, 0.5)"
             strokeColor="rgba(0,0,0,0.5)"
@@ -152,8 +157,11 @@ class Overlays extends React.Component{
 
       </View>
     );
-  }
+  } else {
+    return <View></View>
+  } 
 };
+}
 
 var styles = StyleSheet.create({
   container: {
