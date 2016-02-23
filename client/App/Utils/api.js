@@ -1,7 +1,7 @@
 var api = {
   login(username, password){
     var user = {username: username, password: password};
-    var url = 'http://localhost:8000/login';
+    var url = 'http://45.55.23.71:8000/login';
     return fetch(url, {
       method: "POST",
       body: JSON.stringify(user)
@@ -10,14 +10,14 @@ var api = {
 
   signup(username, password){
     var user = {username: username, password: password};
-    return fetch('http://localhost:8000/signup', {
+    return fetch('http://45.55.23.71:8000/signup', {
       method: 'POST',
       body: JSON.stringify(user)
     });
   },
 
   uploadPhoto(data, latitude, longitude) {
-    var url = 'http://localhost:8000/imgUpload';
+    var url = 'http://45.55.23.71:8000/imgUpload';
     return fetch(url, {
       method: 'POST',
       headers: {
@@ -34,7 +34,7 @@ var api = {
   },
 
   fetchPhotos(latitude, longitude, radius, callback) {
-    var url = 'http://localhost:8000/fetchPhotos?lat='+latitude+'&lon='+longitude+'&radius='+radius;
+    var url = 'http://45.55.23.71:8000/fetchPhotos?lat='+latitude+'&lon='+longitude+'&radius='+radius;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -49,7 +49,7 @@ var api = {
   },
 
   fetchLocations(latitude, longitude, latdelta, londelta, callback) {
-    var url = 'http://localhost:8000/fetchLocations?lat='+latitude+'&lon='+longitude+'&latdelta='+latdelta+'&londelta='+londelta;
+    var url = 'http://45.55.23.71:8000/fetchLocations?lat='+latitude+'&lon='+longitude+'&latdelta='+latdelta+'&londelta='+londelta;
     return fetch(url, {
       method: 'GET',
       headers: {
