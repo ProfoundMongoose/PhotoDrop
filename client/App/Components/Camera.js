@@ -1,6 +1,8 @@
 var React = require('react-native');
 var Camera = require('react-native-camera').default;
 var Icon = require('react-native-vector-icons/FontAwesome');
+var IconIon = require('react-native-vector-icons/Ionicons');
+
 var api = require('../Utils/api');
 
 var {
@@ -71,7 +73,7 @@ class CameraView extends React.Component {
               <Icon name="circle-o-notch" size={15} color="#ffffff" style={styles.switchIcon} />
             </TouchableHighlight>
             <TouchableHighlight onPress={this.flashEnabled.bind(this)} style={styles.flashToggleButton}>
-              <Icon name="bolt" size={15} color="#ffffff" style={styles.flashToggleIcon} />
+              {this.state.cameraFlashToggle===Camera.constants.FlashMode.on ?  <IconIon name="ios-bolt" size={22} color="#ffffff" style={styles.flashToggleIcon} /> :  <IconIon name="ios-bolt-outline" size={22} color="#ffffff" style={styles.flashToggleIcon} />}
             </TouchableHighlight>
           </View>
 
@@ -156,13 +158,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#ffffff',
-    marginLeft: -235,
+    marginLeft: -240,
     marginTop: -30,
     paddingLeft:7
   },
   flashToggleIcon:{
-    width:15,
-    height:15
+    width:18,
+    height:23,
+    backgroundColor:'transparent'
   }
 });
 
