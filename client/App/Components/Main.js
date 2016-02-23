@@ -1,228 +1,63 @@
 var React = require('react-native');
-var api = require('../Utils/api');
-var Dashboard = require('./Dashboard');
-var Camera = require('./Camera');
-var Signup = require('./Signup');
+var Swiper = require('react-native-swiper');
+
 var Settings = require('./Settings');
+var Camera = require('./Camera');
 var MapView = require('./MapView');
+
+
 var {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  TouchableHighlight,
-  ActivityIndicatorIOS
+ StyleSheet,
+ Dimensions,
+ StatusBarIOS
+ // Text, // not used
+ // View // not used
 } = React;
 
-var styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    padding: 30,
-    marginTop: 65,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: '#34495e'
-  },
-  title: {
-    marginTop: 10,
-    marginBottom: 25,
-    fontSize: 35,
-    textAlign: 'center',
-    color: '#e74c3c'
-  },
-  fieldTitle: {
-    marginTop: 10,
-    marginBottom: 15,
-    fontSize: 25,
-    textAlign: 'center',
-    color: '#fff'
-  },
-  searchInput: {
-    height: 50,
-    padding: 4,
-    marginRight: 5,
-    fontSize: 23,
-    borderWidth: 1,
-    borderColor: 'white',
-    borderRadius: 8,
-    color: 'white'
-  },
-  buttonText: {
-    fontStyle: 'italic',
-    fontSize: 20,
-    color: '#000',
-    alignSelf: 'center'
-  },
-  button: {
-    height: 45,
-    flexDirection: 'row',
-    backgroundColor: 'white',
-    borderColor: 'white',
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 10,
-    marginTop: 30,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
-  },
-  signup: {
-    marginTop: 20,
-    fontSize: 14,
-    textAlign: 'center',
-    textDecorationLine: 'underline'
-  }
-});
-
-class Main extends React.Component {
-  constructor(props) {
-    super(props);
+class SwiperView extends React.Component{
+  constructor(){
+    super();
     this.state = {
-      username: '',
-      password: '',
-      isLoading: false,
-      error: false
-    };
-  }
-
-  handleUsernameChange (event) {
-    this.setState({
-      username: event.nativeEvent.text
-    });
-  }
-
-  handlePasswordChange (event) {
-    this.setState({
-      password: event.nativeEvent.text
-    });
-  }
-
-  handleSubmit(){
-    // update our indicator spinner
-    // fetch data from server
-    // reroute to the next page passing user info 
-    this.props.navigator.push({
-      component: Dashboard
-    });
-    this.setState({
-      isLoading: false,
-      error: false,
-      username: ''
-    });
-
-
-    // api.login(this.state.username, this.state.password)
-    //   .then((res) => {
-    //       this.props.navigator.push({
-    //         title: res.name || 'Select an Option',
-    //         component: Dashboard,
-    //         passProps: {userInfo: res}
-    //       });
-    //       this.setState({
-    //         isLoading: false,
-    //         error: false,
-    //         username: ''
-    //       });
-    //     }).catch((err) => {
-    //        this.setState({
-    //          error: 'User not found' + err,
-    //          isLoading: false
-    //        });
-    //     })
+      width:  Dimensions.get('window').width,
+      height:  Dimensions.get('window').height,
+      latitude: 37.78379, //set arbitrary starting value so react can render immediatedly without an error
+      longitude: -122.4089 //set arbitrary starting value so react can render immediatedly without an error
     }
+  }
 
-  gotoSettings() {
-    this.props.navigator.push({
-      component: Settings
-    });
-    this.setState({
-      isLoading: false,
-      error: false,
-      username: ''
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      location => {
+        this.setState({
+        latitude : location.coords.latitude,
+        longitude : location.coords.longitude
+      });
     });
   }
 
-  handleRedirect() {
-    this.props.navigator.push({
-      component: Signup
-    });
-    this.setState({
-      isLoading: false,
-      error: false,
-      username: ''
-    });
+  _onMomentumScrollEnd (e, state, context) {
+    if(state.index===1 || state.index===2) {
+      StatusBarIOS.setHidden(true, 'fade');
+    } else {
+      StatusBarIOS.setHidden(false, 'fade');
+      StatusBarIOS.setStyle('light-content');
+    }
   }
 
-  openCamera() {
-    this.props.navigator.push({
-      component: Camera
-    });
-    this.setState({
-      isLoading: false,
-      error: false,
-      username: ''
-    });
-  }
-
-  openMaps() {
-    this.props.navigator.push({
-      component: MapView
-    });
-    this.setState({
-      isLoading: false,
-      error: false,
-      username: ''
-    });
-  }
-
-  render() {
-    return (
-      <View style={styles.mainContainer}>
-      <Text style={styles.title}> Profound Mongoose </Text>
-        <Text style={styles.fieldTitle}> Username </Text>
-        <TextInput
-          style={styles.searchInput}
-          value={this.state.username}
-          onChange={this.handleUsernameChange.bind(this)} />
-        <Text style={styles.fieldTitle}> Password </Text>
-        <TextInput
-          style={styles.searchInput}
-          value={this.state.password}
-          onChange={this.handlePasswordChange.bind(this)} />
-        <TouchableHighlight
-          style={styles.button}
-          onPress={this.handleSubmit.bind(this)}
-          underlayColor='white'>
-          <Text style={styles.buttonText}> Sign in </Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          onPress={this.handleRedirect.bind(this)}
-          underlayColor='#34495e'>
-          <Text style={styles.signup}> Dont have an account? Sign Up!  </Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          onPress={this.gotoSettings.bind(this)}
-          underlayColor='#34495e'>
-          <Text style={styles.signup}> gotoSettings  </Text>
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          onPress={this.openCamera.bind(this)}
-          underlayColor='#34495e'>
-          <Text style={styles.signup}> Link to Camera (will implement Auth Later)  </Text>
-
-        </TouchableHighlight>
-
-        <TouchableHighlight
-          onPress={this.openMaps.bind(this)}
-          underlayColor='#34495e'>
-          <Text style={styles.signup}> Link to MapView </Text>
-
-        </TouchableHighlight>
-      </View>
-    )
-  }
+ render () {
+   return (
+   	<Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={1} onMomentumScrollEnd ={this._onMomentumScrollEnd}>
+       <Settings navigator={this.props.navigator}/>
+       <Camera latitude={this.state.latitude} longitude={this.state.longitude}/>
+       <MapView navigator={this.props.navigator} params={this.state}/>
+     </Swiper>
+   )
+ }
 }
 
-module.exports = Main;
+var styles = StyleSheet.create({
+ wrapper: {
+ }
+})
+
+module.exports = SwiperView;

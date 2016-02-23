@@ -1,28 +1,31 @@
 {
   "name": "ProfoundMongoose",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Hack Reactor Greenfield Project",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server/server.js",
+    "deploy": "git push ssh://root@45.55.23.71/var/repo/site.git"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/MaxKroshka/ProfoundMongoose.git"
+    "url": "https://github.com/ProfoundMongoose/ProfoundMongoose.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/MaxKroshka/ProfoundMongoose/issues"
+    "url": "https://github.com/ProfoundMongoose/ProfoundMongoose/issues"
   },
-  "homepage": "https://github.com/MaxKroshka/ProfoundMongoose",
+  "homepage": "https://github.com/ProfoundMongoose/ProfoundMongoose",
   "dependencies": {
+    "bcrypt": "^0.8.5",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
     "gulp": "^3.9.1",
     "imgur": "^0.1.7",
     "mongoose": "^4.4.4",
+    "nodemon": "^1.9.0",
     "q": "^1.4.1",
     "request": "^2.69.0"
   }

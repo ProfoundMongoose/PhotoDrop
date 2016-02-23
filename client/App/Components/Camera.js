@@ -1,17 +1,48 @@
-'use strict';
-import React, {
-  AppRegistry,
-  Component,
+var React = require('react-native');
+// var Camera = require('react-native-camera'); // Does not work the same way line 16 does
+var api = require('../Utils/api');
+
+var {
   Dimensions,
   StyleSheet,
   Text,
-  TouchableHighlight,
-  View
-} from 'react-native';
+  View,
+  // TouchableHighlight, // not used
+  NativeModules,
+  StatusBarIOS
+} = React;
+
 import Camera from 'react-native-camera';
 
-class CameraView extends Component {
+class CameraView extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      cameraType: "back",
+      }
+    }
+
+  takePicture() {
+    this.camera.capture()
+      .then((data) => {
+        NativeModules.ReadImageData.readImage(data, (image) => {
+          api.uploadPhoto(image, this.props.latitude, this.props.longitude);
+        })
+      })
+      .catch(err => console.error('ERROR', err));
+  }
+
+  switchCamera() {
+    if(this.state.cameraType==="back") {
+      this.setState({cameraType:"front"});
+    } else if(this.state.cameraType="front") {
+      this.setState({cameraType:"back"});
+    }
+  }
+
   render() {
+    StatusBarIOS.setHidden(true, 'fade');
     return (
       <View style={styles.container}>
         <Camera
@@ -19,17 +50,13 @@ class CameraView extends Component {
             this.camera = cam;
           }}
           style={styles.preview}
-          aspect={Camera.constants.Aspect.Fill}>
+          aspect={Camera.constants.Aspect.Fill}
+          type={this.state.cameraType}>
           <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
+          <Text style={styles.capture} onPress={this.switchCamera.bind(this)}>[FLIP]</Text>
         </Camera>
       </View>
     );
-  }
-
-  takePicture() {
-    this.camera.capture()
-      .then((data) => console.log(data))
-      .catch(err => console.error(err));
   }
 }
 
@@ -50,7 +77,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     color: '#000',
     padding: 10,
-    margin: 40
+    margin: 10
   }
 });
 

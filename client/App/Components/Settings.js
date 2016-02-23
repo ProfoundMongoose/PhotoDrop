@@ -1,66 +1,104 @@
 var React = require('react-native');
+var NavigationBar = require('react-native-navbar');
+
+var Login = require('./Login');
+var PhotosView = require('./PhotosView');
 
 var {
   Text,
   View,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } = React;
 
+
+class Settings extends React.Component {
+  constructor(props) {
+    super(props);
+    this.displayName = 'Settings';
+  }
+
+  openPhotos() {
+    this.props.navigator.push({
+      component: PhotosView
+    });
+  }
+
+  openLeaderboard(){
+    this.props.navigator.push({
+      component: Leaderboard
+    })
+  }
+
+  logout() {
+    this.props.navigator.push({
+      component: Login
+    });
+  }
+
+  render() {
+    return (
+      <View style={{ flex: 1}}> 
+        <NavigationBar title={{title: 'Settings', tintColor: 'white'}} tintColor={"#FF5A5F"}/>
+
+        <View style={styles.mainContainer}>
+          <Image source={require('image!mongoose')} style={styles.image}/>
+          <TouchableHighlight
+            style={styles.button}
+            underlayColor={'#FC9396'}
+            onPress={this.openPhotos.bind(this)}>
+            <Text style={styles.buttonText}> PhotoView </Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.button}
+            underlayColor={'#FC9396'}
+            onPress={this.logout.bind(this)}>
+            <Text style={styles.buttonText}> Logout </Text>
+          </TouchableHighlight>
+        </View>
+
+      </View>
+      );
+  }
+}
 var styles = StyleSheet.create({
   container: {
-    marginTop: 65,
     flex: 1
   },
-  image: {
-    height: 350
-  },
   buttonText: {
-    fontSize: 24,
+    fontSize: 18,
     color: 'white',
     alignSelf: 'center'
   },
   button: {
     height: 45,
     flexDirection: 'row',
-    backgroundColor: 'white',
-    borderColor: 'white',
+    backgroundColor: '#FF5A5F',
+    borderColor: '#FF5A5F',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
-    marginTop: 30,
+    marginTop: 25,
     alignSelf: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center'  
   },
   mainContainer: {
     flex: 1,
     padding: 30,
-    marginTop: 65,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: '#34495e'
+  },
+  title: {
+    marginTop: 5,
+    marginBottom: 25,
+    fontSize: 25,
+    textAlign: 'center',
+  },
+  image: {
+    width: 348,
+    height: 151
   }
 });
-
-class Settings extends React.Component {
-    constructor(props) {
-        super(props);
-        this.displayName = 'Settings';
-    }
-    render() {
-        return (
-          <View style={styles.mainContainer}>
-            <Text style={styles.title}> Profound Mongoose </Text>
-            <Text style={styles.fieldTitle}> Username </Text>
-            <TouchableHighlight
-              style={styles.button}
-
-              underlayColor='white'>
-              <Text style={styles.buttonText}> Sign in </Text>
-            </TouchableHighlight>
-          </View>
-          );
-    }
-}
 
 module.exports = Settings;
