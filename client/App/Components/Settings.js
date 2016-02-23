@@ -8,7 +8,8 @@ var {
   Text,
   View,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 } = React;
 
 
@@ -38,19 +39,20 @@ class Settings extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: '#ff9900'}}> 
-        <NavigationBar title={{title: 'Settings', tintColor: 'white'}} tintColor={'black'}/>
+      <View style={{ flex: 1}}> 
+        <NavigationBar title={{title: 'Settings', tintColor: 'white'}} tintColor={"#FF5A5F"}/>
 
         <View style={styles.mainContainer}>
+          <Image source={require('image!mongoose')} style={styles.image}/>
           <TouchableHighlight
             style={styles.button}
-            underlayColor='white'
+            underlayColor={'#FC9396'}
             onPress={this.openPhotos.bind(this)}>
             <Text style={styles.buttonText}> PhotoView </Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.button}
-            underlayColor='white'
+            underlayColor={'#FC9396'}
             onPress={this.logout.bind(this)}>
             <Text style={styles.buttonText}> Logout </Text>
           </TouchableHighlight>
@@ -62,39 +64,40 @@ class Settings extends React.Component {
 }
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ff9900',
     flex: 1
   },
   buttonText: {
-    fontSize: 24,
+    fontSize: 18,
     color: 'white',
     alignSelf: 'center'
   },
   button: {
     height: 45,
     flexDirection: 'row',
-    backgroundColor: 'black',
-    borderColor: 'white',
+    backgroundColor: '#FF5A5F',
+    borderColor: '#FF5A5F',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
-    marginTop: 30,
+    marginTop: 25,
     alignSelf: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center'  
   },
   mainContainer: {
     flex: 1,
     padding: 30,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: '#34495e'
   },
   title: {
     marginTop: 5,
     marginBottom: 25,
     fontSize: 25,
     textAlign: 'center',
-    color: '#fff'
+  },
+  image: {
+    width: 348,
+    height: 151
   }
 });
 
