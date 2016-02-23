@@ -10,9 +10,9 @@ var {
 class ProfoundMongoose extends React.Component {
   render() {
     return (
-      <Navigator 
+      <Navigator
         style={styles.container}
-        initialRoute={{ 
+        initialRoute={{
           component: Main
         }}
         configureScene={(route) => {
@@ -23,10 +23,10 @@ class ProfoundMongoose extends React.Component {
         }}
         renderScene={(route, navigator) => {
           if (route.component) {
-            return React.createElement(route.component, { navigator });
+            return React.createElement(route.component, { navigator, route });
           }
-        }} 
-      />   
+        }}
+      />
     );
   }
 }
