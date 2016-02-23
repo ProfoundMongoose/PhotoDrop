@@ -46,6 +46,21 @@ var api = {
     .catch(function(err){
       console.log(err);
     });
+  },
+
+  fetchLocations(latitude, longitude, latdelta, londelta, callback) {
+    var url = 'http://localhost:8000/fetchLocations?lat='+latitude+'&lon='+longitude+'&latdelta='+latdelta+'&londelta='+londelta;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err){
+      console.log(err);
+    });
   }
 };
 

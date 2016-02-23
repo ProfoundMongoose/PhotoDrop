@@ -13,6 +13,7 @@ module.exports = function(app, express) {
     });
 
   app.get(/fetchPhotos/, photoController.fetchPhotos);
+  app.get(/fetchLocations/, photoController.fetchLocations);
 
   // Sign in and sign up routes
   app.post('/login', userController.login);

@@ -62,9 +62,7 @@ module.exports = {
   // fetch all photos from DB
   fetchPhotos: function (req, res, next) {
     var maxDistance = Number(req.query.radius);
-    var coords = [];
-    coords[0] = req.query.lon;
-    coords[1] = req.query.lat;
+    var coords = [req.query.lon, req.query.lat];
 
     getPhotos({
       loc: {
@@ -78,7 +76,40 @@ module.exports = {
       }
     })
       .then(function(photos) {
-        console.log('photos: ', photos);
+        res.status(200).send(photos);
+      })
+      .fail(function(error) {
+        console.log('error: ',error);
+        next(error);
+      });
+  },
+
+  fetchLocations: function (req, res, next) {
+    var lat = Number(req.query.lat);
+    var lon = Number(req.query.lon);
+    var latdelta = Number(req.query.latdelta);
+    var londelta = Number(req.query.londelta);
+    var coords = [[
+      [lon-londelta, lat+latdelta],
+      [lon+londelta, lat+latdelta],
+      [lon+londelta, lat-latdelta],
+      [lon-londelta, lat-latdelta],
+      [lon-londelta, lat+latdelta]
+    ]];
+    console.log('coords: ', coords);
+
+    getPhotos({
+      loc: {
+        $geoWithin: {
+          $geometry: {
+             type: "Polygon" ,
+             coordinates: coords 
+          }
+        }
+      }
+    })
+      .then(function(photos) {
+        console.log('photos polygon: ', photos);
         res.status(200).send(photos);
       })
       .fail(function(error) {

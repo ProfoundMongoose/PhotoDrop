@@ -1,6 +1,7 @@
 var React = require('react-native');
 var MapView = require('react-native-maps');
 var PhotoMarker = require('./PhotoMarker');
+var api = require('../Utils/api');
 
 var {
   StyleSheet,
@@ -32,23 +33,38 @@ class Overlays extends React.Component{
         latitudeDelta: 0.005,
         longitudeDelta: this.aspect_ratio * 0.005
       },
-      photoCount: 0
+      photoCount: 0,
+      photosLocations: undefined
     };
+
+    // need to figure out when these api methods are invoked; does not update after a picture was taken
+    api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      this.setState({photoCount: photosArr.length});
+    });
+
+    api.fetchLocations(this.state.region.latitude, this.state.region.longitude, this.state.region.latitudeDelta, this.state.region.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      var photosLoc = photosArr.map((photo) => {
+        return photo.loc.coordinates;
+      });
+      this.setState({photosLocations: photosLoc});
+    });
   }
 
   onLocationPressed() {
     navigator.geolocation.getCurrentPosition(
       location => {
         this.setState({
+          userLocation: {
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude
+          },
           region: {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
             latitudeDelta: 0.005,
             longitudeDelta: this.aspect_ratio * 0.005
-          },
-          userLocation: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude
           }
         });
       },
