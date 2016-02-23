@@ -2,7 +2,7 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
 var api = require('../Utils/api');
-var PhotoView = require('./PhotoView')
+var PhotoView = require('./PhotoView');
 
 var {
   Navigator,
@@ -41,6 +41,7 @@ class PhotosView extends React.Component{
     };
     api.fetchPhotos(LATITUDE, LONGITUDE, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
+      console.log('photosView',photosArr);
       var photosUrls = photosArr.map((photo) => {
         return photo.url;
       });
