@@ -98,10 +98,11 @@ class PhotosView extends React.Component{
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{flex: 1, backgroundColor: 'white' }}>
         <NavigationBar title={{title: 'Swipe Down to Dismiss', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
+        {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
         <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
-          {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : <ActivityIndicatorIOS size={'large'} style={styles.centering} />}
+          {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
         </ScrollView>
       </View>
     );
@@ -111,7 +112,6 @@ class PhotosView extends React.Component{
 
 var styles = StyleSheet.create({
   centering: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
