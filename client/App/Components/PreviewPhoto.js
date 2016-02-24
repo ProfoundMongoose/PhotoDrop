@@ -6,9 +6,9 @@ var {
   View,
   StyleSheet,
   Image,
-  ScrollView,
-  Text,
-  NativeModules
+  // ScrollView, // not used
+  Text
+  // NativeModules // not used
 } = React;
 
 class PreviewPhoto extends React.Component{

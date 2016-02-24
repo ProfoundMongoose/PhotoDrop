@@ -116,18 +116,26 @@ class Signup extends React.Component {
             maxLength={16}
             style={styles.searchInput}
             value={this.state.username}
-            onChange={this.handleUsernameChange.bind(this)} />
+            onChange={this.handleUsernameChange.bind(this)}
+            onSubmitEditing={(event) => { 
+              this.refs.SecondInput.focus(); 
+            }} />
           <Text style={styles.fieldTitle}> Password </Text>
           <TextInput
+            ref='SecondInput'
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
             secureTextEntry={true}
             style={styles.searchInput}
             value={this.state.password}
-            onChange={this.handlePasswordChange.bind(this)} />
+            onChange={this.handlePasswordChange.bind(this)}
+            onSubmitEditing={(event) => { 
+              this.refs.ThirdInput.focus(); 
+            }} />
           <Text style={styles.fieldTitle}> Confirm Password </Text>
           <TextInput
+            ref='ThirdInput'
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}

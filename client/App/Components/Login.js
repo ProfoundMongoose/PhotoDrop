@@ -97,9 +97,14 @@ class Login extends React.Component {
             maxLength={16}
             style={styles.searchInput}
             value={this.state.username}
-            onChange={this.handleUsernameChange.bind(this)} />
+            onChange={this.handleUsernameChange.bind(this)}
+            onSubmitEditing={(event) => { 
+              this.refs.SecondInput.focus(); 
+            }}
+             />
           <Text style={styles.fieldTitle}> Password </Text>
           <TextInput
+            ref='SecondInput'
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
