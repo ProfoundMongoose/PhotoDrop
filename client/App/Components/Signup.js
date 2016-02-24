@@ -111,16 +111,27 @@ class Signup extends React.Component {
         <View style={styles.mainContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            maxLength={16}
             style={styles.searchInput}
             value={this.state.username}
             onChange={this.handleUsernameChange.bind(this)} />
           <Text style={styles.fieldTitle}> Password </Text>
           <TextInput
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            maxLength={16}
+            secureTextEntry={true}
             style={styles.searchInput}
             value={this.state.password}
             onChange={this.handlePasswordChange.bind(this)} />
           <Text style={styles.fieldTitle}> Confirm Password </Text>
           <TextInput
+            autoCapitalize={'none'}
+            autoCorrect={false}
+            maxLength={16}
+            secureTextEntry={true}
             style={styles.searchInput}
             value={this.state.confirmedPassword}
             onChange={this.handleConfirmedPasswordChange.bind(this)} />
