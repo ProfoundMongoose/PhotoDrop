@@ -24,10 +24,10 @@ class PreviewPhoto extends React.Component{
   }
 
   render() {
+    // because we are sending the captured image in as a string we have to tell react-native how it is encoded
     return (
       <View style={styles.imageContainer}>
         <NavigationBar title={{title: 'Swipe Down to Dismiss', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
-        // because we are sending the captured image in as a string we have to tell react-native how it is encoded
         <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}} />
         <Text style={styles.capture} onPress={this.sendImage.bind(this)}>"UPLOAD!!"</Text>
       </View>
