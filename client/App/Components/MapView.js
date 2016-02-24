@@ -79,6 +79,10 @@ class Overlays extends React.Component{
 
   onRegionChange(region) {
     this.setState({ region });
+    api.fetchLocations(this.state.region.latitude, this.state.region.longitude, this.state.region.latitudeDelta, this.state.region.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      this.setState({photosLocations: photosArr});
+    });
   }
 
   render() {

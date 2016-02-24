@@ -12,7 +12,8 @@ class PhotoView extends React.Component{
   constructor(props) {
     super(props);
     console.log('render PhotoView')
-    console.log('props.uri:', this.props.route.uri)
+    console.log('props.uri:', this.props.route.uri);
+    console.log('photos', this.props.route.photos);
   }
 
   render() {

@@ -64,11 +64,13 @@ class PhotosView extends React.Component{
   }
 
   // function that returns a function that knows the correct uri to render
-  showImageFullscreen(uri) {
+  showImageFullscreen(uri, index) {
     return () => {
       console.log(uri);
       this.props.navigator.push({
         component: PhotoView,
+        index: index,
+        photos: this.state.photosUrls,
         uri: uri,
         width: this.state.currentScreenWidth,
         sceneConfig: Navigator.SceneConfigs.FloatFromBottom
@@ -77,10 +79,10 @@ class PhotosView extends React.Component{
   }
 
   renderRow(images) {
-    return images.map((uri) => {
+    return images.map((uri, index) => {
       return (
         // Hardcoded key value for each element below to dismiss eror message
-        <TouchableHighlight onPress={this.showImageFullscreen(uri)}>
+        <TouchableHighlight onPress={this.showImageFullscreen(uri, index)}>
           <Image key={Math.random()} style={[styles.image, this.calculatedSize()]} source={{uri: uri}} />
         </TouchableHighlight>
       )
