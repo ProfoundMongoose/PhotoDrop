@@ -9,9 +9,9 @@ var MapView = require('./MapView');
 var {
  StyleSheet,
  Dimensions,
- StatusBarIOS
+ StatusBarIOS,
  // Text, // not used
- // View // not used
+ View
 } = React;
 
 class SwiperView extends React.Component{
@@ -20,12 +20,9 @@ class SwiperView extends React.Component{
     this.state = {
       width:  Dimensions.get('window').width,
       height:  Dimensions.get('window').height,
-      latitude: 37.78379, //set arbitrary starting value so react can render immediatedly without an error
-      longitude: -122.4089 //set arbitrary starting value so react can render immediatedly without an error
+      latitude: 37.78379, 
+      longitude: -122.4089
     }
-  }
-
-  componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       location => {
         this.setState({
@@ -34,6 +31,7 @@ class SwiperView extends React.Component{
       });
     });
   }
+
 
   _onMomentumScrollEnd (e, state, context) {
     if(state.index===1 || state.index===2) {
@@ -45,6 +43,7 @@ class SwiperView extends React.Component{
   }
 
  render () {
+  if(this.state.latitude && this.state.longitude){
    return (
    	<Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={1} onMomentumScrollEnd ={this._onMomentumScrollEnd}>
        <Settings navigator={this.props.navigator}/>
@@ -52,7 +51,10 @@ class SwiperView extends React.Component{
        <MapView navigator={this.props.navigator} params={this.state}/>
      </Swiper>
    )
+ } else {
+  return <View></View>
  }
+}
 }
 
 var styles = StyleSheet.create({

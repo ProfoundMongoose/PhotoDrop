@@ -1,5 +1,5 @@
 var React = require('react-native');
-var Main = require('./App/Components/Main');
+var Login = require('./App/Components/Login');
 
 var {
   AppRegistry,
@@ -13,7 +13,7 @@ class ProfoundMongoose extends React.Component {
       <Navigator
         style={styles.container}
         initialRoute={{
-          component: Main
+          component: Login
         }}
         configureScene={(route) => {
           if (route.sceneConfig) {

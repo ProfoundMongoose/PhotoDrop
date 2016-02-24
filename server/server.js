@@ -7,10 +7,9 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true }));
 
-mongoose.connect('mongodb://127.0.0.1/profoundmongoose');
+mongoose.connect('mongodb://localhost/profoundmongoose');
 
 require('./config/routes.js')(app, express);
 
-app.listen(8000, '127.0.0.1', function() {
+app.listen(8000);
   console.log('Starting server. Listening on 8000');
-});
