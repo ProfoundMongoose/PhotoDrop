@@ -10,7 +10,6 @@ var {
  StyleSheet,
  Dimensions,
  StatusBarIOS,
- // Text, // not used
  View
 } = React;
 

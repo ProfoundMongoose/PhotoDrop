@@ -6,16 +6,14 @@ var {
   View,
   StyleSheet,
   Image,
-  ScrollView,
-  Text,
-  NativeModules
+  // ScrollView, // not used
+  Text
+  // NativeModules // not used
 } = React;
 
 class PreviewPhoto extends React.Component{
   constructor(props) {
     super(props);
-    console.log('render PreviewPhoto')
-    console.log('props.data:', this.props.route.data)
   }
 
   sendImage() {
