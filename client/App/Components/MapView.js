@@ -124,11 +124,7 @@ class Overlays extends React.Component{
            )}
           )
         }
-
-          <MapView.Marker coordinate={this.state.region}> 
-            <PhotoMarker amount={this.state.photoCount} navigator={this.props.navigator}/>
-          </MapView.Marker>
-
+        
           <MapView.Circle
             center={this.state.region} //TODO: Needs Fixing
             radius={50} //TODO: calculate how big it should be
