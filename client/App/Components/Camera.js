@@ -22,7 +22,7 @@ class CameraView extends React.Component {
     super(props);
     this.state = {
       cameraType: Camera.constants.Type.back,
-      cameraFlashToggle: Camera.constants.FlashMode.on,
+      cameraFlashToggle: Camera.constants.FlashMode.off,
       handleFocusChanged: () => {}
       }
     }
@@ -63,7 +63,7 @@ class CameraView extends React.Component {
   }
 
   render() {
-    StatusBarIOS.setHidden(true, 'fade');
+    StatusBarIOS.setHidden(true);
     return (
       <View >
         <Camera

@@ -46,7 +46,7 @@ class Login extends React.Component {
       .then((res) => {
         if(res.status === 500){
           this.setState({
-             error: 'User not found',
+             error: 'Username or password is incorrect',
              isLoading: false
            });
         } else {
@@ -127,8 +127,8 @@ class Login extends React.Component {
 
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
-            color='#111'
-            size='large' />
+            size='large' 
+            style={styles.loading} />
           
           {showErr}
 
@@ -193,6 +193,9 @@ var styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     textDecorationLine: 'underline'
+  },
+  loading: {
+    marginTop: 20
   },
   err: {
     textAlign: 'center'

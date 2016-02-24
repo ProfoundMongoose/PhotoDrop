@@ -2,6 +2,7 @@ var React = require('react-native');
 var MapView = require('react-native-maps');
 var PhotoMarker = require('./PhotoMarker');
 var PhotoView = require('./PhotoView');
+var PhotosView = require('./PhotosView');
 var api = require('../Utils/api');
 var _ = require('lodash');
 
@@ -64,8 +65,6 @@ class Overlays extends React.Component{
           region: {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: this.aspect_ratio * 0.005
           }
         });
       },
@@ -114,20 +113,21 @@ class Overlays extends React.Component{
           style={styles.map}
           region={this.state.region}
           showsUserLocation={true}
-          showsCompass={true}
           scrollEnabled={false}
           zoomEnabled={false}
           onRegionChange={this.onRegionChange.bind(this)}
+          rotateEnabled={false}
+          followUserLocation={true}
         >
-        { this.state.photosLocations.map((photoLocation) => {
-            return (
-             <MapView.Marker image={require('../Components/assets/rsz_pin.png')} onPress={this.showImage(photoLocation.url)}
-               coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
-             />
-           )}
-          )
-        }
-        
+          { this.state.photosLocations.map((photoLocation) => {
+              return (
+               <MapView.Marker image={require('../Components/assets/rsz_pin.png')} onPress={this.showImage(photoLocation.url)}
+                 coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
+               />
+             )}
+            )
+          }
+
           <MapView.Circle
             center={this.state.region} //TODO: Needs Fixing
             radius={50} //TODO: calculate how big it should be
