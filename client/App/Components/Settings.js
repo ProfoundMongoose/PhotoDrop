@@ -46,7 +46,7 @@ class Settings extends React.Component {
             style={styles.button}
             underlayColor={'#FC9396'}
             onPress={this.openPhotos.bind(this)}>
-            <Text style={styles.buttonText}> PhotoView </Text>
+            <Text style={styles.buttonText}> PhotosView </Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.button}
@@ -86,6 +86,7 @@ var styles = StyleSheet.create({
     padding: 30,
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     marginTop: 5,
@@ -94,8 +95,8 @@ var styles = StyleSheet.create({
     textAlign: 'center',
   },
   image: {
-    width: 348,
-    height: 300
+    width: 300,
+    height: 300,
   }
 });
 

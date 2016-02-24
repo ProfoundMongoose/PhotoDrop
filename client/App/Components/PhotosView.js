@@ -2,12 +2,13 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
 var api = require('../Utils/api');
-var PhotoView = require('./PhotoView');
+var PhotoSwiperView = require('./PhotoSwiperView');
 
 var {
   Navigator,
   StyleSheet,
   View,
+  Text,
   Dimensions,
   Image,
   ScrollView,
@@ -32,7 +33,6 @@ var IMAGES_PER_ROW = 3
 
 class PhotosView extends React.Component{
   constructor(props) {
-    console.log('changes reflected')
     super(props);
     this.state = {
       currentScreenWidth: width,
@@ -41,7 +41,6 @@ class PhotosView extends React.Component{
     };
     api.fetchPhotos(LATITUDE, LONGITUDE, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      console.log('photosView',photosArr);
       var photosUrls = photosArr.map((photo) => {
         return photo.url;
       });
@@ -49,8 +48,9 @@ class PhotosView extends React.Component{
     })
   }
 
-  componentWillUnmount() {
-    StatusBarIOS.setHidden(true, 'fade');
+  componentWillUnmount() { //this is just for displaying the statusbar in settings. When the photosview button is removed from settings and is added to the map marker, delete this
+    StatusBarIOS.setStyle('light-content');
+    StatusBarIOS.setHidden(false);
   }
 
   handleRotation(event) {
@@ -64,11 +64,14 @@ class PhotosView extends React.Component{
   }
 
   // function that returns a function that knows the correct uri to render
-  showImageFullscreen(uri) {
+  showImageFullscreen(uri, index) {
     return () => {
       console.log(uri);
+      console.log(this.state.imageUrls);
       this.props.navigator.push({
-        component: PhotoView,
+        component: PhotoSwiperView,
+        index: index,
+        photos: this.state.imageUrls,
         uri: uri,
         width: this.state.currentScreenWidth,
         sceneConfig: Navigator.SceneConfigs.FloatFromBottom
@@ -77,11 +80,11 @@ class PhotosView extends React.Component{
   }
 
   renderRow(images) {
-    return images.map((uri) => {
+    return images.map((uri, index) => {
       return (
         // Hardcoded key value for each element below to dismiss eror message
-        <TouchableHighlight onPress={this.showImageFullscreen(uri)}>
-          <Image key={Math.random()} style={[styles.image, this.calculatedSize()]} source={{uri: uri}} />
+        <TouchableHighlight onPress={this.showImageFullscreen(uri, index)}>
+          <Image style={[styles.image, this.calculatedSize()]} source={{uri: uri}} />
         </TouchableHighlight>
       )
     })
@@ -104,6 +107,7 @@ class PhotosView extends React.Component{
         {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
         <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
           {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
+          {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={[styles.centering, {height: 50}]}>There are no photos in this area</Text> : null}
         </ScrollView>
       </View>
     );

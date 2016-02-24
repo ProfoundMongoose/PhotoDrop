@@ -114,25 +114,33 @@ class Signup extends React.Component {
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
-            style={styles.searchInput}
+            style={styles.userInput}
             value={this.state.username}
-            onChange={this.handleUsernameChange.bind(this)} />
+            onChange={this.handleUsernameChange.bind(this)}
+            onSubmitEditing={(event) => { 
+              this.refs.SecondInput.focus(); 
+            }} />
           <Text style={styles.fieldTitle}> Password </Text>
           <TextInput
+            ref='SecondInput'
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
             secureTextEntry={true}
-            style={styles.searchInput}
+            style={styles.userInput}
             value={this.state.password}
-            onChange={this.handlePasswordChange.bind(this)} />
+            onChange={this.handlePasswordChange.bind(this)}
+            onSubmitEditing={(event) => { 
+              this.refs.ThirdInput.focus(); 
+            }} />
           <Text style={styles.fieldTitle}> Confirm Password </Text>
           <TextInput
+            ref='ThirdInput'
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
             secureTextEntry={true}
-            style={styles.searchInput}
+            style={styles.userInput}
             value={this.state.confirmedPassword}
             onChange={this.handleConfirmedPasswordChange.bind(this)} />
           <TouchableHighlight
@@ -148,7 +156,9 @@ class Signup extends React.Component {
           </TouchableHighlight>
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
-            size='large' />
+            size='large'
+            style={styles.loading} 
+            />
           
           {showErr}
           {showPasswordErr}
@@ -174,10 +184,9 @@ var styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
   },
-  searchInput: {
+  userInput: {
     height: 50,
     padding: 4,
-    marginRight: 5,
     fontSize: 18,
     borderWidth: 1,
     borderColor: 'grey',
@@ -206,6 +215,9 @@ var styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     textDecorationLine: 'underline'
+  },
+  loading: {
+    marginTop: 20
   },
   err: {
     textAlign: 'center'

@@ -13,7 +13,6 @@ var {
   ActivityIndicatorIOS, 
 } = React;
 
-
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -46,13 +45,17 @@ class Login extends React.Component {
       .then((res) => {
         if(res.status === 500){
           this.setState({
-             error: 'User not found',
+             error: 'Username or password is incorrect',
              isLoading: false
            });
         } else {
+<<<<<<< HEAD
           console.log('res: ', res);
           var user = JSON.parse(res._bodyInit);
           console.log('user: ',user);
+=======
+          console.log(res);
+>>>>>>> 571a15e02a5ea72ceca96aafee28961c68737574
           this.props.navigator.push({
             title: res.name || 'Select an Option',
             component: Main,
@@ -98,16 +101,21 @@ class Login extends React.Component {
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
-            style={styles.searchInput}
+            style={styles.userInput}
             value={this.state.username}
-            onChange={this.handleUsernameChange.bind(this)} />
+            onChange={this.handleUsernameChange.bind(this)}
+            onSubmitEditing={(event) => { 
+              this.refs.SecondInput.focus(); 
+            }}
+             />
           <Text style={styles.fieldTitle}> Password </Text>
           <TextInput
+            ref='SecondInput'
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
             secureTextEntry={true}
-            style={styles.searchInput}
+            style={styles.userInput}
             value={this.state.password}
             onChange={this.handlePasswordChange.bind(this)} />
           <TouchableHighlight
@@ -125,15 +133,12 @@ class Login extends React.Component {
 
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
-            color='#111'
-            size='large' />
+            size='large' 
+            style={styles.loading} />
           
           {showErr}
-
         </View>
-
       </View>
-
     )
   }
 }
@@ -159,10 +164,9 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black'
   },
-  searchInput: {
+  userInput: {
     height: 50,
     padding: 4,
-    marginRight: 5,
     fontSize: 18,
     borderWidth: 1,
     borderColor: 'grey',
@@ -191,6 +195,9 @@ var styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     textDecorationLine: 'underline'
+  },
+  loading: {
+    marginTop: 20
   },
   err: {
     textAlign: 'center'

@@ -454,7 +454,11 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+<<<<<<< HEAD
 						DevelopmentTeam = B66CHZ7HV4;
+=======
+						DevelopmentTeam = RBZ2HR287A;
+>>>>>>> 571a15e02a5ea72ceca96aafee28961c68737574
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
