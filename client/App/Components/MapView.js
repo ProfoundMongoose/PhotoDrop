@@ -60,6 +60,7 @@ class Overlays extends React.Component{
   }
 
   onCirclePressed() {
+    console.log('circle pressed!')
     this.props.navigator.push({
       sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
       component: PhotosView
@@ -139,6 +140,7 @@ class Overlays extends React.Component{
               strokeColor="rgba(0,0,0,0.5)"
               onPress={this.onCirclePressed.bind(this)}
             />
+
 
         </MapView>
 
