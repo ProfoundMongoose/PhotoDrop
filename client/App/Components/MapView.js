@@ -48,7 +48,6 @@ class Overlays extends React.Component{
 
   showImage(uri) {
     return () => {
-      console.log(uri);
       this.props.navigator.push({
         component: PhotoView,
         uri: uri,

@@ -14,8 +14,6 @@ var {
 class PreviewPhoto extends React.Component{
   constructor(props) {
     super(props);
-    console.log('render PreviewPhoto')
-    console.log('props.data:', this.props.route.data)
   }
 
   sendImage() {

@@ -2,7 +2,7 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
 var api = require('../Utils/api');
-var PhotoView = require('./PhotoView');
+var PhotoSwipperView = require('./PhotoSwipperView');
 
 var {
   Navigator,
@@ -32,7 +32,6 @@ var IMAGES_PER_ROW = 3
 
 class PhotosView extends React.Component{
   constructor(props) {
-    console.log('changes reflected')
     super(props);
     this.state = {
       currentScreenWidth: width,
@@ -41,7 +40,6 @@ class PhotosView extends React.Component{
     };
     api.fetchPhotos(LATITUDE, LONGITUDE, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      console.log('photosView',photosArr);
       var photosUrls = photosArr.map((photo) => {
         return photo.url;
       });
@@ -67,10 +65,11 @@ class PhotosView extends React.Component{
   showImageFullscreen(uri, index) {
     return () => {
       console.log(uri);
+      console.log(this.state.imageUrls);
       this.props.navigator.push({
-        component: PhotoView,
+        component: PhotoSwipperView,
         index: index,
-        photos: this.state.photosUrls,
+        photos: this.state.imageUrls,
         uri: uri,
         width: this.state.currentScreenWidth,
         sceneConfig: Navigator.SceneConfigs.FloatFromBottom
@@ -83,7 +82,7 @@ class PhotosView extends React.Component{
       return (
         // Hardcoded key value for each element below to dismiss eror message
         <TouchableHighlight onPress={this.showImageFullscreen(uri, index)}>
-          <Image key={Math.random()} style={[styles.image, this.calculatedSize()]} source={{uri: uri}} />
+          <Image style={[styles.image, this.calculatedSize()]} source={{uri: uri}} />
         </TouchableHighlight>
       )
     })
