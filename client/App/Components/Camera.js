@@ -21,7 +21,8 @@ class CameraView extends React.Component {
     super(props);
     this.state = {
       cameraType: Camera.constants.Type.back,
-      cameraFlashToggle: Camera.constants.FlashMode.on
+      cameraFlashToggle: Camera.constants.FlashMode.on,
+      handleFocusChanged: () => {}
       }
     }
 
@@ -66,7 +67,9 @@ class CameraView extends React.Component {
           style={styles.preview}
           aspect={Camera.constants.Aspect.Fill}
           type={this.state.cameraType}
-          flashMode={this.state.cameraFlashToggle}>
+          flashMode={this.state.cameraFlashToggle}
+          defaultOnFocusComponent={ true } 
+          onFocusChanged={ this.state.handleFocusChanged }>
 
           <View style={styles.buttonContainer}>
             <TouchableHighlight onPress={this.switchCamera.bind(this)} style={styles.switchButton}>
@@ -142,8 +145,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#ffffff',
-    marginLeft: 80,
-    marginTop: -10
+    marginLeft: 70,
+    marginTop: 10
   },
   switchIcon:{
     width:15,
@@ -158,7 +161,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#ffffff',
-    marginLeft: -240,
+    marginLeft: -230,
     marginTop: -30,
     paddingLeft:7
   },
