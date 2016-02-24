@@ -50,10 +50,13 @@ class Login extends React.Component {
              isLoading: false
            });
         } else {
+          console.log('res: ', res);
+          var user = JSON.parse(res._bodyInit);
+          console.log('user: ',user);
           this.props.navigator.push({
             title: res.name || 'Select an Option',
             component: Main,
-            passProps: {userInfo: res}
+            userId: user['_id']
           });
           this.setState({
             isLoading: false,
@@ -61,13 +64,13 @@ class Login extends React.Component {
             username: '',
             password: ''
           });
-          }
-        }).catch((err) => {
-           this.setState({
-             error: 'User not found' + err,
-             isLoading: false
-           });
-        });
+        }
+      }).catch((err) => {
+         this.setState({
+           error: 'User not found' + err,
+           isLoading: false
+         });
+      });
     }
 
   handleRedirect() {

@@ -35,7 +35,8 @@ class CameraView extends React.Component {
             component: PreviewPhoto,
             image64: image,
             latitude: this.props.latitude,
-            longitude: this.props.longitude
+            longitude: this.props.longitude,
+            userId: this.props.userId
           })
         })
       })

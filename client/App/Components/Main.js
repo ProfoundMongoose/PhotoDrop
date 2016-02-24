@@ -1,10 +1,8 @@
 var React = require('react-native');
 var Swiper = require('react-native-swiper');
-
 var Settings = require('./Settings');
 var Camera = require('./Camera');
 var MapView = require('./MapView');
-
 
 var {
  StyleSheet,
@@ -15,14 +13,15 @@ var {
 } = React;
 
 class SwiperView extends React.Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       width:  Dimensions.get('window').width,
       height:  Dimensions.get('window').height,
       latitude: 37.78379, 
       longitude: -122.4089
     }
+    
     navigator.geolocation.getCurrentPosition(
       location => {
         this.setState({
@@ -31,7 +30,6 @@ class SwiperView extends React.Component{
       });
     });
   }
-
 
   _onMomentumScrollEnd (e, state, context) {
     if(state.index===1 || state.index===2) {
@@ -44,17 +42,16 @@ class SwiperView extends React.Component{
 
  render () {
   if(this.state.latitude && this.state.longitude){
-   return (
-   	<Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={1} onMomentumScrollEnd ={this._onMomentumScrollEnd}>
+    return (
+    	<Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={1} onMomentumScrollEnd={this._onMomentumScrollEnd}>
        <Settings navigator={this.props.navigator}/>
-       <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude}/>
+       <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude} userId={this.props.route.userId}/>
        <MapView navigator={this.props.navigator} params={this.state}/>
      </Swiper>
-   )
- } else {
-  return <View></View>
- }
-}
+    )} else {
+      return <View></View>
+    }
+  }
 }
 
 var styles = StyleSheet.create({
