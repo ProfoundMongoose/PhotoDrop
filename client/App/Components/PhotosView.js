@@ -8,6 +8,7 @@ var {
   Navigator,
   StyleSheet,
   View,
+  Text,
   Dimensions,
   Image,
   ScrollView,
@@ -106,6 +107,7 @@ class PhotosView extends React.Component{
         {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
         <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
           {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
+          {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={[styles.centering, {height: 50}]}>There are no photos in this area</Text> : null}
         </ScrollView>
       </View>
     );
