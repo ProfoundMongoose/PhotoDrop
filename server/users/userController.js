@@ -18,8 +18,13 @@ module.exports = {
           return user.comparePasswords(password)
             .then(function(foundUser) {
               if (foundUser) {
+<<<<<<< 6d4fe86fabf6971f591659c706bce4f6f4bd1df3
                 // res.status(200).send(user._id);
                 res.json(user._id);
+=======
+                console.log('user: ',user);
+                res.status(200).send(user);
+>>>>>>> Refactor photoModel to include userId
               } else {
                 return next(new Error('No user'));
               }

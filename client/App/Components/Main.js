@@ -1,6 +1,9 @@
 var React = require('react-native');
 var Swiper = require('react-native-swiper');
+<<<<<<< 6d4fe86fabf6971f591659c706bce4f6f4bd1df3
 var IconIon = require('react-native-vector-icons/Ionicons');
+=======
+>>>>>>> Refactor photoModel to include userId
 var Settings = require('./Settings');
 var Camera = require('./Camera');
 var MapView = require('./MapView');
@@ -33,10 +36,13 @@ class SwiperView extends React.Component{
     });
   }
 
+<<<<<<< 6d4fe86fabf6971f591659c706bce4f6f4bd1df3
   componentDidMount() {
     StatusBarIOS.setHidden(true);
   }
 
+=======
+>>>>>>> Refactor photoModel to include userId
   _onMomentumScrollEnd (e, state, context) {
     if(state.index===0) {
       this.setState({index: 0});
@@ -54,6 +60,7 @@ class SwiperView extends React.Component{
 
  render () {
   if(this.state.latitude && this.state.longitude){
+<<<<<<< 6d4fe86fabf6971f591659c706bce4f6f4bd1df3
    return (
    	<Swiper style={styles.wrapper} 
       showsButtons={this.state.showButtons} 
@@ -68,6 +75,13 @@ class SwiperView extends React.Component{
       <Settings navigator={this.props.navigator} />
       <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude} userId={this.props.route.userId}/>
       <MapView navigator={this.props.navigator} params={this.state} showsButtons={false}/>
+=======
+    return (
+    	<Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={1} onMomentumScrollEnd={this._onMomentumScrollEnd}>
+       <Settings navigator={this.props.navigator}/>
+       <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude} userId={this.props.route.userId}/>
+       <MapView navigator={this.props.navigator} params={this.state}/>
+>>>>>>> Refactor photoModel to include userId
      </Swiper>
     )} else {
       return <View></View>

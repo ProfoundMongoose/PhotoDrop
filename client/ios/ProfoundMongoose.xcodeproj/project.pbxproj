@@ -454,11 +454,15 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
+<<<<<<< 6d4fe86fabf6971f591659c706bce4f6f4bd1df3
 <<<<<<< HEAD
 						DevelopmentTeam = B66CHZ7HV4;
 =======
 						DevelopmentTeam = RBZ2HR287A;
 >>>>>>> 571a15e02a5ea72ceca96aafee28961c68737574
+=======
+						DevelopmentTeam = B66CHZ7HV4;
+>>>>>>> Refactor photoModel to include userId
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
