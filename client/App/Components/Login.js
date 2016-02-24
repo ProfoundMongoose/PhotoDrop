@@ -46,7 +46,7 @@ class Login extends React.Component {
       .then((res) => {
         if(res.status === 500){
           this.setState({
-             error: 'User not found',
+             error: 'Username or password is incorrect',
              isLoading: false
            });
         } else {

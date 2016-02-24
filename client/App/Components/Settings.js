@@ -95,9 +95,7 @@ var styles = StyleSheet.create({
   },
   image: {
     width: 348,
-    height: 300,
-    justifyContent: 'center',
-    alignItems: 'center'
+    height: 300
   }
 });
 
