@@ -95,7 +95,7 @@ class Login extends React.Component {
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
-            style={styles.searchInput}
+            style={styles.userInput}
             value={this.state.username}
             onChange={this.handleUsernameChange.bind(this)}
             onSubmitEditing={(event) => { 
@@ -109,7 +109,7 @@ class Login extends React.Component {
             autoCorrect={false}
             maxLength={16}
             secureTextEntry={true}
-            style={styles.searchInput}
+            style={styles.userInput}
             value={this.state.password}
             onChange={this.handlePasswordChange.bind(this)} />
           <TouchableHighlight
@@ -161,15 +161,16 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black'
   },
-  searchInput: {
+  userInput: {
     height: 50,
     padding: 4,
-    marginRight: 5,
     fontSize: 18,
     borderWidth: 1,
     borderColor: 'grey',
     borderRadius: 8,
-    color: 'black'
+    color: 'black',
+    // alignSelf: 'stretch',
+    // justifyContent: 'center'
   },
   buttonText: {
     fontSize: 18,
