@@ -4,6 +4,7 @@ var Icon = require('react-native-vector-icons/FontAwesome');
 var IconIon = require('react-native-vector-icons/Ionicons');
 
 var api = require('../Utils/api');
+var PreviewPhoto = require('./PreviewPhoto')
 
 var {
   Dimensions,
@@ -30,7 +31,12 @@ class CameraView extends React.Component {
     this.camera.capture()
       .then((data) => {
         NativeModules.ReadImageData.readImage(data, (image) => {
-          api.uploadPhoto(image, this.props.latitude, this.props.longitude);
+          this.props.navigator.push({
+            component: PreviewPhoto,
+            image64: image,
+            latitude: this.props.latitude,
+            longitude: this.props.longitude
+          })
         })
       })
       .catch(err => console.error('ERROR', err));

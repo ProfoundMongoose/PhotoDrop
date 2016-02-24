@@ -47,7 +47,7 @@ class SwiperView extends React.Component{
    return (
    	<Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={1} onMomentumScrollEnd ={this._onMomentumScrollEnd}>
        <Settings navigator={this.props.navigator}/>
-       <Camera latitude={this.state.latitude} longitude={this.state.longitude}/>
+       <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude}/>
        <MapView navigator={this.props.navigator} params={this.state}/>
      </Swiper>
    )
