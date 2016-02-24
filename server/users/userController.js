@@ -18,7 +18,8 @@ module.exports = {
           return user.comparePasswords(password)
             .then(function(foundUser) {
               if (foundUser) {
-                res.json();
+                console.log('user: ',user);
+                res.status(200).send(user);
               } else {
                 return next(new Error('No user'));
               }
