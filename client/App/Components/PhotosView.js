@@ -2,7 +2,7 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
 var api = require('../Utils/api');
-var PhotoSwipperView = require('./PhotoSwipperView');
+var PhotoSwiperView = require('./PhotoSwiperView');
 
 var {
   Navigator,
@@ -68,7 +68,7 @@ class PhotosView extends React.Component{
       console.log(uri);
       console.log(this.state.imageUrls);
       this.props.navigator.push({
-        component: PhotoSwipperView,
+        component: PhotoSwiperView,
         index: index,
         photos: this.state.imageUrls,
         uri: uri,
