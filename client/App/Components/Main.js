@@ -11,7 +11,6 @@ var {
  StyleSheet,
  Dimensions,
  StatusBarIOS,
- Text, // not used
  View
 } = React;
 
@@ -48,23 +47,15 @@ class SwiperView extends React.Component{
       StatusBarIOS.setHidden(false, 'fade');
       StatusBarIOS.setStyle('light-content');
     } else if(state.index===1) {
-      // StatusBarIOS.setStyle('light-content');
-      // StatusBarIOS.setHidden(true);
       this.setState({index: 1});
       this.setState({showButtons: true});
     } else if(state.index===2) {
       this.setState({index: 2});
       this.setState({showButtons: false});
-      // StatusBarIOS.setHidden(false);
-      // StatusBarIOS.setStyle('default');
     }
   }
 
  render () {
-  // StatusBarIOS.setHidden(false);
-  // StatusBarIOS.setStyle('light-content');
-
-
   if(this.state.latitude && this.state.longitude){
    return (
    	<Swiper style={styles.wrapper} 
@@ -88,16 +79,9 @@ class SwiperView extends React.Component{
 }
 }
 
-var styles = StyleSheet.create({
+var styles = StyleSheet.create({ //not used for now
  wrapper: {
  },
- preButton: {
-
- },
- nextButton: {
-
- }
-
 })
 
 module.exports = SwiperView;

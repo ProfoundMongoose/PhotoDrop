@@ -148,7 +148,9 @@ class Signup extends React.Component {
           </TouchableHighlight>
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
-            size='large' />
+            size='large'
+            style={styles.loading} 
+            />
           
           {showErr}
           {showPasswordErr}
@@ -206,6 +208,9 @@ var styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     textDecorationLine: 'underline'
+  },
+  loading: {
+    marginTop: 20
   },
   err: {
     textAlign: 'center'

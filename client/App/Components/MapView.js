@@ -59,14 +59,6 @@ class Overlays extends React.Component{
     }
   }
 
-  onCirclePressed() {
-    console.log('circle pressed!')
-    this.props.navigator.push({
-      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-      component: PhotosView
-    });
-  }
-
   onLocationPressed() {
     navigator.geolocation.getCurrentPosition(
       location => {
@@ -133,14 +125,12 @@ class Overlays extends React.Component{
             )
           }
 
-            <MapView.Circle
-              center={this.state.region} //TODO: Needs Fixing
-              radius={50} //TODO: calculate how big it should be
-              fillColor="rgba(200, 0, 0, 0.5)"
-              strokeColor="rgba(0,0,0,0.5)"
-              onPress={this.onCirclePressed.bind(this)}
-            />
-
+          <MapView.Circle
+            center={this.state.region} //TODO: Needs Fixing
+            radius={50} //TODO: calculate how big it should be
+            fillColor="rgba(200, 0, 0, 0.5)"
+            strokeColor="rgba(0,0,0,0.5)"
+          />
 
         </MapView>
 

@@ -52,7 +52,6 @@ class PhotosView extends React.Component{
   componentWillUnmount() { //this is just for displaying the statusbar in settings. When the photosview button is removed from settings and is added to the map marker, delete this
     StatusBarIOS.setStyle('light-content');
     StatusBarIOS.setHidden(false);
-
   }
 
   handleRotation(event) {

@@ -122,8 +122,8 @@ class Login extends React.Component {
 
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
-            color='#111'
-            size='large' />
+            size='large' 
+            style={styles.loading} />
           
           {showErr}
 
@@ -188,6 +188,9 @@ var styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     textDecorationLine: 'underline'
+  },
+  loading: {
+    marginTop: 20
   },
   err: {
     textAlign: 'center'
