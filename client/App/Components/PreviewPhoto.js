@@ -6,7 +6,9 @@ var {
   View,
   StyleSheet,
   Image,
-  ScrollView
+  ScrollView,
+  Text,
+  NativeModules
 } = React;
 
 class PreviewPhoto extends React.Component{
@@ -17,17 +19,17 @@ class PreviewPhoto extends React.Component{
   }
 
   sendImage() {
-    NativeModules.ReadImageData.readImage(data, (image) => {
-      api.uploadPhoto(image, this.props.latitude, this.props.longitude);
-    })
+      api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude);
+      this.props.navigator.pop();
   }
 
   render() {
     return (
       <View style={styles.imageContainer}>
         <NavigationBar title={{title: 'Swipe Down to Dismiss', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
+        // because we are sending the captured image in as a string we have to tell react-native how it is encoded
         <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}} />
-        <Text style={styles.capture} onPress={this.takePicture.bind(this)}>[CAPTURE]</Text>
+        <Text style={styles.capture} onPress={this.sendImage.bind(this)}>"UPLOAD!!"</Text>
       </View>
     )
   }

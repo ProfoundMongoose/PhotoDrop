@@ -10,8 +10,7 @@ var {
   View,
   // TouchableHighlight, // not used
   NativeModules,
-  StatusBarIOS,
-  Navigator
+  StatusBarIOS
 } = React;
 
 import Camera from 'react-native-camera';
@@ -24,16 +23,7 @@ class CameraView extends React.Component {
       cameraType: "back",
       }
     }
-  //
-  // takePicture() {
-  //   this.camera.capture()
-  //     .then((data) => {
-  //       // send data into PreviewPhoto so hopefully it can render the image
-  //       console.log('MADE IT INTO THENNNNNNNNNNNNN', data)
-  //
-  //       })
-  //     .catch(err => console.error('ERROR', err));
-  // }
+
   takePicture() {
     this.camera.capture()
       .then((data) => {
@@ -41,6 +31,8 @@ class CameraView extends React.Component {
           this.props.navigator.push({
             component: PreviewPhoto,
             image64: image,
+            latitude: this.props.latitude,
+            longitude: this.props.longitude
           })
         })
       })
