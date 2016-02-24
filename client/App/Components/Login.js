@@ -13,7 +13,6 @@ var {
   ActivityIndicatorIOS, 
 } = React;
 
-
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -50,6 +49,7 @@ class Login extends React.Component {
              isLoading: false
            });
         } else {
+          console.log(res);
           this.props.navigator.push({
             title: res.name || 'Select an Option',
             component: Main,
@@ -95,7 +95,7 @@ class Login extends React.Component {
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
-            style={styles.searchInput}
+            style={styles.userInput}
             value={this.state.username}
             onChange={this.handleUsernameChange.bind(this)}
             onSubmitEditing={(event) => { 
@@ -109,7 +109,7 @@ class Login extends React.Component {
             autoCorrect={false}
             maxLength={16}
             secureTextEntry={true}
-            style={styles.searchInput}
+            style={styles.userInput}
             value={this.state.password}
             onChange={this.handlePasswordChange.bind(this)} />
           <TouchableHighlight
@@ -131,11 +131,8 @@ class Login extends React.Component {
             style={styles.loading} />
           
           {showErr}
-
         </View>
-
       </View>
-
     )
   }
 }
@@ -161,10 +158,9 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: 'black'
   },
-  searchInput: {
+  userInput: {
     height: 50,
     padding: 4,
-    marginRight: 5,
     fontSize: 18,
     borderWidth: 1,
     borderColor: 'grey',
