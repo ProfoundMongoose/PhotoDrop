@@ -16,19 +16,19 @@ var api = {
     });
   },
 
-  uploadPhoto(data, latitude, longitude) {
+  uploadPhoto(data, latitude, longitude, userId) {
     var url = 'http://162.243.130.124:8000/imgUpload';
     return fetch(url, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type' : 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         data: data,
-        // loc: [longitude, latitude]
         latitude: latitude,
         longitude: longitude,
+        userId: userId
       })
     }).catch(function(err){ console.log(err) });
   },
