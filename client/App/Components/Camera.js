@@ -22,7 +22,7 @@ class CameraView extends React.Component {
     super(props);
     this.state = {
       cameraType: Camera.constants.Type.back,
-      cameraFlashToggle: Camera.constants.FlashMode.on,
+      cameraFlashToggle: Camera.constants.FlashMode.off,
       handleFocusChanged: () => {}
       }
     }
