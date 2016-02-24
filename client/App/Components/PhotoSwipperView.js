@@ -26,12 +26,9 @@ class PhotoSwipperView extends React.Component{
   }
 
   render() {
-    // Still working on getting right element in the center when swipper renders
     var photosUrls = this.props.route.photos;
-    photosUrls = photosUrls.slice(this.props.route.index, photosUrls.length).concat(photosUrls.slice(0, this.props.route.index));
-    console.log(photosUrls);
     return (
-      <Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={1} onMomentumScrollEnd ={this._onMomentumScrollEnd}>
+      <Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={this.props.route.index} onMomentumScrollEnd ={this._onMomentumScrollEnd}>
         {
           photosUrls.map(function(photoUrl, index){
             return <PhotoView key={index} uri={photoUrl}/>
