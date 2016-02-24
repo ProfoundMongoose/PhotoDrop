@@ -10,7 +10,8 @@ var {
   View,
   // TouchableHighlight, // not used
   NativeModules,
-  StatusBarIOS
+  StatusBarIOS,
+  Navigator
 } = React;
 
 import Camera from 'react-native-camera';
@@ -23,27 +24,28 @@ class CameraView extends React.Component {
       cameraType: "back",
       }
     }
-
-  takePicture() {
-    this.camera.capture()
-      .then((data) => {
-        // send data into PreviewPhoto so hopefully it can render the image
-          this.props.navigator.push({
-            component: PreviewPhoto,
-            data: data,
-          })
-        })
-      .catch(err => console.error('ERROR', err));
-  }
+  //
   // takePicture() {
   //   this.camera.capture()
   //     .then((data) => {
-  //       NativeModules.ReadImageData.readImage(data, (image) => {
-  //         api.uploadPhoto(image, this.props.latitude, this.props.longitude);
+  //       // send data into PreviewPhoto so hopefully it can render the image
+  //       console.log('MADE IT INTO THENNNNNNNNNNNNN', data)
+  //
   //       })
-  //     })
   //     .catch(err => console.error('ERROR', err));
   // }
+  takePicture() {
+    this.camera.capture()
+      .then((data) => {
+        NativeModules.ReadImageData.readImage(data, (image) => {
+          this.props.navigator.push({
+            component: PreviewPhoto,
+            image64: image,
+          })
+        })
+      })
+      .catch(err => console.error('ERROR', err));
+  }
 
   switchCamera() {
     if(this.state.cameraType==="back") {
