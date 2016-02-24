@@ -19,7 +19,7 @@ class PhotoSwiperView extends React.Component{
   render() {
     var photosUrls = this.props.route.photos;
     return (
-      <Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={this.props.route.index} onMomentumScrollEnd ={this._onMomentumScrollEnd}>
+      <Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={this.props.route.index}>
         {
           photosUrls.map(function(photoUrl, index){
             return <PhotoView key={index} uri={photoUrl}/>
