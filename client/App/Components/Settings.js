@@ -32,9 +32,7 @@ class Settings extends React.Component {
   }
 
   logout() {
-    this.props.navigator.push({
-      component: Login
-    });
+    this.props.navigator.popToTop();
   }
 
   render() {
