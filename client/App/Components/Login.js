@@ -13,7 +13,6 @@ var {
   ActivityIndicatorIOS, 
 } = React;
 
-
 class Login extends React.Component {
   constructor(props) {
     super(props);
@@ -50,6 +49,7 @@ class Login extends React.Component {
              isLoading: false
            });
         } else {
+          console.log(res);
           this.props.navigator.push({
             title: res.name || 'Select an Option',
             component: Main,
@@ -131,11 +131,8 @@ class Login extends React.Component {
             style={styles.loading} />
           
           {showErr}
-
         </View>
-
       </View>
-
     )
   }
 }
@@ -168,9 +165,7 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'grey',
     borderRadius: 8,
-    color: 'black',
-    // alignSelf: 'stretch',
-    // justifyContent: 'center'
+    color: 'black'
   },
   buttonText: {
     fontSize: 18,
