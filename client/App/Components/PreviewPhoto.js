@@ -25,8 +25,6 @@ class PreviewPhoto extends React.Component{
     this.props.navigator.pop();
   }
 
-  // onPress={this.sendImage.bind(this)}
-
   render() {
     // because we are sending the captured image in as a string we have to tell react-native how it is encoded
     return (
