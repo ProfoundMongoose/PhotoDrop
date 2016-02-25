@@ -30,17 +30,17 @@ class PreviewPhoto extends React.Component{
     this.setState({modalVisible: visible});
   }
 
-  sendImage() {
+  _sendImage() {
     api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId);
     this._setModalVisible(true);
   }
 
-  closeModal() {
+  _closeModal() {
     this._setModalVisible(false);
     this.props.navigator.pop();
   }
 
-  cancelImage() {
+  _cancelImage() {
     this.props.navigator.pop();
   }
 
@@ -65,7 +65,7 @@ class PreviewPhoto extends React.Component{
               <Text>Your photo has been uploaded!</Text>
               <TouchableHighlight
                 onHideUnderlay={this._onUnhighlight.bind(this)}
-                onPress={this.closeModal.bind(this)}
+                onPress={this._closeModal.bind(this)}
                 onShowUnderlay={this._onHighlight.bind(this)}
                 style={[styles.button, styles.modalButton]}
                 underlayColor="#a9d9d4">
@@ -77,10 +77,10 @@ class PreviewPhoto extends React.Component{
         <NavigationBar title={{title: 'Share this image?', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
         <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}> 
           <View style={styles.buttonContainer}>
-            <TouchableHighlight onPress={this.sendImage.bind(this)} style={styles.yesButton} underlayColor={'#00A5A0'}>
+            <TouchableHighlight onPress={this._sendImage.bind(this)} style={styles.yesButton} underlayColor={'#00A5A0'}>
               <IconIon name="checkmark-round" size={65} color="#036C69" style={styles.yesIcon} />
             </TouchableHighlight>
-            <TouchableHighlight onPress={this.cancelImage.bind(this)} style={styles.noButton} underlayColor={'#FF5A5F'}>
+            <TouchableHighlight onPress={this._cancelImage.bind(this)} style={styles.noButton} underlayColor={'#FF5A5F'}>
               <IconIon name="close-round" size={65} color="#FC9396" style={styles.noIcon} />
             </TouchableHighlight>
           </View>
