@@ -22,7 +22,7 @@ class Map extends React.Component {
 
   constructor(props) {
     super(props);
-    
+
     this.state = {
       latitude: this.props.params.latitude,
       longitude: this.props.params.longitude,
@@ -97,7 +97,6 @@ class Map extends React.Component {
           onRegionChange={this.onRegionChange.bind(this)}
           rotateEnabled={false}
           followUserLocation={true}
-          maxDelta={0}
         >
           { this.state.photosLocations.map((photoLocation) => {
               return (
@@ -107,13 +106,13 @@ class Map extends React.Component {
              )}
             )
           }
-          {this.state.latitude ? <MapView.Circle center={this.state} radius={50} fillColor="rgba(150, 0, 0, 0.5)" strokeColor="rgba(0,0,0,0.5)" /> : null}
+          {this.state.region ? <MapView.Circle center={this.state.region} radius={50} fillColor="rgba(252, 147, 150, 0.5)" strokeColor="#FF5A5F" strokeWidth={2.5} /> : null}
         </MapView>
 
         <View style={styles.arrowContainer}>
-          <TouchableOpacity onPress={this.onLocationPressed.bind(this)} style={styles.arrowButton}>
+          <TouchableHighlight onPress={this.onLocationPressed.bind(this)} style={styles.arrowButton} underlayColor={'#FF5A5F'}>
             <Icon name="location-arrow" size={25} color="#ffffff" style={styles.arrowIcon} />
-          </TouchableOpacity>
+          </TouchableHighlight>
         </View>
 
         <View style={styles.buttonContainer}>
