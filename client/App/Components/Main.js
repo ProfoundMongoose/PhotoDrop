@@ -1,10 +1,6 @@
 var React = require('react-native');
 var Swiper = require('react-native-swiper');
-<<<<<<< HEAD
-=======
 var IconIon = require('react-native-vector-icons/Ionicons');
-
->>>>>>> 571a15e02a5ea72ceca96aafee28961c68737574
 var Settings = require('./Settings');
 var Camera = require('./Camera');
 var MapView = require('./MapView');
@@ -37,15 +33,10 @@ class SwiperView extends React.Component{
     });
   }
 
-<<<<<<< HEAD
-=======
-
   componentDidMount() {
     StatusBarIOS.setHidden(true);
   }
 
-
->>>>>>> 571a15e02a5ea72ceca96aafee28961c68737574
   _onMomentumScrollEnd (e, state, context) {
     if(state.index===0) {
       this.setState({index: 0});
@@ -63,13 +54,6 @@ class SwiperView extends React.Component{
 
  render () {
   if(this.state.latitude && this.state.longitude){
-<<<<<<< HEAD
-    return (
-    	<Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={1} onMomentumScrollEnd={this._onMomentumScrollEnd}>
-       <Settings navigator={this.props.navigator}/>
-       <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude} userId={this.props.route.userId}/>
-       <MapView navigator={this.props.navigator} params={this.state}/>
-=======
    return (
    	<Swiper style={styles.wrapper} 
       showsButtons={this.state.showButtons} 
@@ -82,9 +66,8 @@ class SwiperView extends React.Component{
       nextButton={<IconIon name="map" size={30} color="#ffffff" style={styles.flashToggleIcon} />}
       >
       <Settings navigator={this.props.navigator} />
-      <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude}/>
+      <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude} userId={this.props.route.userId}/>
       <MapView navigator={this.props.navigator} params={this.state} showsButtons={false}/>
->>>>>>> 571a15e02a5ea72ceca96aafee28961c68737574
      </Swiper>
     )} else {
       return <View></View>

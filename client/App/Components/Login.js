@@ -45,21 +45,14 @@ class Login extends React.Component {
       .then((res) => {
         if(res.status === 500){
           this.setState({
-             error: 'Username or password is incorrect',
-             isLoading: false
-           });
+            error: 'Username or password is incorrect',
+            isLoading: false
+          });
         } else {
-<<<<<<< HEAD
-          console.log('res: ', res);
-          var user = JSON.parse(res._bodyInit);
-          console.log('user: ',user);
-=======
-          console.log(res);
->>>>>>> 571a15e02a5ea72ceca96aafee28961c68737574
+          console.log('res: ',res._bodyInit);
           this.props.navigator.push({
-            title: res.name || 'Select an Option',
             component: Main,
-            userId: user['_id']
+            userId: res._bodyInit
           });
           this.setState({
             isLoading: false,
@@ -69,10 +62,10 @@ class Login extends React.Component {
           });
         }
       }).catch((err) => {
-         this.setState({
-           error: 'User not found' + err,
-           isLoading: false
-         });
+        this.setState({
+          error: 'User not found' + err,
+          isLoading: false
+        });
       });
     }
 

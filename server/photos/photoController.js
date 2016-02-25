@@ -20,10 +20,7 @@ module.exports = {
 
   // save that photo as  a model in db
   savePhotoModelToDB: function (req, res, next) {
-<<<<<<< HEAD
     console.log(req.imgurLink, req.body);
-=======
->>>>>>> 571a15e02a5ea72ceca96aafee28961c68737574
     new Photo({
       url: req.imgurLink,
       loc: {
