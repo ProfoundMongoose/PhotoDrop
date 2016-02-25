@@ -1,10 +1,11 @@
 var React = require('react-native');
 var MapView = require('react-native-maps');
-var Icon = require('react-native-vector-icons/FontAwesome');
 var PhotoMarker = require('./PhotoMarker');
 var PhotoView = require('./PhotoView');
 var PhotosView = require('./PhotosView');
 var api = require('../Utils/api');
+var _ = require('lodash');
+var Icon = require('react-native-vector-icons/FontAwesome');
 
 var {
   Navigator,
@@ -17,19 +18,16 @@ var {
   StatusBarIOS
 } = React;
 
-class Overlays extends React.Component{
+class Map extends React.Component {
+
   constructor(props) {
     super(props);
-    this.aspect_ratio = this.props.params.width / this.props.params.height;
-
+    
     this.state = {
-      isFirstLoad: true,
-      region: {
-        latitude: this.props.params.latitude,
-        longitude: this.props.params.longitude,
-        latitudeDelta: 0.005,
-        longitudeDelta: this.aspect_ratio * 0.005
-      },
+      latitude: this.props.params.latitude,
+      longitude: this.props.params.longitude,
+      latitudeDelta: 0.005,
+      longitudeDelta: (this.props.params.width / this.props.params.height) * 0.005, // division is aspect ratio
       photoCount: 0,
       photosLocations: undefined
     };
@@ -40,7 +38,7 @@ class Overlays extends React.Component{
       this.setState({ photoCount: photosArr.length });
     });
 
-    api.fetchLocations(this.state.region.latitude, this.state.region.longitude, this.state.region.latitudeDelta, this.state.region.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       this.setState({ photosLocations: photosArr });
     });
@@ -61,10 +59,8 @@ class Overlays extends React.Component{
     navigator.geolocation.getCurrentPosition(
       location => {
         this.setState({
-          region: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-          }
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude
         });
       },
       error => {
@@ -75,8 +71,11 @@ class Overlays extends React.Component{
   }
 
   onRegionChange(region) {
-    this.setState({ region });
-    api.fetchLocations(this.state.region.latitude, this.state.region.longitude, this.state.region.latitudeDelta, this.state.region.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    this.setState({
+      latitude: region.latitude,
+      longitude: region.longitude
+    });
+    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       this.setState({ photosLocations: photosArr });
     });
@@ -84,19 +83,21 @@ class Overlays extends React.Component{
 
   render() {
     StatusBarIOS.setHidden(true, 'fade');
+
     if(this.state.photosLocations){
     return (
       <View style={styles.container}>
         <MapView
           ref="map"
           style={styles.map}
-          region={this.state.region}
+          region={this.state}
           showsUserLocation={true}
           scrollEnabled={false}
           zoomEnabled={false}
           onRegionChange={this.onRegionChange.bind(this)}
           rotateEnabled={false}
           followUserLocation={true}
+          maxDelta={0}
         >
           { this.state.photosLocations.map((photoLocation) => {
               return (
@@ -106,27 +107,29 @@ class Overlays extends React.Component{
              )}
             )
           }
-          {this.state.region ? <MapView.Circle center={this.state.region} radius={50} fillColor="rgba(252, 147, 150, 0.5)" strokeColor="#FF5A5F" strokeWidth={2.5} /> : null}
+          {this.state.latitude ? <MapView.Circle center={this.state} radius={50} fillColor="rgba(150, 0, 0, 0.5)" strokeColor="rgba(0,0,0,0.5)" /> : null}
         </MapView>
 
         <View style={styles.arrowContainer}>
-          <TouchableHighlight onPress={this.onLocationPressed.bind(this)} style={styles.arrowButton} underlayColor={'#FF5A5F'}>
+          <TouchableOpacity onPress={this.onLocationPressed.bind(this)} style={styles.arrowButton}>
             <Icon name="location-arrow" size={25} color="#ffffff" style={styles.arrowIcon} />
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
-          <View style={styles.buttonContainer}>
-            <View style={[styles.bubble, styles.latlng]}>
-              <Text style={{ textAlign: 'center'}}>
-                {`${this.state.region.latitude.toPrecision(7)}, ${this.state.region.longitude.toPrecision(7)}`}
-              </Text>
-            </View>
+
+        <View style={styles.buttonContainer}>
+          <View style={[styles.bubble, styles.latlng]}>
+            <Text style={{ textAlign: 'center'}}>
+              {`${this.state.latitude.toPrecision(7)}, ${this.state.longitude.toPrecision(7)}`}
+            </Text>
           </View>
         </View>
-      );
-    } else {
-      return <View></View>
-    } 
-  };
+
+      </View>
+    );
+  } else {
+    return <View></View>
+  } 
+};
 }
 
 var styles = StyleSheet.create({
@@ -161,28 +164,28 @@ var styles = StyleSheet.create({
     width: 100,
     alignItems: 'stretch'
   },
-  arrowContainer: {
-    flex: 1,
-    marginTop: 20,
-    width: 150,
-    height: 150,
-    marginLeft: 240
+  arrowContainer:{
+    flex:1,
+    marginTop:20,
+    width:150,
+    height:150,
+    marginLeft:240
   },
-  arrowButton: {
-    width: 50,
-    height: 50,
-    backgroundColor: '#FC9396',
-    borderRadius: 25,
-    alignItems: 'center',
+  arrowButton:{
+    width:50,
+    height:50,
+    backgroundColor:'#FC9396',
+    borderRadius:25,
+    alignItems:'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#FF5A5F',
     marginLeft: 70,
     marginTop: 10
   },
-  arrowIcon: {
-    width: 25,
-    height: 25
+  arrowIcon:{
+    width:25,
+    height:25
   },
   button: {
     width: 80,
@@ -198,4 +201,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Overlays;
+module.exports = Map;
