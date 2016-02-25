@@ -109,13 +109,13 @@ class Overlays extends React.Component{
              )}
             )
           }
-          {this.state.region ? <MapView.Circle center={this.state.region} radius={50} fillColor="rgba(150, 0, 0, 0.5)" strokeColor="rgba(0,0,0,0.5)" /> : null}
+          {this.state.region ? <MapView.Circle center={this.state.region} radius={50} fillColor="rgba(252, 147, 150, 0.5)" strokeColor="#FF5A5F" strokeWidth={2.5} /> : null}
         </MapView>
 
         <View style={styles.arrowContainer}>
-          <TouchableOpacity onPress={this.onLocationPressed.bind(this)} style={styles.arrowButton}>
+          <TouchableHighlight onPress={this.onLocationPressed.bind(this)} style={styles.arrowButton} underlayColor={'#FF5A5F'}>
             <Icon name="location-arrow" size={25} color="#ffffff" style={styles.arrowIcon} />
-          </TouchableOpacity>
+          </TouchableHighlight>
         </View>
 
         <View style={styles.buttonContainer}>

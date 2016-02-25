@@ -80,16 +80,16 @@ class CameraView extends React.Component {
           onFocusChanged={ this.state.handleFocusChanged }>
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={this.switchCamera.bind(this)} style={styles.switchButton}>
+            <TouchableHighlight onPress={this.switchCamera.bind(this)} style={styles.switchButton} underlayColor={'#FF5A5F'}>
               <Icon name="circle-o-notch" size={25} color="#FC9396" style={styles.switchIcon} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this.flashEnabled.bind(this)} style={styles.flashToggleButton}>
+            </TouchableHighlight>
+            <TouchableHighlight onPress={this.flashEnabled.bind(this)} style={styles.flashToggleButton} underlayColor={'#FF5A5F'}>
               {this.state.cameraFlashToggle===Camera.constants.FlashMode.on ?  <IconIon name="ios-bolt" size={40} color="#FC9396" style={styles.flashToggleIcon} /> :  <IconIon name="ios-bolt-outline" size={40} color="#FC9396" style={styles.flashToggleIcon} />}
-            </TouchableOpacity>
+            </TouchableHighlight>
           </View>
 
           <View>
-            <TouchableHighlight onPress={this.takePicture.bind(this)} style={styles.snapButton}>
+            <TouchableHighlight onPress={this.takePicture.bind(this)} style={styles.snapButton} underlayColor={'#FF5A5F'}>
               <Icon name="circle" size={55} color="#FC9396" style={styles.snapIcon} />
             </TouchableHighlight>
           </View>
