@@ -33,13 +33,10 @@ class SwiperView extends React.Component{
     });
   }
 
-<<<<<<< 6d4fe86fabf6971f591659c706bce4f6f4bd1df3
   componentDidMount() {
     StatusBarIOS.setHidden(true);
   }
 
-=======
->>>>>>> Refactor photoModel to include userId
   _onMomentumScrollEnd (e, state, context) {
     if(state.index===0) {
       this.setState({index: 0});
