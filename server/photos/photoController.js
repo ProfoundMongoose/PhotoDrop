@@ -1,6 +1,7 @@
 var imgur = require('imgur');
 var Photo = require('./photoModel');
 var Q = require('q');
+var mongoose = require('mongoose');
 
 var getPhotos = Q.nbind(Photo.find, Photo);
 
@@ -20,13 +21,14 @@ module.exports = {
 
   // save that photo as  a model in db
   savePhotoModelToDB: function (req, res, next) {
+    console.log(JSON.parse(req.body.userId));
     new Photo({
       url: req.imgurLink,
       loc: {
         type: 'Point',
         coordinates: [req.body.longitude, req.body.latitude]
       },
-      userId: req.body.userId
+      userId: JSON.parse(req.body.userId)
     }).save().then(function(data) {
       Photo.ensureIndexes({loc:"2dsphere"});
       console.log('saved new photo model to db ', data)
