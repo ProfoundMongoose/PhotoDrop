@@ -116,6 +116,7 @@ class Signup extends React.Component {
             maxLength={16}
             style={styles.userInput}
             value={this.state.username}
+            returnKeyType={'next'}
             onChange={this.handleUsernameChange.bind(this)}
             onSubmitEditing={(event) => { 
               this.refs.SecondInput.focus(); 
@@ -129,6 +130,7 @@ class Signup extends React.Component {
             secureTextEntry={true}
             style={styles.userInput}
             value={this.state.password}
+            returnKeyType={'next'}
             onChange={this.handlePasswordChange.bind(this)}
             onSubmitEditing={(event) => { 
               this.refs.ThirdInput.focus(); 
@@ -142,6 +144,8 @@ class Signup extends React.Component {
             secureTextEntry={true}
             style={styles.userInput}
             value={this.state.confirmedPassword}
+            returnKeyType={'go'}
+            onSubmitEditing={this.handleSubmit.bind(this)}
             onChange={this.handleConfirmedPasswordChange.bind(this)} />
           <TouchableHighlight
             style={styles.button}
