@@ -1,6 +1,5 @@
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
-
 var Login = require('./Login');
 var PhotosView = require('./PhotosView');
 
@@ -11,7 +10,6 @@ var {
   TouchableHighlight,
   Image
 } = React;
-
 
 class Settings extends React.Component {
   constructor(props) {
@@ -54,6 +52,7 @@ class Settings extends React.Component {
       );
   }
 }
+
 var styles = StyleSheet.create({
   container: {
     flex: 1

@@ -10,7 +10,7 @@ var {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  ActivityIndicatorIOS, 
+  ActivityIndicatorIOS,
 } = React;
 
 class Login extends React.Component {
@@ -24,32 +24,32 @@ class Login extends React.Component {
     };
   }
 
-  handleUsernameChange (event) {
+  handleUsernameChange(event) {
     this.setState({
       username: event.nativeEvent.text
     });
   }
 
-  handlePasswordChange (event) {
+  handlePasswordChange(event) {
     this.setState({
       password: event.nativeEvent.text
     });
   }
 
-  handleSubmit(){ 
+  handleSubmit() {
     this.setState({
       isLoading: true
     });
 
     api.login(this.state.username, this.state.password)
       .then((res) => {
-        if(res.status === 500){
+        if (res.status === 500) {
           this.setState({
-             error: 'Username or password is incorrect',
-             isLoading: false
-           });
+            error: 'Username or password is incorrect',
+            isLoading: false
+          });
         } else {
-          console.log('res: ',res._bodyInit);
+          console.log('res: ', res._bodyInit);
           this.props.navigator.push({
             component: Main,
             userId: res._bodyInit
@@ -60,14 +60,14 @@ class Login extends React.Component {
             username: '',
             password: ''
           });
-          }
-        }).catch((err) => {
-           this.setState({
-             error: 'User not found' + err,
-             isLoading: false
-           });
+        }
+      }).catch((err) => {
+        this.setState({
+          error: 'User not found' + err,
+          isLoading: false
         });
-    }
+      });
+  }
 
   handleRedirect() {
     this.props.navigator.push({

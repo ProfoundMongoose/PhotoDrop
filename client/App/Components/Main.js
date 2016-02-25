@@ -6,48 +6,49 @@ var Camera = require('./Camera');
 var MapView = require('./MapView');
 
 var {
- StyleSheet,
- Dimensions,
- StatusBarIOS,
- View
+  StyleSheet,
+  Dimensions,
+  StatusBarIOS,
+  View
 } = React;
 
 class SwiperView extends React.Component{
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       index: 1,
       showButtons: true,
-      width:  Dimensions.get('window').width,
-      height:  Dimensions.get('window').height,
-      latitude: undefined, 
+      width: Dimensions.get('window').width,
+      height: Dimensions.get('window').height,
+      latitude: undefined,
       longitude: undefined
     }
     navigator.geolocation.getCurrentPosition(
       location => {
         this.setState({
-        latitude : location.coords.latitude,
-        longitude : location.coords.longitude
-      });
-    });
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude
+        });
+      }
+    );
   }
 
   componentDidMount() {
     StatusBarIOS.setHidden(true);
   }
 
-  _onMomentumScrollEnd (e, state, context) {
-    if(state.index===0) {
-      this.setState({index: 0});
-      this.setState({showButtons: false});
+  _onMomentumScrollEnd(e, state, context) {
+    if (state.index === 0) {
+      this.setState({ index: 0 });
+      this.setState({ showButtons: false });
       StatusBarIOS.setHidden(false, 'fade');
       StatusBarIOS.setStyle('light-content');
-    } else if(state.index===1) {
-      this.setState({index: 1});
-      this.setState({showButtons: true});
-    } else if(state.index===2) {
-      this.setState({index: 2});
-      this.setState({showButtons: false});
+    } else if (state.index === 1) {
+      this.setState({ index: 1 });
+      this.setState({ showButtons: true });
+    } else if (state.index === 2) {
+      this.setState({ index: 2 });
+      this.setState({ showButtons: false });
     }
   }
 
@@ -76,8 +77,7 @@ class SwiperView extends React.Component{
 }
 
 var styles = StyleSheet.create({ //not used for now
- wrapper: {
- },
+  wrapper: {},
 })
 
 module.exports = SwiperView;
