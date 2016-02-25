@@ -12,6 +12,7 @@ var {
   Text,
   View,
   TouchableHighlight,
+  TouchableOpacity,
   NativeModules,
   StatusBarIOS
 } = React;
@@ -78,17 +79,17 @@ class CameraView extends React.Component {
           onFocusChanged={ this.state.handleFocusChanged }>
 
           <View style={styles.buttonContainer}>
-            <TouchableHighlight onPress={this.switchCamera.bind(this)} style={styles.switchButton}>
-              <Icon name="circle-o-notch" size={15} color="#ffffff" style={styles.switchIcon} />
-            </TouchableHighlight>
-            <TouchableHighlight onPress={this.flashEnabled.bind(this)} style={styles.flashToggleButton}>
-              {this.state.cameraFlashToggle===Camera.constants.FlashMode.on ?  <IconIon name="ios-bolt" size={22} color="#ffffff" style={styles.flashToggleIcon} /> :  <IconIon name="ios-bolt-outline" size={22} color="#ffffff" style={styles.flashToggleIcon} />}
-            </TouchableHighlight>
+            <TouchableOpacity onPress={this.switchCamera.bind(this)} style={styles.switchButton}>
+              <Icon name="circle-o-notch" size={25} color="#FC9396" style={styles.switchIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.flashEnabled.bind(this)} style={styles.flashToggleButton}>
+              {this.state.cameraFlashToggle===Camera.constants.FlashMode.on ?  <IconIon name="ios-bolt" size={40} color="#FC9396" style={styles.flashToggleIcon} /> :  <IconIon name="ios-bolt-outline" size={40} color="#FC9396" style={styles.flashToggleIcon} />}
+            </TouchableOpacity>
           </View>
 
           <View>
             <TouchableHighlight onPress={this.takePicture.bind(this)} style={styles.snapButton}>
-              <Icon name="circle" size={55} color="white" style={styles.snapIcon} />
+              <Icon name="circle" size={55} color="#FC9396" style={styles.snapIcon} />
             </TouchableHighlight>
           </View>
             
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     flex: 0,
     backgroundColor: '#fff',
     borderRadius: 5,
-    color: '#000',
+    color: '#FF5A5F',
     padding: 10,
     margin: 10
   },
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     marginTop:20,
     width:150,
     height:150,
-    marginLeft:280
+    marginLeft:240
   },
   snapButton:{
     width:70,
@@ -143,37 +144,37 @@ const styles = StyleSheet.create({
     backgroundColor:'transparent'
   },
   switchButton:{
-    width:30,
-    height:30,
+    width:50,
+    height:50,
     backgroundColor:'transparent',
-    borderRadius:15,
+    borderRadius:25,
     alignItems:'center',
     justifyContent: 'center',
     borderWidth: 2,
-    borderColor: '#ffffff',
+    borderColor: 'white',
     marginLeft: 70,
     marginTop: 10
   },
   switchIcon:{
-    width:15,
-    height:15
+    width:25,
+    height:25
   },
   flashToggleButton:{
-    width:30,
-    height:30,
+    width:50,
+    height:50,
     backgroundColor:'transparent',
-    borderRadius:15,
+    borderRadius:25,
     alignItems:'center',
     justifyContent: 'center',
     borderWidth: 2,
-    borderColor: '#ffffff',
-    marginLeft: -230,
-    marginTop: -30,
+    borderColor: 'white',
+    marginLeft: -210,
+    marginTop: -50,
     paddingLeft:7
   },
   flashToggleIcon:{
-    width:18,
-    height:23,
+    width:25,
+    height:38,
     backgroundColor:'transparent'
   }
 });

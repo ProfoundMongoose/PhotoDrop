@@ -5,6 +5,7 @@ var PhotoView = require('./PhotoView');
 var PhotosView = require('./PhotosView');
 var api = require('../Utils/api');
 var _ = require('lodash');
+var Icon = require('react-native-vector-icons/FontAwesome');
 
 var {
   Navigator,
@@ -13,9 +14,9 @@ var {
   Text,
   Dimensions,
   TouchableOpacity,
+  TouchableHighlight,
   StatusBarIOS
-  // TouchableHighlight // not used
-  } = React;
+} = React;
 
 class Overlays extends React.Component{
 
@@ -137,21 +138,18 @@ class Overlays extends React.Component{
 
         </MapView>
 
+        <View style={styles.arrowContainer}>
+          <TouchableOpacity onPress={this.onLocationPressed.bind(this)} style={styles.arrowButton}>
+            <Icon name="location-arrow" size={25} color="#ffffff" style={styles.arrowIcon} />
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.buttonContainer}>
           <View style={[styles.bubble, styles.latlng]}>
             <Text style={{ textAlign: 'center'}}>
               {`${this.state.region.latitude.toPrecision(7)}, ${this.state.region.longitude.toPrecision(7)}`}
             </Text>
           </View>
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-              onPress={this.onLocationPressed.bind(this)}>
-            <View style={styles.bubble}>
-              <Text style={styles.buttonText}>Recenter</Text>
-            </View>
-          </TouchableOpacity>
         </View>
 
       </View>
@@ -194,15 +192,39 @@ var styles = StyleSheet.create({
     width: 100,
     alignItems: 'stretch'
   },
+  arrowContainer:{
+    flex:1,
+    marginTop:20,
+    width:150,
+    height:150,
+    marginLeft:240
+  },
+  arrowButton:{
+    width:50,
+    height:50,
+    backgroundColor:'#FC9396',
+    borderRadius:25,
+    alignItems:'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#FF5A5F',
+    marginLeft: 70,
+    marginTop: 10
+  },
+  arrowIcon:{
+    width:25,
+    height:25
+  },
   button: {
     width: 80,
     paddingHorizontal: 12,
     alignItems: 'center',
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    borderColor: '#FF5A5F'
   },
   buttonContainer: {
     flexDirection: 'row',
-    marginVertical: 10,
+    marginVertical: 30,
     backgroundColor: 'transparent'
   }
 });
