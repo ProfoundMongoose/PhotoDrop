@@ -87,25 +87,6 @@ class Overlays extends React.Component{
   render() {
     StatusBarIOS.setHidden(true, 'fade');
 
-    if(this.state.isFirstLoad) {
-      navigator.geolocation.getCurrentPosition(
-        location => {
-          this.setState({
-            isFirstLoad: false,
-            region: {
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude,
-            },
-            circle: {
-              center: {
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-              },
-              radius: 50,
-            }
-          });
-        });
-    }
     if(this.state.photosLocations){
     return (
       <View style={styles.container}>
@@ -122,20 +103,13 @@ class Overlays extends React.Component{
         >
           { this.state.photosLocations.map((photoLocation) => {
               return (
-               <MapView.Marker image={require('../Components/assets/rsz_pin.png')} onPress={this.showImage(photoLocation.url)}
+               <MapView.Marker image={require('../Components/assets/rsz_pin96.png')} onPress={this.showImage(photoLocation.url)}
                  coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
                />
              )}
             )
           }
-
-          <MapView.Circle
-            center={this.state.region} //TODO: Needs Fixing
-            radius={50} //TODO: calculate how big it should be
-            fillColor="rgba(200, 0, 0, 0.5)"
-            strokeColor="rgba(0,0,0,0.5)"
-          />
-
+          {this.state.region ? <MapView.Circle center={this.state.region} radius={50} fillColor="rgba(150, 0, 0, 0.5)" strokeColor="rgba(0,0,0,0.5)" /> : null}
         </MapView>
 
         <View style={styles.arrowContainer}>
