@@ -25,12 +25,6 @@ class Settings extends React.Component {
     });
   }
 
-  openLeaderboard(){
-    this.props.navigator.push({
-      component: Leaderboard
-    })
-  }
-
   logout() {
     this.props.navigator.popToTop();
   }
