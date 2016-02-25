@@ -105,9 +105,10 @@ class PhotosView extends React.Component{
       <View style={{flex: 1, backgroundColor: 'white' }}>
         <NavigationBar title={{title: 'Swipe Down to Dismiss', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
         {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
+        {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
+        {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText2}>Be the first one to share a pic!</Text>  : null}
         <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
           {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
-          {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={[styles.centering, {height: 50}]}>There are no photos in this area</Text> : null}
         </ScrollView>
       </View>
     );
@@ -119,6 +120,17 @@ var styles = StyleSheet.create({
   centering: {
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  noPhotosText: {
+    marginTop: 65,
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#656565'
+  },
+  noPhotosText2: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#656565'
   },
   scrollView: {
    flexDirection: 'row',
