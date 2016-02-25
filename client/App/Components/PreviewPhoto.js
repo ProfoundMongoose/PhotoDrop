@@ -16,12 +16,12 @@ class PreviewPhoto extends React.Component{
     super(props);
   }
 
-  sendImage() {
+  _sendImage() {
     api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId);
     this.props.navigator.pop();
   }
 
-  cancelImage() {
+  _cancelImage() {
     this.props.navigator.pop();
   }
 
@@ -33,11 +33,11 @@ class PreviewPhoto extends React.Component{
         <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}> 
 
           <View style={styles.buttonContainer}>
-            <TouchableHighlight onPress={this.sendImage.bind(this)} style={styles.yesButton} underlayColor={'#00A5A0'}>
-              <IconIon name="checkmark-round" size={65} color="#036C69" style={styles.yesIcon} />
+            <TouchableHighlight onPress={this._sendImage.bind(this)} style={styles.yesButton} underlayColor={'#00A5A0'}>
+              <IconIon name="checkmark-round" size={38} color="#036C69" style={styles.yesIcon} />
             </TouchableHighlight>
-            <TouchableHighlight onPress={this.cancelImage.bind(this)} style={styles.noButton} underlayColor={'#FF5A5F'}>
-              <IconIon name="close-round" size={65} color="#FC9396" style={styles.noIcon} />
+            <TouchableHighlight onPress={this._cancelImage.bind(this)} style={styles.noButton} underlayColor={'#FF5A5F'}>
+              <IconIon name="close-round" size={38} color="#FC9396" style={styles.noIcon} />
             </TouchableHighlight>
           </View>
 
@@ -62,10 +62,10 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
   },
   yesButton:{
-    width:95,
-    height:95,
+    width:65,
+    height:65,
     backgroundColor:'transparent',
-    borderRadius:50,
+    borderRadius:35,
     alignItems:'center',
     justifyContent: 'center',
     borderWidth: 5,
@@ -73,14 +73,14 @@ var styles = StyleSheet.create({
     margin: 15,
   },
   yesIcon:{
-    width:60,
-    height:60
+    width:35,
+    height:35
   },
   noButton:{
-    width:95,
-    height:95,
+    width:65,
+    height:65,
     backgroundColor:'transparent',
-    borderRadius:50,
+    borderRadius:35,
     alignItems:'center',
     justifyContent: 'center',
     borderWidth: 5,
@@ -88,8 +88,9 @@ var styles = StyleSheet.create({
     margin: 15,
   },
   noIcon:{
-    width:50,
-    height:60
+    width:35,
+    height:35,
+    marginLeft: 6
   },
 
 });
