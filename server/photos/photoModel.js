@@ -10,8 +10,11 @@ var PhotoSchema = new Schema({
   loc: { 
     type: { type: String }, 
     coordinates: []
+  },
+  userId: {
+    type: Schema.Types.ObjectId,
+    required: true
   }
-  // users: [ userID1, userID2 ];
 });
 
 PhotoSchema.index({ loc: '2dsphere' });

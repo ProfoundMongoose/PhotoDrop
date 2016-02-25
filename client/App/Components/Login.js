@@ -49,11 +49,10 @@ class Login extends React.Component {
              isLoading: false
            });
         } else {
-          console.log(res);
+          console.log('res: ',res._bodyInit);
           this.props.navigator.push({
-            title: res.name || 'Select an Option',
             component: Main,
-            passProps: {userInfo: res}
+            userId: res._bodyInit
           });
           this.setState({
             isLoading: false,

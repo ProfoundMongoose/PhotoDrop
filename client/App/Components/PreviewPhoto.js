@@ -6,9 +6,7 @@ var {
   View,
   StyleSheet,
   Image,
-  // ScrollView, // not used
   Text
-  // NativeModules // not used
 } = React;
 
 class PreviewPhoto extends React.Component{
@@ -17,8 +15,8 @@ class PreviewPhoto extends React.Component{
   }
 
   sendImage() {
-      api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude);
-      this.props.navigator.pop();
+    api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId);
+    this.props.navigator.pop();
   }
 
   render() {
