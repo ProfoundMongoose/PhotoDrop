@@ -96,6 +96,7 @@ class Login extends React.Component {
             maxLength={16}
             style={styles.userInput}
             value={this.state.username}
+            returnKeyType={'next'}
             onChange={this.handleUsernameChange.bind(this)}
             onSubmitEditing={(event) => { 
               this.refs.SecondInput.focus(); 
@@ -110,7 +111,9 @@ class Login extends React.Component {
             secureTextEntry={true}
             style={styles.userInput}
             value={this.state.password}
-            onChange={this.handlePasswordChange.bind(this)} />
+            returnKeyType={'go'}
+            onChange={this.handlePasswordChange.bind(this)} 
+            onSubmitEditing={this.handleSubmit.bind(this)}/>
           <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
