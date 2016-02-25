@@ -13,88 +13,87 @@ var {
 } = React;
 
 class Signup extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        username: '',
-        password: '',
-        confirmedPassword: '',
-        isLoading: false,
-        error: false,
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+      confirmedPassword: '',
+      isLoading: false,
+      error: false,
+      passwordError: false
+    };
+  }
+
+  handleUsernameChange(event) {
+    this.setState({
+      username: event.nativeEvent.text
+    });
+  }
+
+  handlePasswordChange(event) {
+    this.setState({
+      password: event.nativeEvent.text
+    });
+  }
+
+  handleConfirmedPasswordChange(event) {
+    this.setState({
+      confirmedPassword: event.nativeEvent.text
+    });
+  }
+
+  handleSubmit() {
+    if (this.state.password === this.state.confirmedPassword) {
+      this.setState({
+        isLoading: true,
         passwordError: false
-      };
-    }
-
-    handleUsernameChange(event) {
-      this.setState({
-        username: event.nativeEvent.text
       });
-    }
 
-    handlePasswordChange(event) {
-      this.setState({
-        password: event.nativeEvent.text
-      });
-    }
-
-    handleConfirmedPasswordChange(event) {
-      this.setState({
-        confirmedPassword: event.nativeEvent.text
-      });
-    }
-
-    handleSubmit() {
-      if (this.state.password === this.state.confirmedPassword) {
-        this.setState({
-          isLoading: true,
-          passwordError: false
-        });
-
-        api.signup(this.state.username, this.state.password)
-          .then((res) => {
+      api.signup(this.state.username, this.state.password)
+        .then((res) => {
+          this.setState({
+            passwordError: false
+          });
+          if (res.status === 500) {
             this.setState({
-              passwordError: false
-            });
-            if (res.status === 500) {
-              this.setState({
-                error: 'User already exists',
-                isLoading: false
-              });
-            } else {
-              this.setState({
-                isLoading: false,
-                error: false,
-                username: '',
-                password: ''
-              });
-              this.props.navigator.pop();
-            }
-          }).catch((err) => {
-            this.setState({
-              error: 'User already exists' + err,
+              error: 'User already exists',
               isLoading: false
             });
-          });
-      } else {
-         this.setState({
-            error: false,
-            passwordError: 'Passwords dont match',
+          } else {
+            this.setState({
+              isLoading: false,
+              error: false,
+              username: '',
+              password: ''
+            });
+            this.props.navigator.pop();
+          }
+        }).catch((err) => {
+          this.setState({
+            error: 'User already exists' + err,
             isLoading: false
           });
-      }
-    }
-
-
-    handleRedirect() {
-      this.props.navigator.pop();
+        });
+    } else {
       this.setState({
-        isLoading: false,
         error: false,
-        username: '',
-        password: ''
+        passwordError: 'Passwords dont match',
+        isLoading: false
       });
     }
+  }
 
+
+  handleRedirect() {
+    this.props.navigator.pop();
+    this.setState({
+      isLoading: false,
+      error: false,
+      username: '',
+      password: ''
+    });
+  }
 
   render() {
     var showErr = (
@@ -173,7 +172,6 @@ class Signup extends React.Component {
     )
   }
 }
-
 var styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -227,6 +225,5 @@ var styles = StyleSheet.create({
     textAlign: 'center'
   }
 });
-
 
 module.exports = Signup;

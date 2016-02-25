@@ -2,9 +2,8 @@ var React = require('react-native');
 var Camera = require('react-native-camera').default;
 var Icon = require('react-native-vector-icons/FontAwesome');
 var IconIon = require('react-native-vector-icons/Ionicons');
-
-var api = require('../Utils/api');
 var PreviewPhoto = require('./PreviewPhoto')
+var api = require('../Utils/api');
 
 var {
   Dimensions,
@@ -18,15 +17,14 @@ var {
 } = React;
 
 class CameraView extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       cameraType: Camera.constants.Type.back,
       cameraFlashToggle: Camera.constants.FlashMode.off,
       handleFocusChanged: () => {}
-      }
     }
+  }
 
   takePicture() {
     this.camera.capture()
@@ -45,22 +43,22 @@ class CameraView extends React.Component {
   }
 
   switchCamera() {
-    if(this.state.cameraType===Camera.constants.Type.back) {
-      this.setState({cameraType:Camera.constants.Type.front});
+    if (this.state.cameraType === Camera.constants.Type.back) {
+      this.setState({ cameraType: Camera.constants.Type.front });
       console.log('back to front');
-    } else if(this.state.cameraType=Camera.constants.Type.front) {
-      this.setState({cameraType:Camera.constants.Type.back});
+    } else if (this.state.cameraType = Camera.constants.Type.front) {
+      this.setState({ cameraType: Camera.constants.Type.back });
       console.log('front to back');
     }
   }
 
-  flashEnabled(){
-    if(this.state.cameraFlashToggle===Camera.constants.FlashMode.on) {
-      this.setState({cameraFlashToggle: Camera.constants.FlashMode.off});
+  flashEnabled() {
+    if (this.state.cameraFlashToggle === Camera.constants.FlashMode.on) {
+      this.setState({ cameraFlashToggle: Camera.constants.FlashMode.off });
       console.log('flash off!');
-    } else if(this.state.cameraFlashToggle===Camera.constants.FlashMode.off) {
-      this.setState({cameraFlashToggle: Camera.constants.FlashMode.on});
-       console.log('flash on!');
+    } else if (this.state.cameraFlashToggle === Camera.constants.FlashMode.off) {
+      this.setState({ cameraFlashToggle: Camera.constants.FlashMode.on });
+      console.log('flash on!');
     }
   }
 
@@ -101,7 +99,7 @@ class CameraView extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+var styles = StyleSheet.create({
   container: {
     flex: 1
   },
@@ -120,64 +118,65 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 10
   },
-  buttonContainer:{
-    flex:1,
-    marginTop:20,
-    width:150,
-    height:150,
-    marginLeft:240
+  buttonContainer: {
+    flex: 1,
+    marginTop: 20,
+    width: 150,
+    height: 150,
+    marginLeft: 240
   },
-  snapButton:{
-    width:70,
-    height:70,
-    backgroundColor:'transparent',
-    borderRadius:50,
-    alignItems:'center',
+  snapButton: {
+    width: 70,
+    height: 70,
+    backgroundColor: 'transparent',
+    borderRadius: 50,
+    alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 5,
     borderColor: 'white',
     marginBottom: 15,
-    paddingLeft:5
+    paddingLeft: 5
   },
-  snapIcon:{
-    width:52.5,
-    height:55,
-    backgroundColor:'transparent'
+  snapIcon: {
+    width: 52.5,
+    height: 55,
+    backgroundColor: 'transparent'
   },
-  switchButton:{
-    width:50,
-    height:50,
-    backgroundColor:'transparent',
-    borderRadius:25,
-    alignItems:'center',
+  switchButton: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'transparent',
+    borderRadius: 25,
+    alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: 'white',
     marginLeft: 70,
     marginTop: 10
   },
-  switchIcon:{
-    width:25,
-    height:25
+  switchIcon: {
+    width: 25,
+    height: 25
   },
-  flashToggleButton:{
-    width:50,
-    height:50,
-    backgroundColor:'transparent',
-    borderRadius:25,
-    alignItems:'center',
+  flashToggleButton: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'transparent',
+    borderRadius: 25,
+    alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: 'white',
     marginLeft: -210,
     marginTop: -50,
-    paddingLeft:7
+    paddingLeft: 7
   },
-  flashToggleIcon:{
-    width:25,
-    height:38,
-    backgroundColor:'transparent'
+  flashToggleIcon: {
+    width: 25,
+    height: 38,
+    backgroundColor: 'transparent'
   }
 });
 
 module.exports = CameraView;
+

@@ -1,11 +1,10 @@
 var React = require('react-native');
 var MapView = require('react-native-maps');
+var Icon = require('react-native-vector-icons/FontAwesome');
 var PhotoMarker = require('./PhotoMarker');
 var PhotoView = require('./PhotoView');
 var PhotosView = require('./PhotosView');
 var api = require('../Utils/api');
-var _ = require('lodash');
-var Icon = require('react-native-vector-icons/FontAwesome');
 
 var {
   Navigator,
@@ -19,7 +18,6 @@ var {
 } = React;
 
 class Overlays extends React.Component{
-
   constructor(props) {
     super(props);
     this.aspect_ratio = this.props.params.width / this.props.params.height;
@@ -39,12 +37,12 @@ class Overlays extends React.Component{
     // need to figure out when these api methods are invoked; does not update after a picture was taken
     api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      this.setState({photoCount: photosArr.length});
+      this.setState({ photoCount: photosArr.length });
     });
 
     api.fetchLocations(this.state.region.latitude, this.state.region.longitude, this.state.region.latitudeDelta, this.state.region.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      this.setState({photosLocations: photosArr});
+      this.setState({ photosLocations: photosArr });
     });
   }
 
@@ -80,13 +78,12 @@ class Overlays extends React.Component{
     this.setState({ region });
     api.fetchLocations(this.state.region.latitude, this.state.region.longitude, this.state.region.latitudeDelta, this.state.region.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      this.setState({photosLocations: photosArr});
+      this.setState({ photosLocations: photosArr });
     });
   }
 
   render() {
     StatusBarIOS.setHidden(true, 'fade');
-
     if(this.state.photosLocations){
     return (
       <View style={styles.container}>
@@ -117,21 +114,19 @@ class Overlays extends React.Component{
             <Icon name="location-arrow" size={25} color="#ffffff" style={styles.arrowIcon} />
           </TouchableHighlight>
         </View>
-
-        <View style={styles.buttonContainer}>
-          <View style={[styles.bubble, styles.latlng]}>
-            <Text style={{ textAlign: 'center'}}>
-              {`${this.state.region.latitude.toPrecision(7)}, ${this.state.region.longitude.toPrecision(7)}`}
-            </Text>
+          <View style={styles.buttonContainer}>
+            <View style={[styles.bubble, styles.latlng]}>
+              <Text style={{ textAlign: 'center'}}>
+                {`${this.state.region.latitude.toPrecision(7)}, ${this.state.region.longitude.toPrecision(7)}`}
+              </Text>
+            </View>
           </View>
         </View>
-
-      </View>
-    );
-  } else {
-    return <View></View>
-  } 
-};
+      );
+    } else {
+      return <View></View>
+    } 
+  };
 }
 
 var styles = StyleSheet.create({
@@ -166,28 +161,28 @@ var styles = StyleSheet.create({
     width: 100,
     alignItems: 'stretch'
   },
-  arrowContainer:{
-    flex:1,
-    marginTop:20,
-    width:150,
-    height:150,
-    marginLeft:240
+  arrowContainer: {
+    flex: 1,
+    marginTop: 20,
+    width: 150,
+    height: 150,
+    marginLeft: 240
   },
-  arrowButton:{
-    width:50,
-    height:50,
-    backgroundColor:'#FC9396',
-    borderRadius:25,
-    alignItems:'center',
+  arrowButton: {
+    width: 50,
+    height: 50,
+    backgroundColor: '#FC9396',
+    borderRadius: 25,
+    alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#FF5A5F',
     marginLeft: 70,
     marginTop: 10
   },
-  arrowIcon:{
-    width:25,
-    height:25
+  arrowIcon: {
+    width: 25,
+    height: 25
   },
   button: {
     width: 80,

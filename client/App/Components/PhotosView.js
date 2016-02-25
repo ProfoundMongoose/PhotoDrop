@@ -44,7 +44,7 @@ class PhotosView extends React.Component{
       var photosUrls = photosArr.map((photo) => {
         return photo.url;
       });
-      this.setState({imageUrls:photosUrls});
+      this.setState({ imageUrls: photosUrls });
     })
   }
 
@@ -55,12 +55,12 @@ class PhotosView extends React.Component{
 
   handleRotation(event) {
     var layout = event.nativeEvent.layout;
-    this.setState({currentScreenWidth: layout.width, currentScreenHeight: layout.height });
+    this.setState({ currentScreenWidth: layout.width, currentScreenHeight: layout.height });
   }
 
   calculatedSize() {
     var size = this.state.currentScreenWidth / IMAGES_PER_ROW;
-    return {width: size, height: size};
+    return { width: size, height: size };
   }
 
   // function that returns a function that knows the correct uri to render
@@ -113,8 +113,7 @@ class PhotosView extends React.Component{
       </View>
     );
   }
-
-};
+}
 
 var styles = StyleSheet.create({
   centering: {
@@ -133,17 +132,17 @@ var styles = StyleSheet.create({
     color: '#656565'
   },
   scrollView: {
-   flexDirection: 'row',
-   flexWrap: 'wrap'
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   row: {
-   flexDirection: 'row',
-   alignItems: 'center',
-   justifyContent: 'flex-start'
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
   },
   image: {
-   borderWidth: 1,
-   borderColor: '#fff'
+    borderWidth: 1,
+    borderColor: '#fff'
   }
 });
 
