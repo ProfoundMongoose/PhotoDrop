@@ -109,7 +109,7 @@ class Overlays extends React.Component{
              )}
             )
           }
-          {this.state.region ? <MapView.Circle center={this.state.region} radius={50} fillColor="#FC9396" strokeColor="#FF5A5F" strokeWidth={3} /> : null}
+          {this.state.region ? <MapView.Circle center={this.state.region} radius={50} fillColor="rgba(252, 147, 150, 0.5)" strokeColor="#FF5A5F" strokeWidth={3} /> : null}
         </MapView>
 
         <View style={styles.arrowContainer}>
