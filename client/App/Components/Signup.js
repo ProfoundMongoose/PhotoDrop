@@ -61,6 +61,9 @@ class Signup extends React.Component {
                 isLoading: false
               });
             } else {
+              // load the JWT into the keychain
+              console.log(res._bodyText); // see wtf is on res
+              
               this.setState({
                 isLoading: false,
                 error: false,
@@ -104,7 +107,7 @@ class Signup extends React.Component {
       this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
       );
     return (
-      <View style={{flex: 1}}> 
+      <View style={{flex: 1}}>
         <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden:false}}/>
 
 
@@ -117,8 +120,8 @@ class Signup extends React.Component {
             style={styles.userInput}
             value={this.state.username}
             onChange={this.handleUsernameChange.bind(this)}
-            onSubmitEditing={(event) => { 
-              this.refs.SecondInput.focus(); 
+            onSubmitEditing={(event) => {
+              this.refs.SecondInput.focus();
             }} />
           <Text style={styles.fieldTitle}> Password </Text>
           <TextInput
@@ -130,8 +133,8 @@ class Signup extends React.Component {
             style={styles.userInput}
             value={this.state.password}
             onChange={this.handlePasswordChange.bind(this)}
-            onSubmitEditing={(event) => { 
-              this.refs.ThirdInput.focus(); 
+            onSubmitEditing={(event) => {
+              this.refs.ThirdInput.focus();
             }} />
           <Text style={styles.fieldTitle}> Confirm Password </Text>
           <TextInput
@@ -157,9 +160,9 @@ class Signup extends React.Component {
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
             size='large'
-            style={styles.loading} 
+            style={styles.loading}
             />
-          
+
           {showErr}
           {showPasswordErr}
         </View>

@@ -10,7 +10,7 @@ var {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  ActivityIndicatorIOS, 
+  ActivityIndicatorIOS,
 } = React;
 
 class Login extends React.Component {
@@ -22,6 +22,9 @@ class Login extends React.Component {
       isLoading: false,
       error: false
     };
+    // check for token match in keychain with server 
+      // if token match: change state username and pwd
+        // go to picture view ?
   }
 
   handleUsernameChange (event) {
@@ -36,7 +39,7 @@ class Login extends React.Component {
     });
   }
 
-  handleSubmit(){ 
+  handleSubmit(){
     this.setState({
       isLoading: true
     });
@@ -86,7 +89,7 @@ class Login extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
       );
     return (
-      <View style={{flex: 1}}> 
+      <View style={{flex: 1}}>
         <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
         <View style={styles.loginContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
@@ -97,8 +100,8 @@ class Login extends React.Component {
             style={styles.userInput}
             value={this.state.username}
             onChange={this.handleUsernameChange.bind(this)}
-            onSubmitEditing={(event) => { 
-              this.refs.SecondInput.focus(); 
+            onSubmitEditing={(event) => {
+              this.refs.SecondInput.focus();
             }}
              />
           <Text style={styles.fieldTitle}> Password </Text>
@@ -126,9 +129,9 @@ class Login extends React.Component {
 
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
-            size='large' 
+            size='large'
             style={styles.loading} />
-          
+
           {showErr}
         </View>
       </View>

@@ -24,6 +24,7 @@
     "express": "^4.13.4",
     "gulp": "^3.9.1",
     "imgur": "^0.1.7",
+    "jsonwebtoken": "^5.7.0",
     "mongoose": "^4.4.4",
     "nodemon": "^1.9.0",
     "q": "^1.4.1",

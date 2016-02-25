@@ -1,5 +1,6 @@
 var Q = require('q');
 var User = require('./userModel');
+var jwt = require('jsonwebtoken');
 
 var findUser = Q.nbind(User.findOne, User);
 var createUser = Q.nbind(User.create, User);
@@ -43,12 +44,18 @@ module.exports = {
           return createUser({
             username: username,
             password: password
+          }).then(function() {
+            console.log('Created user')
+            // Generate JWT for user here
+            // params: payload, secret key, encryption, callback
+            var token = jwt.sign({ username: username }, 'shhhhh');
+            console.log('token created', token)
+            res.json(token)
+            next()
+          }).catch(function(err) {
+            console.log('problem creating user')
           });
         }
-      })
-      .then(function(user) {
-        console.log('new user', user);
-        res.json();
       })
       .fail(function(error) {
         next(error);
