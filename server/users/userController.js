@@ -18,6 +18,7 @@ module.exports = {
           return user.comparePasswords(password)
             .then(function(foundUser) {
               if (foundUser) {
+                // res.status(200).send(user._id);
                 res.json(user._id);
               } else {
                 return next(new Error('No user'));

@@ -1,11 +1,9 @@
 var React = require('react-native');
 var Swiper = require('react-native-swiper');
 var IconIon = require('react-native-vector-icons/Ionicons');
-
 var Settings = require('./Settings');
 var Camera = require('./Camera');
 var MapView = require('./MapView');
-
 
 var {
  StyleSheet,
@@ -15,8 +13,8 @@ var {
 } = React;
 
 class SwiperView extends React.Component{
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       index: 1,
       showButtons: true,
@@ -25,6 +23,7 @@ class SwiperView extends React.Component{
       latitude: 37.78379, 
       longitude: -122.4089
     }
+    
     navigator.geolocation.getCurrentPosition(
       location => {
         this.setState({
@@ -34,11 +33,9 @@ class SwiperView extends React.Component{
     });
   }
 
-
   componentDidMount() {
     StatusBarIOS.setHidden(true);
   }
-
 
   _onMomentumScrollEnd (e, state, context) {
     if(state.index===0) {
@@ -69,14 +66,13 @@ class SwiperView extends React.Component{
       nextButton={<IconIon name="map" size={40} color="#ffffff" style={styles.flashToggleIcon} />}
       >
       <Settings navigator={this.props.navigator} />
-      <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude}/>
+      <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude} userId={this.props.route.userId}/>
       <MapView navigator={this.props.navigator} params={this.state} showsButtons={false}/>
      </Swiper>
-   )
- } else {
-  return <View></View>
- }
-}
+    )} else {
+      return <View></View>
+    }
+  }
 }
 
 var styles = StyleSheet.create({ //not used for now

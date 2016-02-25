@@ -660,7 +660,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputPaths = (
@@ -668,7 +668,7 @@
 			name = "Bundle React Native code and images";
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
 		};
@@ -780,7 +780,7 @@
 				INFOPLIST_FILE = ProfoundMongoose/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = ProfoundMongoose;
+				PRODUCT_BUNDLE_IDENTIFIER = ProfoundMongoose1;
 				PRODUCT_NAME = ProfoundMongoose;
 				PROVISIONING_PROFILE = "";
 			};
@@ -804,7 +804,7 @@
 				INFOPLIST_FILE = ProfoundMongoose/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = ProfoundMongoose;
+				PRODUCT_BUNDLE_IDENTIFIER = ProfoundMongoose1;
 				PRODUCT_NAME = ProfoundMongoose;
 				PROVISIONING_PROFILE = "";
 			};

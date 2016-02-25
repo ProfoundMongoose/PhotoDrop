@@ -14,11 +14,13 @@ var {
 class PreviewPhoto extends React.Component{
   constructor(props) {
     super(props);
+    console.log('render PreviewPhoto');
+    console.log('props.data:', this.props.route.data);
   }
 
   sendImage() {
-      api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude);
-      this.props.navigator.pop();
+    api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId);
+    this.props.navigator.pop();
   }
 
   render() {

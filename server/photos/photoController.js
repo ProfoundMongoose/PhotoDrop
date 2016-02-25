@@ -7,7 +7,6 @@ var getPhotos = Q.nbind(Photo.find, Photo);
 module.exports = {
   // send that file to imgur
   uploadPhoto: function (req, res, next) {
-
     imgur.uploadBase64(req.body.data)
       .then(function (json) {
         console.log(json.data.link);
@@ -21,12 +20,14 @@ module.exports = {
 
   // save that photo as  a model in db
   savePhotoModelToDB: function (req, res, next) {
+    console.log(req.imgurLink, req.body);
     new Photo({
       url: req.imgurLink,
       loc: {
         type: 'Point',
         coordinates: [req.body.longitude, req.body.latitude]
-      }
+      },
+      userId: req.body.userId
     }).save().then(function(data) {
       Photo.ensureIndexes({loc:"2dsphere"});
       console.log('saved new photo model to db ', data)
