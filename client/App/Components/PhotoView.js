@@ -7,32 +7,52 @@ var {
   StyleSheet,
   Image,
   ScrollView,
-  TouchableHighlight
+  TouchableOpacity,
+  TouchableHighlight,
+  TouchableWithoutFeedback 
 } = React;
 
 class PhotoView extends React.Component{
   constructor(props) {
     super(props);
+    this.state = {
+      touched: false
+    }
   }
 
   _closeImage() {
     this.props.navigator.pop();
   }
 
+  _touch() {
+    if(this.state.touched===false) {
+      this.setState({touched:true});
+    } else if(this.state.touched===true) {
+      this.setState({touched:false});
+    }
+  }
+
   render() {
     var uri = this.props.uri || this.props.route.uri;
+    if(this.state.touched===false) {
+      return (
+        <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
+          <Image style={styles.image} source={{uri: uri}}/>
+        </TouchableWithoutFeedback>
+      )
+    }
     return (
-      <View style={styles.imageContainer}>
-        <Image style={styles.image} source={{uri: uri}}>
+      <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
+        <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
 
         <View style={styles.buttonContainer}>
-          <TouchableHighlight onPress={this._closeImage.bind(this)} style={styles.closeButton} underlayColor={'#FF5A5F'}>
-            <IconIon name="close-round" size={38} color="#FC9396" style={styles.closeIcon} />
-          </TouchableHighlight>
+          <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
+            <IconIon name="ios-close-empty" size={60} color="white" style={styles.closeIcon} />
+          </TouchableOpacity>
         </View>
 
         </Image>
-      </View>
+      </TouchableWithoutFeedback>
     )
   }
 }
@@ -49,23 +69,22 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     backgroundColor:'transparent',
-    alignItems:'flex-end',
-    justifyContent: 'center',
   },
   closeButton:{
-    width:65,
-    height:65,
-    backgroundColor:'transparent',
+    width:50,
+    height:50,
+    backgroundColor:'rgba(0,0,0,0.3)',
     borderRadius:35,
     alignItems:'center',
     justifyContent: 'center',
-    borderWidth: 5,
+    borderWidth: 2,
     borderColor: 'white',
     margin: 15,
   },
   closeIcon:{
-    width:35,
-    height:35
+    width:60,
+    height:60,
+    marginLeft: 37
   },
 });
 

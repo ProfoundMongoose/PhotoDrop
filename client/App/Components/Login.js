@@ -11,6 +11,7 @@ var {
   TextInput,
   TouchableHighlight,
   ActivityIndicatorIOS,
+  Navigator
 } = React;
 
 class Login extends React.Component {
@@ -71,7 +72,8 @@ class Login extends React.Component {
 
   handleRedirect() {
     this.props.navigator.push({
-      component: Signup
+      component: Signup,
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight
     });
     this.setState({
       isLoading: false,
