@@ -49,7 +49,7 @@ class PhotosView extends React.Component{
   }
 
   componentWillUnmount() { //this is just for displaying the statusbar in settings. When the photosview button is removed from settings and is added to the map marker, delete this
-    StatusBarIOS.setStyle('light-content');
+    // StatusBarIOS.setStyle('light-content');
     StatusBarIOS.setHidden(false);
   }
 
@@ -102,8 +102,8 @@ class PhotosView extends React.Component{
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: 'white' }}>
-        <NavigationBar title={{title: 'Swipe Down to Dismiss', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
+      <View style={{flex: 1, backgroundColor: '#ededed' }}>
+        <NavigationBar title={{title: 'Photos Near You', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
         {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
         {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
         {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText2}>Be the first one to share a pic!</Text>  : null}

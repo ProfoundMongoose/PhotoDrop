@@ -17,7 +17,6 @@ class PhotoView extends React.Component{
     var uri = this.props.uri || this.props.route.uri;
     return (
       <View style={styles.imageContainer}>
-        <NavigationBar title={{title: 'Swipe Down to Dismiss', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
         <Image style={styles.image} source={{uri: uri}} />
       </View>
     )

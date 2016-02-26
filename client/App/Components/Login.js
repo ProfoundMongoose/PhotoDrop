@@ -86,8 +86,8 @@ class Login extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
       );
     return (
-      <View style={{flex: 1}}> 
-        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
+      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
         <View style={styles.loginContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
@@ -123,7 +123,7 @@ class Login extends React.Component {
 
           <TouchableHighlight
             onPress={this.handleRedirect.bind(this)}
-            underlayColor='white'>
+            underlayColor='#ededed'>
             <Text style={styles.signup}> Dont have an account? Sign Up!  </Text>
           </TouchableHighlight>
 
@@ -145,7 +145,7 @@ var styles = StyleSheet.create({
     padding: 30,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: 'white'
+    backgroundColor: '#ededed'
   },
   title: {
     marginTop: 10,
@@ -166,7 +166,7 @@ var styles = StyleSheet.create({
     fontSize: 18,
     borderWidth: 1,
     borderColor: 'grey',
-    borderRadius: 8,
+    borderRadius: 4,
     color: 'black'
   },
   buttonText: {
@@ -180,7 +180,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FF5A5F',
     borderColor: '#FF5A5F',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 4,
     marginBottom: 10,
     marginTop: 30,
     alignSelf: 'stretch',

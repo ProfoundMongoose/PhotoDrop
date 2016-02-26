@@ -82,7 +82,7 @@ class Map extends React.Component {
   }
 
   render() {
-    StatusBarIOS.setHidden(true, 'fade');
+    StatusBarIOS.setHidden(true);
 
     if(this.state.photosLocations){
     return (

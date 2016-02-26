@@ -42,7 +42,7 @@ class SwiperView extends React.Component{
       this.setState({ index: 0 });
       this.setState({ showButtons: false });
       StatusBarIOS.setHidden(false, 'fade');
-      StatusBarIOS.setStyle('light-content');
+      // StatusBarIOS.setStyle('light-content');
     } else if (state.index === 1) {
       this.setState({ index: 1 });
       this.setState({ showButtons: true });
@@ -53,6 +53,7 @@ class SwiperView extends React.Component{
   }
 
   render () {
+    if(this.state.index===1) {StatusBarIOS.setHidden(true);}
     if(this.state.latitude && this.state.longitude){
      return (
      	<Swiper style={styles.wrapper} 

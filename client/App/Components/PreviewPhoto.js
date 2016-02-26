@@ -29,7 +29,7 @@ class PreviewPhoto extends React.Component{
     // because we are sending the captured image in as a string we have to tell react-native how it is encoded
     return (
       <View style={styles.imageContainer}>
-        <NavigationBar title={{title: 'Share this image?', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
+        <NavigationBar title={{title: 'Share this image?', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
         <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}> 
 
           <View style={styles.buttonContainer}>
@@ -50,6 +50,7 @@ class PreviewPhoto extends React.Component{
 var styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
+    backgroundColor: '#ededed'
   },
   image: {
     flex: 1
