@@ -21,6 +21,7 @@ class PhotoView extends React.Component{
   }
 
   _closeImage() {
+    console.log('closing')
     this.props.navigator.pop();
   }
 

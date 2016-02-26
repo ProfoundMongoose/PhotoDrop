@@ -86,10 +86,13 @@ class Login extends React.Component {
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
-      );
+    );
+    var pageTitle = (
+      <Text style={styles.pageTitle}>Profound Mongoose</Text>
+    )
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
+        <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}}/>
         <View style={styles.loginContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
@@ -119,7 +122,7 @@ class Login extends React.Component {
           <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
-            underlayColor='#FC9396'>
+            underlayColor='#e66365'>
             <Text style={styles.buttonText}> Sign In </Text>
           </TouchableHighlight>
 
@@ -177,7 +180,7 @@ var styles = StyleSheet.create({
     height: 45,
     flexDirection: 'row',
     backgroundColor: '#FF5A5F',
-    borderColor: '#FF5A5F',
+    borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 4,
     marginBottom: 10,
@@ -190,8 +193,7 @@ var styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'circular',
     textAlign: 'center',
-    textDecorationLine: 'underline',
-    color: '#616161'
+    color: '#FF5A5F'
   },
   loading: {
     marginTop: 20
@@ -201,6 +203,12 @@ var styles = StyleSheet.create({
     fontFamily: 'circular',
     textAlign: 'center',
     color: '#616161'
+  },
+  pageTitle: {
+    fontSize: 18,
+    fontFamily: 'circular',
+    textAlign: 'center',
+    color: '#565b5c'
   }
 });
 

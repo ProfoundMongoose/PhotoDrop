@@ -106,6 +106,9 @@ class PhotosView extends React.Component{
   }
 
   render() {
+    var pageTitle = (
+      <Text style={styles.pageTitle}>Photos Near You</Text>
+    )
     var backButton = (
       <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
         <IconIon name='ios-arrow-thin-down' size={30} style={styles.backIcon} color="#FF5A5F"/>
@@ -114,7 +117,7 @@ class PhotosView extends React.Component{
     return (
       <View style={{flex: 1, backgroundColor: '#ededed' }}>
         <NavigationBar 
-          title={{title: 'Photos Near You', tintColor: '#565b5c'}} 
+          title={pageTitle} 
           tintColor={"white"} 
           statusBar={{hidden: false}}
           leftButton={backButton}/>
@@ -160,6 +163,12 @@ var styles = StyleSheet.create({
   },
   backIcon: {
     marginLeft: 15,
+  },
+  pageTitle: {
+    fontSize: 18,
+    fontFamily: 'circular',
+    textAlign: 'center',
+    color: '#565b5c'
   }
 });
 
