@@ -11,24 +11,19 @@ var {
   ScrollView
 } = React;
 
-class PhotoSwipperView extends React.Component{
+class PhotoSwiperView extends React.Component{
   constructor(props) {
     super(props);
   }
 
-  _onMomentumScrollEnd (e, state, context) {
-    if(state.index===1 || state.index===2) {
-      StatusBarIOS.setHidden(true, 'fade');
-    } else {
-      StatusBarIOS.setHidden(false, 'fade');
-      StatusBarIOS.setStyle('light-content');
-    }
+  componentDidMount() {
+    StatusBarIOS.setHidden(true, 'fade');
   }
 
   render() {
     var photosUrls = this.props.route.photos;
     return (
-      <Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={this.props.route.index} onMomentumScrollEnd ={this._onMomentumScrollEnd}>
+      <Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={this.props.route.index}>
         {
           photosUrls.map(function(photoUrl, index){
             return <PhotoView key={index} uri={photoUrl}/>
@@ -52,4 +47,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = PhotoSwipperView;
+module.exports = PhotoSwiperView;

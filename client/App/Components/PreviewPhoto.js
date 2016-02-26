@@ -1,14 +1,14 @@
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var api = require('../Utils/api');
+var IconIon = require('react-native-vector-icons/Ionicons');
 
 var {
   View,
   StyleSheet,
   Image,
-  // ScrollView, // not used
-  Text
-  // NativeModules // not used
+  Text,
+  TouchableOpacity
 } = React;
 
 class PreviewPhoto extends React.Component{
@@ -16,18 +16,32 @@ class PreviewPhoto extends React.Component{
     super(props);
   }
 
-  sendImage() {
-      api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude);
-      this.props.navigator.pop();
+  _sendImage() {
+    api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId);
+    this.props.navigator.pop();
+  }
+
+  _cancelImage() {
+    this.props.navigator.pop();
   }
 
   render() {
     // because we are sending the captured image in as a string we have to tell react-native how it is encoded
     return (
       <View style={styles.imageContainer}>
-        <NavigationBar title={{title: 'Swipe Down to Dismiss', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
-        <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}} />
-        <Text style={styles.capture} onPress={this.sendImage.bind(this)}>"UPLOAD!!"</Text>
+        <NavigationBar title={{title: 'Share this image?', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
+        <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}> 
+
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={this._sendImage.bind(this)} style={styles.yesButton}>
+              <IconIon name="ios-checkmark-empty" size={60} color="#036C69" style={styles.yesIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this._cancelImage.bind(this)} style={styles.noButton}>
+              <IconIon name="ios-close-empty" size={60} color="#FC9396" style={styles.noIcon} />
+            </TouchableOpacity>
+          </View>
+
+        </Image>
       </View>
     )
   }
@@ -36,19 +50,51 @@ class PreviewPhoto extends React.Component{
 var styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
-    alignItems: 'stretch'
+    backgroundColor: '#ededed'
   },
   image: {
     flex: 1
   },
-  capture: {
-    flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    color: '#000',
-    padding: 10,
-    margin: 10
-  }
+  buttonContainer:{
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor:'transparent',
+    alignItems:'flex-end',
+    justifyContent: 'center',
+  },
+  yesButton:{
+    width:50,
+    height:50,
+    backgroundColor:'transparent',
+    borderRadius:35,
+    alignItems:'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'white',
+    margin: 15,
+  },
+  yesIcon:{
+    width:60,
+    height:60,
+    marginLeft: 37
+  },
+  noButton:{
+    width:50,
+    height:50,
+    backgroundColor:'transparent',
+    borderRadius:35,
+    alignItems:'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'white',
+    margin: 15,
+  },
+  noIcon:{
+    width:60,
+    height:60,
+    marginLeft: 37
+  },
+
 });
 
 module.exports = PreviewPhoto;

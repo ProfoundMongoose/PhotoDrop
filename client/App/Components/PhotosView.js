@@ -2,12 +2,14 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
 var api = require('../Utils/api');
-var PhotoSwipperView = require('./PhotoSwipperView');
+var IconIon = require('react-native-vector-icons/Ionicons');
+var PhotoSwiperView = require('./PhotoSwiperView');
 
 var {
   Navigator,
   StyleSheet,
   View,
+  Text,
   Dimensions,
   Image,
   ScrollView,
@@ -43,23 +45,23 @@ class PhotosView extends React.Component{
       var photosUrls = photosArr.map((photo) => {
         return photo.url;
       });
-      this.setState({imageUrls:photosUrls});
+      this.setState({ imageUrls: photosUrls });
     })
   }
 
   componentWillUnmount() { //this is just for displaying the statusbar in settings. When the photosview button is removed from settings and is added to the map marker, delete this
-    StatusBarIOS.setStyle('light-content');
+    // StatusBarIOS.setStyle('light-content');
     StatusBarIOS.setHidden(false);
   }
 
   handleRotation(event) {
     var layout = event.nativeEvent.layout;
-    this.setState({currentScreenWidth: layout.width, currentScreenHeight: layout.height });
+    this.setState({ currentScreenWidth: layout.width, currentScreenHeight: layout.height });
   }
 
   calculatedSize() {
     var size = this.state.currentScreenWidth / IMAGES_PER_ROW;
-    return {width: size, height: size};
+    return { width: size, height: size };
   }
 
   // function that returns a function that knows the correct uri to render
@@ -68,7 +70,7 @@ class PhotosView extends React.Component{
       console.log(uri);
       console.log(this.state.imageUrls);
       this.props.navigator.push({
-        component: PhotoSwipperView,
+        component: PhotoSwiperView,
         index: index,
         photos: this.state.imageUrls,
         uri: uri,
@@ -99,37 +101,74 @@ class PhotosView extends React.Component{
     })
   }
 
+  _backButton() {
+    this.props.navigator.pop();
+  }
+
   render() {
+    var pageTitle = (
+      <Text style={styles.pageTitle}>Photos Near You</Text>
+    )
+    var backButton = (
+      <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
+        <IconIon name='ios-arrow-thin-down' size={30} style={styles.backIcon} color="#FF5A5F"/>
+      </TouchableHighlight>
+    );
     return (
-      <View style={{flex: 1, backgroundColor: 'white' }}>
-        <NavigationBar title={{title: 'Swipe Down to Dismiss', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
+      <View style={{flex: 1, backgroundColor: '#ededed' }}>
+        <NavigationBar 
+          title={pageTitle} 
+          tintColor={"white"} 
+          statusBar={{hidden: false}}
+          leftButton={backButton}/>
         {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
+        {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
+        {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText2}>Be the first one to share a pic!</Text>  : null}
         <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
           {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
         </ScrollView>
       </View>
     );
   }
-
-};
+}
 
 var styles = StyleSheet.create({
   centering: {
     alignItems: 'center',
     justifyContent: 'center'
   },
+  noPhotosText: {
+    marginTop: 65,
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#656565'
+  },
+  noPhotosText2: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#656565'
+  },
   scrollView: {
-   flexDirection: 'row',
-   flexWrap: 'wrap'
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   row: {
-   flexDirection: 'row',
-   alignItems: 'center',
-   justifyContent: 'flex-start'
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
   },
   image: {
-   borderWidth: 1,
-   borderColor: '#fff'
+    borderWidth: 1,
+    borderColor: '#fff'
+  },
+  backIcon: {
+    marginLeft: 15,
+  },
+  pageTitle: {
+    fontSize: 18,
+    fontFamily: 'circular',
+    textAlign: 'center',
+    color: '#565b5c'
   }
 });
 

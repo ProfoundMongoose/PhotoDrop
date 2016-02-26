@@ -10,9 +10,9 @@ var {
   StyleSheet,
   TextInput,
   TouchableHighlight,
-  ActivityIndicatorIOS, 
+  ActivityIndicatorIOS,
+  Navigator
 } = React;
-
 
 class Login extends React.Component {
   constructor(props) {
@@ -25,35 +25,39 @@ class Login extends React.Component {
     };
   }
 
-  handleUsernameChange (event) {
+  handleUsernameChange(event) {
     this.setState({
       username: event.nativeEvent.text
     });
   }
 
-  handlePasswordChange (event) {
+  handlePasswordChange(event) {
     this.setState({
       password: event.nativeEvent.text
     });
   }
 
-  handleSubmit(){ 
+  handleSubmit() {
     this.setState({
       isLoading: true
     });
 
     api.login(this.state.username, this.state.password)
       .then((res) => {
-        if(res.status === 500){
+        if (res.status === 500) {
           this.setState({
-             error: 'Username or password is incorrect',
-             isLoading: false
-           });
+            error: 'Username or password is incorrect',
+            isLoading: false
+          });
         } else {
+          console.log('res: ', res._bodyInit);
           this.props.navigator.push({
-            title: res.name || 'Select an Option',
             component: Main,
-            passProps: {userInfo: res}
+            userId: res._bodyInit,
+            sceneConfig: {
+              ...Navigator.SceneConfigs.FloatFromBottom,
+              gestures: {}
+            }
           });
           this.setState({
             isLoading: false,
@@ -61,18 +65,19 @@ class Login extends React.Component {
             username: '',
             password: ''
           });
-          }
-        }).catch((err) => {
-           this.setState({
-             error: 'User not found' + err,
-             isLoading: false
-           });
+        }
+      }).catch((err) => {
+        this.setState({
+          error: 'User not found' + err,
+          isLoading: false
         });
-    }
+      });
+  }
 
   handleRedirect() {
     this.props.navigator.push({
-      component: Signup
+      component: Signup,
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight
     });
     this.setState({
       isLoading: false,
@@ -85,18 +90,22 @@ class Login extends React.Component {
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
-      );
+    );
+    var pageTitle = (
+      <Text style={styles.pageTitle}>Profound Mongoose</Text>
+    )
     return (
-      <View style={{flex: 1}}> 
-        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
+      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+        <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}}/>
         <View style={styles.loginContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
-            style={styles.searchInput}
+            style={styles.userInput}
             value={this.state.username}
+            returnKeyType={'next'}
             onChange={this.handleUsernameChange.bind(this)}
             onSubmitEditing={(event) => { 
               this.refs.SecondInput.focus(); 
@@ -109,20 +118,22 @@ class Login extends React.Component {
             autoCorrect={false}
             maxLength={16}
             secureTextEntry={true}
-            style={styles.searchInput}
+            style={styles.userInput}
             value={this.state.password}
-            onChange={this.handlePasswordChange.bind(this)} />
+            returnKeyType={'go'}
+            onChange={this.handlePasswordChange.bind(this)} 
+            onSubmitEditing={this.handleSubmit.bind(this)}/>
           <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
-            underlayColor='#FC9396'>
+            underlayColor='#e66365'>
             <Text style={styles.buttonText}> Sign In </Text>
           </TouchableHighlight>
 
           <TouchableHighlight
             onPress={this.handleRedirect.bind(this)}
-            underlayColor='white'>
-            <Text style={styles.signup}> Dont have an account? Sign Up!  </Text>
+            underlayColor='#ededed'>
+            <Text style={styles.signup}> {"Don't have an account yet? Sign Up!"}  </Text>
           </TouchableHighlight>
 
           <ActivityIndicatorIOS
@@ -131,11 +142,8 @@ class Login extends React.Component {
             style={styles.loading} />
           
           {showErr}
-
         </View>
-
       </View>
-
     )
   }
 }
@@ -146,33 +154,29 @@ var styles = StyleSheet.create({
     padding: 30,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: 'white'
-  },
-  title: {
-    marginTop: 10,
-    marginBottom: 25,
-    fontSize: 18,
-    textAlign: 'center',
+    backgroundColor: '#ededed'
   },
   fieldTitle: {
     marginTop: 10,
     marginBottom: 15,
     fontSize: 18,
+    fontFamily: 'circular',
     textAlign: 'center',
-    color: 'black'
+    color: '#616161'
   },
-  searchInput: {
+  userInput: {
     height: 50,
     padding: 4,
-    marginRight: 5,
     fontSize: 18,
+    fontFamily: 'circular',
     borderWidth: 1,
-    borderColor: 'grey',
-    borderRadius: 8,
-    color: 'black'
+    borderColor: '#616161',
+    borderRadius: 4,
+    color: '#616161'
   },
   buttonText: {
     fontSize: 18,
+    fontFamily: 'circular',
     color: 'white',
     alignSelf: 'center'
   },
@@ -180,9 +184,9 @@ var styles = StyleSheet.create({
     height: 45,
     flexDirection: 'row',
     backgroundColor: '#FF5A5F',
-    borderColor: '#FF5A5F',
+    borderColor: 'transparent',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 4,
     marginBottom: 10,
     marginTop: 30,
     alignSelf: 'stretch',
@@ -191,14 +195,24 @@ var styles = StyleSheet.create({
   signup: {
     marginTop: 20,
     fontSize: 14,
+    fontFamily: 'circular',
     textAlign: 'center',
-    textDecorationLine: 'underline'
+    color: '#FF5A5F'
   },
   loading: {
     marginTop: 20
   },
   err: {
-    textAlign: 'center'
+    fontSize: 14,
+    fontFamily: 'circular',
+    textAlign: 'center',
+    color: '#616161'
+  },
+  pageTitle: {
+    fontSize: 18,
+    fontFamily: 'circular',
+    textAlign: 'center',
+    color: '#565b5c'
   }
 });
 

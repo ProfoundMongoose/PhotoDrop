@@ -11,7 +11,6 @@ class ProfoundMongoose extends React.Component {
   render() {
     return (
       <Navigator
-        style={styles.container}
         initialRoute={{
           component: Login
         }}
@@ -30,33 +29,5 @@ class ProfoundMongoose extends React.Component {
     );
   }
 }
-
-var styles = StyleSheet.create({
-  messageText: {
-    fontSize: 17,
-    fontWeight: '500',
-    padding: 15,
-    marginTop: 50,
-    marginLeft: 15,
-  },
-  container: {
-    flex: 1,
-  },
-  button: {
-    backgroundColor: 'white',
-    padding: 15,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: '#CDCDCD',
-  },
-  buttonText: {
-    fontSize: 17,
-    fontWeight: '500',
-  },
-  scene: {
-    flex: 1,
-    paddingTop: 20,
-    backgroundColor: 'black',
-  }
-});
 
 AppRegistry.registerComponent('ProfoundMongoose', () => ProfoundMongoose);
