@@ -44,23 +44,23 @@ class PhotosView extends React.Component{
       var photosUrls = photosArr.map((photo) => {
         return photo.url;
       });
-      this.setState({imageUrls:photosUrls});
+      this.setState({ imageUrls: photosUrls });
     })
   }
 
   componentWillUnmount() { //this is just for displaying the statusbar in settings. When the photosview button is removed from settings and is added to the map marker, delete this
-    StatusBarIOS.setStyle('light-content');
+    // StatusBarIOS.setStyle('light-content');
     StatusBarIOS.setHidden(false);
   }
 
   handleRotation(event) {
     var layout = event.nativeEvent.layout;
-    this.setState({currentScreenWidth: layout.width, currentScreenHeight: layout.height });
+    this.setState({ currentScreenWidth: layout.width, currentScreenHeight: layout.height });
   }
 
   calculatedSize() {
     var size = this.state.currentScreenWidth / IMAGES_PER_ROW;
-    return {width: size, height: size};
+    return { width: size, height: size };
   }
 
   // function that returns a function that knows the correct uri to render
@@ -102,8 +102,8 @@ class PhotosView extends React.Component{
 
   render() {
     return (
-      <View style={{flex: 1, backgroundColor: 'white' }}>
-        <NavigationBar title={{title: 'Swipe Down to Dismiss', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
+      <View style={{flex: 1, backgroundColor: '#ededed' }}>
+        <NavigationBar title={{title: 'Photos Near You', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
         {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
         {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
         {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText2}>Be the first one to share a pic!</Text>  : null}
@@ -113,8 +113,7 @@ class PhotosView extends React.Component{
       </View>
     );
   }
-
-};
+}
 
 var styles = StyleSheet.create({
   centering: {
@@ -133,17 +132,17 @@ var styles = StyleSheet.create({
     color: '#656565'
   },
   scrollView: {
-   flexDirection: 'row',
-   flexWrap: 'wrap'
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
   row: {
-   flexDirection: 'row',
-   alignItems: 'center',
-   justifyContent: 'flex-start'
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start'
   },
   image: {
-   borderWidth: 1,
-   borderColor: '#fff'
+    borderWidth: 1,
+    borderColor: '#fff'
   }
 });
 

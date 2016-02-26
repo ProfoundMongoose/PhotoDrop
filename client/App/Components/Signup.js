@@ -15,99 +15,98 @@ var {
 } = React;
 
 class Signup extends React.Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        username: '',
-        password: '',
-        confirmedPassword: '',
-        isLoading: false,
-        error: false,
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+      confirmedPassword: '',
+      isLoading: false,
+      error: false,
+      passwordError: false
+    };
+  }
+
+  handleUsernameChange(event) {
+    this.setState({
+      username: event.nativeEvent.text
+    });
+  }
+
+  handlePasswordChange(event) {
+    this.setState({
+      password: event.nativeEvent.text
+    });
+  }
+
+  handleConfirmedPasswordChange(event) {
+    this.setState({
+      confirmedPassword: event.nativeEvent.text
+    });
+  }
+
+  handleSubmit() {
+    if (this.state.password === this.state.confirmedPassword) {
+      this.setState({
+        isLoading: true,
         passwordError: false
-      };
-    }
-
-    handleUsernameChange(event) {
-      this.setState({
-        username: event.nativeEvent.text
       });
-    }
 
-    handlePasswordChange(event) {
-      this.setState({
-        password: event.nativeEvent.text
-      });
-    }
-
-    handleConfirmedPasswordChange(event) {
-      this.setState({
-        confirmedPassword: event.nativeEvent.text
-      });
-    }
-
-    handleSubmit() {
-      if (this.state.password === this.state.confirmedPassword) {
-        this.setState({
-          isLoading: true,
-          passwordError: false
-        });
-
-        api.signup(this.state.username, this.state.password)
-          .then((res) => {
+      api.signup(this.state.username, this.state.password)
+        .then((res) => {
+          this.setState({
+            passwordError: false
+          });
+          if (res.status === 500) {
             this.setState({
-              passwordError: false
-            });
-            if (res.status === 500) {
-              this.setState({
-                error: 'User already exists',
-                isLoading: false
-              });
-            } else {
-              // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
-              console.log('on client JWT', JSON.parse(res._bodyText))
-              Keychain
-                .setGenericPassword(null, JSON.parse(res._bodyText).token)
-                .then(function() {
-                  console.log('Credentials saved successfully!');
-                });
-
-              this.setState({
-                isLoading: false,
-                error: false,
-                username: '',
-                password: ''
-              });
-              this.props.navigator.push({
-                component: Main,
-                userId: JSON.parse(res._bodyText).userId
-              });
-            }
-          }).catch((err) => {
-            this.setState({
-              error: 'User already exists' + err,
+              error: 'User already exists',
               isLoading: false
             });
-          });
-      } else {
-         this.setState({
-            error: false,
-            passwordError: 'Passwords dont match',
+          } else {
+            // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
+            console.log('on client JWT', JSON.parse(res._bodyText))
+            Keychain
+              .setGenericPassword(null, JSON.parse(res._bodyText).token)
+              .then(function() {
+                console.log('Credentials saved successfully!');
+              });
+
+            this.setState({
+              isLoading: false,
+              error: false,
+              username: '',
+              password: ''
+            });
+            this.props.navigator.push({
+              component: Main,
+              userId: JSON.parse(res._bodyText).userId
+            });
+          }
+        }).catch((err) => {
+          this.setState({
+            error: 'User already exists' + err,
             isLoading: false
           });
-      }
+        });
+    } else {
+       this.setState({
+          error: false,
+          passwordError: 'Passwords dont match',
+          isLoading: false
+        });
     }
+  }
 
 
-    handleRedirect() {
-      this.props.navigator.pop();
-      this.setState({
-        isLoading: false,
-        error: false,
-        username: '',
-        password: ''
-      });
-    }
-
+  handleRedirect() {
+    this.props.navigator.pop();
+    this.setState({
+      isLoading: false,
+      error: false,
+      username: '',
+      password: ''
+    });
+  }
 
   render() {
     var showErr = (
@@ -117,10 +116,9 @@ class Signup extends React.Component {
       this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
       );
     return (
-      <View style={{flex: 1}}>
-        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden:false}}/>
 
-
+      <View style={{flex: 1, backgroundColor: '#ededed'}}>
+        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
         <View style={styles.mainContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
@@ -129,6 +127,7 @@ class Signup extends React.Component {
             maxLength={16}
             style={styles.userInput}
             value={this.state.username}
+            returnKeyType={'next'}
             onChange={this.handleUsernameChange.bind(this)}
             onSubmitEditing={(event) => {
               this.refs.SecondInput.focus();
@@ -142,6 +141,7 @@ class Signup extends React.Component {
             secureTextEntry={true}
             style={styles.userInput}
             value={this.state.password}
+            returnKeyType={'next'}
             onChange={this.handlePasswordChange.bind(this)}
             onSubmitEditing={(event) => {
               this.refs.ThirdInput.focus();
@@ -155,6 +155,8 @@ class Signup extends React.Component {
             secureTextEntry={true}
             style={styles.userInput}
             value={this.state.confirmedPassword}
+            returnKeyType={'go'}
+            onSubmitEditing={this.handleSubmit.bind(this)}
             onChange={this.handleConfirmedPasswordChange.bind(this)} />
           <TouchableHighlight
             style={styles.button}
@@ -164,8 +166,8 @@ class Signup extends React.Component {
           </TouchableHighlight>
           <TouchableHighlight
             onPress={this.handleRedirect.bind(this)}
-            underlayColor='white'>
-            <Text style={styles.signup}> Dont have an account? Sign in!  </Text>
+            underlayColor='#ededed'>
+            <Text style={styles.signup}> Already have an account? Sign in!  </Text>
           </TouchableHighlight>
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
@@ -182,32 +184,35 @@ class Signup extends React.Component {
     )
   }
 }
-
 var styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     padding: 30,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: 'white'
+    backgroundColor: '#ededed'
   },
   fieldTitle: {
     marginTop: 10,
     marginBottom: 15,
     fontSize: 18,
+    fontFamily: 'circular',
     textAlign: 'center',
+    color: '#616161'
   },
   userInput: {
     height: 50,
     padding: 4,
     fontSize: 18,
+    fontFamily: 'circular',
     borderWidth: 1,
-    borderColor: 'grey',
-    borderRadius: 8,
-    color: 'black'
+    borderColor: '#616161',
+    borderRadius: 4,
+    color: '#616161'
   },
   buttonText: {
-    fontSize: 20,
+    fontSize: 18,
+    fontFamily: 'circular',
     color: 'white',
     alignSelf: 'center'
   },
@@ -217,7 +222,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FF5A5F',
     borderColor: '#FF5A5F',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 4,
     marginBottom: 10,
     marginTop: 30,
     alignSelf: 'stretch',
@@ -226,16 +231,20 @@ var styles = StyleSheet.create({
   signup: {
     marginTop: 20,
     fontSize: 14,
+    fontFamily: 'circular',
     textAlign: 'center',
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
+    color: '#616161'
   },
   loading: {
     marginTop: 20
   },
   err: {
-    textAlign: 'center'
+    fontSize: 14,
+    fontFamily: 'circular',
+    textAlign: 'center',
+    color: '#616161'
   }
 });
-
 
 module.exports = Signup;

@@ -41,56 +41,56 @@ class Login extends React.Component {
     });
   }
 
-  handleUsernameChange (event) {
+  handleUsernameChange(event) {
     this.setState({
       username: event.nativeEvent.text
     });
   }
 
-  handlePasswordChange (event) {
+  handlePasswordChange(event) {
     this.setState({
       password: event.nativeEvent.text
     });
   }
 
   handleSubmit(){
-    this.setState({
-      isLoading: true
-    });
+      this.setState({
+        isLoading: true
+      });
 
-    api.login(this.state.username, this.state.password)
-      .then((res) => {
-        if(res.status === 500){
-          this.setState({
-             error: 'Username or password is incorrect',
-             isLoading: false
-           });
-        } else {
-          console.log('positive signin')
-          console.log(res._bodyText)
-          // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
-          var bodyText = JSON.parse(res._bodyText);
-          Keychain.setGenericPassword(null, bodyText.token)
-          console.log('Credentials saved successfully!', bodyText.userId, bodyText.token);
-          this.props.navigator.push({
-            component: Main,
-            userId: bodyText.userId
-          });
-
+      api.login(this.state.username, this.state.password)
+        .then((res) => {
+          if(res.status === 500){
             this.setState({
-              isLoading: false,
-              error: false,
-              username: '',
-              password: ''
+               error: 'Username or password is incorrect',
+               isLoading: false
+             });
+          } else {
+            console.log('positive signin')
+            console.log(res._bodyText)
+            // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
+            var bodyText = JSON.parse(res._bodyText);
+            Keychain.setGenericPassword(null, bodyText.token)
+            console.log('Credentials saved successfully!', bodyText.userId, bodyText.token);
+            this.props.navigator.push({
+              component: Main,
+              userId: bodyText.userId
             });
-          }
-        }).catch((err) => {
-           this.setState({
-             error: 'User not found' + err,
-             isLoading: false
-           });
-        });
-    }
+
+              this.setState({
+                isLoading: false,
+                error: false,
+                username: '',
+                password: ''
+              });
+            }
+          }).catch((err) => {
+             this.setState({
+               error: 'User not found' + err,
+               isLoading: false
+             });
+          });
+      }
 
   handleRedirect() {
     this.props.navigator.push({
@@ -109,8 +109,8 @@ class Login extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
       );
     return (
-      <View style={{flex: 1}}>
-        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: 'white'}} tintColor={"#FF5A5F"} statusBar={{style: 'light-content', hidden: false}}/>
+      <View style={{flex: 1, backgroundColor: '#ededed'}}>
+        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
         <View style={styles.loginContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
@@ -119,6 +119,7 @@ class Login extends React.Component {
             maxLength={16}
             style={styles.userInput}
             value={this.state.username}
+            returnKeyType={'next'}
             onChange={this.handleUsernameChange.bind(this)}
             onSubmitEditing={(event) => {
               this.refs.SecondInput.focus();
@@ -133,7 +134,9 @@ class Login extends React.Component {
             secureTextEntry={true}
             style={styles.userInput}
             value={this.state.password}
-            onChange={this.handlePasswordChange.bind(this)} />
+            returnKeyType={'go'}
+            onChange={this.handlePasswordChange.bind(this)}
+            onSubmitEditing={this.handleSubmit.bind(this)}/>
           <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
@@ -143,8 +146,8 @@ class Login extends React.Component {
 
           <TouchableHighlight
             onPress={this.handleRedirect.bind(this)}
-            underlayColor='white'>
-            <Text style={styles.signup}> Dont have an account? Sign Up!  </Text>
+            underlayColor='#ededed'>
+            <Text style={styles.signup}> Don't have an account yet? Sign Up!  </Text>
           </TouchableHighlight>
 
           <ActivityIndicatorIOS
@@ -165,32 +168,29 @@ var styles = StyleSheet.create({
     padding: 30,
     flexDirection: 'column',
     justifyContent: 'center',
-    backgroundColor: 'white'
-  },
-  title: {
-    marginTop: 10,
-    marginBottom: 25,
-    fontSize: 18,
-    textAlign: 'center',
+    backgroundColor: '#ededed'
   },
   fieldTitle: {
     marginTop: 10,
     marginBottom: 15,
     fontSize: 18,
+    fontFamily: 'circular',
     textAlign: 'center',
-    color: 'black'
+    color: '#616161'
   },
   userInput: {
     height: 50,
     padding: 4,
     fontSize: 18,
+    fontFamily: 'circular',
     borderWidth: 1,
-    borderColor: 'grey',
-    borderRadius: 8,
-    color: 'black'
+    borderColor: '#616161',
+    borderRadius: 4,
+    color: '#616161'
   },
   buttonText: {
     fontSize: 18,
+    fontFamily: 'circular',
     color: 'white',
     alignSelf: 'center'
   },
@@ -200,7 +200,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FF5A5F',
     borderColor: '#FF5A5F',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 4,
     marginBottom: 10,
     marginTop: 30,
     alignSelf: 'stretch',
@@ -209,14 +209,19 @@ var styles = StyleSheet.create({
   signup: {
     marginTop: 20,
     fontSize: 14,
+    fontFamily: 'circular',
     textAlign: 'center',
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
+    color: '#616161'
   },
   loading: {
     marginTop: 20
   },
   err: {
-    textAlign: 'center'
+    fontSize: 14,
+    fontFamily: 'circular',
+    textAlign: 'center',
+    color: '#616161'
   }
 });
 

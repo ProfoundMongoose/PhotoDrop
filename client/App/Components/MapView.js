@@ -18,20 +18,16 @@ var {
   StatusBarIOS
 } = React;
 
-class Overlays extends React.Component{
+class Map extends React.Component {
 
   constructor(props) {
     super(props);
-    this.aspect_ratio = this.props.params.width / this.props.params.height;
 
     this.state = {
-      isFirstLoad: true,
-      region: {
-        latitude: this.props.params.latitude,
-        longitude: this.props.params.longitude,
-        latitudeDelta: 0.005,
-        longitudeDelta: this.aspect_ratio * 0.005
-      },
+      latitude: this.props.params.latitude,
+      longitude: this.props.params.longitude,
+      latitudeDelta: 0.005,
+      longitudeDelta: (this.props.params.width / this.props.params.height) * 0.005, // division is aspect ratio
       photoCount: 0,
       photosLocations: undefined
     };
@@ -39,12 +35,12 @@ class Overlays extends React.Component{
     // need to figure out when these api methods are invoked; does not update after a picture was taken
     api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      this.setState({photoCount: photosArr.length});
+      this.setState({ photoCount: photosArr.length });
     });
 
-    api.fetchLocations(this.state.region.latitude, this.state.region.longitude, this.state.region.latitudeDelta, this.state.region.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      this.setState({photosLocations: photosArr});
+      this.setState({ photosLocations: photosArr });
     });
   }
 
@@ -63,10 +59,8 @@ class Overlays extends React.Component{
     navigator.geolocation.getCurrentPosition(
       location => {
         this.setState({
-          region: {
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude,
-          }
+          latitude: location.coords.latitude,
+          longitude: location.coords.longitude
         });
       },
       error => {
@@ -77,15 +71,18 @@ class Overlays extends React.Component{
   }
 
   onRegionChange(region) {
-    this.setState({ region });
-    api.fetchLocations(this.state.region.latitude, this.state.region.longitude, this.state.region.latitudeDelta, this.state.region.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    this.setState({
+      latitude: region.latitude,
+      longitude: region.longitude
+    });
+    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      this.setState({photosLocations: photosArr});
+      this.setState({ photosLocations: photosArr });
     });
   }
 
   render() {
-    StatusBarIOS.setHidden(true, 'fade');
+    StatusBarIOS.setHidden(true);
 
     if(this.state.photosLocations){
     return (
@@ -93,7 +90,7 @@ class Overlays extends React.Component{
         <MapView
           ref="map"
           style={styles.map}
-          region={this.state.region}
+          region={this.state}
           showsUserLocation={true}
           scrollEnabled={false}
           zoomEnabled={false}
@@ -114,14 +111,14 @@ class Overlays extends React.Component{
 
         <View style={styles.arrowContainer}>
           <TouchableHighlight onPress={this.onLocationPressed.bind(this)} style={styles.arrowButton} underlayColor={'#FF5A5F'}>
-            <Icon name="location-arrow" size={25} color="#ffffff" style={styles.arrowIcon} />
+            <Icon name="location-arrow" size={25} color="#ededed" style={styles.arrowIcon} />
           </TouchableHighlight>
         </View>
 
         <View style={styles.buttonContainer}>
           <View style={[styles.bubble, styles.latlng]}>
             <Text style={{ textAlign: 'center'}}>
-              {`${this.state.region.latitude.toPrecision(7)}, ${this.state.region.longitude.toPrecision(7)}`}
+              {`${this.state.latitude.toPrecision(7)}, ${this.state.longitude.toPrecision(7)}`}
             </Text>
           </View>
         </View>
@@ -153,7 +150,7 @@ var styles = StyleSheet.create({
   },
   bubble: {
     flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: 'rgba(237,237,237,0.7)',
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 20
@@ -203,4 +200,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = Overlays;
+module.exports = Map;
