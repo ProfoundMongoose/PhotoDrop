@@ -20,7 +20,7 @@ class Settings extends React.Component {
 
   openPhotos() {
     this.props.navigator.push({
-      component: PhotosView
+      component: PhotosView,
     });
   }
 
@@ -34,22 +34,25 @@ class Settings extends React.Component {
   }
 
   render() {
+    var pageTitle = (
+      <Text style={styles.pageTitle}>Settings</Text>
+    )
     return (
       <View style={{ flex: 1, backgroundColor: '#ededed'}}>
         <NavigationBar 
-          title={{title: 'Settings', tintColor: '#565b5c'}} 
+          title={pageTitle} 
           tintColor={"white"}/>
         <View style={styles.mainContainer}>
           <Image source={require('./../../images/Logo.png')} style={styles.image}/>
           <TouchableHighlight
             style={styles.button}
-            underlayColor={'#FC9396'}
+            underlayColor={'#e66365'}
             onPress={this.openPhotos.bind(this)}>
             <Text style={styles.buttonText}> PhotosView </Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.button}
-            underlayColor={'#FC9396'}
+            underlayColor={'#e66365'}
             onPress={this.logout.bind(this)}>
             <Text style={styles.buttonText}> Logout </Text>
           </TouchableHighlight>
@@ -98,6 +101,12 @@ var styles = StyleSheet.create({
   image: {
     width: 200,
     height: 200,
+  },
+  pageTitle: {
+    fontSize: 18,
+    fontFamily: 'circular',
+    textAlign: 'center',
+    color: '#565b5c'
   }
 });
 

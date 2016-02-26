@@ -98,7 +98,6 @@ class Signup extends React.Component {
     }
   }
 
-
   handleRedirect() {
     this.props.navigator.pop();
     this.setState({
@@ -116,10 +115,11 @@ class Signup extends React.Component {
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
-    );
+      );
     var showPasswordErr = (
       this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
-    );
+      );
+
     var pageTitle = (
       <Text style={styles.pageTitle}>Profound Mongoose</Text>
     );
@@ -129,6 +129,7 @@ class Signup extends React.Component {
       </TouchableHighlight>
     );
     return (
+
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <NavigationBar 
           title={pageTitle} 
@@ -177,7 +178,7 @@ class Signup extends React.Component {
           <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
-            underlayColor='#FC9396'>
+            underlayColor='#e66365'>
             <Text style={styles.buttonText}> Sign Up </Text>
           </TouchableHighlight>
           <TouchableHighlight
@@ -200,6 +201,7 @@ class Signup extends React.Component {
     )
   }
 }
+
 var styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
@@ -236,7 +238,7 @@ var styles = StyleSheet.create({
     height: 45,
     flexDirection: 'row',
     backgroundColor: '#FF5A5F',
-    borderColor: '#FF5A5F',
+    borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 4,
     marginBottom: 10,
@@ -249,8 +251,7 @@ var styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'circular',
     textAlign: 'center',
-    textDecorationLine: 'underline',
-    color: '#616161'
+    color: '#FF5A5F'
   },
   loading: {
     marginTop: 20
@@ -263,7 +264,14 @@ var styles = StyleSheet.create({
   },
   backIcon: {
     marginLeft: 15,
+  },
+  pageTitle: {
+    fontSize: 18,
+    fontFamily: 'circular',
+    textAlign: 'center',
+    color: '#565b5c'
   }
 });
+
 
 module.exports = Signup;
