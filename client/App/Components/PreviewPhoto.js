@@ -14,6 +14,7 @@ var {
 class PreviewPhoto extends React.Component{
   constructor(props) {
     super(props);
+    console.log('PREVIEWVIEW',props.route.userId)
   }
 
   _sendImage() {
@@ -30,7 +31,7 @@ class PreviewPhoto extends React.Component{
     return (
       <View style={styles.imageContainer}>
         <NavigationBar title={{title: 'Share this image?', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
-        <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}> 
+        <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}>
 
           <View style={styles.buttonContainer}>
             <TouchableHighlight onPress={this._sendImage.bind(this)} style={styles.yesButton} underlayColor={'#00A5A0'}>

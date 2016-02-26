@@ -16,6 +16,19 @@ var api = {
     });
   },
 
+  checkJWT(JWT, callback) {
+    var url = 'http://162.243.130.124:8000/checkJWT/' + JWT;
+    fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(userData) { // handle error here for some reason catch was not working
+      if (userData.status === 404) console.log('Problem with GET request for JWT');
+      else callback(userData._bodyInit);
+    });
+  },
+
   uploadPhoto(data, latitude, longitude, userId) {
     var url = 'http://162.243.130.124:8000/imgUpload';
     return fetch(url, {

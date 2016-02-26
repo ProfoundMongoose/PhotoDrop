@@ -2,6 +2,8 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var api = require('../Utils/api');
 var Login = require('./Login');
+var Keychain = require('react-native-keychain');
+var Main = require('./Main');
 
 var {
   View,
@@ -61,13 +63,24 @@ class Signup extends React.Component {
               isLoading: false
             });
           } else {
+            // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
+            console.log('on client JWT', JSON.parse(res._bodyText))
+            Keychain
+              .setGenericPassword(null, JSON.parse(res._bodyText).token)
+              .then(function() {
+                console.log('Credentials saved successfully!');
+              });
+
             this.setState({
               isLoading: false,
               error: false,
               username: '',
               password: ''
             });
-            this.props.navigator.pop();
+            this.props.navigator.push({
+              component: Main,
+              userId: JSON.parse(res._bodyText).userId
+            });
           }
         }).catch((err) => {
           this.setState({
@@ -76,11 +89,11 @@ class Signup extends React.Component {
           });
         });
     } else {
-      this.setState({
-        error: false,
-        passwordError: 'Passwords dont match',
-        isLoading: false
-      });
+       this.setState({
+          error: false,
+          passwordError: 'Passwords dont match',
+          isLoading: false
+        });
     }
   }
 
@@ -103,7 +116,8 @@ class Signup extends React.Component {
       this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
       );
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+
+      <View style={{flex: 1, backgroundColor: '#ededed'}}>
         <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
         <View style={styles.mainContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
@@ -115,8 +129,8 @@ class Signup extends React.Component {
             value={this.state.username}
             returnKeyType={'next'}
             onChange={this.handleUsernameChange.bind(this)}
-            onSubmitEditing={(event) => { 
-              this.refs.SecondInput.focus(); 
+            onSubmitEditing={(event) => {
+              this.refs.SecondInput.focus();
             }} />
           <Text style={styles.fieldTitle}> Password </Text>
           <TextInput
@@ -129,8 +143,8 @@ class Signup extends React.Component {
             value={this.state.password}
             returnKeyType={'next'}
             onChange={this.handlePasswordChange.bind(this)}
-            onSubmitEditing={(event) => { 
-              this.refs.ThirdInput.focus(); 
+            onSubmitEditing={(event) => {
+              this.refs.ThirdInput.focus();
             }} />
           <Text style={styles.fieldTitle}> Confirm Password </Text>
           <TextInput
@@ -158,9 +172,9 @@ class Signup extends React.Component {
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
             size='large'
-            style={styles.loading} 
+            style={styles.loading}
             />
-          
+
           {showErr}
           {showPasswordErr}
         </View>

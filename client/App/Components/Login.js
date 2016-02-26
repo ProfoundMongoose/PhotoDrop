@@ -3,6 +3,7 @@ var NavigationBar = require('react-native-navbar');
 var api = require('../Utils/api');
 var Main = require('./Main');
 var Signup = require('./Signup');
+var Keychain = require('react-native-keychain');
 
 var {
   View,
@@ -22,6 +23,22 @@ class Login extends React.Component {
       isLoading: false,
       error: false
     };
+
+  // check for token match in keychain with server, if it is good.. go to camera view
+  Keychain
+    .getGenericPassword()
+    .then((credentials) => {
+      console.log('getting from Keychain: ', credentials)
+      api.checkJWT(credentials.password, (userData) => {
+        console.log('getting decoded keychain back from server:', userData)
+        this.props.navigator.push({
+          component: Main,
+          userId: JSON.parse(userData).userId
+        });
+      })
+    }).catch((err) => {
+      // Keychain not found. User must login
+    });
   }
 
   handleUsernameChange(event) {
@@ -36,38 +53,44 @@ class Login extends React.Component {
     });
   }
 
-  handleSubmit() {
-    this.setState({
-      isLoading: true
-    });
-
-    api.login(this.state.username, this.state.password)
-      .then((res) => {
-        if (res.status === 500) {
-          this.setState({
-            error: 'Username or password is incorrect',
-            isLoading: false
-          });
-        } else {
-          console.log('res: ', res._bodyInit);
-          this.props.navigator.push({
-            component: Main,
-            userId: res._bodyInit
-          });
-          this.setState({
-            isLoading: false,
-            error: false,
-            username: '',
-            password: ''
-          });
-        }
-      }).catch((err) => {
-        this.setState({
-          error: 'User not found' + err,
-          isLoading: false
-        });
+  handleSubmit(){
+      this.setState({
+        isLoading: true
       });
-  }
+
+      api.login(this.state.username, this.state.password)
+        .then((res) => {
+          if(res.status === 500){
+            this.setState({
+               error: 'Username or password is incorrect',
+               isLoading: false
+             });
+          } else {
+            console.log('positive signin')
+            console.log(res._bodyText)
+            // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
+            var bodyText = JSON.parse(res._bodyText);
+            Keychain.setGenericPassword(null, bodyText.token)
+            console.log('Credentials saved successfully!', bodyText.userId, bodyText.token);
+            this.props.navigator.push({
+              component: Main,
+              userId: bodyText.userId
+            });
+
+              this.setState({
+                isLoading: false,
+                error: false,
+                username: '',
+                password: ''
+              });
+            }
+          }).catch((err) => {
+             this.setState({
+               error: 'User not found' + err,
+               isLoading: false
+             });
+          });
+      }
 
   handleRedirect() {
     this.props.navigator.push({
@@ -86,7 +109,7 @@ class Login extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
       );
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+      <View style={{flex: 1, backgroundColor: '#ededed'}}>
         <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
         <View style={styles.loginContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
@@ -98,8 +121,8 @@ class Login extends React.Component {
             value={this.state.username}
             returnKeyType={'next'}
             onChange={this.handleUsernameChange.bind(this)}
-            onSubmitEditing={(event) => { 
-              this.refs.SecondInput.focus(); 
+            onSubmitEditing={(event) => {
+              this.refs.SecondInput.focus();
             }}
              />
           <Text style={styles.fieldTitle}> Password </Text>
@@ -112,7 +135,7 @@ class Login extends React.Component {
             style={styles.userInput}
             value={this.state.password}
             returnKeyType={'go'}
-            onChange={this.handlePasswordChange.bind(this)} 
+            onChange={this.handlePasswordChange.bind(this)}
             onSubmitEditing={this.handleSubmit.bind(this)}/>
           <TouchableHighlight
             style={styles.button}
@@ -129,9 +152,9 @@ class Login extends React.Component {
 
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
-            size='large' 
+            size='large'
             style={styles.loading} />
-          
+
           {showErr}
         </View>
       </View>
