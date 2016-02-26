@@ -1,9 +1,6 @@
 var imgur = require('imgur');
 var Photo = require('./photoModel');
-var Q = require('q');
 var mongoose = require('mongoose');
-
-var getPhotos = Q.nbind(Photo.find, Photo);
 
 module.exports = {
   // send that file to imgur
@@ -75,26 +72,8 @@ module.exports = {
       [lon-londelta, lat-latdelta],
       [lon-londelta, lat+latdelta]
     ]];
-    // console.log('coords: ', coords);
 
-    // Photo.find({
-    //   loc: {
-    //     $geoWithin: {
-    //       $geometry: {
-    //          type: "Polygon" ,
-    //          coordinates: coords 
-    //       }
-    //     }
-    //   }
-    // })
-    //   .then(function(photos) {
-    //     // console.log('photos polygon: ', photos);
-    //     res.json(photos);
-    //   })
-    //   .fail(function(error) {
-    //     console.log('error: ',error);
-    //     next(error);
-    //   });
+    var revealedPhotos = undefined;
 
     Photos.find({
       loc: {
@@ -107,7 +86,8 @@ module.exports = {
         }
       }
     }).select('_id')
-      .then(function(revealedPhotos) {
+      .then(function(photos) {
+        revealedPhotos = photos;
         Photo.find({
           loc: {
             $geoWithin: {
@@ -119,7 +99,6 @@ module.exports = {
           }
         }).nin('_id', revealedPhotos)
           .then(function(photos) {
-            console.log('photos w/ exclusions: ', photos);
             res.json(photos);
           })
           .fail(function(error) {
