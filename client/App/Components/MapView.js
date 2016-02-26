@@ -1,11 +1,10 @@
 var React = require('react-native');
 var MapView = require('react-native-maps');
+var Icon = require('react-native-vector-icons/FontAwesome');
 var PhotoMarker = require('./PhotoMarker');
 var PhotoView = require('./PhotoView');
 var PhotosView = require('./PhotosView');
 var api = require('../Utils/api');
-var _ = require('lodash');
-var Icon = require('react-native-vector-icons/FontAwesome');
 
 var {
   Navigator,
@@ -26,16 +25,16 @@ class Map extends React.Component {
     this.state = {
       latitude: this.props.params.latitude,
       longitude: this.props.params.longitude,
-      latitudeDelta: 0.005,
-      longitudeDelta: (this.props.params.width / this.props.params.height) * 0.005, // division is aspect ratio
-      photoCount: 0,
-      photosLocations: undefined
+      latitudeDelta: 0.003,
+      longitudeDelta: (this.props.params.width / this.props.params.height) * 0.003, // division is aspect ratio
+      photosLocations: undefined,
+      closeLocations: undefined
     };
 
     // need to figure out when these api methods are invoked; does not update after a picture was taken
     api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      this.setState({ photoCount: photosArr.length });
+      this.setState({ closeLocations: photosArr });
     });
 
     api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
@@ -79,12 +78,16 @@ class Map extends React.Component {
       var photosArr = JSON.parse(photos);
       this.setState({ photosLocations: photosArr });
     });
+    api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      this.setState({ closeLocations: photosArr });
+    });
   }
 
   render() {
     StatusBarIOS.setHidden(true);
 
-    if(this.state.photosLocations){
+    if(this.state.photosLocations && this.state.closeLocations){
     return (
       <View style={styles.container}>
         <MapView
@@ -97,10 +100,19 @@ class Map extends React.Component {
           onRegionChange={this.onRegionChange.bind(this)}
           rotateEnabled={false}
           followUserLocation={true}
+          maxDelta={0.003}
         >
           { this.state.photosLocations.map((photoLocation) => {
               return (
                <MapView.Marker image={require('../Components/assets/rsz_pin96.png')} onPress={this.showImage(photoLocation.url)}
+                 coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
+               />
+             )}
+            )
+          }
+          { this.state.closeLocations.map((photoLocation) => {
+              return (
+               <MapView.Marker image={require('../Components/assets/red_pin96.png')} onPress={this.showImage(photoLocation.url)}
                  coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
                />
              )}
