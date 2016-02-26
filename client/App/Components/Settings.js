@@ -29,8 +29,8 @@ class Settings extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: 'white'}}>
-        <NavigationBar title={{title: 'Settings', tintColor: 'white'}} tintColor={"#FF5A5F"}/>
+      <View style={{ flex: 1, backgroundColor: '#ededed'}}>
+        <NavigationBar title={{title: 'Settings', tintColor: '#565b5c'}} tintColor={"white"}/>
 
         <View style={styles.mainContainer}>
           <Image source={require('./../../images/Logo.png')} style={styles.image}/>
@@ -59,6 +59,7 @@ var styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
+    fontFamily: 'circular',
     color: 'white',
     alignSelf: 'center'
   },
@@ -68,7 +69,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#FF5A5F',
     borderColor: '#FF5A5F',
     borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 4,
     marginBottom: 10,
     marginTop: 25,
     alignSelf: 'stretch',
@@ -88,8 +89,8 @@ var styles = StyleSheet.create({
     textAlign: 'center',
   },
   image: {
-    width: 300,
-    height: 300,
+    width: 200,
+    height: 200,
   }
 });
 

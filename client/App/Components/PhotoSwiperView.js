@@ -16,6 +16,10 @@ class PhotoSwiperView extends React.Component{
     super(props);
   }
 
+  componentDidMount() {
+    StatusBarIOS.setHidden(true, 'fade');
+  }
+
   render() {
     var photosUrls = this.props.route.photos;
     return (

@@ -42,7 +42,7 @@ class SwiperView extends React.Component{
       this.setState({ index: 0 });
       this.setState({ showButtons: false });
       StatusBarIOS.setHidden(false, 'fade');
-      StatusBarIOS.setStyle('light-content');
+      // StatusBarIOS.setStyle('light-content');
     } else if (state.index === 1) {
       this.setState({ index: 1 });
       this.setState({ showButtons: true });
@@ -53,6 +53,7 @@ class SwiperView extends React.Component{
   }
 
   render () {
+    if(this.state.index===1) {StatusBarIOS.setHidden(true);}
     if(this.state.latitude && this.state.longitude){
      return (
      	<Swiper style={styles.wrapper} 
@@ -62,8 +63,8 @@ class SwiperView extends React.Component{
         index={this.state.index} 
         onMomentumScrollEnd ={this._onMomentumScrollEnd.bind(this)} 
         buttonWrapperStyle={{backgroundColor: 'transparent', flexDirection: 'row', position: 'absolute', top: 0, left: 0, flex: 1, paddingHorizontal: 15, paddingVertical: 25, justifyContent: 'space-between', alignItems: 'flex-end'}} 
-        prevButton={<IconIon name="drag" size={40} color="#ffffff" style={styles.flashToggleIcon} />}
-        nextButton={<IconIon name="map" size={40} color="#ffffff" style={styles.flashToggleIcon} />}
+        prevButton={<IconIon name="drag" size={40} color="#ededed" style={styles.flashToggleIcon} />}
+        nextButton={<IconIon name="map" size={40} color="#ededed" style={styles.flashToggleIcon} />}
         >
         <Settings navigator={this.props.navigator} />
         <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude} userId={this.props.route.userId}/>
