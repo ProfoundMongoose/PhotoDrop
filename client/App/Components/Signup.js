@@ -2,6 +2,7 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var api = require('../Utils/api');
 var Login = require('./Login');
+var Keychain = require('react-native-keychain');
 
 var {
   View,
@@ -61,9 +62,14 @@ class Signup extends React.Component {
                 isLoading: false
               });
             } else {
-              // load the JWT into the keychain
-              console.log(res._bodyText); // see wtf is on res
-              
+              // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
+              console.log('on client JWT', JSON.parse(res._bodyText))
+              Keychain
+                .setGenericPassword(null, JSON.parse(res._bodyText))
+                .then(function() {
+                  console.log('Credentials saved successfully!');
+                });
+
               this.setState({
                 isLoading: false,
                 error: false,

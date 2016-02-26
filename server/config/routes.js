@@ -18,6 +18,7 @@ module.exports = function(app, express) {
   // Sign in and sign up routes
   app.post('/login', userController.login);
   app.post('/signup', userController.signup);
+  app.get('/checkJWT/:JWT', userController.checkJWT);
 
   // Handle errors for unsupported requests
   app.use(helpers.errorLogger);

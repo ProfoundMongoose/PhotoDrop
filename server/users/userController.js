@@ -44,8 +44,8 @@ module.exports = {
           return createUser({
             username: username,
             password: password
-          }).then(function() {
-            console.log('Created user')
+          }).then(function(user) {
+            console.log('Created user', user)
             // Generate JWT for user here
             // params: payload, secret key, encryption, callback
             var token = jwt.sign({ username: username }, 'shhhhh');
@@ -60,5 +60,9 @@ module.exports = {
       .fail(function(error) {
         next(error);
       });
+  },
+
+  checkJWT: function(req, res, next) {
+    console.log(req.params.JWT)
   }
 };

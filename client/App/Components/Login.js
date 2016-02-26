@@ -3,6 +3,7 @@ var NavigationBar = require('react-native-navbar');
 var api = require('../Utils/api');
 var Main = require('./Main');
 var Signup = require('./Signup');
+var Keychain = require('react-native-keychain');
 
 var {
   View,
@@ -22,9 +23,19 @@ class Login extends React.Component {
       isLoading: false,
       error: false
     };
-    // check for token match in keychain with server 
-      // if token match: change state username and pwd
-        // go to picture view ?
+
+  // check for token match in keychain with server, if it is good.. go to camera view
+  Keychain
+    .getGenericPassword()
+    .then(function(credentials) {
+      console.log('getting from Keychain: ', credentials)
+      api.checkJWT(credentials.password, (userData) => {
+        this.props.navigator.push({
+          component: Main,
+          userId: res._bodyInit
+        });
+      })
+    });
   }
 
   handleUsernameChange (event) {
