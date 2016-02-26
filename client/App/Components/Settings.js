@@ -1,6 +1,6 @@
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
-
+var Keychain = require('react-native-keychain');
 var Login = require('./Login');
 var PhotosView = require('./PhotosView');
 
@@ -26,6 +26,11 @@ class Settings extends React.Component {
   }
 
   logout() {
+    Keychain
+      .resetGenericPassword()
+      .then(function() {
+        console.log('Credentials successfully deleted');
+      });
     this.props.navigator.popToTop();
   }
 
