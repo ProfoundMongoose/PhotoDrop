@@ -8,7 +8,7 @@ var {
   StyleSheet,
   Image,
   Text,
-  TouchableHighlight
+  TouchableOpacity
 } = React;
 
 class PreviewPhoto extends React.Component{
@@ -33,12 +33,12 @@ class PreviewPhoto extends React.Component{
         <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}> 
 
           <View style={styles.buttonContainer}>
-            <TouchableHighlight onPress={this._sendImage.bind(this)} style={styles.yesButton} underlayColor={'#00A5A0'}>
-              <IconIon name="ion-ios-checkmark-empty" size={38} color="#036C69" style={styles.yesIcon} />
-            </TouchableHighlight>
-            <TouchableHighlight onPress={this._cancelImage.bind(this)} style={styles.noButton} underlayColor={'#FF5A5F'}>
-              <IconIon name="ios-close-empty" size={38} color="#FC9396" style={styles.noIcon} />
-            </TouchableHighlight>
+            <TouchableOpacity onPress={this._sendImage.bind(this)} style={styles.yesButton}>
+              <IconIon name="ios-checkmark-empty" size={60} color="#036C69" style={styles.yesIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this._cancelImage.bind(this)} style={styles.noButton}>
+              <IconIon name="ios-close-empty" size={60} color="#FC9396" style={styles.noIcon} />
+            </TouchableOpacity>
           </View>
 
         </Image>
@@ -63,35 +63,36 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
   },
   yesButton:{
-    width:65,
-    height:65,
+    width:50,
+    height:50,
     backgroundColor:'transparent',
     borderRadius:35,
     alignItems:'center',
     justifyContent: 'center',
-    borderWidth: 5,
+    borderWidth: 2,
     borderColor: 'white',
     margin: 15,
   },
   yesIcon:{
-    width:35,
-    height:35
+    width:60,
+    height:60,
+    marginLeft: 37
   },
   noButton:{
-    width:65,
-    height:65,
+    width:50,
+    height:50,
     backgroundColor:'transparent',
     borderRadius:35,
     alignItems:'center',
     justifyContent: 'center',
-    borderWidth: 5,
+    borderWidth: 2,
     borderColor: 'white',
     margin: 15,
   },
   noIcon:{
-    width:35,
-    height:35,
-    marginLeft: 6
+    width:60,
+    height:60,
+    marginLeft: 37
   },
 
 });

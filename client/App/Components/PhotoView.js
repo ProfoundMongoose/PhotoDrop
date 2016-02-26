@@ -8,7 +8,6 @@ var {
   Image,
   ScrollView,
   TouchableOpacity,
-  TouchableHighlight,
   TouchableWithoutFeedback 
 } = React;
 

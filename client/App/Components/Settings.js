@@ -19,7 +19,7 @@ class Settings extends React.Component {
 
   openPhotos() {
     this.props.navigator.push({
-      component: PhotosView,
+      component: PhotosView
     });
   }
 
