@@ -23,11 +23,10 @@ var api = {
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then(function(userData) {
-      callback(userData._bodyInit);
-    }).catch(function(err) {
-      console.log('problem with GET request for JWT', err);
-    })
+    }).then(function(userData) { // handle error here for some reason catch was not working
+      if (userData.status === 404) console.log('Problem with GET request for JWT');
+      else callback(userData._bodyInit);
+    });
   },
 
   uploadPhoto(data, latitude, longitude, userId) {
