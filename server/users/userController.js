@@ -51,7 +51,7 @@ module.exports = {
             // params: payload, secret key, encryption, callback
             var token = jwt.sign({ username: user.username, userId: user._id }, 'FRANKJOEVANMAX');
             console.log('token created', token)
-            res.json(token)
+            res.json({token: token, userId: user._id})
             next()
           }).catch(function(err) {
             console.log('problem creating user')
