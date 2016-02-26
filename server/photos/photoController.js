@@ -75,7 +75,7 @@ module.exports = {
 
     var revealedPhotos = undefined;
 
-    Photos.find({
+    Photo.find({
       loc: {
         $near: {
           $geometry: {
