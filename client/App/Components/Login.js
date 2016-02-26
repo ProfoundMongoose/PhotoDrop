@@ -33,7 +33,7 @@ class Login extends React.Component {
         console.log('getting decoded keychain back from server:', userData)
         this.props.navigator.push({
           component: Main,
-          userId: userData.userId
+          userId: JSON.parse(userData).userId
         });
       })
     }).catch((err) => {
