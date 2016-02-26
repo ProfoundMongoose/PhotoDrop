@@ -58,7 +58,6 @@ class Login extends React.Component {
       this.setState({
         isLoading: true
       });
-
       api.login(this.state.username, this.state.password)
         .then((res) => {
           if(res.status === 500){
