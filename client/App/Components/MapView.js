@@ -111,7 +111,7 @@ class Map extends React.Component {
 
         <View style={styles.arrowContainer}>
           <TouchableHighlight onPress={this.onLocationPressed.bind(this)} style={styles.arrowButton} underlayColor={'#FF5A5F'}>
-            <Icon name="location-arrow" size={25} color="#ffffff" style={styles.arrowIcon} />
+            <Icon name="location-arrow" size={25} color="#ededed" style={styles.arrowIcon} />
           </TouchableHighlight>
         </View>
 
@@ -150,7 +150,7 @@ var styles = StyleSheet.create({
   },
   bubble: {
     flex: 1,
-    backgroundColor: 'rgba(255,255,255,0.7)',
+    backgroundColor: 'rgba(237,237,237,0.7)',
     paddingHorizontal: 18,
     paddingVertical: 12,
     borderRadius: 20

@@ -133,7 +133,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 5,
-    borderColor: 'white',
+    borderColor: '#ededed',
     marginBottom: 15,
     paddingLeft: 5
   },
@@ -150,7 +150,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
-    borderColor: 'white',
+    borderColor: '#ededed',
     marginLeft: 70,
     marginTop: 10
   },
@@ -166,7 +166,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
-    borderColor: 'white',
+    borderColor: '#ededed',
     marginLeft: -210,
     marginTop: -50,
     paddingLeft: 7
