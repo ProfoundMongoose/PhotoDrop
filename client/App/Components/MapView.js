@@ -34,13 +34,11 @@ class Map extends React.Component {
     // need to figure out when these api methods are invoked; does not update after a picture was taken
     api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      console.log('circlephotos: ', photosArr);
       this.setState({ closeLocations: photosArr });
     });
 
     api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      console.log('non-circle photos: ', photosArr);
       this.setState({ photosLocations: photosArr });
     });
   }
@@ -78,12 +76,10 @@ class Map extends React.Component {
     });
     api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      console.log('circle photos after: ', photosArr);
       this.setState({ closeLocations: photosArr });
     });
     api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      console.log('non-circlephotos after: ', photosArr);
       this.setState({ photosLocations: photosArr });
     });
   }
