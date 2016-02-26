@@ -18,13 +18,13 @@ var api = {
 
   checkJWT(JWT, callback) {
     var url = 'http://127.0.0.1:8000/checkJWT/' + JWT;
-    return fetch(url, {
+    fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     }).then(function(userData) {
-      callback(userData);
+      callback(userData._bodyInit);
     }).catch(function(err) {
       console.log('problem with GET request for JWT', err);
     })

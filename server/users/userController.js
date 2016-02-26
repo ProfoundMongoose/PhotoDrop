@@ -48,7 +48,7 @@ module.exports = {
             console.log('Created user', user)
             // Generate JWT for user here
             // params: payload, secret key, encryption, callback
-            var token = jwt.sign({ username: username }, 'shhhhh');
+            var token = jwt.sign({ username: user.username, userId: user._id }, 'FRANKJOEVANMAX');
             console.log('token created', token)
             res.json(token)
             next()
@@ -63,6 +63,16 @@ module.exports = {
   },
 
   checkJWT: function(req, res, next) {
-    console.log(req.params.JWT)
+    console.log('imcomming GET for JWT', req.params.JWT)
+    var decoded = jwt.verify(req.params.JWT, 'FRANKJOEVANMAX', function(err, decoded) {
+      if (err) console.log('problem decoding', err);
+      else {
+        console.log('decode worked', decoded)
+        // send back decoded.userId and decoded.username
+        res.send(JSON.stringify({username: decoded.username, userId: decoded.userId}));
+        next();
+      }
+    });
+    // send back user id
   }
 };

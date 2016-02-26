@@ -27,12 +27,13 @@ class Login extends React.Component {
   // check for token match in keychain with server, if it is good.. go to camera view
   Keychain
     .getGenericPassword()
-    .then(function(credentials) {
+    .then((credentials) => {
       console.log('getting from Keychain: ', credentials)
       api.checkJWT(credentials.password, (userData) => {
+        console.log('getting decoded keychain back from server:', userData)
         this.props.navigator.push({
           component: Main,
-          userId: res._bodyInit
+          userId: userData.userId
         });
       })
     });
