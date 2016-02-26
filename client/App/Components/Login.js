@@ -12,6 +12,7 @@ var {
   TextInput,
   TouchableHighlight,
   ActivityIndicatorIOS,
+  Navigator
 } = React;
 
 class Login extends React.Component {
@@ -57,7 +58,6 @@ class Login extends React.Component {
       this.setState({
         isLoading: true
       });
-
       api.login(this.state.username, this.state.password)
         .then((res) => {
           if(res.status === 500){
@@ -74,7 +74,11 @@ class Login extends React.Component {
             console.log('Credentials saved successfully!', bodyText.userId, bodyText.token);
             this.props.navigator.push({
               component: Main,
-              userId: bodyText.userId
+              userId: bodyText.userId,
+              sceneConfig: {
+                ...Navigator.SceneConfigs.FloatFromBottom,
+                gestures: {}
+              }
             });
 
               this.setState({
@@ -92,9 +96,12 @@ class Login extends React.Component {
           });
       }
 
+
+
   handleRedirect() {
     this.props.navigator.push({
-      component: Signup
+      component: Signup,
+      sceneConfig: Navigator.SceneConfigs.FloatFromRight
     });
     this.setState({
       isLoading: false,
@@ -107,10 +114,13 @@ class Login extends React.Component {
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
-      );
+    );
+    var pageTitle = (
+      <Text style={styles.pageTitle}>Profound Mongoose</Text>
+    )
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed'}}>
-        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
+      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+        <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}}/>
         <View style={styles.loginContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
@@ -121,8 +131,8 @@ class Login extends React.Component {
             value={this.state.username}
             returnKeyType={'next'}
             onChange={this.handleUsernameChange.bind(this)}
-            onSubmitEditing={(event) => {
-              this.refs.SecondInput.focus();
+            onSubmitEditing={(event) => { 
+              this.refs.SecondInput.focus(); 
             }}
              />
           <Text style={styles.fieldTitle}> Password </Text>
@@ -135,32 +145,32 @@ class Login extends React.Component {
             style={styles.userInput}
             value={this.state.password}
             returnKeyType={'go'}
-            onChange={this.handlePasswordChange.bind(this)}
+            onChange={this.handlePasswordChange.bind(this)} 
             onSubmitEditing={this.handleSubmit.bind(this)}/>
           <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
-            underlayColor='#FC9396'>
+            underlayColor='#e66365'>
             <Text style={styles.buttonText}> Sign In </Text>
           </TouchableHighlight>
 
           <TouchableHighlight
             onPress={this.handleRedirect.bind(this)}
             underlayColor='#ededed'>
-            <Text style={styles.signup}> Don't have an account yet? Sign Up!  </Text>
+            <Text style={styles.signup}> {"Don't have an account yet? Sign Up!"}  </Text>
           </TouchableHighlight>
 
-          <ActivityIndicatorIOS
-            animating= {this.state.isLoading}
-            size='large'
-            style={styles.loading} />
-
-          {showErr}
+            <ActivityIndicatorIOS
+              animating= {this.state.isLoading}
+              size='large' 
+              style={styles.loading} />
+            
+            {showErr}
+          </View>
         </View>
-      </View>
-    )
+      )
+    }
   }
-}
 
 var styles = StyleSheet.create({
   loginContainer: {
@@ -198,7 +208,7 @@ var styles = StyleSheet.create({
     height: 45,
     flexDirection: 'row',
     backgroundColor: '#FF5A5F',
-    borderColor: '#FF5A5F',
+    borderColor: 'transparent',
     borderWidth: 1,
     borderRadius: 4,
     marginBottom: 10,
@@ -211,8 +221,7 @@ var styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: 'circular',
     textAlign: 'center',
-    textDecorationLine: 'underline',
-    color: '#616161'
+    color: '#FF5A5F'
   },
   loading: {
     marginTop: 20
@@ -222,6 +231,12 @@ var styles = StyleSheet.create({
     fontFamily: 'circular',
     textAlign: 'center',
     color: '#616161'
+  },
+  pageTitle: {
+    fontSize: 18,
+    fontFamily: 'circular',
+    textAlign: 'center',
+    color: '#565b5c'
   }
 });
 
