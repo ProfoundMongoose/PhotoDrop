@@ -70,7 +70,7 @@ module.exports = {
       else {
         console.log('decode worked', decoded)
         // send back decoded.userId and decoded.username
-        res.send(JSON.stringify({username: decoded.username, userId: decoded.userId}));
+        res.json({username: decoded.username, userId: decoded.userId});
         next();
       }
     });
