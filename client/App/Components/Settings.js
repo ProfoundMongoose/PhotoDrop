@@ -59,7 +59,7 @@ var styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    fontFamily: 'LL Circular',
+    fontFamily: 'circular',
     color: 'white',
     alignSelf: 'center'
   },
