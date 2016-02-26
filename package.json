@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server/server.js",
-    "deploy": "git push ssh://root@45.55.23.71/var/repo/site.git"
+    "deploy": "git push ssh://root@162.243.130.124/root/sync/repo.git"
   },
   "repository": {
     "type": "git",
