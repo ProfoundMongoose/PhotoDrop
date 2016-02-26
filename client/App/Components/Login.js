@@ -133,7 +133,7 @@ class Login extends React.Component {
           <TouchableHighlight
             onPress={this.handleRedirect.bind(this)}
             underlayColor='#ededed'>
-            <Text style={styles.signup}> Don't have an account yet? Sign Up!  </Text>
+            <Text style={styles.signup}> {"Don't have an account yet? Sign Up!"}  </Text>
           </TouchableHighlight>
 
           <ActivityIndicatorIOS
