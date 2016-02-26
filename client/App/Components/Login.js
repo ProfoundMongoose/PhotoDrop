@@ -36,6 +36,8 @@ class Login extends React.Component {
           userId: userData.userId
         });
       })
+    }).catch((err) => {
+      // Keychain not found. User must login
     });
   }
 
@@ -64,17 +66,24 @@ class Login extends React.Component {
              isLoading: false
            });
         } else {
-          console.log('res: ',res._bodyInit);
-          this.props.navigator.push({
-            component: Main,
-            userId: res._bodyInit
-          });
-          this.setState({
-            isLoading: false,
-            error: false,
-            username: '',
-            password: ''
-          });
+          // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
+          Keychain
+            .setGenericPassword(null, JSON.parse(res._bodyText).token)
+            .then(() => {
+              console.log('Credentials saved successfully!');
+
+              this.props.navigator.push({
+                component: Main,
+                userId: res._bodyInit
+              });
+
+              this.setState({
+                isLoading: false,
+                error: false,
+                username: '',
+                password: ''
+              });
+            });
           }
         }).catch((err) => {
            this.setState({

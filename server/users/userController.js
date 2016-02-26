@@ -19,7 +19,8 @@ module.exports = {
           return user.comparePasswords(password)
             .then(function(foundUser) {
               if (foundUser) {
-                res.json(user._id);
+                var token = jwt.sign({ username: username, userId: user._id }, 'FRANKJOEVANMAX');
+                res.json({userId: user._id, token: token});
               } else {
                 return next(new Error('No user'));
               }
