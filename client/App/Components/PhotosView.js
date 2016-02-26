@@ -2,6 +2,7 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
 var api = require('../Utils/api');
+var IconIon = require('react-native-vector-icons/Ionicons');
 var PhotoSwiperView = require('./PhotoSwiperView');
 
 var {
@@ -100,10 +101,23 @@ class PhotosView extends React.Component{
     })
   }
 
+  _backButton() {
+    this.props.navigator.pop();
+  }
+
   render() {
+    var backButton = (
+      <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
+        <IconIon name='ios-arrow-thin-down' size={30} style={styles.backIcon} color="#FF5A5F"/>
+      </TouchableHighlight>
+    );
     return (
       <View style={{flex: 1, backgroundColor: '#ededed' }}>
-        <NavigationBar title={{title: 'Photos Near You', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
+        <NavigationBar 
+          title={{title: 'Photos Near You', tintColor: '#565b5c'}} 
+          tintColor={"white"} 
+          statusBar={{hidden: false}}
+          leftButton={backButton}/>
         {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
         {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
         {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText2}>Be the first one to share a pic!</Text>  : null}
@@ -143,6 +157,9 @@ var styles = StyleSheet.create({
   image: {
     borderWidth: 1,
     borderColor: '#fff'
+  },
+  backIcon: {
+    marginLeft: 15,
   }
 });
 

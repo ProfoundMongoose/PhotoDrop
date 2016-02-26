@@ -30,8 +30,9 @@ class Settings extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: '#ededed'}}>
-        <NavigationBar title={{title: 'Settings', tintColor: '#565b5c'}} tintColor={"white"}/>
-
+        <NavigationBar 
+          title={{title: 'Settings', tintColor: '#565b5c'}} 
+          tintColor={"white"}/>
         <View style={styles.mainContainer}>
           <Image source={require('./../../images/Logo.png')} style={styles.image}/>
           <TouchableHighlight
