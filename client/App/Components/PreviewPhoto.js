@@ -35,10 +35,10 @@ class PreviewPhoto extends React.Component{
 
           <View style={styles.buttonContainer}>
             <TouchableHighlight onPress={this._sendImage.bind(this)} style={styles.yesButton} underlayColor={'#00A5A0'}>
-              <IconIon name="checkmark-round" size={38} color="#036C69" style={styles.yesIcon} />
+              <IconIon name="ion-ios-checkmark-empty" size={38} color="#036C69" style={styles.yesIcon} />
             </TouchableHighlight>
             <TouchableHighlight onPress={this._cancelImage.bind(this)} style={styles.noButton} underlayColor={'#FF5A5F'}>
-              <IconIon name="close-round" size={38} color="#FC9396" style={styles.noIcon} />
+              <IconIon name="ios-close-empty" size={38} color="#FC9396" style={styles.noIcon} />
             </TouchableHighlight>
           </View>
 
