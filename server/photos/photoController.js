@@ -21,14 +21,14 @@ module.exports = {
 
   // save that photo as  a model in db
   savePhotoModelToDB: function (req, res, next) {
-    console.log(Object.keys(req.body));
+    console.log(JSON.parse(req.body.userId));
     new Photo({
       url: req.imgurLink,
       loc: {
         type: 'Point',
         coordinates: [req.body.longitude, req.body.latitude]
       },
-      userId: req.body.userId
+      userId: JSON.parse(req.body.userId)
     }).save().then(function(data) {
       Photo.ensureIndexes({loc:"2dsphere"});
       console.log('saved new photo model to db ', data)
@@ -43,12 +43,12 @@ module.exports = {
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
 
-    getPhotos({
+    Photo.find({
       loc: {
         $near: {
           $geometry: {
              type: "Point" ,
-             coordinates: coords
+             coordinates: coords 
           },
           $maxDistance: maxDistance
         }
@@ -77,23 +77,58 @@ module.exports = {
     ]];
     // console.log('coords: ', coords);
 
-    getPhotos({
+    // Photo.find({
+    //   loc: {
+    //     $geoWithin: {
+    //       $geometry: {
+    //          type: "Polygon" ,
+    //          coordinates: coords 
+    //       }
+    //     }
+    //   }
+    // })
+    //   .then(function(photos) {
+    //     // console.log('photos polygon: ', photos);
+    //     res.json(photos);
+    //   })
+    //   .fail(function(error) {
+    //     console.log('error: ',error);
+    //     next(error);
+    //   });
+
+    Photos.find({
       loc: {
-        $geoWithin: {
+        $near: {
           $geometry: {
-             type: "Polygon" ,
-             coordinates: coords
-          }
+             type: "Point" ,
+             coordinates: [req.query.lon, req.query.lat]
+          },
+          $maxDistance: 50
         }
       }
-    })
-      .then(function(photos) {
-        // console.log('photos polygon: ', photos);
-        res.json(photos);
+    }).select('_id')
+      .then(function(revealedPhotos) {
+        Photo.find({
+          loc: {
+            $geoWithin: {
+              $geometry: {
+                 type: "Polygon" ,
+                 coordinates: coords
+              }
+            }
+          }
+        }).nin('_id', revealedPhotos)
+          .then(function(photos) {
+            console.log('photos w/ exclusions: ', photos);
+            res.json(photos);
+          })
+          .fail(function(error) {
+            console.log('error: ',error);
+            next(error);
+          });
       })
       .fail(function(error) {
-        console.log('error: ',error);
         next(error);
-      });
+      })
   }
 };
