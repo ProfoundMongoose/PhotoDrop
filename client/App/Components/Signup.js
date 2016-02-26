@@ -4,6 +4,7 @@ var api = require('../Utils/api');
 var Login = require('./Login');
 var Keychain = require('react-native-keychain');
 var Main = require('./Main');
+var IconIon = require('react-native-vector-icons/Ionicons');
 
 var {
   View,
@@ -108,17 +109,32 @@ class Signup extends React.Component {
     });
   }
 
+  _backButton() {
+    this.props.navigator.pop();
+  }
+
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
-      );
+    );
     var showPasswordErr = (
       this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
-      );
+    );
+    var pageTitle = (
+      <Text style={styles.pageTitle}>Profound Mongoose</Text>
+    );
+    var backButton = (
+      <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
+        <IconIon name='ios-arrow-thin-left' size={30} style={styles.backIcon} color="#FF5A5F"/>
+      </TouchableHighlight>
+    );
     return (
-
-      <View style={{flex: 1, backgroundColor: '#ededed'}}>
-        <NavigationBar title={{title: 'PROFOUND MONGOOSE', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
+      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+        <NavigationBar 
+          title={pageTitle} 
+          tintColor={"white"} 
+          statusBar={{hidden: false}}
+          leftButton={backButton}/>
         <View style={styles.mainContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
@@ -244,6 +260,9 @@ var styles = StyleSheet.create({
     fontFamily: 'circular',
     textAlign: 'center',
     color: '#616161'
+  },
+  backIcon: {
+    marginLeft: 15,
   }
 });
 
