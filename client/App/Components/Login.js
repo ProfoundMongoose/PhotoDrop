@@ -53,7 +53,11 @@ class Login extends React.Component {
           console.log('res: ', res._bodyInit);
           this.props.navigator.push({
             component: Main,
-            userId: res._bodyInit
+            userId: res._bodyInit,
+            sceneConfig: {
+              ...Navigator.SceneConfigs.FloatFromBottom,
+              gestures: {}
+            }
           });
           this.setState({
             isLoading: false,
