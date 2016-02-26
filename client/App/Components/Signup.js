@@ -115,11 +115,10 @@ class Signup extends React.Component {
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
-      );
+    );
     var showPasswordErr = (
       this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
-      );
-
+    );
     var pageTitle = (
       <Text style={styles.pageTitle}>Profound Mongoose</Text>
     );
