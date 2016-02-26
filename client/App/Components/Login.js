@@ -66,23 +66,22 @@ class Login extends React.Component {
              isLoading: false
            });
         } else {
+          console.log('positive signin')
+          console.log(res._bodyText)
           // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
-          Keychain
-            .setGenericPassword(null, JSON.parse(res._bodyText).token)
-            .then(() => {
-              console.log('Credentials saved successfully!');
+          var bodyText = JSON.parse(res._bodyText);
+          Keychain.setGenericPassword(null, bodyText.token)
+          console.log('Credentials saved successfully!', bodyText.userId, bodyText.token);
+          this.props.navigator.push({
+            component: Main,
+            userId: bodyText.userId
+          });
 
-              this.props.navigator.push({
-                component: Main,
-                userId: res._bodyInit
-              });
-
-              this.setState({
-                isLoading: false,
-                error: false,
-                username: '',
-                password: ''
-              });
+            this.setState({
+              isLoading: false,
+              error: false,
+              username: '',
+              password: ''
             });
           }
         }).catch((err) => {

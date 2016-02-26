@@ -21,14 +21,14 @@ module.exports = {
 
   // save that photo as  a model in db
   savePhotoModelToDB: function (req, res, next) {
-    console.log(JSON.parse(req.body.userId));
+    console.log(Object.keys(req.body));
     new Photo({
       url: req.imgurLink,
       loc: {
         type: 'Point',
         coordinates: [req.body.longitude, req.body.latitude]
       },
-      userId: JSON.parse(req.body.userId)
+      userId: req.body.userId
     }).save().then(function(data) {
       Photo.ensureIndexes({loc:"2dsphere"});
       console.log('saved new photo model to db ', data)
@@ -48,7 +48,7 @@ module.exports = {
         $near: {
           $geometry: {
              type: "Point" ,
-             coordinates: coords 
+             coordinates: coords
           },
           $maxDistance: maxDistance
         }
@@ -82,7 +82,7 @@ module.exports = {
         $geoWithin: {
           $geometry: {
              type: "Polygon" ,
-             coordinates: coords 
+             coordinates: coords
           }
         }
       }
