@@ -122,5 +122,12 @@ module.exports = {
         res.json(photos);
       });
     })
+  },
+
+  fetchUserPhotos: function(req, res, next) {
+    Photo.find({ userId: mongoose.mongo.ObjectID(req.query.userId)}, function(err, photos) {
+      if (err) next(error); 
+      res.json(photos);
+    });
   }
 };

@@ -18,6 +18,19 @@ class Settings extends React.Component {
     this.displayName = 'Settings';
   }
 
+  openPhotos() {
+    this.props.navigator.push({
+      component: PhotosView
+    });
+  }
+
+  openMyPhotos() {
+    this.props.navigator.push({
+      component: PhotosView,
+      userId: this.props.userId
+    });
+  }
+
   logout() {
     Keychain
       .resetGenericPassword()
@@ -40,6 +53,12 @@ class Settings extends React.Component {
           <Image source={require('./../../images/Logo.png')} style={styles.image}/>
         </View>
         <View style={styles.mainContainer}>
+          <TouchableHighlight
+            style={styles.button}
+            underlayColor={'#e66365'}
+            onPress={this.openMyPhotos.bind(this)}>
+            <Text style={styles.buttonText}> MyPhotosView </Text>
+          </TouchableHighlight>
           <TouchableHighlight
             style={styles.button}
             underlayColor={'#e66365'}

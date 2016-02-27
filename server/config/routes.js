@@ -14,6 +14,7 @@ module.exports = function(app, express) {
 
   app.get(/fetchPhotos/, photoController.fetchPhotos);
   app.get(/fetchLocations/, photoController.fetchLocations);
+  app.get(/fetchUserPhotos/, photoController.fetchUserPhotos);
 
   // Sign in and sign up routes
   app.post('/login', userController.login);

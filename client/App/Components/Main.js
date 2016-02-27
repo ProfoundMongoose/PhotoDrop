@@ -61,7 +61,7 @@ class SwiperView extends React.Component{
         prevButton={<IconIon name="drag" size={40} color="#ededed" style={styles.flashToggleIcon} />}
         nextButton={<IconIon name="map" size={40} color="#ededed" style={styles.flashToggleIcon} />}
         >
-        <Settings navigator={this.props.navigator} />
+        <Settings navigator={this.props.navigator} userId={this.props.route.userId}/>
         <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude} params={this.state} userId={this.props.route.userId}/>
         <MapView navigator={this.props.navigator} params={this.state} showsButtons={false}/>
        </Swiper>

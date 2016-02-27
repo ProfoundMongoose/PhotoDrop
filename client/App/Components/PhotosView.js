@@ -38,15 +38,27 @@ class PhotosView extends React.Component{
     this.state = {
       currentScreenWidth: width,
       currentScreenHeight: height,
-      imageUrls: undefined
+      imageUrls: undefined,
+      userId: this.props.route.userId
     };
-    api.fetchPhotos(LATITUDE, LONGITUDE, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-      var photosArr = JSON.parse(photos);
-      var photosUrls = photosArr.map((photo) => {
-        return photo.url;
-      });
-      this.setState({ imageUrls: photosUrls });
-    })
+    if(this.state.userId){
+      console.log('user fetch', this.state.userId);
+      api.fetchUserPhotos(this.state.userId, (photos) => {
+        var photosArr = JSON.parse(photos);
+        var photosUrls = photosArr.map((photo) => {
+          return photo.url;
+        });
+        this.setState({ imageUrls: photosUrls });
+      })
+    } else {
+      api.fetchPhotos(LATITUDE, LONGITUDE, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+        var photosArr = JSON.parse(photos);
+        var photosUrls = photosArr.map((photo) => {
+          return photo.url;
+        });
+        this.setState({ imageUrls: photosUrls });
+      })
+    }
   }
 
   handleRotation(event) {

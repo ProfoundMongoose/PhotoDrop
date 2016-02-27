@@ -44,7 +44,6 @@ class Map extends React.Component {
 
   componentDidMount(){
       setInterval(()=> {
-      // console.log('Swiper Index:', this.props.params.index);
         if(this.props.params.index===2) {
           // console.log('refreshing map');
           this.onLocationPressed();
