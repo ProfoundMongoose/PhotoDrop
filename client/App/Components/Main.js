@@ -34,15 +34,24 @@ class SwiperView extends React.Component{
   }
 
   componentDidMount() {
-    StatusBarIOS.setHidden(true);
+    StatusBarIOS.setHidden(false);
+    setInterval(()=> {
+      navigator.geolocation.getCurrentPosition(
+        location => {
+          this.setState({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude
+          });
+        }
+      );
+    }, 5000)
   }
 
   _onMomentumScrollEnd(e, state, context) {
     if (state.index === 0) {
       this.setState({ index: 0 });
       this.setState({ showButtons: false });
-      StatusBarIOS.setHidden(false, 'fade');
-      // StatusBarIOS.setStyle('light-content');
+      StatusBarIOS.setHidden(false);
     } else if (state.index === 1) {
       this.setState({ index: 1 });
       this.setState({ showButtons: true });
