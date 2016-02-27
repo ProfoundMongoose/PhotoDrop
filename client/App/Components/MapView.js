@@ -65,7 +65,15 @@ class Map extends React.Component {
         component: PhotoView,
         uri: uri,
         width: this.state.currentScreenWidth,
-        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+        sceneConfig: {
+          ...Navigator.SceneConfigs.FloatFromBottom,
+          gestures: {
+            pop: {
+              ...Navigator.SceneConfigs.FloatFromBottom.gestures.pop,
+              edgeHitWidth: Dimensions.get('window').height,
+            },
+          },
+        }
       });
     }
   }
