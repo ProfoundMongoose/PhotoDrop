@@ -14,6 +14,10 @@ var PhotoSchema = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     required: true
+  },
+  visits: {
+    type: Number,
+    default: 0
   }
 });
 

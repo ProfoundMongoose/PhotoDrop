@@ -30,8 +30,7 @@ class Map extends React.Component {
       photosLocations: undefined,
       closeLocations: undefined
     };
-
-    // need to figure out when these api methods are invoked; does not update after a picture was taken
+    
     api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       this.setState({ closeLocations: photosArr });
@@ -41,6 +40,24 @@ class Map extends React.Component {
       var photosArr = JSON.parse(photos);
       this.setState({ photosLocations: photosArr });
     });
+  }
+
+  componentDidMount(){
+      setInterval(()=> {
+      console.log('Swiper Index:', this.props.params.index);
+        if(this.props.params.index==2) {
+          console.log('refreshing map');
+          this.onLocationPressed();
+          api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+            var photosArr = JSON.parse(photos);
+            this.setState({ photosLocations: photosArr });
+          });
+          api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+            var photosArr = JSON.parse(photos);
+            this.setState({ closeLocations: photosArr });
+          });
+        }
+      }, 500)
   }
 
   showImage(uri) {
@@ -104,7 +121,7 @@ class Map extends React.Component {
         >
           { this.state.photosLocations.map((photoLocation) => {
               return (
-               <MapView.Marker image={require('../Components/assets/rsz_pin96.png')} onPress={this.showImage(photoLocation.url)}
+               <MapView.Marker image={require('../Components/assets/rsz_pin96.png')}
                  coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
                />
              )}
