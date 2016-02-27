@@ -31,7 +31,6 @@ class CameraView extends React.Component {
   componentDidMount() {
     setInterval(()=> {
       if(this.props.params.index===1) {
-        console.log('getting location for camera')
         navigator.geolocation.getCurrentPosition(
           location => {
             this.setState({
@@ -41,7 +40,7 @@ class CameraView extends React.Component {
           }
         );
       }
-    }, 2000)
+    }, 500)
   }
 
   takePicture() {
@@ -81,7 +80,6 @@ class CameraView extends React.Component {
   }
 
   render() {
-    // StatusBarIOS.setHidden(true);
     return (
       <View >
         <Camera

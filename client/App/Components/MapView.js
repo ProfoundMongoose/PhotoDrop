@@ -1,7 +1,7 @@
 var React = require('react-native');
 var MapView = require('react-native-maps');
 var Icon = require('react-native-vector-icons/FontAwesome');
-var PhotoMarker = require('./PhotoMarker');
+var CircleMarker = require('./CircleMarker');
 var PhotoView = require('./PhotoView');
 var PhotosView = require('./PhotosView');
 var api = require('../Utils/api');
@@ -44,9 +44,9 @@ class Map extends React.Component {
 
   componentDidMount(){
       setInterval(()=> {
-      console.log('Swiper Index:', this.props.params.index);
+      // console.log('Swiper Index:', this.props.params.index);
         if(this.props.params.index===2) {
-          console.log('refreshing map');
+          // console.log('refreshing map');
           this.onLocationPressed();
           api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
             var photosArr = JSON.parse(photos);
@@ -86,20 +86,27 @@ class Map extends React.Component {
       });
   }
 
-  onRegionChange(region) {
-    this.setState({
-      latitude: region.latitude,
-      longitude: region.longitude
-    });
-    api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-      var photosArr = JSON.parse(photos);
-      this.setState({ closeLocations: photosArr });
-    });
-    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-      var photosArr = JSON.parse(photos);
-      this.setState({ photosLocations: photosArr });
-    });
+  openAllPhotos() {
+      this.props.navigator.push({
+        component: PhotosView,
+        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+      });
   }
+
+  // onRegionChange(region) {
+  //   this.setState({
+  //     latitude: region.latitude,
+  //     longitude: region.longitude
+  //   });
+  //   api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+  //     var photosArr = JSON.parse(photos);
+  //     this.setState({ closeLocations: photosArr });
+  //   });
+  //   api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+  //     var photosArr = JSON.parse(photos);
+  //     this.setState({ photosLocations: photosArr });
+  //   });
+  // }
 
   render() {
     StatusBarIOS.setHidden(true);
@@ -114,14 +121,19 @@ class Map extends React.Component {
           showsUserLocation={true}
           scrollEnabled={false}
           zoomEnabled={false}
-          onRegionChange={this.onRegionChange.bind(this)}
+          // onRegionChange={this.onRegionChange.bind(this)}
           rotateEnabled={false}
-          followUserLocation={true}
+          // followUserLocation={true}
           maxDelta={0.003}
         >
+
+        <MapView.Marker coordinate={this.state}>
+          <CircleMarker navigator={this.props.navigator}/>
+        </MapView.Marker>
+
           { this.state.photosLocations.map((photoLocation) => {
               return (
-               <MapView.Marker image={require('../Components/assets/rsz_pin96.png')}
+               <MapView.Marker image={require('../Components/assets/grey_pin.png')}
                  coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
                />
              )}
@@ -129,7 +141,7 @@ class Map extends React.Component {
           }
           { this.state.closeLocations.map((photoLocation) => {
               return (
-               <MapView.Marker image={require('../Components/assets/red_pin96.png')} onPress={this.showImage(photoLocation.url)}
+               <MapView.Marker image={require('../Components/assets/red_pin.png')} onPress={this.showImage(photoLocation.url)}
                  coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
                />
              )}
@@ -143,18 +155,21 @@ class Map extends React.Component {
           </TouchableHighlight>
         </View>
 
-        <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={this.openAllPhotos.bind(this)}>
           <View style={[styles.bubble, styles.latlng]}>
-            <Text style={{ textAlign: 'center'}}>
-              {`${this.state.latitude.toPrecision(7)}, ${this.state.longitude.toPrecision(7)}`}
+            <Text style={styles.openPhotosText}>
+              {`View Available Photos`}
             </Text>
           </View>
-        </View>
+        </TouchableOpacity>
 
       </View>
     );
   } else {
-    return <View></View>
+    return (
+      <View>
+      </View>
+    );
   } 
 };
 }
@@ -178,10 +193,10 @@ var styles = StyleSheet.create({
   },
   bubble: {
     flex: 1,
-    backgroundColor: 'rgba(237,237,237,0.7)',
+    backgroundColor: 'white',
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 20
+    borderRadius: 4
   },
   latlng: {
     width: 200,
@@ -225,6 +240,11 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     marginVertical: 30,
     backgroundColor: 'transparent'
+  },
+  openPhotosText: {
+    textAlign: 'center',
+    fontFamily: 'circular',
+    color: '#565b5c'
   }
 });
 

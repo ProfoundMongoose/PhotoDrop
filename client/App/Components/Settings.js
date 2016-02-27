@@ -18,12 +18,6 @@ class Settings extends React.Component {
     this.displayName = 'Settings';
   }
 
-  openPhotos() {
-    this.props.navigator.push({
-      component: PhotosView
-    });
-  }
-
   logout() {
     Keychain
       .resetGenericPassword()
@@ -42,14 +36,10 @@ class Settings extends React.Component {
         <NavigationBar 
           title={pageTitle} 
           tintColor={"white"}/>
-        <View style={styles.mainContainer}>
+        <View style={styles.imageContainer}>
           <Image source={require('./../../images/Logo.png')} style={styles.image}/>
-          <TouchableHighlight
-            style={styles.button}
-            underlayColor={'#e66365'}
-            onPress={this.openPhotos.bind(this)}>
-            <Text style={styles.buttonText}> PhotosView </Text>
-          </TouchableHighlight>
+        </View>
+        <View style={styles.mainContainer}>
           <TouchableHighlight
             style={styles.button}
             underlayColor={'#e66365'}
@@ -80,16 +70,26 @@ var styles = StyleSheet.create({
     borderColor: '#FF5A5F',
     borderWidth: 1,
     borderRadius: 4,
-    marginBottom: 10,
-    marginTop: 25,
+    marginBottom: 30,
+    marginTop: 0,
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
-  mainContainer: {
-    flex: 1,
-    padding: 30,
+  imageContainer: {
+    flex: 4,
+    paddingRight: 30,
+    paddingLeft: 30,
+    paddingTop: 30,
     flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  mainContainer: {
+    flex: 1,
+    paddingRight: 30,
+    paddingLeft: 30,
+    flexDirection: 'column',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   title: {

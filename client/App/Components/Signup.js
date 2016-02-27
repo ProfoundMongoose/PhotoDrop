@@ -120,7 +120,7 @@ class Signup extends React.Component {
       this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
     );
     var pageTitle = (
-      <Text style={styles.pageTitle}>Profound Mongoose</Text>
+      <Text style={styles.pageTitle}>PhotoDrop</Text>
     );
     var backButton = (
       <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
