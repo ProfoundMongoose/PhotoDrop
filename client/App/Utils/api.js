@@ -30,6 +30,7 @@ var api = {
   },
 
   uploadPhoto(data, latitude, longitude, userId) {
+    console.log('USERID', userId)
     var url = 'http://127.0.0.1:8000/imgUpload';
     // cut data in half
     var firstHalf = data.slice(0, Math.floor(data.length / 2));
