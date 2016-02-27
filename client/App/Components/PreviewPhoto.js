@@ -8,17 +8,35 @@ var {
   StyleSheet,
   Image,
   Text,
-  TouchableOpacity
+  TouchableOpacity,
+  Modal,
+  SwitchIOS,
 } = React;
 
 class PreviewPhoto extends React.Component{
   constructor(props) {
     super(props);
+    this.state = {
+      animated: true,
+      modalVisible: false,
+      transparent: true,
+      innerContainerTransparentStyle: null,
+      active: false,
+      colorStyle: '#000' 
+    };
     console.log('PREVIEWVIEW',props.route.userId)
   }
 
   _sendImage() {
     api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId);
+    this.setState({modalVisible: true});
+    setTimeout(()=> {
+      this._closeModal();
+    }, 1300);
+  }
+
+  _closeModal() {
+    this.setState({modalVisible: false});
     this.props.navigator.pop();
   }
 
@@ -30,15 +48,26 @@ class PreviewPhoto extends React.Component{
     // because we are sending the captured image in as a string we have to tell react-native how it is encoded
     return (
       <View style={styles.imageContainer}>
+        <Modal
+          animated={this.state.animated}
+          transparent={this.state.transparent}
+          visible={this.state.modalVisible}>
+          <View style={[styles.container]}>
+            <View style={[styles.innerContainer, this.state.innerContainerTransparentStyle]}>
+              <Text style={styles.modal}>Your photo has been uploaded!</Text>
+              <IconIon name="ios-checkmark-empty" size={90} color="#036C69" style={styles.yesIcon} />
+            </View>
+          </View>
+        </Modal>
         <NavigationBar title={{title: 'Share this image?', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
         <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}>
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={this._sendImage.bind(this)} style={styles.yesButton}>
-              <IconIon name="ios-checkmark-empty" size={60} color="#036C69" style={styles.yesIcon} />
-            </TouchableOpacity>
             <TouchableOpacity onPress={this._cancelImage.bind(this)} style={styles.noButton}>
               <IconIon name="ios-close-empty" size={60} color="#FC9396" style={styles.noIcon} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this._sendImage.bind(this)} style={styles.yesButton}>
+              <IconIon name="ios-checkmark-empty" size={60} color="#036C69" style={styles.yesIcon} />
             </TouchableOpacity>
           </View>
 
@@ -95,7 +124,20 @@ var styles = StyleSheet.create({
     height:60,
     marginLeft: 37
   },
-
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#f5fcff',
+  },
+  innerContainer: {
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modal: {
+    fontSize: 40,
+    justifyContent: 'center',
+  }
 });
 
 module.exports = PreviewPhoto;
