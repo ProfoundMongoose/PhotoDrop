@@ -80,7 +80,7 @@ module.exports = {
             type: "Point",
             coordinates: [req.query.lon, req.query.lat]
           },
-          $maxDistance: 50
+          $maxDistance: 0
         }
       }
     }, function(err, photos) {
@@ -98,7 +98,7 @@ module.exports = {
         },
         _id: { $nin: revealedPhotos.map(function(photo) {
             return photo._id }) }
-      }, function(err, photos) {
+      }, 'loc', function(err, photos) {
         console.log('photos outside of circle', photos);
         if (err) {
           console.log('error: ', error);
