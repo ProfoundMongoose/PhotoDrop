@@ -33,20 +33,6 @@ class SwiperView extends React.Component{
     );
   }
 
-  componentDidMount() {
-    StatusBarIOS.setHidden(false);
-    setInterval(()=> {
-      navigator.geolocation.getCurrentPosition(
-        location => {
-          this.setState({
-            latitude: location.coords.latitude,
-            longitude: location.coords.longitude
-          });
-        }
-      );
-    }, 5000)
-  }
-
   _onMomentumScrollEnd(e, state, context) {
     if (state.index === 0) {
       this.setState({ index: 0 });
@@ -65,7 +51,7 @@ class SwiperView extends React.Component{
     if(this.state.index===1) {StatusBarIOS.setHidden(true);}
     if(this.state.latitude && this.state.longitude){
      return (
-     	<Swiper style={styles.wrapper} 
+      <Swiper style={styles.wrapper} 
         showsButtons={this.state.showButtons} 
         loop={false} 
         showsPagination={false} 
@@ -76,7 +62,7 @@ class SwiperView extends React.Component{
         nextButton={<IconIon name="map" size={40} color="#ededed" style={styles.flashToggleIcon} />}
         >
         <Settings navigator={this.props.navigator} />
-        <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude} userId={this.props.route.userId}/>
+        <Camera navigator={this.props.navigator} latitude={this.state.latitude} longitude={this.state.longitude} params={this.state} userId={this.props.route.userId}/>
         <MapView navigator={this.props.navigator} params={this.state} showsButtons={false}/>
        </Swiper>
      )

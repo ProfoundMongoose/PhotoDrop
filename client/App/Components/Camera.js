@@ -22,8 +22,26 @@ class CameraView extends React.Component {
     this.state = {
       cameraType: Camera.constants.Type.back,
       cameraFlashToggle: Camera.constants.FlashMode.off,
-      handleFocusChanged: () => {}
+      handleFocusChanged: () => {},
+      latitude: this.props.latitude,
+      longitude: this.props.longitude
     }
+  }
+
+  componentDidMount() {
+    setInterval(()=> {
+      if(this.props.params.index===1) {
+        console.log('getting location for camera')
+        navigator.geolocation.getCurrentPosition(
+          location => {
+            this.setState({
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude
+            });
+          }
+        );
+      }
+    }, 2000)
   }
 
   takePicture() {
@@ -33,8 +51,8 @@ class CameraView extends React.Component {
           this.props.navigator.push({
             component: PreviewPhoto,
             image64: image,
-            latitude: this.props.latitude,
-            longitude: this.props.longitude,
+            latitude: this.state.latitude,
+            longitude: this.state.longitude,
             userId: this.props.userId
           })
         })
@@ -179,4 +197,3 @@ var styles = StyleSheet.create({
 });
 
 module.exports = CameraView;
-

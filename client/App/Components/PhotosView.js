@@ -49,8 +49,7 @@ class PhotosView extends React.Component{
     })
   }
 
-  componentWillUnmount() { //this is just for displaying the statusbar in settings. When the photosview button is removed from settings and is added to the map marker, delete this
-    // StatusBarIOS.setStyle('light-content');
+  componentDidMount(){
     StatusBarIOS.setHidden(false);
   }
 
@@ -141,12 +140,14 @@ var styles = StyleSheet.create({
     marginTop: 65,
     fontSize: 18,
     textAlign: 'center',
-    color: '#656565'
+    color: '#656565',
+    fontFamily: 'circular'
   },
   noPhotosText2: {
     fontSize: 18,
     textAlign: 'center',
-    color: '#656565'
+    color: '#656565',
+    fontFamily: 'circular'
   },
   scrollView: {
     flexDirection: 'row',

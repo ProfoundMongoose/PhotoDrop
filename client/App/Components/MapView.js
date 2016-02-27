@@ -36,7 +36,7 @@ class Map extends React.Component {
       this.setState({ closeLocations: photosArr });
     });
 
-    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
       var photosArr = JSON.parse(photos);
       this.setState({ photosLocations: photosArr });
     });
@@ -45,14 +45,14 @@ class Map extends React.Component {
   componentDidMount(){
       setInterval(()=> {
       console.log('Swiper Index:', this.props.params.index);
-        if(this.props.params.index==2) {
+        if(this.props.params.index===2) {
           console.log('refreshing map');
           this.onLocationPressed();
-          api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+          api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
             var photosArr = JSON.parse(photos);
             this.setState({ photosLocations: photosArr });
           });
-          api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+          api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
             var photosArr = JSON.parse(photos);
             this.setState({ closeLocations: photosArr });
           });
@@ -135,7 +135,6 @@ class Map extends React.Component {
              )}
             )
           }
-          {this.state.region ? <MapView.Circle center={this.state.region} radius={50} fillColor="rgba(252, 147, 150, 0.5)" strokeColor="#FF5A5F" strokeWidth={2.5} /> : null}
         </MapView>
 
         <View style={styles.arrowContainer}>
