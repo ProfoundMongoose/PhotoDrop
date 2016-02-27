@@ -30,15 +30,32 @@ var api = {
   },
 
   uploadPhoto(data, latitude, longitude, userId) {
+    console.log('USERID', userId)
     var url = 'http://162.243.130.124:8000/imgUpload';
-    return fetch(url, {
+    // cut data in half
+    var firstHalf = data.slice(0, Math.floor(data.length / 2));
+    var secondHalf = data.slice(Math.floor(data.length / 2))
+     fetch(url, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        data: data,
+        data: firstHalf,
+        latitude: latitude,
+        longitude: longitude,
+        userId: userId
+      })
+    }).catch(function(err) { console.log(err) });
+     fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        data: secondHalf,
         latitude: latitude,
         longitude: longitude,
         userId: userId
