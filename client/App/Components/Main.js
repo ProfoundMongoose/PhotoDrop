@@ -34,7 +34,6 @@ class SwiperView extends React.Component{
   }
 
   _onMomentumScrollEnd(e, state, context) {
-    console.log(state, "state");
     if (state.index === 0) {
       this.setState({ index: 0 });
       StatusBarIOS.setHidden(false);
@@ -47,7 +46,6 @@ class SwiperView extends React.Component{
 
   _goToMap(){
     this.refs.scrollView.scrollTo(1);
-    StatusBarIOS.setHidden(false);
   }
 
   _goToSettings(){

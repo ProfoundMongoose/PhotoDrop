@@ -14,9 +14,6 @@ var {
 class PhotoSwiperView extends React.Component{
   constructor(props) {
     super(props);
-    this.state = {
-      index: 1,
-    }
   }
 
   componentDidMount() {
@@ -29,7 +26,7 @@ class PhotoSwiperView extends React.Component{
       <Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={this.props.route.index}>
         {
           photosUrls.map(function(photoUrl, index){
-            return <PhotoView key={index} uri={photoUrl} />
+            return <PhotoView key={index} uri={photoUrl}/>
           })
         }
       </Swiper>
