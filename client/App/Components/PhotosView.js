@@ -82,7 +82,15 @@ class PhotosView extends React.Component{
         photos: this.state.imageUrls,
         uri: uri,
         width: this.state.currentScreenWidth,
-        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+        sceneConfig: {
+          ...Navigator.SceneConfigs.FloatFromBottom,
+          gestures: {
+            pop: {
+              ...Navigator.SceneConfigs.FloatFromBottom.gestures.pop,
+              edgeHitWidth: Dimensions.get('window').height,
+            },
+          },
+        }
       });
     }
   }
