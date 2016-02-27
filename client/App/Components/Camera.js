@@ -103,15 +103,15 @@ class CameraView extends React.Component {
           </View>
 
           <View style={styles.bottomButtonContainer}>
-            <TouchableHighlight onPress={this.props._goToSettings.bind(this)} style={styles.settingsButton}>
+            <TouchableOpacity onPress={this.props._goToSettings.bind(this)} style={styles.settingsButton}>
               <IconIon name="drag" size={40} color="#ededed"/>
-            </TouchableHighlight>
+            </TouchableOpacity>
               <TouchableHighlight onPress={this.takePicture.bind(this)} style={styles.snapButton} underlayColor={'#FF5A5F'}>
                 <Icon name="circle" size={55} color="#FC9396" style={styles.snapIcon} />
               </TouchableHighlight>
-            <TouchableHighlight onPress={this.props._goToMap.bind(this)} style={styles.mapButton}>
+            <TouchableOpacity onPress={this.props._goToMap.bind(this)} style={styles.mapButton}>
               <IconIon name="map" size={40} color="#ededed" />
-            </TouchableHighlight>
+            </TouchableOpacity>
           </View>
 
         </Camera>
