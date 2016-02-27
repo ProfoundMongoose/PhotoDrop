@@ -4,30 +4,29 @@ var mongoose = require('mongoose');
 
 module.exports = {
   // send that file to imgur
-  uploadPhoto: function (req, res, next) {
+  uploadPhoto: function(req, res, next) {
     imgur.uploadBase64(req.body.data)
-      .then(function (json) {
+      .then(function(json) {
         console.log(json.data.link);
         req.imgurLink = json.data.link;
         next();
       })
-      .catch(function (err) {
+      .catch(function(err) {
         console.error(err.message);
       });
   },
 
   // save that photo as  a model in db
-  savePhotoModelToDB: function (req, res, next) {
-    console.log(JSON.parse(req.body.userId));
+  savePhotoModelToDB: function(req, res, next) {
     new Photo({
       url: req.imgurLink,
       loc: {
         type: 'Point',
         coordinates: [req.body.longitude, req.body.latitude]
       },
-      userId: JSON.parse(req.body.userId)
+      userId: mongoose.mongo.ObjectID(req.body.userId)
     }).save().then(function(data) {
-      Photo.ensureIndexes({loc:"2dsphere"});
+      Photo.ensureIndexes({ loc: "2dsphere" });
       console.log('saved new photo model to db ', data)
       next();
     }).catch(function(err) {
@@ -36,7 +35,7 @@ module.exports = {
   },
 
   // fetch all photos from DB
-  fetchPhotos: function (req, res, next) {
+  fetchPhotos: function(req, res, next) {
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
 
@@ -44,34 +43,33 @@ module.exports = {
       loc: {
         $near: {
           $geometry: {
-             type: "Point" ,
-             coordinates: coords 
+            type: "Point",
+            coordinates: coords
           },
           $maxDistance: maxDistance
         }
       }
-    })
-      .then(function(photos) {
-        res.json(photos);
-      })
-      .fail(function(error) {
-        // console.log('error: ',error);
-        next(error);
-      });
+    }, function(err, photos) {
+      if (err) { next(error); }
+      console.log('fetched photos', photos);
+      res.json(photos);
+    });
   },
 
-  fetchLocations: function (req, res, next) {
+  fetchLocations: function(req, res, next) {
     var lat = Number(req.query.lat);
     var lon = Number(req.query.lon);
     var latdelta = Number(req.query.latdelta);
     var londelta = Number(req.query.londelta);
-    var coords = [[
-      [lon-londelta, lat+latdelta],
-      [lon+londelta, lat+latdelta],
-      [lon+londelta, lat-latdelta],
-      [lon-londelta, lat-latdelta],
-      [lon-londelta, lat+latdelta]
-    ]];
+    var coords = [
+      [
+        [lon - londelta, lat + latdelta],
+        [lon + londelta, lat + latdelta],
+        [lon + londelta, lat - latdelta],
+        [lon - londelta, lat - latdelta],
+        [lon - londelta, lat + latdelta]
+      ]
+    ];
 
     var revealedPhotos = undefined;
 
@@ -79,35 +77,35 @@ module.exports = {
       loc: {
         $near: {
           $geometry: {
-             type: "Point" ,
-             coordinates: [req.query.lon, req.query.lat]
+            type: "Point",
+            coordinates: [req.query.lon, req.query.lat]
           },
-          $maxDistance: 50
+          $maxDistance: 0
         }
       }
-    }).select('_id')
-      .then(function(photos) {
-        revealedPhotos = photos;
-        Photo.find({
-          loc: {
-            $geoWithin: {
-              $geometry: {
-                 type: "Polygon" ,
-                 coordinates: coords
-              }
+    }, function(err, photos) {
+      if (err) next(error);
+      console.log('photos after first find', photos);
+      revealedPhotos = photos;
+      Photo.find({
+        loc: {
+          $geoWithin: {
+            $geometry: {
+              type: "Polygon",
+              coordinates: coords
             }
           }
-        }).nin('_id', revealedPhotos)
-          .then(function(photos) {
-            res.json(photos);
-          })
-          .fail(function(error) {
-            console.log('error: ',error);
-            next(error);
-          });
-      })
-      .fail(function(error) {
-        next(error);
-      })
+        },
+        _id: { $nin: revealedPhotos.map(function(photo) {
+            return photo._id }) }
+      }, 'loc', function(err, photos) {
+        console.log('photos outside of circle', photos);
+        if (err) {
+          console.log('error: ', error);
+          next(error);
+        }
+        res.json(photos);
+      });
+    })
   }
 };

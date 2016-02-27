@@ -121,7 +121,7 @@ class Map extends React.Component {
         >
           { this.state.photosLocations.map((photoLocation) => {
               return (
-               <MapView.Marker image={require('../Components/assets/rsz_pin96.png')} onPress={this.showImage(photoLocation.url)}
+               <MapView.Marker image={require('../Components/assets/rsz_pin96.png')}
                  coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
                />
              )}
