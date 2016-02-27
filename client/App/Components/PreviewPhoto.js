@@ -28,6 +28,7 @@ class PreviewPhoto extends React.Component{
   }
 
   _sendImage() {
+    console.log('image sent');
     api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId);
     this.setState({modalVisible: true});
     setTimeout(()=> {

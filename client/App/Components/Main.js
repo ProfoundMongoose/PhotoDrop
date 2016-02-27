@@ -48,7 +48,7 @@ class SwiperView extends React.Component{
   }
 
   render () {
-    if(this.state.index===1) {StatusBarIOS.setHidden(true);}
+    // if(this.state.index===1) {StatusBarIOS.setHidden(true);}
     if(this.state.latitude && this.state.longitude){
      return (
       <Swiper style={styles.wrapper} 

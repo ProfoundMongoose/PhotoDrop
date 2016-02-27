@@ -49,10 +49,6 @@ class PhotosView extends React.Component{
     })
   }
 
-  componentDidMount(){
-    StatusBarIOS.setHidden(false);
-  }
-
   handleRotation(event) {
     var layout = event.nativeEvent.layout;
     this.setState({ currentScreenWidth: layout.width, currentScreenHeight: layout.height });
@@ -105,6 +101,7 @@ class PhotosView extends React.Component{
   }
 
   render() {
+    StatusBarIOS.setHidden(false);
     var pageTitle = (
       <Text style={styles.pageTitle}>Photos Near You</Text>
     )
