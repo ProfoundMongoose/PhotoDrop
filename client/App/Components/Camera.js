@@ -93,21 +93,26 @@ class CameraView extends React.Component {
           defaultOnFocusComponent={ true } 
           onFocusChanged={ this.state.handleFocusChanged }>
 
-          <View style={styles.buttonContainer}>
-            <TouchableHighlight onPress={this.switchCamera.bind(this)} style={styles.switchButton} underlayColor={'#FF5A5F'}>
-              <Icon name="circle-o-notch" size={25} color="#FC9396" style={styles.switchIcon} />
-            </TouchableHighlight>
+          <View style={styles.topButtonContainer}>
             <TouchableHighlight onPress={this.flashEnabled.bind(this)} style={styles.flashToggleButton} underlayColor={'#FF5A5F'}>
               {this.state.cameraFlashToggle===Camera.constants.FlashMode.on ?  <IconIon name="ios-bolt" size={40} color="#FC9396" style={styles.flashToggleIcon} /> :  <IconIon name="ios-bolt-outline" size={40} color="#FC9396" style={styles.flashToggleIcon} />}
             </TouchableHighlight>
-          </View>
-
-          <View>
-            <TouchableHighlight onPress={this.takePicture.bind(this)} style={styles.snapButton} underlayColor={'#FF5A5F'}>
-              <Icon name="circle" size={55} color="#FC9396" style={styles.snapIcon} />
+            <TouchableHighlight onPress={this.switchCamera.bind(this)} style={styles.switchButton} underlayColor={'#FF5A5F'}>
+              <Icon name="circle-o-notch" size={25} color="#FC9396" style={styles.switchIcon} />
             </TouchableHighlight>
           </View>
-            
+
+          <View style={styles.bottomButtonContainer}>
+            <TouchableHighlight onPress={this.props._goToSettings.bind(this)} style={styles.settingsButton}>
+              <IconIon name="drag" size={40} color="#ededed"/>
+            </TouchableHighlight>
+              <TouchableHighlight onPress={this.takePicture.bind(this)} style={styles.snapButton} underlayColor={'#FF5A5F'}>
+                <Icon name="circle" size={55} color="#FC9396" style={styles.snapIcon} />
+              </TouchableHighlight>
+            <TouchableHighlight onPress={this.props._goToMap.bind(this)} style={styles.mapButton}>
+              <IconIon name="map" size={40} color="#ededed" />
+            </TouchableHighlight>
+          </View>
 
         </Camera>
       </View>
@@ -126,20 +131,53 @@ var styles = StyleSheet.create({
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width
   },
-  capture: {
-    flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    color: '#FF5A5F',
-    padding: 10,
-    margin: 10
-  },
-  buttonContainer: {
+  topButtonContainer: {
     flex: 1,
-    marginTop: 20,
-    width: 150,
-    height: 150,
-    marginLeft: 240
+    flexDirection: 'row',
+    backgroundColor:'transparent',
+    alignItems:'flex-start',
+    justifyContent: 'center',
+  },
+  switchButton: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'transparent',
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#ededed',
+    marginLeft: 110,
+    marginTop: 30
+  },
+  switchIcon: {
+    width: 25,
+    height: 25
+  },
+  flashToggleButton: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'transparent',
+    borderRadius: 25,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#ededed',
+    marginRight: 110,
+    marginTop: 30,
+    paddingLeft: 7
+  },
+  flashToggleIcon: {
+    width: 25,
+    height: 38,
+    backgroundColor: 'transparent'
+  },
+  bottomButtonContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor:'transparent',
+    alignItems:'flex-end',
+    justifyContent: 'center',
   },
   snapButton: {
     width: 70,
@@ -158,40 +196,15 @@ var styles = StyleSheet.create({
     height: 55,
     backgroundColor: 'transparent'
   },
-  switchButton: {
-    width: 50,
-    height: 50,
-    backgroundColor: 'transparent',
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: '#ededed',
-    marginLeft: 70,
-    marginTop: 10
+  settingsButton: {
+    marginRight: 100,
+    marginBottom: 25,
   },
-  switchIcon: {
-    width: 25,
-    height: 25
-  },
-  flashToggleButton: {
-    width: 50,
-    height: 50,
-    backgroundColor: 'transparent',
-    borderRadius: 25,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: '#ededed',
-    marginLeft: -210,
-    marginTop: -50,
-    paddingLeft: 7
-  },
-  flashToggleIcon: {
-    width: 25,
-    height: 38,
-    backgroundColor: 'transparent'
+  mapButton: {
+    marginLeft: 100,
+    marginBottom: 25,
   }
+
 });
 
 module.exports = CameraView;
