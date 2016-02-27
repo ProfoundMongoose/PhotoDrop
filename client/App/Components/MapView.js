@@ -157,7 +157,7 @@ class Map extends React.Component {
         <TouchableOpacity style={styles.buttonContainer} onPress={this.openAllPhotos.bind(this)}>
           <View style={[styles.bubble, styles.latlng]}>
             <Text style={styles.openPhotosText}>
-              {`View Available Photos`}
+              {`View All Available Photos`}
             </Text>
           </View>
         </TouchableOpacity>
