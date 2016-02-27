@@ -1,7 +1,7 @@
 var api = {
   login(username, password) {
     var user = { username: username, password: password };
-    var url = 'http://10.0.1.3:8000/login';
+    var url = 'http://162.243.130.124:8000/login';
     return fetch(url, {
       method: "POST",
       body: JSON.stringify(user)
@@ -10,14 +10,14 @@ var api = {
 
   signup(username, password) {
     var user = { username: username, password: password };
-    return fetch('http://10.0.1.3:8000/signup', {
+    return fetch('http://162.243.130.124:8000/signup', {
       method: 'POST',
       body: JSON.stringify(user)
     });
   },
 
   checkJWT(JWT, callback) {
-    var url = 'http://10.0.1.3:8000/checkJWT/' + JWT;
+    var url = 'http://162.243.130.124:8000/checkJWT/' + JWT;
     fetch(url, {
       method: 'GET',
       headers: {
@@ -30,7 +30,7 @@ var api = {
   },
 
   uploadPhoto(data, latitude, longitude, userId) {
-    var url = 'http://10.0.1.3:8000/imgUpload';
+    var url = 'http://162.243.130.124:8000/imgUpload';
     // cut data in half
     var firstHalf = data.slice(0, Math.floor(data.length / 2));
     var secondHalf = data.slice(Math.floor(data.length / 2))
@@ -63,7 +63,7 @@ var api = {
   },
 
   fetchPhotos(latitude, longitude, radius, callback) {
-    var url = 'http://10.0.1.3:8000/fetchPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
+    var url = 'http://162.243.130.124:8000/fetchPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
     return fetch(url, {
         method: 'GET',
         headers: {
@@ -78,7 +78,7 @@ var api = {
   },
 
   fetchLocations(latitude, longitude, latdelta, londelta, callback) {
-    var url = 'http://10.0.1.3:8000/fetchLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta;
+    var url = 'http://162.243.130.124:8000/fetchLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta;
     return fetch(url, {
         method: 'GET',
         headers: {
@@ -94,7 +94,7 @@ var api = {
 
   fetchUserPhotos(userId, callback){
     console.log('api id', userId);
-    var url = 'http://10.0.1.3:8000/fetchUserPhotos?userId=' + userId;
+    var url = 'http://162.243.130.124:8000/fetchUserPhotos?userId=' + userId;
     console.log('api url', url);
     return fetch(url, {
         method: 'GET',
