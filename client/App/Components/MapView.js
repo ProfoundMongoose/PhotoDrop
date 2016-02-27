@@ -5,6 +5,8 @@ var CircleMarker = require('./CircleMarker');
 var PhotoView = require('./PhotoView');
 var PhotosView = require('./PhotosView');
 var api = require('../Utils/api');
+var BlackPhotoMarker = require('./BlackPhotoMarker');
+var RedPhotoMarker = require('./RedPhotoMarker');
 
 var {
   Navigator,
@@ -140,17 +142,17 @@ class Map extends React.Component {
 
           { this.state.photosLocations.map((photoLocation) => {
               return (
-               <MapView.Marker image={require('../Components/assets/grey_pin.png')}
-                 coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
-               />
+              <MapView.Marker coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}>
+                <BlackPhotoMarker navigator={this.props.navigator}/>
+              </MapView.Marker>
              )}
             )
           }
           { this.state.closeLocations.map((photoLocation) => {
               return (
-               <MapView.Marker image={require('../Components/assets/red_pin.png')} onPress={this.showImage(photoLocation.url)}
-                 coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}
-               />
+               <MapView.Marker coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}} onPress={this.showImage(photoLocation.url)}>
+                 <RedPhotoMarker navigator={this.props.navigator}/>
+               </MapView.Marker>
              )}
             )
           }
