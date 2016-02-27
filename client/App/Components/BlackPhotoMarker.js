@@ -21,7 +21,7 @@ class BlackPhotoMarker extends React.Component{
         <View style={styles.container}>
           <View style={styles.bubble}>
             <TouchableOpacity style={styles.icon}>
-              <IconIon name="camera" size={33} color="#ededed"/>
+              <IconIon name="camera" size={25} color="#ededed"/>
             </TouchableOpacity>
           </View>
           <View style={styles.arrowBorder} />
@@ -41,20 +41,22 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'flex-start',
     backgroundColor: '#565b5c',
-    borderRadius: 5,
+    borderRadius: 30,
     borderColor: 'grey',
   },
   icon: {
-    marginLeft: 6,
-    marginRight: 6
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    paddingBottom: 5,
   },
   arrow: {
     backgroundColor: 'transparent',
-    borderWidth: 12,
+    borderWidth: 15,
     borderColor: 'transparent',
     borderTopColor: '#565b5c',
     alignSelf: 'center',
-    marginTop: -9
+    marginTop: -14.5
   },
   arrowBorder: {
     backgroundColor: 'transparent',

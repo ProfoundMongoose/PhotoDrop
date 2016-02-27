@@ -50,7 +50,7 @@ class Settings extends React.Component {
           title={pageTitle} 
           tintColor={"white"}/>
         <View style={styles.imageContainer}>
-          <Image source={require('./../../images/Logo.png')} style={styles.image}/>
+          <Image source={require('./../../images/logoresized.png')} style={styles.image}/>
         </View>
         <View style={styles.mainContainer}>
           <TouchableHighlight
@@ -119,7 +119,7 @@ var styles = StyleSheet.create({
   },
   image: {
     width: 200,
-    height: 200,
+    height: 228,
   },
   pageTitle: {
     fontSize: 18,

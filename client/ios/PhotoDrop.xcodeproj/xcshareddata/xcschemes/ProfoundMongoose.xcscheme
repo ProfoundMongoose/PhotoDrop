@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "ProfoundMongoose.app"
-               BlueprintName = "ProfoundMongoose"
-               ReferencedContainer = "container:ProfoundMongoose.xcodeproj">
+               BlueprintName = "PhotoDrop"
+               ReferencedContainer = "container:PhotoDrop.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "ProfoundMongooseTests.xctest"
-               BlueprintName = "ProfoundMongooseTests"
-               ReferencedContainer = "container:ProfoundMongoose.xcodeproj">
+               BuildableName = "PhotoDrop.xctest"
+               BlueprintName = "PhotoDropTests"
+               ReferencedContainer = "container:PhotoDrop.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "ProfoundMongooseTests.xctest"
-               BlueprintName = "ProfoundMongooseTests"
-               ReferencedContainer = "container:ProfoundMongoose.xcodeproj">
+               BuildableName = "PhotoDrop.xctest"
+               BlueprintName = "PhotoDropTests"
+               ReferencedContainer = "container:PhotoDrop.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -58,8 +58,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "ProfoundMongoose.app"
-            BlueprintName = "ProfoundMongoose"
-            ReferencedContainer = "container:ProfoundMongoose.xcodeproj">
+            BlueprintName = "PhotoDrop"
+            ReferencedContainer = "container:PhotoDrop.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -67,8 +67,8 @@
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "ProfoundMongoose.app"
-            BlueprintName = "ProfoundMongoose"
-            ReferencedContainer = "container:ProfoundMongoose.xcodeproj">
+            BlueprintName = "PhotoDrop"
+            ReferencedContainer = "container:PhotoDrop.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -100,8 +100,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "ProfoundMongoose.app"
-            BlueprintName = "ProfoundMongoose"
-            ReferencedContainer = "container:ProfoundMongoose.xcodeproj">
+            BlueprintName = "PhotoDrop"
+            ReferencedContainer = "container:PhotoDrop.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
