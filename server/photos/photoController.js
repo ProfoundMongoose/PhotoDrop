@@ -80,7 +80,7 @@ module.exports = {
             type: "Point",
             coordinates: [req.query.lon, req.query.lat]
           },
-          $maxDistance: 0
+          $maxDistance: 50
         }
       }
     }, function(err, photos) {
