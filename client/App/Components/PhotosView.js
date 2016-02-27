@@ -115,7 +115,7 @@ class PhotosView extends React.Component{
   render() {
     StatusBarIOS.setHidden(false);
     var pageTitle = (
-      <Text style={styles.pageTitle}>Photos Near You</Text>
+       this.state.userId ? <Text style={styles.pageTitle}>Your Photos</Text> : <Text style={styles.pageTitle}>Photos Near You</Text>
     )
     var backButton = (
       <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
