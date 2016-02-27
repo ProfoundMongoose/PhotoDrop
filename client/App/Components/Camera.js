@@ -40,7 +40,7 @@ class CameraView extends React.Component {
           }
         );
       }
-    }, 500)
+    }, 2000)
   }
 
   takePicture() {

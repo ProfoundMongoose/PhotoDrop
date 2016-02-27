@@ -34,7 +34,7 @@ var api = {
     // cut data in half
     var firstHalf = data.slice(0, Math.floor(data.length / 2));
     var secondHalf = data.slice(Math.floor(data.length / 2))
-     fetch(url, {
+    fetch(url, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -47,7 +47,7 @@ var api = {
         userId: userId
       })
     }).catch(function(err) { console.log(err) });
-     fetch(url, {
+    fetch(url, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -92,8 +92,8 @@ var api = {
       });
   },
 
-  fetchUserPhotos(userId, callback){
-    console.log('api id', userId);
+
+  fetchUserPhotos(userId, callback) {
     var url = 'http://162.243.130.124:8000/fetchUserPhotos?userId=' + userId;
     console.log('api url', url);
     return fetch(url, {
@@ -102,8 +102,6 @@ var api = {
           'Content-Type': 'application/json'
         }
       }).then(function(photos) {
-        console.log('regular', photos);
-        console.log('bodyInit', photos._bodyInit);
         callback(photos._bodyInit);
       })
       .catch(function(err) {
