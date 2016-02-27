@@ -94,11 +94,11 @@ class CameraView extends React.Component {
           onFocusChanged={ this.state.handleFocusChanged }>
 
           <View style={styles.topButtonContainer}>
-            <TouchableHighlight onPress={this.flashEnabled.bind(this)} style={styles.flashToggleButton} underlayColor={'#FF5A5F'}>
-              {this.state.cameraFlashToggle===Camera.constants.FlashMode.on ?  <IconIon name="ios-bolt" size={40} color="#FC9396" style={styles.flashToggleIcon} /> :  <IconIon name="ios-bolt-outline" size={40} color="#FC9396" style={styles.flashToggleIcon} />}
+            <TouchableHighlight onPress={this.flashEnabled.bind(this)} style={styles.flashToggleButton} underlayColor={'#FC9396'}>
+              {this.state.cameraFlashToggle===Camera.constants.FlashMode.on ?  <IconIon name="ios-bolt" size={40} color="#FF5A5F" style={styles.flashToggleIcon} /> :  <IconIon name="ios-bolt-outline" size={40} color="#FF5A5F" style={styles.flashToggleIcon} />}
             </TouchableHighlight>
-            <TouchableHighlight onPress={this.switchCamera.bind(this)} style={styles.switchButton} underlayColor={'#FF5A5F'}>
-              <Icon name="circle-o-notch" size={25} color="#FC9396" style={styles.switchIcon} />
+            <TouchableHighlight onPress={this.switchCamera.bind(this)} style={styles.switchButton} underlayColor={'#FC9396'}>
+              <Icon name="circle-o-notch" size={25} color="#FF5A5F" style={styles.switchIcon} />
             </TouchableHighlight>
           </View>
 
@@ -106,8 +106,8 @@ class CameraView extends React.Component {
             <TouchableOpacity onPress={this.props._goToSettings.bind(this)} style={styles.settingsButton}>
               <IconIon name="drag" size={40} color="#ededed"/>
             </TouchableOpacity>
-              <TouchableHighlight onPress={this.takePicture.bind(this)} style={styles.snapButton} underlayColor={'#FF5A5F'}>
-                <Icon name="circle" size={55} color="#FC9396" style={styles.snapIcon} />
+              <TouchableHighlight onPress={this.takePicture.bind(this)} style={styles.snapButton} underlayColor={'#FC9396'}>
+                <Icon name="circle" size={55} color="rgba(237,237,237,0.5)" style={styles.snapIcon} />
               </TouchableHighlight>
             <TouchableOpacity onPress={this.props._goToMap.bind(this)} style={styles.mapButton}>
               <IconIon name="map" size={40} color="#ededed" />

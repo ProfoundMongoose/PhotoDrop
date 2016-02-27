@@ -154,14 +154,14 @@
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* ProfoundMongooseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProfoundMongooseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* PhotoDrop.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PhotoDrop.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ProfoundMongooseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProfoundMongooseTests.m; sourceTree = "<group>"; };
 		077F23A11C80398A00F87C07 /* lineto-circular-medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "lineto-circular-medium.ttf"; path = "../App/Components/assets/lineto-circular-medium.ttf"; sourceTree = "<group>"; };
 		0BB4E6A78C8D4CFCAD44AC6B /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* ProfoundMongoose.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProfoundMongoose.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* PhotoDrop.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoDrop.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ProfoundMongoose/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = ProfoundMongoose/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -395,8 +395,8 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* ProfoundMongoose.app */,
-				00E356EE1AD99517003FC87E /* ProfoundMongooseTests.xctest */,
+				13B07F961A680F5B00A75B9A /* PhotoDrop.app */,
+				00E356EE1AD99517003FC87E /* PhotoDrop.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -428,9 +428,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* ProfoundMongooseTests */ = {
+		00E356ED1AD99517003FC87E /* PhotoDropTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ProfoundMongooseTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "PhotoDropTests" */;
 			buildPhases = (
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
@@ -441,14 +441,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = ProfoundMongooseTests;
+			name = PhotoDropTests;
 			productName = ProfoundMongooseTests;
-			productReference = 00E356EE1AD99517003FC87E /* ProfoundMongooseTests.xctest */;
+			productReference = 00E356EE1AD99517003FC87E /* PhotoDrop.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* ProfoundMongoose */ = {
+		13B07F861A680F5B00A75B9A /* PhotoDrop */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ProfoundMongoose" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "PhotoDrop" */;
 			buildPhases = (
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -459,9 +459,9 @@
 			);
 			dependencies = (
 			);
-			name = ProfoundMongoose;
+			name = PhotoDrop;
 			productName = "Hello World";
-			productReference = 13B07F961A680F5B00A75B9A /* ProfoundMongoose.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* PhotoDrop.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -478,7 +478,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = RBZ2HR287A;
+						DevelopmentTeam = 2ZJJNLJ4P3;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -487,7 +487,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ProfoundMongoose" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "PhotoDrop" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -558,8 +558,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* ProfoundMongoose */,
-				00E356ED1AD99517003FC87E /* ProfoundMongooseTests */,
+				13B07F861A680F5B00A75B9A /* PhotoDrop */,
+				00E356ED1AD99517003FC87E /* PhotoDropTests */,
 			);
 		};
 /* End PBXProject section */
@@ -734,7 +734,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* ProfoundMongoose */;
+			target = 13B07F861A680F5B00A75B9A /* PhotoDrop */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -774,8 +774,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ProfoundMongoose.app/ProfoundMongoose";
+				PRODUCT_NAME = PhotoDrop;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoDrop.app/PhotoDrop";
 			};
 			name = Debug;
 		};
@@ -798,8 +798,8 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ProfoundMongoose.app/ProfoundMongoose";
+				PRODUCT_NAME = PhotoDrop;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PhotoDrop.app/PhotoDrop";
 			};
 			name = Release;
 		};
@@ -822,8 +822,8 @@
 				INFOPLIST_FILE = ProfoundMongoose/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = ProfoundMongoose;
-				PRODUCT_NAME = ProfoundMongoose;
+				PRODUCT_BUNDLE_IDENTIFIER = PhotoDrop;
+				PRODUCT_NAME = PhotoDrop;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
@@ -847,8 +847,8 @@
 				INFOPLIST_FILE = ProfoundMongoose/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = ProfoundMongoose;
-				PRODUCT_NAME = ProfoundMongoose;
+				PRODUCT_BUNDLE_IDENTIFIER = PhotoDrop;
+				PRODUCT_NAME = PhotoDrop;
 				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
@@ -951,7 +951,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "ProfoundMongooseTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "PhotoDropTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -960,7 +960,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "ProfoundMongoose" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "PhotoDrop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -969,7 +969,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ProfoundMongoose" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "PhotoDrop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

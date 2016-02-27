@@ -176,7 +176,8 @@ class Map extends React.Component {
     );
   } else {
     return (
-      <View>
+      <View style={styles.centering}>
+        <Text style={styles.noMapText}>Loading...</Text>
       </View>
     );
   } 
@@ -225,7 +226,7 @@ var styles = StyleSheet.create({
   arrowButton:{
     width:50,
     height:50,
-    backgroundColor:'#FC9396',
+    backgroundColor:'#FF5A5F',
     borderRadius:25,
     alignItems:'center',
     justifyContent: 'center',
@@ -254,7 +255,18 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     fontFamily: 'circular',
     color: '#565b5c'
-  }
+  },
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  noMapText: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#656565',
+    fontFamily: 'circular'
+  },
 });
 
 module.exports = Map;

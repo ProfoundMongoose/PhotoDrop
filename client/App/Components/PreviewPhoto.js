@@ -137,6 +137,7 @@ var styles = StyleSheet.create({
   },
   modal: {
     fontSize: 40,
+    fontFamily: 'Circular',
     justifyContent: 'center',
   }
 });
