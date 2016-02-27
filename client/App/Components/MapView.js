@@ -56,7 +56,7 @@ class Map extends React.Component {
             this.setState({ closeLocations: photosArr });
           });
         }
-      }, 500)
+      }, 2000)
   }
 
   showImage(uri) {
