@@ -92,6 +92,7 @@ var api = {
       });
   },
 
+
   fetchUserPhotos(userId, callback) {
     var url = 'http://162.243.130.124:8000/fetchUserPhotos?userId=' + userId;
     console.log('api url', url);

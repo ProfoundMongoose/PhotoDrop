@@ -82,7 +82,15 @@ class PhotosView extends React.Component{
         photos: this.state.imageUrls,
         uri: uri,
         width: this.state.currentScreenWidth,
-        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+        sceneConfig: {
+          ...Navigator.SceneConfigs.FloatFromBottom,
+          gestures: {
+            pop: {
+              ...Navigator.SceneConfigs.FloatFromBottom.gestures.pop,
+              edgeHitWidth: Dimensions.get('window').height,
+            },
+          },
+        }
       });
     }
   }
@@ -115,7 +123,7 @@ class PhotosView extends React.Component{
   render() {
     StatusBarIOS.setHidden(false);
     var pageTitle = (
-      <Text style={styles.pageTitle}>Photos Near You</Text>
+       this.state.userId ? <Text style={styles.pageTitle}>Your Photos</Text> : <Text style={styles.pageTitle}>Photos Near You</Text>
     )
     var backButton = (
       <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
