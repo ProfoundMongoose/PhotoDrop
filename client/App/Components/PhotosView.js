@@ -141,7 +141,7 @@ class PhotosView extends React.Component{
         {this.state.imageUrls && !this.state.imageUrls.length && !this.state.userId ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
         {this.state.imageUrls && !this.state.imageUrls.length && !this.state.userId ? <Text style={styles.noPhotosText2}>Be the first one to drop a photo!</Text>  : null}
 
-        {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId ? <Text style={styles.noPhotosText}>Looks like you haven't taken any photos...</Text>   : null}
+        {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId ? <Text style={styles.noPhotosText}>{`Looks like you haven't taken any photos...`}</Text>   : null}
         {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId ? <Text style={styles.noPhotosText2}>Swipe to the camera and drop a photo!</Text>  : null}
         <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
           {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}

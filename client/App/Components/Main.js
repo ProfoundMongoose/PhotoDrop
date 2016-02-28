@@ -10,7 +10,8 @@ var {
   Dimensions,
   StatusBarIOS,
   View,
-  ScrollView
+  ScrollView,
+  Text
 } = React;
 
 class SwiperView extends React.Component{
@@ -75,13 +76,30 @@ class SwiperView extends React.Component{
        </Swiper>
      )
     } else {
-      return <View></View>
+      return (
+        <View style={styles.centering}>
+          <Text style={styles.noMainText}>Loading...</Text>
+        </View>
+      );
     }
   }
 }
 
-var styles = StyleSheet.create({ //not used for now
-  wrapper: {},
+var styles = StyleSheet.create({ 
+  wrapper: {
+    //not used for now
+  },  
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  noMainText: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#656565',
+    fontFamily: 'circular'
+  },
 })
 
 module.exports = SwiperView;
