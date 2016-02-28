@@ -99,13 +99,12 @@ class Map extends React.Component {
   openAllPhotos() {
       this.props.navigator.push({
         component: PhotosView,
-        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+        sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+        previousComponent: 'map'
       });
   }
 
   render() {
-    // StatusBarIOS.setHidden(true);
-
     if(this.state.photosLocations && this.state.closeLocations){
     return (
       <View style={styles.container}>

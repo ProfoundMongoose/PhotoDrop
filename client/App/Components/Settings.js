@@ -27,7 +27,8 @@ class Settings extends React.Component {
   openMyPhotos() {
     this.props.navigator.push({
       component: PhotosView,
-      userId: this.props.userId
+      userId: this.props.userId,
+      previousComponent: 'settings'
     });
   }
 

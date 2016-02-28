@@ -39,7 +39,8 @@ class PhotosView extends React.Component{
       currentScreenWidth: width,
       currentScreenHeight: height,
       imageUrls: undefined,
-      userId: this.props.route.userId
+      userId: this.props.route.userId,
+      previousComponent: this.props.route.previousComponent,
     };
     if(this.state.userId){
       console.log('user fetch', this.state.userId);
@@ -59,6 +60,11 @@ class PhotosView extends React.Component{
         this.setState({ imageUrls: photosUrls });
       })
     }
+  }
+
+  componentWillUnmount() {
+    if(this.state.previousComponent==='settings') {StatusBarIOS.setHidden(false);}
+    if(this.state.previousComponent==='map') {StatusBarIOS.setHidden(true);}
   }
 
   handleRotation(event) {
