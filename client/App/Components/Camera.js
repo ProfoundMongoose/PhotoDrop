@@ -80,6 +80,7 @@ class CameraView extends React.Component {
   }
 
   render() {
+    StatusBarIOS.setHidden(true);
     return (
       <View >
         <Camera
@@ -173,7 +174,7 @@ var styles = StyleSheet.create({
   bottomButtonContainer: {
     flexDirection: 'row',
     alignItems:'center',
-    marginBottom: 25
+    marginBottom: 15
   },
   snapButton: {
     width: 70,
