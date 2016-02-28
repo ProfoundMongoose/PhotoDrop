@@ -100,7 +100,9 @@ class Map extends React.Component {
       this.props.navigator.push({
         component: PhotosView,
         sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
-        previousComponent: 'map'
+        previousComponent: 'map',
+        latitude: this.state.latitude,
+        longitude: this.state.longitude
       });
   }
 
