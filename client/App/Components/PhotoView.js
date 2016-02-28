@@ -8,7 +8,8 @@ var {
   Image,
   ScrollView,
   TouchableOpacity,
-  TouchableWithoutFeedback 
+  TouchableWithoutFeedback,
+
 } = React;
 
 class PhotoView extends React.Component{
@@ -42,17 +43,18 @@ class PhotoView extends React.Component{
       )
     }
     return (
-      <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
-        <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
-            <IconIon name="ios-close-empty" size={60} color="white" style={styles.closeIcon} />
-          </TouchableOpacity>
-        </View>
+        <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
+          <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
 
-        </Image>
-      </TouchableWithoutFeedback>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
+              <IconIon name="ios-close-empty" size={60} color="white" style={styles.closeIcon} />
+            </TouchableOpacity>
+          </View>
+
+          </Image>
+        </TouchableWithoutFeedback>
     )
   }
 }
