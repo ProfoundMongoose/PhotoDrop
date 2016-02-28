@@ -11,7 +11,6 @@ var {
   StatusBarIOS,
   View,
   ScrollView,
-  Text,
   Image,
   ActivityIndicatorIOS
 } = React;
