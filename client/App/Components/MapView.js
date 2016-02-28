@@ -217,11 +217,11 @@ var styles = StyleSheet.create({
     alignItems: 'stretch'
   },
   arrowContainer:{
-    flex:1,
-    marginTop:20,
-    width:150,
-    height:150,
-    marginLeft:240
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor:'transparent',
+    alignItems:'flex-start',
+    justifyContent: 'center',
   },
   arrowButton:{
     width:50,
@@ -232,8 +232,8 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#FF5A5F',
-    marginLeft: 70,
-    marginTop: 10
+    marginLeft:255,
+    marginTop: 30
   },
   arrowIcon:{
     width:25,
