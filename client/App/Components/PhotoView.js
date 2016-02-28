@@ -9,7 +9,6 @@ var {
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
-
 } = React;
 
 class PhotoView extends React.Component{
@@ -43,7 +42,6 @@ class PhotoView extends React.Component{
       )
     }
     return (
-
         <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
           <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
 

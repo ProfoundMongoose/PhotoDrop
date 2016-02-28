@@ -84,10 +84,6 @@ class PhotosView extends React.Component{
     return { width: size, height: size };
   }
 
-  closeView() {
-    this.props.navigator.pop();
-  }
-
   // function that returns a function that knows the correct uri to render
   showImageFullscreen(uri, index) {
     return () => {
@@ -99,7 +95,6 @@ class PhotosView extends React.Component{
         photos: this.state.imageUrls,
         uri: uri,
         width: this.state.currentScreenWidth,
-        closeView: this.closeView,
         sceneConfig: {
           ...Navigator.SceneConfigs.FloatFromBottom,
           gestures: {
