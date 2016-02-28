@@ -11,7 +11,9 @@ var {
   StatusBarIOS,
   View,
   ScrollView,
-  Text
+  Text,
+  Image,
+  ActivityIndicatorIOS
 } = React;
 
 class SwiperView extends React.Component{
@@ -40,8 +42,10 @@ class SwiperView extends React.Component{
       StatusBarIOS.setHidden(false);
     } else if (state.index === 1) {
       this.setState({ index: 1 });
+      StatusBarIOS.setHidden(true);
     } else if (state.index === 2) {
       this.setState({ index: 2 });
+      StatusBarIOS.setHidden(true);
     }
   }
 
@@ -77,8 +81,11 @@ class SwiperView extends React.Component{
      )
     } else {
       return (
-        <View style={styles.centering}>
-          <Text style={styles.noMainText}>Loading...</Text>
+        <View style={{ flex: 1, backgroundColor: '#ededed'}}>
+          <View style={styles.centering}>
+            <Image source={require('./../../images/logoresized.png')} style={styles.image}/>
+            <ActivityIndicatorIOS size={'large'}/>
+          </View>
         </View>
       );
     }
@@ -92,13 +99,13 @@ var styles = StyleSheet.create({
   centering: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginBottom: 140
   },
-  noMainText: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: '#656565',
-    fontFamily: 'circular'
+  image: {
+    width: 100,
+    height: 114,
+    margin: 40
   },
 })
 

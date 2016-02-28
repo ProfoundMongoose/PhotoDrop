@@ -16,7 +16,8 @@ var {
   Dimensions,
   TouchableOpacity,
   TouchableHighlight,
-  StatusBarIOS
+  StatusBarIOS,
+  ActivityIndicatorIOS
 } = React;
 
 class Map extends React.Component {
@@ -103,7 +104,7 @@ class Map extends React.Component {
   }
 
   render() {
-    StatusBarIOS.setHidden(true);
+    // StatusBarIOS.setHidden(true);
 
     if(this.state.photosLocations && this.state.closeLocations){
     return (
@@ -160,7 +161,8 @@ class Map extends React.Component {
   } else {
     return (
       <View style={styles.centering}>
-        <Text style={styles.noMapText}>Loading...</Text>
+        <ActivityIndicatorIOS size={'large'}/>
+        <Text style={styles.noMapText}>Getting your location...</Text>
       </View>
     );
   } 
@@ -245,6 +247,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   noMapText: {
+    marginTop: 20,
     fontSize: 18,
     textAlign: 'center',
     color: '#656565',
