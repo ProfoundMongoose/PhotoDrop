@@ -8,7 +8,6 @@ var {
   View,
   StyleSheet,
   Image,
-  ScrollView
 } = React;
 
 class PhotoSwiperView extends React.Component{
@@ -16,21 +15,18 @@ class PhotoSwiperView extends React.Component{
     super(props);
   }
 
-  componentDidMount() {
-    StatusBarIOS.setHidden(true, 'fade');
-  }
-
   render() {
     var photosUrls = this.props.route.photos;
+    var showStatusBar = this.props.route.showStatusBar;
+    var navigator=this.props.navigator;
     return (
       <Swiper style={styles.wrapper} showsButtons={false} loop={false} showsPagination={false} index={this.props.route.index}>
         {
           photosUrls.map(function(photoUrl, index){
-            return <PhotoView key={index} uri={photoUrl}/>
+            return <PhotoView key={index} uri={photoUrl} navigator={navigator} showStatusBar={showStatusBar.bind(this)}/>
           })
         }
       </Swiper>
-
     )
   }
 }
