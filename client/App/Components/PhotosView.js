@@ -19,17 +19,6 @@ var {
 } = React;
 
 var {width, height} = Dimensions.get('window');
-
-var LATITUDE;
-var LONGITUDE;
-
-navigator.geolocation.getCurrentPosition(
-  location => {
-    LATITUDE = location.coords.latitude;
-    LONGITUDE = location.coords.longitude;
-  }
-);
-
 var IMAGES_PER_ROW = 3
 
 class PhotosView extends React.Component{
@@ -41,8 +30,13 @@ class PhotosView extends React.Component{
       imageUrls: undefined,
       userId: this.props.route.userId,
       previousComponent: this.props.route.previousComponent,
+      latitude: this.props.route.latitude,
+      longitude: this.props.route.longitude,
     };
-    if(this.state.userId){
+  }
+
+  componentDidMount() {
+    if(this.state.userId) {
       console.log('user fetch', this.state.userId);
       api.fetchUserPhotos(this.state.userId, (photos) => {
         var photosArr = JSON.parse(photos);
@@ -52,15 +46,28 @@ class PhotosView extends React.Component{
         this.setState({ imageUrls: photosUrls });
       })
     } else {
-      api.fetchPhotos(LATITUDE, LONGITUDE, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-        var photosArr = JSON.parse(photos);
-        var photosUrls = photosArr.map((photo) => {
-          return photo.url;
-        });
-        this.setState({ imageUrls: photosUrls });
-      })
+      setInterval(()=> {
+        navigator.geolocation.getCurrentPosition(
+          location => {
+            this.setState({
+              latitude: location.coords.latitude,
+              longitude: location.coords.longitude
+            });
+          }
+        );
+        if(!this.state.userId) {
+          api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+            var photosArr = JSON.parse(photos);
+            var photosUrls = photosArr.map((photo) => {
+              return photo.url;
+            });
+            this.setState({ imageUrls: photosUrls });
+          })
+        }
+      }, 2000);
     }
   }
+
 
   componentWillUnmount() {
     if(this.state.previousComponent==='settings') {StatusBarIOS.setHidden(false);}
