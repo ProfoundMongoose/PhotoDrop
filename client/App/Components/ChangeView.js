@@ -1,6 +1,7 @@
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var IconIon = require('react-native-vector-icons/Ionicons');
+var Keychain = require('react-native-keychain');
 var api = require('../Utils/api');
 
 var {
@@ -67,6 +68,11 @@ class ChangeView extends React.Component {
         });
         console.log('Username Changed');
         this.props.route.username = this.state.username;
+        Keychain
+          .resetGenericPassword()
+          .then(function() {
+            console.log('Credentials successfully deleted');
+          });
         this.props.navigator.pop();
       }).catch((err) => {
         this.setState({
@@ -104,6 +110,11 @@ class ChangeView extends React.Component {
               confirmNewPassword: ''
             });
             console.log('Password Changed');
+            Keychain
+              .resetGenericPassword()
+              .then(function() {
+                console.log('Credentials successfully deleted');
+              });
             this.props.navigator.pop();
           }
         }).catch((err) => {
