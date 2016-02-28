@@ -105,6 +105,7 @@ class Map extends React.Component {
   }
 
   render() {
+
     if(this.state.photosLocations && this.state.closeLocations){
     return (
       <View style={styles.container}>
@@ -141,11 +142,10 @@ class Map extends React.Component {
           }
         </MapView>
 
-        <View style={styles.arrowContainer}>
-          <TouchableHighlight onPress={this.onLocationPressed.bind(this)} style={styles.arrowButton} underlayColor={'#FF5A5F'}>
-            <Icon name="location-arrow" size={25} color="#ededed" style={styles.arrowIcon} />
-          </TouchableHighlight>
-        </View>
+        <TouchableHighlight onPress={this.onLocationPressed.bind(this)} style={styles.arrowButton} underlayColor={'#FF5A5F'}>
+          <Icon name="location-arrow" size={25} color="#ededed" style={styles.arrowIcon} />
+        </TouchableHighlight>
+
 
         <TouchableOpacity style={styles.buttonContainer} onPress={this.openAllPhotos.bind(this)}>
           <View style={[styles.bubble, styles.latlng]}>
@@ -200,13 +200,6 @@ var styles = StyleSheet.create({
     width: 100,
     alignItems: 'stretch'
   },
-  arrowContainer:{
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor:'transparent',
-    alignItems:'flex-start',
-    justifyContent: 'center',
-  },
   arrowButton:{
     width:50,
     height:50,
@@ -216,8 +209,8 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#FF5A5F',
-    marginLeft:265,
-    marginTop: 30
+    marginLeft: 270,
+    marginBottom: 475
   },
   arrowIcon:{
     width:25,
@@ -246,7 +239,6 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   noMapText: {
-    marginTop: 20,
     fontSize: 18,
     textAlign: 'center',
     color: '#656565',

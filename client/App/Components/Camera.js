@@ -80,6 +80,7 @@ class CameraView extends React.Component {
   }
 
   render() {
+    StatusBarIOS.setHidden(true);
     return (
       <View >
         <Camera
@@ -102,6 +103,7 @@ class CameraView extends React.Component {
             </TouchableHighlight>
           </View>
 
+
           <View style={styles.bottomButtonContainer}>
             <TouchableOpacity onPress={this.props._goToSettings.bind(this)} style={styles.settingsButton}>
               <IconIon name="drag" size={40} color="#ededed"/>
@@ -113,6 +115,7 @@ class CameraView extends React.Component {
               <IconIon name="map" size={40} color="#ededed" />
             </TouchableOpacity>
           </View>
+
 
         </Camera>
       </View>
@@ -126,17 +129,15 @@ var styles = StyleSheet.create({
   },
   preview: {
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width
   },
   topButtonContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    backgroundColor:'transparent',
+    flexDirection:'row',
     alignItems:'flex-start',
-    justifyContent: 'center',
+    marginTop: 30
   },
   switchButton: {
     width: 50,
@@ -147,8 +148,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#ededed',
-    marginLeft: 110,
-    marginTop: 30
+    marginLeft: 120,
   },
   switchIcon: {
     width: 25,
@@ -163,21 +163,18 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#ededed',
-    marginRight: 110,
-    marginTop: 30,
-    paddingLeft: 7
+    paddingLeft: 7,
+    marginRight: 120,
   },
   flashToggleIcon: {
     width: 25,
     height: 38,
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   bottomButtonContainer: {
-    flex: 1,
     flexDirection: 'row',
-    backgroundColor:'transparent',
-    alignItems:'flex-end',
-    justifyContent: 'center',
+    alignItems:'center',
+    marginBottom: 15
   },
   snapButton: {
     width: 70,
@@ -188,7 +185,6 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 5,
     borderColor: '#ededed',
-    marginBottom: 15,
     paddingLeft: 5
   },
   snapIcon: {
@@ -197,12 +193,16 @@ var styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   settingsButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
     marginRight: 100,
-    marginBottom: 25,
+    marginTop: 10
   },
   mapButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
     marginLeft: 100,
-    marginBottom: 25,
+    marginTop: 10
   }
 
 });
