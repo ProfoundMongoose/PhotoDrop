@@ -102,21 +102,6 @@ class Map extends React.Component {
       });
   }
 
-  // onRegionChange(region) {
-  //   this.setState({
-  //     latitude: region.latitude,
-  //     longitude: region.longitude
-  //   });
-  //   api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-  //     var photosArr = JSON.parse(photos);
-  //     this.setState({ closeLocations: photosArr });
-  //   });
-  //   api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-  //     var photosArr = JSON.parse(photos);
-  //     this.setState({ photosLocations: photosArr });
-  //   });
-  // }
-
   render() {
     StatusBarIOS.setHidden(true);
 
@@ -130,9 +115,7 @@ class Map extends React.Component {
           showsUserLocation={true}
           scrollEnabled={false}
           zoomEnabled={false}
-          // onRegionChange={this.onRegionChange.bind(this)}
           rotateEnabled={false}
-          // followUserLocation={true}
           maxDelta={0.003}
         >
 
@@ -232,7 +215,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#FF5A5F',
-    marginLeft:255,
+    marginLeft:265,
     marginTop: 30
   },
   arrowIcon:{

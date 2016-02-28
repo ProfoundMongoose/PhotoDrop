@@ -138,8 +138,11 @@ class PhotosView extends React.Component{
           statusBar={{hidden: false}}
           leftButton={backButton}/>
         {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
-        {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
-        {this.state.imageUrls && !this.state.imageUrls.length ? <Text style={styles.noPhotosText2}>Be the first one to share a pic!</Text>  : null}
+        {this.state.imageUrls && !this.state.imageUrls.length && !this.state.userId ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
+        {this.state.imageUrls && !this.state.imageUrls.length && !this.state.userId ? <Text style={styles.noPhotosText2}>Be the first one to drop a photo!</Text>  : null}
+
+        {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId ? <Text style={styles.noPhotosText}>Looks like you haven't taken any photos...</Text>   : null}
+        {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId ? <Text style={styles.noPhotosText2}>Swipe to the camera and drop a photo!</Text>  : null}
         <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
           {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
         </ScrollView>
