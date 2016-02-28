@@ -16,6 +16,23 @@ var api = {
     });
   },
 
+  changePassword(username, password, newPassword) {
+    console.log('calling change with params: ', username, password, newPassword);
+    var user = { username: username, password: password, newPassword: newPassword };
+    return fetch('http://162.243.130.124:8000/changePassword', {
+      method: 'POST',
+      body: JSON.stringify(user)
+    });
+  },
+
+  changeUsername(username, newUsername) {
+    var user = { username: username, newUsername: newUsername};
+    return fetch('http://162.243.130.124:8000/changeUsername', {
+      method: 'POST',
+      body: JSON.stringify(user)
+    });
+  },
+
   checkJWT(JWT, callback) {
     var url = 'http://162.243.130.124:8000/checkJWT/' + JWT;
     fetch(url, {
@@ -95,7 +112,21 @@ var api = {
 
   fetchUserPhotos(userId, callback) {
     var url = 'http://162.243.130.124:8000/fetchUserPhotos?userId=' + userId;
-    console.log('api url', url);
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function(photos) {
+        callback(photos._bodyInit);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  },
+
+  incrementViews(url, callback) {
+    var url = 'http://162.243.130.124:8000/incrementViews?url=' + url;
     return fetch(url, {
         method: 'GET',
         headers: {

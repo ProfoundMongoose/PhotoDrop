@@ -35,6 +35,7 @@ class Login extends React.Component {
         this.props.navigator.push({
           component: Main,
           userId: JSON.parse(userData).userId,
+          username: JSON.parse(userData).username,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
             gestures: {}

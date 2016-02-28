@@ -20,9 +20,9 @@ module.exports = {
             .then(function(foundUser) {
               if (foundUser) {
                 var token = jwt.sign({ username: username, userId: user._id }, 'FRANKJOEVANMAX');
-                res.json({userId: user._id, token: token});
+                res.json({ userId: user._id, token: token });
               } else {
-                return next(new Error('No user'));
+                return next(new Error('Incorrect password'));
               }
             });
         }
@@ -47,14 +47,14 @@ module.exports = {
             password: password
           }).then(function(user) {
             console.log('Created user', user)
-            // Generate JWT for user here
-            // params: payload, secret key, encryption, callback
+              // Generate JWT for user here
+              // params: payload, secret key, encryption, callback
             var token = jwt.sign({ username: user.username, userId: user._id }, 'FRANKJOEVANMAX');
             console.log('token created', token)
-            res.json({token: token, userId: user._id})
+            res.json({ token: token, userId: user._id, username: user.username })
             next()
           }).catch(function(err) {
-            console.log('problem creating user')
+            console.error('problem creating user', err);
           });
         }
       })
@@ -69,11 +69,64 @@ module.exports = {
       if (err) console.log('problem decoding', err);
       else {
         console.log('decode worked', decoded)
-        // send back decoded.userId and decoded.username
-        res.json({username: decoded.username, userId: decoded.userId});
+          // send back decoded.userId and decoded.username
+        res.json({ username: decoded.username, userId: decoded.userId });
         next();
       }
     });
     // send back user id
-  }
+  },
+
+  changePassword: function(req, res, next) {
+    var user = JSON.parse(Object.keys(req.body)[0]);
+    var username = user.username;
+    var password = user.password;
+    var newPassword = user.newPassword;
+
+    findUser({ username: username })
+      .then(function(user) {
+        if (!user) {
+          next(new Error('User does not exist!'));
+        } else {
+          return user.comparePasswords(password)
+          .then(function(foundUser) {
+            user.password = newPassword;
+            user.save(function(err, savedUser){
+              if(err) next(err);
+              console.log('savedUser', savedUser);
+              res.json();
+            })
+          }).catch(function(err) {
+            console.error('problem changing user info', err);
+          });
+        }
+      })
+      .fail(function(error) {
+        next(error);
+      });
+  },
+
+    changeUsername: function(req, res, next) {
+      var user = JSON.parse(Object.keys(req.body)[0]);
+      var username = user.username;
+      var newUsername = user.newUsername;
+
+      findUser({ username: username })
+        .then(function(user) {
+          if (!user) {
+            next(new Error('User does not exist!'));
+          } else {
+            user.username = newUsername;
+            user.save(function(err, savedUser) {
+              if (err) next(err);
+              console.log('savedUser', savedUser);
+              res.json({ username: savedUser.username });
+            })
+          }
+        })
+        .fail(function(error) {
+          next(error);
+        });
+    }
+
 };

@@ -1,6 +1,7 @@
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var IconIon = require('react-native-vector-icons/Ionicons');
+var api = require('../Utils/api');
 
 var {
   View,
@@ -15,8 +16,13 @@ class PhotoView extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      touched: false
+      touched: false,
+      uri: this.props.uri || this.props.route.uri
     }
+    console.log('saved uri', this.state.uri);
+    api.incrementViews(this.state.uri, (views) => {
+      console.log('views', views);
+    });
   }
 
   componentWillUnmount() {
@@ -37,7 +43,7 @@ class PhotoView extends React.Component{
   }
 
   render() {
-    var uri = this.props.uri || this.props.route.uri;
+    var uri = this.state.uri;
     if(this.state.touched===false) {
       return (
         <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
