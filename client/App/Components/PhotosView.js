@@ -32,6 +32,7 @@ class PhotosView extends React.Component{
       previousComponent: this.props.route.previousComponent,
       latitude: this.props.route.latitude,
       longitude: this.props.route.longitude,
+      statusBarHidden: false,
     };
   }
 
@@ -89,12 +90,14 @@ class PhotosView extends React.Component{
     return () => {
       console.log(uri);
       console.log(this.state.imageUrls);
+      this.setState({statusBarHidden: true});
       this.props.navigator.push({
         component: PhotoSwiperView,
         index: index,
         photos: this.state.imageUrls,
         uri: uri,
         width: this.state.currentScreenWidth,
+        showStatusBar: this.showStatusBar.bind(this),
         sceneConfig: {
           ...Navigator.SceneConfigs.FloatFromBottom,
           gestures: {
@@ -106,6 +109,10 @@ class PhotosView extends React.Component{
         }
       });
     }
+  }
+
+  showStatusBar() {
+    this.setState({statusBarHidden: false});
   }
 
   renderRow(images) {
@@ -134,7 +141,6 @@ class PhotosView extends React.Component{
   }
 
   render() {
-    StatusBarIOS.setHidden(false);
     var pageTitle = (
        this.state.userId ? <Text style={styles.pageTitle}>Your Photos</Text> : <Text style={styles.pageTitle}>Photos Near You</Text>
     )
@@ -148,7 +154,7 @@ class PhotosView extends React.Component{
         <NavigationBar 
           title={pageTitle} 
           tintColor={"white"} 
-          statusBar={{hidden: false}}
+          statusBar={{hidden: this.state.statusBarHidden}}
           leftButton={backButton}/>
         {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
         {this.state.imageUrls && !this.state.imageUrls.length && !this.state.userId ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}

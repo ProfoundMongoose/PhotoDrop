@@ -9,6 +9,7 @@ var {
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
+  StatusBarIOS
 } = React;
 
 class PhotoView extends React.Component{
@@ -20,8 +21,8 @@ class PhotoView extends React.Component{
   }
 
   _closeImage() {
-    console.log('closing')
     this.props.navigator.pop();
+    if(this.props.showStatusBar) {this.props.showStatusBar();};
   }
 
   _touch() {
