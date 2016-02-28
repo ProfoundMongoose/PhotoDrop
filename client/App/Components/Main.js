@@ -10,7 +10,9 @@ var {
   Dimensions,
   StatusBarIOS,
   View,
-  ScrollView
+  ScrollView,
+  Image,
+  ActivityIndicatorIOS
 } = React;
 
 class SwiperView extends React.Component{
@@ -39,8 +41,10 @@ class SwiperView extends React.Component{
       StatusBarIOS.setHidden(false);
     } else if (state.index === 1) {
       this.setState({ index: 1 });
+      StatusBarIOS.setHidden(true);
     } else if (state.index === 2) {
       this.setState({ index: 2 });
+      StatusBarIOS.setHidden(true);
     }
   }
 
@@ -75,13 +79,33 @@ class SwiperView extends React.Component{
        </Swiper>
      )
     } else {
-      return <View></View>
+      return (
+        <View style={{ flex: 1, backgroundColor: '#ededed'}}>
+          <View style={styles.centering}>
+            <Image source={require('./../../images/logoresized.png')} style={styles.image}/>
+            <ActivityIndicatorIOS size={'large'}/>
+          </View>
+        </View>
+      );
     }
   }
 }
 
-var styles = StyleSheet.create({ //not used for now
-  wrapper: {},
+var styles = StyleSheet.create({ 
+  wrapper: {
+    //not used for now
+  },  
+  centering: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 140
+  },
+  image: {
+    width: 100,
+    height: 114,
+    margin: 40
+  },
 })
 
 module.exports = SwiperView;

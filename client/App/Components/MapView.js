@@ -16,7 +16,8 @@ var {
   Dimensions,
   TouchableOpacity,
   TouchableHighlight,
-  StatusBarIOS
+  StatusBarIOS,
+  ActivityIndicatorIOS
 } = React;
 
 class Map extends React.Component {
@@ -98,28 +99,12 @@ class Map extends React.Component {
   openAllPhotos() {
       this.props.navigator.push({
         component: PhotosView,
-        sceneConfig: Navigator.SceneConfigs.FloatFromBottom
+        sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+        previousComponent: 'map'
       });
   }
 
-  // onRegionChange(region) {
-  //   this.setState({
-  //     latitude: region.latitude,
-  //     longitude: region.longitude
-  //   });
-  //   api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-  //     var photosArr = JSON.parse(photos);
-  //     this.setState({ closeLocations: photosArr });
-  //   });
-  //   api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-  //     var photosArr = JSON.parse(photos);
-  //     this.setState({ photosLocations: photosArr });
-  //   });
-  // }
-
   render() {
-    StatusBarIOS.setHidden(true);
-
     if(this.state.photosLocations && this.state.closeLocations){
     return (
       <View style={styles.container}>
@@ -130,9 +115,7 @@ class Map extends React.Component {
           showsUserLocation={true}
           scrollEnabled={false}
           zoomEnabled={false}
-          // onRegionChange={this.onRegionChange.bind(this)}
           rotateEnabled={false}
-          // followUserLocation={true}
           maxDelta={0.003}
         >
 
@@ -177,7 +160,8 @@ class Map extends React.Component {
   } else {
     return (
       <View style={styles.centering}>
-        <Text style={styles.noMapText}>Loading...</Text>
+        <ActivityIndicatorIOS size={'large'}/>
+        <Text style={styles.noMapText}>Getting your location...</Text>
       </View>
     );
   } 
@@ -217,11 +201,11 @@ var styles = StyleSheet.create({
     alignItems: 'stretch'
   },
   arrowContainer:{
-    flex:1,
-    marginTop:20,
-    width:150,
-    height:150,
-    marginLeft:240
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor:'transparent',
+    alignItems:'flex-start',
+    justifyContent: 'center',
   },
   arrowButton:{
     width:50,
@@ -232,8 +216,8 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#FF5A5F',
-    marginLeft: 70,
-    marginTop: 10
+    marginLeft:265,
+    marginTop: 30
   },
   arrowIcon:{
     width:25,
@@ -262,6 +246,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   noMapText: {
+    marginTop: 20,
     fontSize: 18,
     textAlign: 'center',
     color: '#656565',
