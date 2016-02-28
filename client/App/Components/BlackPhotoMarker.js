@@ -8,7 +8,6 @@ var {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity
 } = React;
 
 class BlackPhotoMarker extends React.Component{
@@ -20,9 +19,9 @@ class BlackPhotoMarker extends React.Component{
     return (
         <View style={styles.container}>
           <View style={styles.bubble}>
-            <TouchableOpacity style={styles.icon}>
+            <View style={styles.icon}>
               <IconIon name="camera" size={25} color="#ededed"/>
-            </TouchableOpacity>
+            </View>
           </View>
           <View style={styles.arrowBorder} />
           <View style={styles.arrow} />
