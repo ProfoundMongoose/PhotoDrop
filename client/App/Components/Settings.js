@@ -3,6 +3,7 @@ var NavigationBar = require('react-native-navbar');
 var Keychain = require('react-native-keychain');
 var Login = require('./Login');
 var PhotosView = require('./PhotosView');
+var ChangeView = require('./ChangeView');
 
 var {
   Text,
@@ -41,6 +42,12 @@ class Settings extends React.Component {
     this.props.navigator.popToTop();
   }
 
+  changeInfo() {
+    this.props.navigator.push({
+      component: ChangeView
+    })
+  }
+
   render() {
     var pageTitle = (
       <Text style={styles.pageTitle}>Settings</Text>
@@ -59,6 +66,12 @@ class Settings extends React.Component {
             underlayColor={'#e66365'}
             onPress={this.openMyPhotos.bind(this)}>
             <Text style={styles.buttonText}>Your Photos</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.button}
+            underlayColor={'#e66365'}
+            onPress={this.changeInfo.bind(this)}>
+            <Text style={styles.buttonText}>Change Username/Password</Text>
           </TouchableHighlight>
           <TouchableHighlight
             style={styles.button}
@@ -96,7 +109,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   imageContainer: {
-    flex: 3,
+    flex: 2,
     paddingRight: 30,
     paddingLeft: 30,
     paddingTop: 30,
