@@ -8,7 +8,7 @@ var {
   Image,
   ScrollView,
   TouchableOpacity,
-  TouchableWithoutFeedback,
+  TouchableWithoutFeedback
 } = React;
 
 class PhotoView extends React.Component{
@@ -17,6 +17,10 @@ class PhotoView extends React.Component{
     this.state = {
       touched: false
     }
+  }
+
+  componentWillUnmount() {
+    if(this.props.showStatusBar) {this.props.showStatusBar();}
   }
 
   _closeImage() {
