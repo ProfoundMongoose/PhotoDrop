@@ -173,6 +173,7 @@ var api = {
   },
 
   getUsername(userId, callback){
+    console.log('TRIGGERED', userId)
     var url = 'http://162.243.130.124:8000/getUsername?userId=' + userId;
     return fetch(url, {
         method: 'GET',
@@ -180,6 +181,7 @@ var api = {
           'Content-Type': 'application/json'
         }
       }).then(function(username) {
+        console.log('USERNAME', username);
         callback(username._bodyInit);
       })
       .catch(function(err) {
