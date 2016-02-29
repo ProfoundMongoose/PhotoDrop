@@ -33,11 +33,22 @@ class PhotosView extends React.Component{
       latitude: this.props.route.latitude,
       longitude: this.props.route.longitude,
       statusBarHidden: false,
+      favorites: this.props.route.favorites
     };
   }
 
   componentDidMount() {
-    if(this.state.userId) {
+    if(this.state.favorites && this.state.userId){
+      console.log('favorites', this.state.favorites);
+      api.fetchUserFavorites(this.state.userId, (photos) => {
+        var photosArr = JSON.parse(photos);
+        var photosUrls = photosArr.map((photo) => {
+          return photo.url;
+        });
+        this.setState({ imageUrls: photosUrls });
+      })
+    }
+    else if(this.state.userId && !this.state.favorites) {
       console.log('user fetch', this.state.userId);
       api.fetchUserPhotos(this.state.userId, (photos) => {
         var photosArr = JSON.parse(photos);
@@ -159,6 +170,9 @@ class PhotosView extends React.Component{
         {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
         {this.state.imageUrls && !this.state.imageUrls.length && !this.state.userId ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
         {this.state.imageUrls && !this.state.imageUrls.length && !this.state.userId ? <Text style={styles.noPhotosText2}>Be the first one to drop a photo!</Text>  : null}
+
+        {this.state.imageUrls && !this.state.imageUrls.length && this.state.favorites ? <Text style={styles.noPhotosText}>Looks like you have no favorite photos...</Text>   : null}
+        {this.state.imageUrls && !this.state.imageUrls.length && this.state.favorites ? <Text style={styles.noPhotosText2}>Swipe to the map and checkout photos around you!</Text>  : null}
 
         {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId ? <Text style={styles.noPhotosText}>{`Looks like you haven't taken any photos...`}</Text>   : null}
         {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId ? <Text style={styles.noPhotosText2}>Swipe to the camera and drop a photo!</Text>  : null}
