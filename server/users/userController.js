@@ -2,6 +2,7 @@ var Q = require('q');
 var User = require('./userModel');
 var jwt = require('jsonwebtoken');
 var mongoose = require('mongoose');
+var Photo = require('./../photos/photoModel');
 
 var findUser = Q.nbind(User.findOne, User);
 var createUser = Q.nbind(User.create, User);
@@ -147,15 +148,17 @@ module.exports = {
   },
 
   getUsername: function(req, res, next) {
-    User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId) }, function(err, user) {
-      if (err) next(err);
-      if (!user) {
-        console.error('User was not found');
-      } else {
-        res.json(user.username);
-      }
-    });
-
+    Photo.findOne({url: req.query.url}, function(err, photo) {
+      if (err) console.log(err)
+      User.findOne({ _id: mongoose.mongo.ObjectID(photo.userId) }, function(err, user) {
+        if (err) next(err);
+        if (!user) {
+          console.error('User was not found');
+        } else {
+          res.json(user.username);
+        }
+      });
+    })
   },
 
   fetchFavorites: function(req, res, next) {
