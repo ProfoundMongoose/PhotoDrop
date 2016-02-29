@@ -18,9 +18,6 @@ class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.displayName = 'Settings';
-    this.state = {
-      clicked: 'none'
-    }
   }
 
   openPhotos() {
