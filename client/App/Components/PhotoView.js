@@ -11,7 +11,8 @@ var {
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  ActionSheetIOS
+  ActionSheetIOS,
+  Text
 } = React;
 
 class PhotoView extends React.Component{
@@ -20,6 +21,8 @@ class PhotoView extends React.Component{
     this.state = {
       touched: false,
       favorited: false,
+      uploader: this.props.uploader || this.props.route.uploader,
+      views: this.props.views || this.props.route.views,
       uri: this.props.uri || this.props.route.uri
     }
   }
@@ -75,16 +78,14 @@ class PhotoView extends React.Component{
         )
       }
       return (
-          <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
-            <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
-
+        <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
+          <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
             <View style={styles.buttonContainer}>
               <View style={styles.leftContainer}>
                 <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
                   <IconIon name="ios-close-empty" size={45} color="white" style={styles.closeIcon} />
                 </TouchableOpacity>
               </View>
-
               <View style={styles.rightContainer}>
                 <TouchableOpacity onPress={this._favoriteImage.bind(this)} style={styles.favoriteButton}>
                   {this.state.favorited ? <Icon name="heart" size={20} color="white" style={styles.favoriteIcon} /> : <Icon name="heart-o" size={20} color="white" style={styles.favoriteIcon} />}
@@ -93,10 +94,17 @@ class PhotoView extends React.Component{
                   <IconIon name="ios-upload-outline" size={25} color="white" style={styles.shareIcon} />
                 </TouchableOpacity>
               </View>
+              <View style={styles.photoInfoContainer}>
+                <Text style={styles.infoText}>
+                  Uploaded by: {this.state.uploader}
+                </Text>
+                <Text style={styles.infoText}>
+                  Views: {this.state.views}
+                </Text>
+              </View>
             </View>
-
-            </Image>
-          </TouchableWithoutFeedback>
+          </Image>
+        </TouchableWithoutFeedback>
       )
     } else {
       if(this.state.touched===false) {
@@ -107,16 +115,14 @@ class PhotoView extends React.Component{
         )
       }
       return (
-          <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
-            <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
-
+        <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
+          <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
             <View style={styles.buttonContainer}>
               <View style={styles.leftContainer}>
                 <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
                   <IconIon name="ios-close-empty" size={45} color="white" style={styles.closeIcon} />
                 </TouchableOpacity>
               </View>
-
               <View style={styles.rightContainer}>
                 <TouchableOpacity onPress={this._favoriteImage.bind(this)} style={styles.favoriteButton}>
                   {this.state.favorited ? <Icon name="heart" size={20} color="white" style={styles.favoriteIcon} /> : <Icon name="heart-o" size={20} color="white" style={styles.favoriteIcon} />}
@@ -125,10 +131,17 @@ class PhotoView extends React.Component{
                   <IconIon name="ios-upload-outline" size={25} color="white" style={styles.shareIcon} />
                 </TouchableOpacity>
               </View>
+              <View style={styles.photoInfoContainer}>
+                <Text style={styles.infoText}>
+                  Uploaded by: {this.state.uploader}
+                </Text>
+                <Text style={styles.infoText}>
+                  Views: {this.state.views}
+                </Text>
+              </View>
             </View>
-
-            </Image>
-          </TouchableWithoutFeedback>
+          </Image>
+        </TouchableWithoutFeedback>
       )
     }
   }
@@ -210,6 +223,16 @@ var styles = StyleSheet.create({
     paddingTop: 7.5,
     paddingLeft: 7.5
   },
+  photoInfoContainer:{
+    position: 'absolute',
+    bottom: 14,
+    left: 14,
+  },
+  infoText:{
+    fontSize: 16,
+    fontFamily: 'circular',
+    color: 'white'
+  }
 });
 
 module.exports = PhotoView;

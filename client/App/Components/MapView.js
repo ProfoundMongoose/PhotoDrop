@@ -70,6 +70,8 @@ class Map extends React.Component {
       this.props.navigator.push({
         component: PhotoView,
         uri: uri,
+        uploader: 'dude', //NEED TO UPDATE
+        views: 10, //NEED TO UPDATE
         width: this.state.currentScreenWidth,
         sceneConfig: {
           ...Navigator.SceneConfigs.FloatFromBottom,

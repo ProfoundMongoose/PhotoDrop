@@ -28,8 +28,8 @@ class PhotoSwiperView extends React.Component{
       return (
         <View style={{
           position: 'absolute',
-          bottom: 15,
-          right: 15,
+          bottom: 14,
+          right: 14,
         }}>
           <Text style={styles.pageIndex}>{index + 1}/{total}</Text>
         </View>
@@ -60,7 +60,7 @@ class PhotoSwiperView extends React.Component{
         onMomentumScrollEnd ={this._onMomentumScrollEnd.bind(this)}>
         {
           photosUrls.map(function(photoUrl, index){
-            return <PhotoView key={index} uri={photoUrl} navigator={navigator} showStatusBar={showStatusBar.bind(this)} showsIndex={showsIndex} togglePagination={togglePagination.bind(this)}/>
+            return <PhotoView key={index} uri={photoUrl} uploader={"dude"} views={10} navigator={navigator} showStatusBar={showStatusBar.bind(this)} showsIndex={showsIndex} togglePagination={togglePagination.bind(this)}/>
           })
         }
       </Swiper>
