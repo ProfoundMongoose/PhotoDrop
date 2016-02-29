@@ -28,6 +28,7 @@ module.exports = {
           })
           .catch(function(err) {
             console.error(err.message);
+            currentPipes[userId] = undefined;
           });
       }
 
@@ -69,6 +70,9 @@ module.exports = {
       }
     }, function(err, photos) {
       if (err) next(err); 
+      var photos = photos.sort(function(a, b){
+        return b.views - a.views
+      });
       res.json(photos);
     });
   },
