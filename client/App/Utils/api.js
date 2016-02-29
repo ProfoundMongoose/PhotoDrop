@@ -76,9 +76,8 @@ var api = {
           longitude: longitude,
           userId: userId
         })
-      }).then(function(res){
-        console.log('res', res);
-        callback(res);
+      }).then(function(res) {
+        callback(res._bodyText);
       }).catch(function(err) { console.log(err) });
     }).catch(function(err) { console.log(err) });
   },
@@ -136,8 +135,23 @@ var api = {
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then(function(photos) {
-        callback(photos._bodyInit);
+      }).then(function(result) {
+        callback(result._bodyInit);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  },
+
+  addToFavorites(userId, url, callback) {
+    var url = 'http://162.243.130.124:8000/addtoFavorites?userId=' + userId + '&url=' + url;
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function(result) {
+        callback(result._bodyInit);
       })
       .catch(function(err) {
         console.log(err);

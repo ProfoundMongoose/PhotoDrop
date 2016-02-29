@@ -1,6 +1,7 @@
 var Q = require('q');
 var User = require('./userModel');
 var jwt = require('jsonwebtoken');
+var mongoose = require('mongoose');
 
 var findUser = Q.nbind(User.findOne, User);
 var createUser = Q.nbind(User.create, User);
@@ -89,16 +90,16 @@ module.exports = {
           next(new Error('User does not exist!'));
         } else {
           return user.comparePasswords(password)
-          .then(function(foundUser) {
-            user.password = newPassword;
-            user.save(function(err, savedUser){
-              if(err) next(err);
-              console.log('savedUser', savedUser);
-              res.json();
-            })
-          }).catch(function(err) {
-            console.error('problem changing user info', err);
-          });
+            .then(function(foundUser) {
+              user.password = newPassword;
+              user.save(function(err, savedUser) {
+                if (err) next(err);
+                console.log('savedUser', savedUser);
+                res.json();
+              })
+            }).catch(function(err) {
+              console.error('problem changing user info', err);
+            });
         }
       })
       .fail(function(error) {
@@ -106,27 +107,42 @@ module.exports = {
       });
   },
 
-    changeUsername: function(req, res, next) {
-      var user = JSON.parse(Object.keys(req.body)[0]);
-      var username = user.username;
-      var newUsername = user.newUsername;
+  changeUsername: function(req, res, next) {
+    var user = JSON.parse(Object.keys(req.body)[0]);
+    var username = user.username;
+    var newUsername = user.newUsername;
 
-      findUser({ username: username })
-        .then(function(user) {
-          if (!user) {
-            next(new Error('User does not exist!'));
-          } else {
-            user.username = newUsername;
-            user.save(function(err, savedUser) {
-              if (err) next(err);
-              console.log('savedUser', savedUser);
-              res.json({ username: savedUser.username });
-            })
-          }
-        })
-        .fail(function(error) {
-          next(error);
+    findUser({ username: username })
+      .then(function(user) {
+        if (!user) {
+          next(new Error('User does not exist!'));
+        } else {
+          user.username = newUsername;
+          user.save(function(err, savedUser) {
+            if (err) next(err);
+            console.log('savedUser', savedUser);
+            res.json({ username: savedUser.username });
+          })
+        }
+      })
+      .fail(function(error) {
+        next(error);
+      });
+  },
+
+  addToFavorites: function(req, res, next) {
+    User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId)}, function(err, user) {
+      if (err) next(err);
+      if(!user){
+        console.error('User was not found');
+      } else {
+        user.favorites.push(req.query.url);
+        user.save(function(err, savedUser){
+          console.log(savedUser);
+          res.json();
         });
-    }
+      }
+    });
+  }
 
 };

@@ -24,13 +24,10 @@ class PreviewPhoto extends React.Component{
       active: false,
       colorStyle: '#000' 
     };
-    console.log('PREVIEWVIEW',props.route.userId)
   }
 
   _sendImage() {
-    console.log('image sent');
     api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId, (res) => {
-      console.log('got the response');
       this.setState({modalVisible: true});
       setTimeout(()=> {
         this._closeModal();

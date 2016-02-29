@@ -14,9 +14,9 @@ module.exports = function(app, express) {
   app.get('/fetchLocations/', photoController.fetchLocations);
   app.get('/fetchUserPhotos/', photoController.fetchUserPhotos);
 
-  // Increment views count on photo
+  // Increment views count on photo and add to Favorites
   app.get('/incrementViews/', photoController.incrementViews);
-
+  app.get('/addToFavorites/', userController.addToFavorites);
   // Sign in and sign up routes
   app.post('/login', userController.login);
   app.post('/signup', userController.signup);
