@@ -73,7 +73,7 @@ class ChangeView extends React.Component {
           .then(function() {
             console.log('Credentials successfully deleted');
           });
-        this.props.navigator.pop();
+        this.props.navigator.popToTop();
       }).catch((err) => {
         this.setState({
           error: 'Could not change username' + err,

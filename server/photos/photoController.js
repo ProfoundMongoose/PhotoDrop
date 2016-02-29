@@ -70,11 +70,10 @@ module.exports = {
         }
       }
     }, function(err, photos) {
-      if (err) next(err); 
-      photos = photos.sort(function(a, b){
+      if (err) next(err);
+      photos = photos.sort(function(a, b) {
         return b.views - a.views
       });
-      console.log('sorted photos', photos)
       res.json(photos);
     });
   },
@@ -131,8 +130,8 @@ module.exports = {
   },
 
   fetchUserPhotos: function(req, res, next) {
-    Photo.find({ userId: mongoose.mongo.ObjectID(req.query.userId)}, function(err, photos) {
-      if (err) next(err); 
+    Photo.find({ userId: mongoose.mongo.ObjectID(req.query.userId) }, function(err, photos) {
+      if (err) next(err);
       res.json(photos);
     });
   },
@@ -145,7 +144,6 @@ module.exports = {
       }
       photo.views++;
       photo.save(function(err, savedPhoto) {
-        console.log('saved photo', savedPhoto);
         if (err) next(err);
         res.json(savedPhoto.views);
       });

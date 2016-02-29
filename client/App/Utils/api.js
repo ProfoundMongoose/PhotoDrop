@@ -17,7 +17,6 @@ var api = {
   },
 
   changePassword(username, password, newPassword) {
-    console.log('calling change with params: ', username, password, newPassword);
     var user = { username: username, password: password, newPassword: newPassword };
     return fetch('http://162.243.130.124:8000/changePassword', {
       method: 'POST',
@@ -76,9 +75,8 @@ var api = {
           longitude: longitude,
           userId: userId
         })
-      }).then(function(res){
-        console.log('res', res);
-        callback(res);
+      }).then(function(res) {
+        callback(res._bodyText);
       }).catch(function(err) { console.log(err) });
     }).catch(function(err) { console.log(err) });
   },
@@ -129,8 +127,8 @@ var api = {
       });
   },
 
-  incrementViews(url, callback) {
-    var url = 'http://162.243.130.124:8000/incrementViews?url=' + url;
+  fetchUserFavorites(userId, callback) {
+    var url = 'http://162.243.130.124:8000/fetchUserFavorites?userId=' + userId;
     return fetch(url, {
         method: 'GET',
         headers: {
@@ -138,6 +136,36 @@ var api = {
         }
       }).then(function(photos) {
         callback(photos._bodyInit);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  },
+
+  incrementViews(url, callback) {
+    var url = 'http://162.243.130.124:8000/incrementViews?url=' + url;
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function(result) {
+        callback(result._bodyInit);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  },
+
+  addToFavorites(userId, url, callback) {
+    var url = 'http://162.243.130.124:8000/addtoFavorites?userId=' + userId + '&url=' + url;
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function(result) {
+        callback(result._bodyInit);
       })
       .catch(function(err) {
         console.log(err);

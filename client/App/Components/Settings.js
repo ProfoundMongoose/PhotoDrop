@@ -20,9 +20,12 @@ class Settings extends React.Component {
     this.displayName = 'Settings';
   }
 
-  openPhotos() {
+  openFavorites() {
     this.props.navigator.push({
-      component: PhotosView
+      component: PhotosView,
+      userId: this.props.userId,
+      favorites: true,
+      previousComponent: 'settings'
     });
   }
 
@@ -33,6 +36,8 @@ class Settings extends React.Component {
       previousComponent: 'settings'
     });
   }
+
+
 
   logout() {
     Keychain
@@ -74,6 +79,12 @@ class Settings extends React.Component {
           <Image source={require('./../../images/logoresized.png')} style={styles.image}/>
         </View>
         <View style={styles.mainContainer}>
+          <TouchableHighlight
+            style={styles.button}
+            underlayColor={'#e66365'}
+            onPress={this.openFavorites.bind(this)}>
+            <Text style={styles.buttonText}>Your Favorites</Text>
+          </TouchableHighlight>
           <TouchableHighlight
             style={styles.button}
             underlayColor={'#e66365'}
@@ -122,7 +133,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   imageContainer: {
-    flex: 2,
+    flex: 1,
     paddingRight: 30,
     paddingLeft: 30,
     paddingTop: 30,
