@@ -21,7 +21,7 @@ class Settings extends React.Component {
     this.displayName = 'Settings';
   }
 
-  openFavorites() {
+  openMyPhotos() {
     this.props.navigator.push({
       component: PhotosView,
       userId: this.props.userId,
@@ -29,16 +29,6 @@ class Settings extends React.Component {
       previousComponent: 'settings'
     });
   }
-
-  openMyPhotos() {
-    this.props.navigator.push({
-      component: PhotosView,
-      userId: this.props.userId,
-      previousComponent: 'settings'
-    });
-  }
-
-
 
   logout() {
     Keychain

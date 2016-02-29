@@ -39,29 +39,31 @@ class PhotosView extends React.Component{
       userPhotosUrls: undefined,
       userFavoritesUrls: undefined,
     };
-    api.fetchUserFavorites(this.state.userId, (photos) => {
-      var photosArr = JSON.parse(photos);
-      this.setState({ userFavoritesUrls: photosArr });
-    })
-    api.fetchUserPhotos(this.state.userId, (photos) => {
-      var photosArr = JSON.parse(photos);
-      var photosUrls = photosArr.map((photo) => {
-        return photo.url;
-      });
-      this.setState({ imageUrls: photosUrls });
-      this.setState({ userPhotosUrls: photosUrls });
-    })
+    if(this.state.favorites) {
+      api.fetchUserFavorites(this.state.userId, (photos) => {
+        var photosArr = JSON.parse(photos);
+        this.setState({ userFavoritesUrls: photosArr });
+      })
+      api.fetchUserPhotos(this.state.userId, (photos) => {
+        var photosArr = JSON.parse(photos);
+        var photosUrls = photosArr.map((photo) => {
+          return photo.url;
+        });
+        this.setState({ imageUrls: photosUrls });
+        this.setState({ userPhotosUrls: photosUrls });
+      }) 
+    }
   }
 
   componentDidMount() {
-    if(this.state.userId){
+    if(this.state.favorites){
       if(this.state.selectedIndex===0) {
         this.setState({ imageUrls: this.state.userPhotosUrls});
       } else if (this.state.selectedIndex===1) {
         this.setState({ imageUrls: this.state.userFavoritesUrls});
       }
     }
-    if(!this.state.userId){
+    if(!this.state.favorites){
       setInterval(()=> {
         navigator.geolocation.getCurrentPosition(
           location => {
@@ -71,19 +73,16 @@ class PhotosView extends React.Component{
             });
           }
         );
-        if(!this.state.userId) {
-          api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-            var photosArr = JSON.parse(photos);
-            var photosUrls = photosArr.map((photo) => {
-              return photo.url;
-            });
-            this.setState({ imageUrls: photosUrls });
-          })
-        }
+        api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+          var photosArr = JSON.parse(photos);
+          var photosUrls = photosArr.map((photo) => {
+            return photo.url;
+          });
+          this.setState({ imageUrls: photosUrls });
+        })
       }, 2000);
     }
   }
-
 
   componentWillUnmount() {
     if(this.state.previousComponent==='settings') {StatusBarIOS.setHidden(false);}
@@ -167,14 +166,14 @@ class PhotosView extends React.Component{
 
   render() {
     var pageTitle = (
-       this.state.userId ? <Text style={styles.pageTitle}>Your Photos</Text> : <Text style={styles.pageTitle}>Photos Near You</Text>
+       this.state.favorites ? <Text style={styles.pageTitle}>Your Photos</Text> : <Text style={styles.pageTitle}>Photos Near You</Text>
     )
     var backButton = (
       <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
         <IconIon name='ios-arrow-thin-down' size={30} style={styles.backIcon} color="#FF5A5F"/>
       </TouchableHighlight>
     );
-    if(this.state.userId) {
+    if(this.state.favorites) {
       return (
         <View style={{flex: 1, backgroundColor: '#ededed' }}>
           <NavigationBar 
