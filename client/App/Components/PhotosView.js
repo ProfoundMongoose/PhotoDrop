@@ -15,7 +15,8 @@ var {
   ScrollView,
   ActivityIndicatorIOS,
   StatusBarIOS,
-  TouchableHighlight
+  TouchableHighlight,
+  SegmentedControlIOS,
 } = React;
 
 var {width, height} = Dimensions.get('window');
@@ -33,26 +34,36 @@ class PhotosView extends React.Component{
       latitude: this.props.route.latitude,
       longitude: this.props.route.longitude,
       statusBarHidden: false,
-      favorites: this.props.route.favorites
+      favorites: this.props.route.favorites,
+      selectedIndex: 0,
+      userPhotosUrls: undefined,
+      userFavoritesUrls: undefined,
     };
-  }
-
-  componentDidMount() {
-    if(this.state.favorites && this.state.userId){
+    if(this.state.favorites) {
       api.fetchUserFavorites(this.state.userId, (photos) => {
         var photosArr = JSON.parse(photos);
-        this.setState({ imageUrls: photosArr });
+        this.setState({ userFavoritesUrls: photosArr });
       })
-    }
-    else if(this.state.userId && !this.state.favorites) {
       api.fetchUserPhotos(this.state.userId, (photos) => {
         var photosArr = JSON.parse(photos);
         var photosUrls = photosArr.map((photo) => {
           return photo.url;
         });
         this.setState({ imageUrls: photosUrls });
-      })
-    } else {
+        this.setState({ userPhotosUrls: photosUrls });
+      }) 
+    }
+  }
+
+  componentDidMount() {
+    if(this.state.favorites){
+      if(this.state.selectedIndex===0) {
+        this.setState({ imageUrls: this.state.userPhotosUrls});
+      } else if (this.state.selectedIndex===1) {
+        this.setState({ imageUrls: this.state.userFavoritesUrls});
+      }
+    }
+    if(!this.state.favorites){
       setInterval(()=> {
         navigator.geolocation.getCurrentPosition(
           location => {
@@ -62,19 +73,16 @@ class PhotosView extends React.Component{
             });
           }
         );
-        if(!this.state.userId) {
-          api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-            var photosArr = JSON.parse(photos);
-            var photosUrls = photosArr.map((photo) => {
-              return photo.url;
-            });
-            this.setState({ imageUrls: photosUrls });
-          })
-        }
+        api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+          var photosArr = JSON.parse(photos);
+          var photosUrls = photosArr.map((photo) => {
+            return photo.url;
+          });
+          this.setState({ imageUrls: photosUrls });
+        })
       }, 2000);
     }
   }
-
 
   componentWillUnmount() {
     if(this.state.previousComponent==='settings') {StatusBarIOS.setHidden(false);}
@@ -145,36 +153,72 @@ class PhotosView extends React.Component{
     this.props.navigator.pop();
   }
 
+  _onChange(event) {
+    this.setState({
+      selectedIndex: event.nativeEvent.selectedSegmentIndex,
+    });
+    if(event.nativeEvent.selectedSegmentIndex===0) {
+        this.setState({ imageUrls: this.state.userPhotosUrls});
+    } else if(event.nativeEvent.selectedSegmentIndex===1) {
+        this.setState({ imageUrls: this.state.userFavoritesUrls});
+    }
+  }
+
   render() {
     var pageTitle = (
-       this.state.userId ? <Text style={styles.pageTitle}>Your Photos</Text> : <Text style={styles.pageTitle}>Photos Near You</Text>
+       this.state.favorites ? <Text style={styles.pageTitle}>Your Photos</Text> : <Text style={styles.pageTitle}>Photos Near You</Text>
     )
     var backButton = (
       <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
         <IconIon name='ios-arrow-thin-down' size={30} style={styles.backIcon} color="#FF5A5F"/>
       </TouchableHighlight>
     );
-    return (
-      <View style={{flex: 1, backgroundColor: '#ededed' }}>
-        <NavigationBar 
-          title={pageTitle} 
-          tintColor={"white"} 
-          statusBar={{hidden: this.state.statusBarHidden}}
-          leftButton={backButton}/>
-        {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
-        {this.state.imageUrls && !this.state.imageUrls.length && !this.state.userId ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
-        {this.state.imageUrls && !this.state.imageUrls.length && !this.state.userId ? <Text style={styles.noPhotosText2}>Be the first one to drop a photo!</Text>  : null}
+    if(this.state.favorites) {
+      return (
+        <View style={{flex: 1, backgroundColor: '#ededed' }}>
+          <NavigationBar 
+            title={pageTitle} 
+            tintColor={"white"} 
+            statusBar={{hidden: this.state.statusBarHidden}}
+            leftButton={backButton}/>
+          <SegmentedControlIOS 
+            values={['Uploaded By You', 'Favorited']} 
+            selectedIndex={this.state.selectedIndex} 
+            style={styles.segments} 
+            tintColor="#FF5A5F"
+            onChange={this._onChange.bind(this)}/>
+          {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
+          
+          {this.state.imageUrls && this.state.selectedIndex===0 && !this.state.imageUrls.length ? <Text style={styles.noPhotosText}>{`Looks like you haven't taken any photos...`}</Text>   : null}
+          {this.state.imageUrls && this.state.selectedIndex===0 && !this.state.imageUrls.length ? <Text style={styles.noPhotosText2}>Swipe to the camera and drop a photo!</Text>  : null}
+          
+          {this.state.imageUrls && this.state.selectedIndex===1 && !this.state.imageUrls.length ? <Text style={styles.noPhotosText}>Looks like you have no favorite photos...</Text>   : null}
+          {this.state.imageUrls && this.state.selectedIndex===1 && !this.state.imageUrls.length ? <Text style={styles.noPhotosText2}>Swipe to the map and checkout photos around you!</Text>  : null}
 
-        {this.state.imageUrls && !this.state.imageUrls.length && this.state.favorites ? <Text style={styles.noPhotosText}>Looks like you have no favorite photos...</Text>   : null}
-        {this.state.imageUrls && !this.state.imageUrls.length && this.state.favorites ? <Text style={styles.noPhotosText2}>Swipe to the map and checkout photos around you!</Text>  : null}
-
-        {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId && !this.state.favorites ? <Text style={styles.noPhotosText}>{`Looks like you haven't taken any photos...`}</Text>   : null}
-        {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId && !this.state.favorites ? <Text style={styles.noPhotosText2}>Swipe to the camera and drop a photo!</Text>  : null}
-        <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
-          {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
-        </ScrollView>
-      </View>
-    );
+          <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
+            {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
+          </ScrollView>
+        </View>
+      ); 
+    } else {
+      return (
+        <View style={{flex: 1, backgroundColor: '#ededed' }}>
+          <NavigationBar 
+            title={pageTitle} 
+            tintColor={"white"} 
+            statusBar={{hidden: this.state.statusBarHidden}}
+            leftButton={backButton}/>
+          {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
+          
+          {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
+          {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText2}>Be the first one to drop a photo!</Text>  : null}
+          
+          <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
+            {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
+          </ScrollView>
+        </View>
+      ); 
+    }
   }
 }
 
@@ -217,7 +261,7 @@ var styles = StyleSheet.create({
     fontFamily: 'circular',
     textAlign: 'center',
     color: '#565b5c'
-  }
+  },
 });
 
 module.exports = PhotosView;

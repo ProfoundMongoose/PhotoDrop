@@ -10,6 +10,7 @@ var {
   View,
   StyleSheet,
   TouchableHighlight,
+  TouchableOpacity,
   Image,
   ActionSheetIOS,
 } = React;
@@ -20,7 +21,7 @@ class Settings extends React.Component {
     this.displayName = 'Settings';
   }
 
-  openFavorites() {
+  openMyPhotos() {
     this.props.navigator.push({
       component: PhotosView,
       userId: this.props.userId,
@@ -28,16 +29,6 @@ class Settings extends React.Component {
       previousComponent: 'settings'
     });
   }
-
-  openMyPhotos() {
-    this.props.navigator.push({
-      component: PhotosView,
-      userId: this.props.userId,
-      previousComponent: 'settings'
-    });
-  }
-
-
 
   logout() {
     Keychain
@@ -81,29 +72,21 @@ class Settings extends React.Component {
         </View>
         <View style={styles.mainContainer}>
           <TouchableHighlight
-            style={styles.button}
-            underlayColor={'#e66365'}
-            onPress={this.openFavorites.bind(this)}>
-            <Text style={styles.buttonText}>Your Favorites</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={styles.button}
+            style={styles.yourPhotosButton}
             underlayColor={'#e66365'}
             onPress={this.openMyPhotos.bind(this)}>
-            <Text style={styles.buttonText}>Your Photos</Text>
+            <Text style={styles.yourPhotosButtonText}>Your Photos</Text>
           </TouchableHighlight>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.button}
-            underlayColor={'#e66365'}
             onPress={this.changeInfo.bind(this)}>
-            <Text style={styles.buttonText}>Change Username/Password</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
+            <Text style={styles.buttonText}>Update Profile</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.button}
-            underlayColor={'#e66365'}
             onPress={this.showActionSheet.bind(this)}>
             <Text style={styles.buttonText}> Logout </Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
 
       </View>
@@ -115,26 +98,44 @@ var styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  buttonText: {
+  yourPhotosButtonText: {
     fontSize: 18,
     fontFamily: 'circular',
     color: 'white',
     alignSelf: 'center'
   },
-  button: {
+  buttonText: {
+    fontSize: 18,
+    fontFamily: 'circular',
+    color: '#565b5c',
+    alignSelf: 'center'
+  },
+  yourPhotosButton: {
     height: 45,
     flexDirection: 'row',
     backgroundColor: '#FF5A5F',
     borderColor: '#FF5A5F',
     borderWidth: 1,
     borderRadius: 4,
-    marginBottom: 20,
+    marginBottom: 22.5,
+    marginTop: 0,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  button: {
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 4,
+    marginBottom: 7.5,
     marginTop: 0,
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
   imageContainer: {
-    flex: 1,
+    flex: 2,
     paddingRight: 30,
     paddingLeft: 30,
     paddingTop: 30,
