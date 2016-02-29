@@ -215,7 +215,7 @@ var styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#FF5A5F',
     marginLeft: 270,
-    marginBottom: 475
+    marginBottom: 20
   },
   arrowIcon:{
     width:25,
