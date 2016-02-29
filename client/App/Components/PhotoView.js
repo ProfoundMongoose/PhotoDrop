@@ -10,7 +10,8 @@ var {
   Image,
   ScrollView,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  ActionSheetIOS
 } = React;
 
 class PhotoView extends React.Component{
@@ -37,8 +38,21 @@ class PhotoView extends React.Component{
     this.state.favorited ? this.setState({favorited:false}) : this.setState({favorited:true})
   }
 
-  _shareImage() { 
-
+  _shareImage() {
+    ActionSheetIOS.showShareActionSheetWithOptions({
+      url: this.state.uri,
+      message: 'Checkout this photo I saw I PhotoDrop:'
+    },
+    (error) => alert(error),
+    (success, method) => {
+      var text;
+      if (success) {
+        text = `Shared via ${method}`;
+      } else {
+        text = 'You didn\'t share';
+      }
+      this.setState({text});
+    }); 
   }
 
   _touch() {

@@ -11,6 +11,7 @@ var {
   TouchableOpacity,
   Modal,
   SwitchIOS,
+  StatusBarIOS
 } = React;
 
 class PreviewPhoto extends React.Component{
@@ -63,7 +64,7 @@ class PreviewPhoto extends React.Component{
             </View>
           </View>
         </Modal>
-        <NavigationBar title={{title: 'Share this image?', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: false}}/>
+        <NavigationBar title={{title: 'Share this image?', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: true}}/>
         <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}>
 
           <View style={styles.buttonContainer}>
