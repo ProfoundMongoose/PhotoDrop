@@ -127,13 +127,18 @@ module.exports = {
       });
   },
 
-  addToFavorites: function(req, res, next) {
+  toggleFavorite: function(req, res, next) {
+    var url = req.query.url;
     User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId) }, function(err, user) {
       if (err) next(err);
       if (!user) {
         console.error('User was not found');
       } else {
-        user.favorites.push(req.query.url);
+        if (user.favorites.indexOf(url) === -1) {
+          user.favorites.push(url);
+        } else {
+          user.favorites.splice(user.favorites.indexOf(url), 1);
+        }
         user.save(function(err, savedUser) {
           res.json();
         });
