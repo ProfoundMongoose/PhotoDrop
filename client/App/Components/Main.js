@@ -75,7 +75,7 @@ class SwiperView extends React.Component{
           userId={this.props.route.userId} 
           _goToSettings={this._goToSettings.bind(this)} 
           _goToMap={this._goToMap.bind(this)}/>
-        <MapView navigator={this.props.navigator} params={this.state} showsButtons={false}/>
+        <MapView navigator={this.props.navigator} params={this.state} showsButtons={false} userId={this.props.route.userId}/>
        </Swiper>
      )
     } else {

@@ -102,6 +102,7 @@ class Map extends React.Component {
   openAllPhotos() {
       this.props.navigator.push({
         component: PhotosView,
+        userId: this.props.userId,
         sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
         previousComponent: 'map',
         latitude: this.state.latitude,
