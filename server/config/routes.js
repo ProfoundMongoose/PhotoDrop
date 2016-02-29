@@ -13,10 +13,12 @@ module.exports = function(app, express) {
   app.get('/fetchPhotos/', photoController.fetchPhotos);
   app.get('/fetchLocations/', photoController.fetchLocations);
   app.get('/fetchUserPhotos/', photoController.fetchUserPhotos);
-  app.get('/fetchUserFavorites/', userController.fetchFavorites)
-    // Increment views count on photo and add to Favorites
+  app.get('/fetchUserFavorites/', userController.fetchFavorites);
+
+  // Increment views count on photo and add to Favorites
   app.get('/incrementViews/', photoController.incrementViews);
-  app.get('/addToFavorites/', userController.addToFavorites);
+  app.get('/toggleFavorite/', userController.toggleFavorite);
+
   // Sign in and sign up routes
   app.post('/login', userController.login);
   app.post('/signup', userController.signup);
@@ -25,6 +27,7 @@ module.exports = function(app, express) {
   // Change user information
   app.post('/changePassword', userController.changePassword);
   app.post('/changeUsername', userController.changeUsername);
+
   // Handle errors for unsupported requests
   app.use(helpers.errorLogger);
   app.use(helpers.errorHandler);

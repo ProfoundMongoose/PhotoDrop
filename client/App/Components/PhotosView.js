@@ -45,7 +45,6 @@ class PhotosView extends React.Component{
       })
     }
     else if(this.state.userId && !this.state.favorites) {
-      console.log('user fetch', this.state.userId);
       api.fetchUserPhotos(this.state.userId, (photos) => {
         var photosArr = JSON.parse(photos);
         var photosUrls = photosArr.map((photo) => {
@@ -95,16 +94,15 @@ class PhotosView extends React.Component{
   // function that returns a function that knows the correct uri to render
   showImageFullscreen(uri, index) {
     return () => {
-      console.log(uri);
-      console.log(this.state.imageUrls);
       this.setState({statusBarHidden: true});
       this.props.navigator.push({
         component: PhotoSwiperView,
         index: index,
         photos: this.state.imageUrls,
-        uri: uri,
-        width: this.state.currentScreenWidth,
+        // uri: uri,
+        // width: this.state.currentScreenWidth,
         showStatusBar: this.showStatusBar.bind(this),
+        userId: this.state.userId,
         sceneConfig: {
           ...Navigator.SceneConfigs.FloatFromBottom,
           gestures: {
@@ -170,8 +168,8 @@ class PhotosView extends React.Component{
         {this.state.imageUrls && !this.state.imageUrls.length && this.state.favorites ? <Text style={styles.noPhotosText}>Looks like you have no favorite photos...</Text>   : null}
         {this.state.imageUrls && !this.state.imageUrls.length && this.state.favorites ? <Text style={styles.noPhotosText2}>Swipe to the map and checkout photos around you!</Text>  : null}
 
-        {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId ? <Text style={styles.noPhotosText}>{`Looks like you haven't taken any photos...`}</Text>   : null}
-        {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId ? <Text style={styles.noPhotosText2}>Swipe to the camera and drop a photo!</Text>  : null}
+        {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId && !this.state.favorites ? <Text style={styles.noPhotosText}>{`Looks like you haven't taken any photos...`}</Text>   : null}
+        {this.state.imageUrls && !this.state.imageUrls.length && this.state.userId && !this.state.favorites ? <Text style={styles.noPhotosText2}>Swipe to the camera and drop a photo!</Text>  : null}
         <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
           {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
         </ScrollView>

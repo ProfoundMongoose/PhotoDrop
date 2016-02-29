@@ -33,9 +33,10 @@ class PhotoView extends React.Component{
     if(this.props.showStatusBar) {this.props.showStatusBar();}
   }
 
-  _favoriteImage() { //for Max to fill out
-    console.log('favorited!');
-    this.state.favorited ? this.setState({favorited:false}) : this.setState({favorited:true})
+  _favoriteImage() { 
+    api.toggleFavorite(this.props.userId, this.state.uri, (result) => {
+      this.state.favorited ? this.setState({favorited:false}) : this.setState({favorited:true})
+    });
   }
 
   _shareImage() {

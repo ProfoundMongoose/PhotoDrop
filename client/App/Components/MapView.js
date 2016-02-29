@@ -48,7 +48,6 @@ class Map extends React.Component {
   componentDidMount(){
       setInterval(()=> {
         if(this.props.params.index===2) {
-          // console.log('refreshing map');
           this.onLocationPressed();
           api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
             var photosArr = JSON.parse(photos);
@@ -65,7 +64,6 @@ class Map extends React.Component {
   showImage(uri) {
     return () => {
       api.incrementViews(uri, (views) => {
-        console.log('views', views);
       });
       this.props.navigator.push({
         component: PhotoView,

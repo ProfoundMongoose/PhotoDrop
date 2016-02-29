@@ -157,8 +157,8 @@ var api = {
       });
   },
 
-  addToFavorites(userId, url, callback) {
-    var url = 'http://162.243.130.124:8000/addtoFavorites?userId=' + userId + '&url=' + url;
+  toggleFavorite(userId, url, callback) {
+    var url = 'http://162.243.130.124:8000/toggleFavorite?userId=' + userId + '&url=' + url;
     return fetch(url, {
         method: 'GET',
         headers: {

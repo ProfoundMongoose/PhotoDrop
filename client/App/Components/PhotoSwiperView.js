@@ -17,6 +17,7 @@ class PhotoSwiperView extends React.Component{
     this.state = {
       showsIndex: false,
       index: this.props.route.index,
+      userId: this.props.route.userId
     }
   }
 
@@ -50,6 +51,7 @@ class PhotoSwiperView extends React.Component{
     var navigator=this.props.navigator;
     var togglePagination = this.togglePagination.bind(this);
     var showsIndex = this.state.showsIndex;
+    var userId = this.props.route.userId;
     return (
       <Swiper style={styles.wrapper} 
         showsButtons={false} 
@@ -60,7 +62,14 @@ class PhotoSwiperView extends React.Component{
         onMomentumScrollEnd ={this._onMomentumScrollEnd.bind(this)}>
         {
           photosUrls.map(function(photoUrl, index){
-            return <PhotoView key={index} uri={photoUrl} navigator={navigator} showStatusBar={showStatusBar.bind(this)} showsIndex={showsIndex} togglePagination={togglePagination.bind(this)}/>
+            return <PhotoView
+            key={index}
+            uri={photoUrl}
+            userId={userId}
+            navigator={navigator}
+            showStatusBar={showStatusBar.bind(this)}
+            showsIndex={showsIndex}
+            togglePagination={togglePagination.bind(this)}/>
           })
         }
       </Swiper>
