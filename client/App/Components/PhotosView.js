@@ -35,28 +35,33 @@ class PhotosView extends React.Component{
       longitude: this.props.route.longitude,
       statusBarHidden: false,
       favorites: this.props.route.favorites,
-      selectedIndex: 0
+      selectedIndex: 0,
+      userPhotosUrls: undefined,
+      userFavoritesUrls: undefined,
     };
-    if(this.state.userId){
-      if(this.state.selectedIndex===0) {
-        api.fetchUserPhotos(this.state.userId, (photos) => {
-          var photosArr = JSON.parse(photos);
-          var photosUrls = photosArr.map((photo) => {
-            return photo.url;
-          });
-          this.setState({ imageUrls: photosUrls });
-        })
-      } else if(this.state.selectedIndex===1) {
-        api.fetchUserFavorites(this.state.userId, (photos) => {
-          var photosArr = JSON.parse(photos);
-          this.setState({ imageUrls: photosArr });
-        })
-      }
-    }
+    api.fetchUserFavorites(this.state.userId, (photos) => {
+      var photosArr = JSON.parse(photos);
+      this.setState({ userFavoritesUrls: photosArr });
+    })
+    api.fetchUserPhotos(this.state.userId, (photos) => {
+      var photosArr = JSON.parse(photos);
+      var photosUrls = photosArr.map((photo) => {
+        return photo.url;
+      });
+      this.setState({ imageUrls: photosUrls });
+      this.setState({ userPhotosUrls: photosUrls });
+    })
   }
 
   componentDidMount() {
-    if(!this.state.userID){
+    if(this.state.userId){
+      if(this.state.selectedIndex===0) {
+        this.setState({ imageUrls: this.state.userPhotosUrls});
+      } else if (this.state.selectedIndex===1) {
+        this.setState({ imageUrls: this.state.userFavoritesUrls});
+      }
+    }
+    if(!this.state.userId){
       setInterval(()=> {
         navigator.geolocation.getCurrentPosition(
           location => {
@@ -153,8 +158,11 @@ class PhotosView extends React.Component{
     this.setState({
       selectedIndex: event.nativeEvent.selectedSegmentIndex,
     });
-    this.setState({imageUrls: undefined});
-    console.log(this.state.selectedIndex);
+    if(event.nativeEvent.selectedSegmentIndex===0) {
+        this.setState({ imageUrls: this.state.userPhotosUrls});
+    } else if(event.nativeEvent.selectedSegmentIndex===1) {
+        this.setState({ imageUrls: this.state.userFavoritesUrls});
+    }
   }
 
   render() {
@@ -167,20 +175,6 @@ class PhotosView extends React.Component{
       </TouchableHighlight>
     );
     if(this.state.userId) {
-      if(this.state.selectedIndex===0) {
-        api.fetchUserPhotos(this.state.userId, (photos) => {
-          var photosArr = JSON.parse(photos);
-          var photosUrls = photosArr.map((photo) => {
-            return photo.url;
-          });
-          this.setState({ imageUrls: photosUrls });
-        })
-      } else if(this.state.selectedIndex===1) {
-        api.fetchUserFavorites(this.state.userId, (photos) => {
-          var photosArr = JSON.parse(photos);
-          this.setState({ imageUrls: photosArr });
-        })
-      }
       return (
         <View style={{flex: 1, backgroundColor: '#ededed' }}>
           <NavigationBar 
