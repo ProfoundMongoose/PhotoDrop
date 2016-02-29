@@ -1,4 +1,3 @@
-//use thisone
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
@@ -177,7 +176,12 @@ class PhotosView extends React.Component{
         });
         // this.setState({ imageUrls: photosUrls });
         this.setState({ userPhotosUrls: photosUrls });
-      }) 
+      })
+      if(this.state.selectedIndex===0) {
+        this.setState({imageUrls: this.state.userPhotosUrls});
+      } else if(this.state.selectedIndex===1) {
+        this.setState({imageUrls: this.state.userFavoritesUrls});
+      }
     } else {
       navigator.geolocation.getCurrentPosition(
         location => {
