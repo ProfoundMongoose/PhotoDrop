@@ -76,11 +76,11 @@ class PhotosView extends React.Component{
 
   componentDidMount() {
     if(this.state.favorites){
-      if(this.state.selectedIndex===0) {
+      // if(this.state.selectedIndex===0) {
         this.setState({ imageUrls: this.state.userPhotosUrls});
-      } else if (this.state.selectedIndex===1) {
-        this.setState({ imageUrls: this.state.userFavoritesUrls});
-      }
+      // } else if (this.state.selectedIndex===1) {
+      //   this.setState({ imageUrls: this.state.userFavoritesUrls});
+      // }
     } else {
       this.setState({ imageUrls: this.state.allViewablePhotos});
     }
@@ -222,7 +222,7 @@ class PhotosView extends React.Component{
         isRefreshing: false,
       });
 
-    }, 2000);
+    }, 1000);
   }
 
   render() {
@@ -286,7 +286,19 @@ class PhotosView extends React.Component{
           {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
           {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText2}>Be the first one to drop a photo!</Text>  : null}
           
-          <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
+          <ScrollView 
+            onLayout={this.handleRotation.bind(this)} 
+            contentContainerStyle={styles.scrollView}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isRefreshing}
+                onRefresh={this._onRefresh.bind(this)}
+                // tintColor="grey"
+                title="Refreshing..."
+                // colors={['#ff0000', '#00ff00', '#0000ff']}
+                // progressBackgroundColor="#ffff00"
+              />
+            }>
             {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
           </ScrollView>
         </View>
