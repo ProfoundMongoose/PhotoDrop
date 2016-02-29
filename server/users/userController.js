@@ -151,6 +151,7 @@ module.exports = {
       if(!user){
         console.error('User was not found');
       } else {
+        console.log('favorites', favorites);
         res.json(user.favorites);
       }
     });

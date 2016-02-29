@@ -74,7 +74,6 @@ module.exports = {
       photos = photos.sort(function(a, b){
         return b.views - a.views
       });
-      console.log('sorted photos', photos)
       res.json(photos);
     });
   },
