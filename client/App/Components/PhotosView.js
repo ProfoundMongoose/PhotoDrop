@@ -1,3 +1,4 @@
+//use thisone
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
