@@ -26,9 +26,11 @@ class PhotoView extends React.Component{
       url: this.props.uri || this.props.route.uri,
       userId: this.props.userId || this.props.route.userId
     }
-    api.getUsername(this.state.url, (user) => {
+    api.getPhotoData(this.state.url, (data) => {
+      var data = JSON.parse(data);
       this.setState({
-        uploader: JSON.parse(user)
+        views: data.views,
+        uploader: data.username
       })
     })
   }

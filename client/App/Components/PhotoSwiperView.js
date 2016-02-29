@@ -17,12 +17,16 @@ class PhotoSwiperView extends React.Component{
     this.state = {
       showsIndex: false,
       index: this.props.route.index,
-      userId: this.props.route.userId
+      userId: this.props.route.userId,
+      photos: this.props.route.photos 
     }
   }
 
   _onMomentumScrollEnd(e, state, context) {
     this.setState({ index: Math.floor(state.index) });
+    api.incrementViews(this.state.photos[this.state.index], (data) => {
+      console.log('Incremented views on', this.state.photos[this.state.index]);
+    });
   }
 
   renderPagination(index, total, context) {
@@ -46,7 +50,7 @@ class PhotoSwiperView extends React.Component{
   };
 
   render() {
-    var photosUrls = this.props.route.photos;
+    var photosUrls = this.state.photos;
     var showStatusBar = this.props.route.showStatusBar;
     var navigator=this.props.navigator;
     var togglePagination = this.togglePagination.bind(this);
@@ -66,7 +70,6 @@ class PhotoSwiperView extends React.Component{
                     key={index} 
                     uri={photoUrl} 
                     userId={userId} 
-                    views={10} //NEED TO UPDATE: THIS IS HARDCODED
                     navigator={navigator} 
                     showStatusBar={showStatusBar.bind(this)} 
                     showsIndex={showsIndex} 

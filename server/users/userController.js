@@ -147,7 +147,7 @@ module.exports = {
     });
   },
 
-  getUsername: function(req, res, next) {
+  getPhotoData: function(req, res, next) {
     Photo.findOne({url: req.query.url}, function(err, photo) {
       if (err) console.log(err)
       if(photo){
@@ -156,7 +156,7 @@ module.exports = {
           if (!user) {
             console.error('User was not found');
           } else {
-            res.json(user.username);
+            res.json({username: user.username, views: photo.views});
           }
         });
       }
