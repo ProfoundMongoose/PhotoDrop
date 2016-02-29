@@ -71,9 +71,11 @@ module.exports = {
       }
     }, function(err, photos) {
       if (err) next(err);
-      photos = photos.sort(function(a, b) {
-        return b.views - a.views
-      });
+      if(photos){ 
+        photos = photos.sort(function(a, b) {
+          return b.views - a.views
+        });
+      }
       res.json(photos);
     });
   },
@@ -145,7 +147,7 @@ module.exports = {
       photo.views++;
       photo.save(function(err, savedPhoto) {
         if (err) next(err);
-        res.json(savedPhoto.views);
+        res.json({views: savedPhoto.views});
       });
     })
   }

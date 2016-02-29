@@ -22,7 +22,7 @@ class PhotoSwiperView extends React.Component{
   }
 
   _onMomentumScrollEnd(e, state, context) {
-    this.setState({ index: state.index });
+    this.setState({ index: Math.floor(state.index) });
   }
 
   renderPagination(index, total, context) {
