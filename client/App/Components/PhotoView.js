@@ -43,14 +43,14 @@ class PhotoView extends React.Component{
   }
 
   _favoriteImage() {
-    api.toggleFavorite(this.state.userId, this.state.uri, (result) => {
+    api.toggleFavorite(this.state.userId, this.state.url, (result) => {
       this.state.favorited ? this.setState({favorited:false}) : this.setState({favorited:true})
     });
   }
 
   _shareImage() {
     ActionSheetIOS.showShareActionSheetWithOptions({
-      url: this.state.uri,
+      url: this.state.url,
       subject: 'Checkout this photo I found From PhotoDrop',
     },
     (error) => alert(error),
@@ -76,18 +76,18 @@ class PhotoView extends React.Component{
 
   render() {
     var username = this.state.uploader ? <Text style={styles.infoText}> Uploaded by: {this.state.uploader} </Text> : null;
-    var uri = this.state.url;
+    var url = this.state.url;
     if(this.props.togglePagination) {
       if(this.props.showsIndex===false) {
         return (
           <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
-            <Image style={styles.image} source={{uri: uri}}/>
+            <Image style={styles.image} source={{uri: url}}/>
           </TouchableWithoutFeedback>
         )
       }
       return (
         <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
-          <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
+          <Image style={styles.image} source={{uri: url}} onPress={this._touch.bind(this)}>
             <View style={styles.buttonContainer}>
               <View style={styles.leftContainer}>
                 <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
@@ -116,13 +116,13 @@ class PhotoView extends React.Component{
       if(this.state.touched===false) {
         return (
           <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
-            <Image style={styles.image} source={{uri: uri}}/>
+            <Image style={styles.image} source={{uri: url}}/>
           </TouchableWithoutFeedback>
         )
       }
       return (
         <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
-          <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
+          <Image style={styles.image} source={{uri: url}} onPress={this._touch.bind(this)}>
             <View style={styles.buttonContainer}>
               <View style={styles.leftContainer}>
                 <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
