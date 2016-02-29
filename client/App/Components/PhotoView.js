@@ -28,8 +28,9 @@ class PhotoView extends React.Component{
     }
     api.getUsername(this.state.userId, (user) => {
       this.setState({
-        uploader: user.username
+        uploader: JSON.parse(user).username
       })
+      console.log('in getUseranme, state', this.state.uploader)
     })
   }
 
@@ -42,7 +43,7 @@ class PhotoView extends React.Component{
     if(this.props.showStatusBar) {this.props.showStatusBar();}
   }
 
-  _favoriteImage() { 
+  _favoriteImage() {
     api.toggleFavorite(this.state.userId, this.state.uri, (result) => {
       this.state.favorited ? this.setState({favorited:false}) : this.setState({favorited:true})
     });
@@ -62,7 +63,7 @@ class PhotoView extends React.Component{
         text = 'You didn\'t share';
       }
       this.setState({text});
-    }); 
+    });
   }
 
   _touch() {
