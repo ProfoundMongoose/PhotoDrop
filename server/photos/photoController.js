@@ -15,6 +15,7 @@ module.exports = {
       var userId = req.body.userId;
       if (currentPipes[userId] === undefined) {
         currentPipes[userId] = req.body.data;
+        res.json();
         // if the userId is there, we know that the photo is halfway upladed
       } else if (currentPipes[userId]) {
         var fullImgData = currentPipes[userId] + req.body.data;
@@ -70,9 +71,10 @@ module.exports = {
       }
     }, function(err, photos) {
       if (err) next(err); 
-      var photos = photos.sort(function(a, b){
+      photos = photos.sort(function(a, b){
         return b.views - a.views
       });
+      console.log('sorted photos', photos)
       res.json(photos);
     });
   },

@@ -19,10 +19,6 @@ class PhotoView extends React.Component{
       touched: false,
       uri: this.props.uri || this.props.route.uri
     }
-    console.log('saved uri', this.state.uri);
-    api.incrementViews(this.state.uri, (views) => {
-      console.log('views', views);
-    });
   }
 
   componentWillUnmount() {

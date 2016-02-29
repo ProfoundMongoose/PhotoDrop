@@ -64,6 +64,9 @@ class Map extends React.Component {
 
   showImage(uri) {
     return () => {
+      api.incrementViews(uri, (views) => {
+        console.log('views', views);
+      });
       this.props.navigator.push({
         component: PhotoView,
         uri: uri,

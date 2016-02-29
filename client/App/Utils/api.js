@@ -26,7 +26,7 @@ var api = {
   },
 
   changeUsername(username, newUsername) {
-    var user = { username: username, newUsername: newUsername};
+    var user = { username: username, newUsername: newUsername };
     return fetch('http://162.243.130.124:8000/changeUsername', {
       method: 'POST',
       body: JSON.stringify(user)
@@ -46,7 +46,7 @@ var api = {
     });
   },
 
-  uploadPhoto(data, latitude, longitude, userId) {
+  uploadPhoto(data, latitude, longitude, userId, callback) {
     var url = 'http://162.243.130.124:8000/imgUpload';
     // cut data in half
     var firstHalf = data.slice(0, Math.floor(data.length / 2));
@@ -63,19 +63,23 @@ var api = {
         longitude: longitude,
         userId: userId
       })
-    }).catch(function(err) { console.log(err) });
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        data: secondHalf,
-        latitude: latitude,
-        longitude: longitude,
-        userId: userId
-      })
+    }).then(function() {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          data: secondHalf,
+          latitude: latitude,
+          longitude: longitude,
+          userId: userId
+        })
+      }).then(function(res){
+        console.log('res', res);
+        callback(res);
+      }).catch(function(err) { console.log(err) });
     }).catch(function(err) { console.log(err) });
   },
 
