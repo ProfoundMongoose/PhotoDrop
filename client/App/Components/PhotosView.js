@@ -39,13 +39,9 @@ class PhotosView extends React.Component{
 
   componentDidMount() {
     if(this.state.favorites && this.state.userId){
-      console.log('favorites', this.state.favorites);
       api.fetchUserFavorites(this.state.userId, (photos) => {
         var photosArr = JSON.parse(photos);
-        var photosUrls = photosArr.map((photo) => {
-          return photo.url;
-        });
-        this.setState({ imageUrls: photosUrls });
+        this.setState({ imageUrls: photosArr });
       })
     }
     else if(this.state.userId && !this.state.favorites) {

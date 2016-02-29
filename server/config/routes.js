@@ -8,13 +8,13 @@ module.exports = function(app, express) {
   app.post('/imgUpload',
     photoController.uploadPhoto,
     photoController.savePhotoModelToDB);
-  
+
   // Fetching photos for the map view and user photos
   app.get('/fetchPhotos/', photoController.fetchPhotos);
   app.get('/fetchLocations/', photoController.fetchLocations);
   app.get('/fetchUserPhotos/', photoController.fetchUserPhotos);
-
-  // Increment views count on photo and add to Favorites
+  app.get('/fetchUserFavorites/', userController.fetchFavorites)
+    // Increment views count on photo and add to Favorites
   app.get('/incrementViews/', photoController.incrementViews);
   app.get('/addToFavorites/', userController.addToFavorites);
   // Sign in and sign up routes

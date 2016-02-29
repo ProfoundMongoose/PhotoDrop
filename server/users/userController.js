@@ -69,8 +69,7 @@ module.exports = {
     var decoded = jwt.verify(req.params.JWT, 'FRANKJOEVANMAX', function(err, decoded) {
       if (err) console.log('problem decoding', err);
       else {
-        console.log('decode worked', decoded)
-          // send back decoded.userId and decoded.username
+        // send back decoded.userId and decoded.username
         res.json({ username: decoded.username, userId: decoded.userId });
         next();
       }
@@ -94,7 +93,6 @@ module.exports = {
               user.password = newPassword;
               user.save(function(err, savedUser) {
                 if (err) next(err);
-                console.log('savedUser', savedUser);
                 res.json();
               })
             }).catch(function(err) {
@@ -120,7 +118,6 @@ module.exports = {
           user.username = newUsername;
           user.save(function(err, savedUser) {
             if (err) next(err);
-            console.log('savedUser', savedUser);
             res.json({ username: savedUser.username });
           })
         }
@@ -131,14 +128,13 @@ module.exports = {
   },
 
   addToFavorites: function(req, res, next) {
-    User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId)}, function(err, user) {
+    User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId) }, function(err, user) {
       if (err) next(err);
-      if(!user){
+      if (!user) {
         console.error('User was not found');
       } else {
         user.favorites.push(req.query.url);
-        user.save(function(err, savedUser){
-          console.log(savedUser);
+        user.save(function(err, savedUser) {
           res.json();
         });
       }
@@ -146,12 +142,11 @@ module.exports = {
   },
 
   fetchFavorites: function(req, res, next) {
-    User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId)}, function(err, user) {
+    User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId) }, function(err, user) {
       if (err) next(err);
-      if(!user){
+      if (!user) {
         console.error('User was not found');
       } else {
-        console.log('favorites', favorites);
         res.json(user.favorites);
       }
     });

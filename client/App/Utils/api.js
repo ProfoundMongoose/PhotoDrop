@@ -17,7 +17,6 @@ var api = {
   },
 
   changePassword(username, password, newPassword) {
-    console.log('calling change with params: ', username, password, newPassword);
     var user = { username: username, password: password, newPassword: newPassword };
     return fetch('http://162.243.130.124:8000/changePassword', {
       method: 'POST',
@@ -128,7 +127,7 @@ var api = {
       });
   },
 
-  fetchUserFavorites(usedId, callback) {
+  fetchUserFavorites(userId, callback) {
     var url = 'http://162.243.130.124:8000/fetchUserFavorites?userId=' + userId;
     return fetch(url, {
         method: 'GET',
