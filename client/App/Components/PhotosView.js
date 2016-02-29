@@ -1,3 +1,4 @@
+//use thisone
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
@@ -17,6 +18,7 @@ var {
   StatusBarIOS,
   TouchableHighlight,
   SegmentedControlIOS,
+  RefreshControl,
 } = React;
 
 var {width, height} = Dimensions.get('window');
@@ -38,6 +40,8 @@ class PhotosView extends React.Component{
       selectedIndex: 0,
       userPhotosUrls: undefined,
       userFavoritesUrls: undefined,
+      allViewablePhotos: undefined,
+      isRefreshing: false,
     };
     if(this.state.favorites) {
       api.fetchUserFavorites(this.state.userId, (photos) => {
@@ -51,36 +55,31 @@ class PhotosView extends React.Component{
         });
         this.setState({ imageUrls: photosUrls });
         this.setState({ userPhotosUrls: photosUrls });
-      }) 
+      })
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        location => {
+          this.setState({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude
+          });
+        }
+      );
+      api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+        var photosArr = JSON.parse(photos);
+        var photosUrls = photosArr.map((photo) => {
+          return photo.url;
+        });
+        this.setState({ imageUrls: photosUrls });
+      })
     }
   }
 
   componentDidMount() {
     if(this.state.favorites){
-      if(this.state.selectedIndex===0) {
-        this.setState({ imageUrls: this.state.userPhotosUrls});
-      } else if (this.state.selectedIndex===1) {
-        this.setState({ imageUrls: this.state.userFavoritesUrls});
-      }
-    }
-    if(!this.state.favorites){
-      setInterval(()=> {
-        navigator.geolocation.getCurrentPosition(
-          location => {
-            this.setState({
-              latitude: location.coords.latitude,
-              longitude: location.coords.longitude
-            });
-          }
-        );
-        api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-          var photosArr = JSON.parse(photos);
-          var photosUrls = photosArr.map((photo) => {
-            return photo.url;
-          });
-          this.setState({ imageUrls: photosUrls });
-        })
-      }, 2000);
+      this.setState({ imageUrls: this.state.userPhotosUrls});
+    } else {
+      this.setState({ imageUrls: this.state.allViewablePhotos});
     }
   }
 
@@ -164,6 +163,46 @@ class PhotosView extends React.Component{
     }
   }
 
+  _onRefresh() {
+    this.setState({isRefreshing: true});
+    if(this.state.favorites) {
+      api.fetchUserFavorites(this.state.userId, (photos) => {
+        var photosArr = JSON.parse(photos);
+        this.setState({ userFavoritesUrls: photosArr });
+      })
+      api.fetchUserPhotos(this.state.userId, (photos) => {
+        var photosArr = JSON.parse(photos);
+        var photosUrls = photosArr.map((photo) => {
+          return photo.url;
+        });
+        // this.setState({ imageUrls: photosUrls });
+        this.setState({ userPhotosUrls: photosUrls });
+      }) 
+    } else {
+      navigator.geolocation.getCurrentPosition(
+        location => {
+          this.setState({
+            latitude: location.coords.latitude,
+            longitude: location.coords.longitude
+          });
+        }
+      );
+      api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+        var photosArr = JSON.parse(photos);
+        var photosUrls = photosArr.map((photo) => {
+          return photo.url;
+        });
+        this.setState({ imageUrls: photosUrls });
+      })
+    }
+    setTimeout(() => {
+      this.setState({
+        isRefreshing: false,
+      });
+
+    }, 1000);
+  }
+
   render() {
     var pageTitle = (
        this.state.favorites ? <Text style={styles.pageTitle}>Your Photos</Text> : <Text style={styles.pageTitle}>Photos Near You</Text>
@@ -195,7 +234,16 @@ class PhotosView extends React.Component{
           {this.state.imageUrls && this.state.selectedIndex===1 && !this.state.imageUrls.length ? <Text style={styles.noPhotosText}>Looks like you have no favorite photos...</Text>   : null}
           {this.state.imageUrls && this.state.selectedIndex===1 && !this.state.imageUrls.length ? <Text style={styles.noPhotosText2}>Swipe to the map and checkout photos around you!</Text>  : null}
 
-          <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
+          <ScrollView 
+            onLayout={this.handleRotation.bind(this)} 
+            contentContainerStyle={styles.scrollView}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isRefreshing}
+                onRefresh={this._onRefresh.bind(this)}
+                title="Refreshing..."
+              />
+            }>
             {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
           </ScrollView>
         </View>
@@ -210,11 +258,20 @@ class PhotosView extends React.Component{
             leftButton={backButton}/>
           {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
           
-          {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
-          {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText2}>Be the first one to drop a photo!</Text>  : null}
-          
-          <ScrollView onLayout={this.handleRotation.bind(this)} contentContainerStyle={styles.scrollView}>
+          <ScrollView 
+            onLayout={this.handleRotation.bind(this)} 
+            contentContainerStyle={styles.scrollView}
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.isRefreshing}
+                onRefresh={this._onRefresh.bind(this)}
+                title="Refreshing..."
+              />
+            }>
             {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
+            {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
+            {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText2}>Be the first one to drop a photo!</Text>  : null}
+            
           </ScrollView>
         </View>
       ); 
@@ -231,12 +288,14 @@ var styles = StyleSheet.create({
     marginTop: 65,
     fontSize: 18,
     textAlign: 'center',
+
     color: '#656565',
     fontFamily: 'circular'
   },
   noPhotosText2: {
     fontSize: 18,
     textAlign: 'center',
+
     color: '#656565',
     fontFamily: 'circular'
   },
