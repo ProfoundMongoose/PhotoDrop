@@ -65,10 +65,9 @@ class PhotoSwiperView extends React.Component{
             return <PhotoView 
                     key={index} 
                     uri={photoUrl} 
-                    uploader={"dude"}
                     userId={userId} 
                     views={10} //NEED TO UPDATE: THIS IS HARDCODED
-                    navigator={navigator} //NEED TO UPDATE: THIS IS HARDCODED
+                    navigator={navigator} 
                     showStatusBar={showStatusBar.bind(this)} 
                     showsIndex={showsIndex} 
                     togglePagination={togglePagination.bind(this)}/>

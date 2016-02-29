@@ -21,11 +21,16 @@ class PhotoView extends React.Component{
     this.state = {
       touched: false,
       favorited: false,
-      uploader: this.props.uploader || this.props.route.uploader,
+      uploader: undefined,
       views: this.props.views || this.props.route.views,
       uri: this.props.uri || this.props.route.uri,
       userId: this.props.userId || this.props.route.userId
     }
+    api.getUsername(this.state.userId, (user) => {
+      this.setState({
+        uploader: user.username
+      })
+    })
   }
 
   componentWillUnmount() {
@@ -70,6 +75,7 @@ class PhotoView extends React.Component{
   }
 
   render() {
+    var username = this.state.uploader ? <Text style={styles.infoText}> Uploaded by: {this.state.uploader} </Text> : null;
     var uri = this.state.uri;
     if(this.props.togglePagination) {
       if(this.props.showsIndex===false) {
@@ -97,9 +103,7 @@ class PhotoView extends React.Component{
                 </TouchableOpacity>
               </View>
               <View style={styles.photoInfoContainer}>
-                <Text style={styles.infoText}>
-                  Uploaded by: {this.state.uploader}
-                </Text>
+                {username}
                 <Text style={styles.infoText}>
                   Views: {this.state.views}
                 </Text>

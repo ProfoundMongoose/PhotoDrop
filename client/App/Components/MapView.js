@@ -69,7 +69,6 @@ class Map extends React.Component {
         component: PhotoView,
         uri: uri,
         userId: this.props.userId,
-        uploader: 'dude', //NEED TO UPDATE: THIS IS HARDCODED
         views: 10, //NEED TO UPDATE: THIS IS HARDCODED
         width: this.state.currentScreenWidth,
         sceneConfig: {

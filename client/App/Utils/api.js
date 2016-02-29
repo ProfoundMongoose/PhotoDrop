@@ -170,6 +170,21 @@ var api = {
       .catch(function(err) {
         console.log(err);
       });
+  },
+
+  getUsername(userId, callback){
+    var url = 'http://162.243.130.124:8000/getUsername?userId=' + userId;
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function(username) {
+        callback(username._bodyInit);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
   }
 
 };
