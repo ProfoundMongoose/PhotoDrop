@@ -60,7 +60,15 @@ class PhotoSwiperView extends React.Component{
         onMomentumScrollEnd ={this._onMomentumScrollEnd.bind(this)}>
         {
           photosUrls.map(function(photoUrl, index){
-            return <PhotoView key={index} uri={photoUrl} uploader={"dude"} views={10} navigator={navigator} showStatusBar={showStatusBar.bind(this)} showsIndex={showsIndex} togglePagination={togglePagination.bind(this)}/>
+            return <PhotoView 
+                    key={index} 
+                    uri={photoUrl} 
+                    uploader={"dude"} 
+                    views={10} //NEED TO UPDATE: THIS IS HARDCODED
+                    navigator={navigator} //NEED TO UPDATE: THIS IS HARDCODED
+                    showStatusBar={showStatusBar.bind(this)} 
+                    showsIndex={showsIndex} 
+                    togglePagination={togglePagination.bind(this)}/>
           })
         }
       </Swiper>
