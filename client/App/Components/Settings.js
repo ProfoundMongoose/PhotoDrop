@@ -10,13 +10,17 @@ var {
   View,
   StyleSheet,
   TouchableHighlight,
-  Image
+  Image,
+  ActionSheetIOS,
 } = React;
 
 class Settings extends React.Component {
   constructor(props) {
     super(props);
     this.displayName = 'Settings';
+    this.state = {
+      clicked: 'none'
+    }
   }
 
   openPhotos() {
@@ -40,6 +44,17 @@ class Settings extends React.Component {
         console.log('Credentials successfully deleted');
       });
     this.props.navigator.popToTop();
+  }
+
+  showActionSheet() {
+    ActionSheetIOS.showActionSheetWithOptions({
+      options: ['Logout', 'Cancel'],
+      cancelButtonIndex: 1,
+      tintColor: '#565b5c'
+    },
+    (buttonIndex) => {
+      if(buttonIndex===0) {this.logout();}
+    });
   }
 
   changeInfo() {
@@ -77,7 +92,7 @@ class Settings extends React.Component {
           <TouchableHighlight
             style={styles.button}
             underlayColor={'#e66365'}
-            onPress={this.logout.bind(this)}>
+            onPress={this.showActionSheet.bind(this)}>
             <Text style={styles.buttonText}> Logout </Text>
           </TouchableHighlight>
         </View>
