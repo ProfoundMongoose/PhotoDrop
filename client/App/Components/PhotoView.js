@@ -21,10 +21,16 @@ class PhotoView extends React.Component{
     this.state = {
       touched: false,
       favorited: false,
-      uploader: this.props.uploader || this.props.route.uploader,
+      uploader: undefined,
       views: this.props.views || this.props.route.views,
-      uri: this.props.uri || this.props.route.uri
+      uri: this.props.uri || this.props.route.uri,
+      userId: this.props.userId || this.props.route.userId
     }
+    api.getUsername(this.state.userId, (user) => {
+      this.setState({
+        uploader: user.username
+      })
+    })
   }
 
   componentWillUnmount() {
@@ -37,7 +43,7 @@ class PhotoView extends React.Component{
   }
 
   _favoriteImage() { 
-    api.toggleFavorite(this.props.userId, this.state.uri, (result) => {
+    api.toggleFavorite(this.state.userId, this.state.uri, (result) => {
       this.state.favorited ? this.setState({favorited:false}) : this.setState({favorited:true})
     });
   }
@@ -69,6 +75,7 @@ class PhotoView extends React.Component{
   }
 
   render() {
+    var username = this.state.uploader ? <Text style={styles.infoText}> Uploaded by: {this.state.uploader} </Text> : null;
     var uri = this.state.uri;
     if(this.props.togglePagination) {
       if(this.props.showsIndex===false) {
@@ -96,9 +103,7 @@ class PhotoView extends React.Component{
                 </TouchableOpacity>
               </View>
               <View style={styles.photoInfoContainer}>
-                <Text style={styles.infoText}>
-                  Uploaded by: {this.state.uploader}
-                </Text>
+                {username}
                 <Text style={styles.infoText}>
                   Views: {this.state.views}
                 </Text>

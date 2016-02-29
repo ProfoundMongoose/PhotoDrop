@@ -68,7 +68,7 @@ class Map extends React.Component {
       this.props.navigator.push({
         component: PhotoView,
         uri: uri,
-        uploader: 'dude', //NEED TO UPDATE: THIS IS HARDCODED
+        userId: this.props.userId,
         views: 10, //NEED TO UPDATE: THIS IS HARDCODED
         width: this.state.currentScreenWidth,
         sceneConfig: {
@@ -102,6 +102,7 @@ class Map extends React.Component {
   openAllPhotos() {
       this.props.navigator.push({
         component: PhotosView,
+        userId: this.props.userId,
         sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
         previousComponent: 'map',
         latitude: this.state.latitude,
