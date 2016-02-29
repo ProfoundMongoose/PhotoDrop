@@ -1,5 +1,6 @@
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
+var Icon = require('react-native-vector-icons/FontAwesome');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var api = require('../Utils/api');
 
@@ -31,8 +32,9 @@ class PhotoView extends React.Component{
     if(this.props.showStatusBar) {this.props.showStatusBar();}
   }
 
-  _favoriteImage() { //for Max to fil out
+  _favoriteImage() { //for Max to fill out
     console.log('favorited!');
+    this.state.favorited ? this.setState({favorited:false}) : this.setState({favorited:true})
   }
 
   _shareImage() { 
@@ -63,12 +65,20 @@ class PhotoView extends React.Component{
             <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
-                <IconIon name="ios-close-empty" size={45} color="white" style={styles.closeIcon} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this._shareImage.bind(this)} style={styles.closeButton}>
-                <IconIon name="ios-upload-outline" size={25} color="white" style={styles.shareIcon} />
-              </TouchableOpacity>
+              <View style={styles.leftContainer}>
+                <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
+                  <IconIon name="ios-close-empty" size={45} color="white" style={styles.closeIcon} />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.rightContainer}>
+                <TouchableOpacity onPress={this._favoriteImage.bind(this)} style={styles.favoriteButton}>
+                  {this.state.favorited ? <Icon name="heart" size={20} color="white" style={styles.favoriteIcon} /> : <Icon name="heart-o" size={20} color="white" style={styles.favoriteIcon} />}
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this._shareImage.bind(this)} style={styles.shareButton}>
+                  <IconIon name="ios-upload-outline" size={25} color="white" style={styles.shareIcon} />
+                </TouchableOpacity>
+              </View>
             </View>
 
             </Image>
@@ -87,12 +97,20 @@ class PhotoView extends React.Component{
             <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
 
             <View style={styles.buttonContainer}>
-              <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
-                <IconIon name="ios-close-empty" size={45} color="white" style={styles.closeIcon} />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={this._shareImage.bind(this)} style={styles.closeButton}>
-                <IconIon name="ios-upload-outline" size={25} color="white" style={styles.shareIcon} />
-              </TouchableOpacity>
+              <View style={styles.leftContainer}>
+                <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
+                  <IconIon name="ios-close-empty" size={45} color="white" style={styles.closeIcon} />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.rightContainer}>
+                <TouchableOpacity onPress={this._favoriteImage.bind(this)} style={styles.favoriteButton}>
+                  {this.state.favorited ? <Icon name="heart" size={20} color="white" style={styles.favoriteIcon} /> : <Icon name="heart-o" size={20} color="white" style={styles.favoriteIcon} />}
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this._shareImage.bind(this)} style={styles.shareButton}>
+                  <IconIon name="ios-upload-outline" size={25} color="white" style={styles.shareIcon} />
+                </TouchableOpacity>
+              </View>
             </View>
 
             </Image>
@@ -116,6 +134,15 @@ var styles = StyleSheet.create({
     justifyContent: 'space-between',
     backgroundColor:'transparent',
   },
+  leftContainer: {
+    flex: 1,
+  },
+  rightContainer:{
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    backgroundColor:'transparent',
+  },
   closeButton:{
     width:50,
     height:50,
@@ -126,6 +153,30 @@ var styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'white',
     margin: 15,
+  },
+  shareButton:{
+    width:50,
+    height:50,
+    backgroundColor:'rgba(0,0,0,0.3)',
+    borderRadius:35,
+    alignItems:'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'white',
+    marginRight: 15,
+    marginTop: 15
+  },
+  favoriteButton:{
+    width:50,
+    height:50,
+    backgroundColor:'rgba(0,0,0,0.3)',
+    borderRadius:35,
+    alignItems:'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: 'white',
+    marginTop: 15,
+    marginRight: 5,
   },
   closeIcon:{
     width:60,
@@ -138,6 +189,12 @@ var styles = StyleSheet.create({
     height:35,
     paddingTop: 4,
     paddingLeft: 22
+  },
+  favoriteIcon:{
+    width:35,
+    height:35,
+    paddingTop: 7.5,
+    paddingLeft: 7.5
   },
 });
 
