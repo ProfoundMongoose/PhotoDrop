@@ -76,33 +76,10 @@ class PhotosView extends React.Component{
 
   componentDidMount() {
     if(this.state.favorites){
-      // if(this.state.selectedIndex===0) {
-        this.setState({ imageUrls: this.state.userPhotosUrls});
-      // } else if (this.state.selectedIndex===1) {
-      //   this.setState({ imageUrls: this.state.userFavoritesUrls});
-      // }
+      this.setState({ imageUrls: this.state.userPhotosUrls});
     } else {
       this.setState({ imageUrls: this.state.allViewablePhotos});
     }
-    // if(!this.state.favorites){
-    //   setInterval(()=> {
-    //     navigator.geolocation.getCurrentPosition(
-    //       location => {
-    //         this.setState({
-    //           latitude: location.coords.latitude,
-    //           longitude: location.coords.longitude
-    //         });
-    //       }
-    //     );
-    //     api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-    //       var photosArr = JSON.parse(photos);
-    //       var photosUrls = photosArr.map((photo) => {
-    //         return photo.url;
-    //       });
-    //       this.setState({ imageUrls: photosUrls });
-    //     })
-    //   }, 2000);
-    // }
   }
 
   componentWillUnmount() {
@@ -263,10 +240,7 @@ class PhotosView extends React.Component{
               <RefreshControl
                 refreshing={this.state.isRefreshing}
                 onRefresh={this._onRefresh.bind(this)}
-                // tintColor="grey"
                 title="Refreshing..."
-                // colors={['#ff0000', '#00ff00', '#0000ff']}
-                // progressBackgroundColor="#ffff00"
               />
             }>
             {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
@@ -283,9 +257,6 @@ class PhotosView extends React.Component{
             leftButton={backButton}/>
           {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
           
-          {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
-          {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText2}>Be the first one to drop a photo!</Text>  : null}
-          
           <ScrollView 
             onLayout={this.handleRotation.bind(this)} 
             contentContainerStyle={styles.scrollView}
@@ -293,13 +264,13 @@ class PhotosView extends React.Component{
               <RefreshControl
                 refreshing={this.state.isRefreshing}
                 onRefresh={this._onRefresh.bind(this)}
-                // tintColor="grey"
                 title="Refreshing..."
-                // colors={['#ff0000', '#00ff00', '#0000ff']}
-                // progressBackgroundColor="#ffff00"
               />
             }>
             {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
+            {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
+            {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText2}>Be the first one to drop a photo!</Text>  : null}
+            
           </ScrollView>
         </View>
       ); 
@@ -316,12 +287,14 @@ var styles = StyleSheet.create({
     marginTop: 65,
     fontSize: 18,
     textAlign: 'center',
+
     color: '#656565',
     fontFamily: 'circular'
   },
   noPhotosText2: {
     fontSize: 18,
     textAlign: 'center',
+
     color: '#656565',
     fontFamily: 'circular'
   },
