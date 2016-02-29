@@ -39,6 +39,7 @@
     "eslint": "^1.10.3",
     "eslint-plugin-react": "^4.1.0",
     "eslint-plugin-react-native": "^1.0.0",
+    "grunt-nodemon": "^0.4.1",
     "mocha": "^2.4.5"
   }
 }
