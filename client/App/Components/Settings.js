@@ -10,6 +10,7 @@ var {
   View,
   StyleSheet,
   TouchableHighlight,
+  TouchableOpacity,
   Image,
   ActionSheetIOS,
 } = React;
@@ -84,20 +85,18 @@ class Settings extends React.Component {
             style={styles.yourPhotosButton}
             underlayColor={'#e66365'}
             onPress={this.openMyPhotos.bind(this)}>
-            <Text style={styles.buttonText}>Your Photos</Text>
+            <Text style={styles.yourPhotosButtonText}>Your Photos</Text>
           </TouchableHighlight>
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.button}
-            underlayColor={'#e66365'}
             onPress={this.changeInfo.bind(this)}>
-            <Text style={styles.buttonText}>Change Username/Password</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
+            <Text style={styles.buttonText}>Update Profile</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             style={styles.button}
-            underlayColor={'#e66365'}
             onPress={this.showActionSheet.bind(this)}>
             <Text style={styles.buttonText}> Logout </Text>
-          </TouchableHighlight>
+          </TouchableOpacity>
         </View>
 
       </View>
@@ -109,10 +108,16 @@ var styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  buttonText: {
+  yourPhotosButtonText: {
     fontSize: 18,
     fontFamily: 'circular',
     color: 'white',
+    alignSelf: 'center'
+  },
+  buttonText: {
+    fontSize: 18,
+    fontFamily: 'circular',
+    color: '#565b5c',
     alignSelf: 'center'
   },
   yourPhotosButton: {
@@ -130,8 +135,8 @@ var styles = StyleSheet.create({
   button: {
     height: 45,
     flexDirection: 'row',
-    backgroundColor: '#FF5A5F',
-    borderColor: '#FF5A5F',
+    backgroundColor: 'white',
+    borderColor: 'white',
     borderWidth: 1,
     borderRadius: 4,
     marginBottom: 7.5,

@@ -263,10 +263,6 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: '#565b5c'
   },
-  // segments: {
-  //   fontFamily: 'circular'
-  //   color:
-  // }
 });
 
 module.exports = PhotosView;
