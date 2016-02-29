@@ -172,8 +172,8 @@ var api = {
       });
   },
 
-  getUsername(userId, callback){
-    var url = 'http://162.243.130.124:8000/getUsername?userId=' + userId;
+  getUsername(url, callback){
+    var url = 'http://162.243.130.124:8000/getUsername?url=' + url;
     return fetch(url, {
         method: 'GET',
         headers: {
