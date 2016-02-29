@@ -11,7 +11,8 @@ var {
   TextInput,
   ScrollView,
   TouchableHighlight,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  StatusBarIOS
 } = React;
 
 class ChangeView extends React.Component {
@@ -26,6 +27,10 @@ class ChangeView extends React.Component {
       error: false,
       passwordError: false
     };
+  }
+
+  componentWillUnmount() {
+    StatusBarIOS.setHidden(false);
   }
 
   handleUsernameChange(event) {

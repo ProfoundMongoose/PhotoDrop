@@ -68,6 +68,8 @@ class Map extends React.Component {
       this.props.navigator.push({
         component: PhotoView,
         uri: uri,
+        uploader: 'dude', //NEED TO UPDATE: THIS IS HARDCODED
+        views: 10, //NEED TO UPDATE: THIS IS HARDCODED
         width: this.state.currentScreenWidth,
         sceneConfig: {
           ...Navigator.SceneConfigs.FloatFromBottom,
@@ -212,8 +214,8 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#FF5A5F',
-    marginLeft: 270,
-    marginBottom: 20
+    marginLeft: 290,
+    marginBottom: 484
   },
   arrowIcon:{
     width:25,

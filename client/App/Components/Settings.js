@@ -52,6 +52,7 @@ class Settings extends React.Component {
     ActionSheetIOS.showActionSheetWithOptions({
       options: ['Logout', 'Cancel'],
       cancelButtonIndex: 1,
+      destructiveButtonIndex: 0,
       tintColor: '#565b5c'
     },
     (buttonIndex) => {
