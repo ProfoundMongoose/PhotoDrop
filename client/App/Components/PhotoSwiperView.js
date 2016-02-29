@@ -16,11 +16,15 @@ class PhotoSwiperView extends React.Component{
     super(props);
     this.state = {
       showsIndex: false,
+      index: this.props.route.index,
     }
   }
 
-  renderPagination(index, total, context) {
+  _onMomentumScrollEnd(e, state, context) {
+    this.setState({ index: state.index });
+  }
 
+  renderPagination(index, total, context) {
       return (
         <View style={{
           position: 'absolute',
@@ -30,7 +34,6 @@ class PhotoSwiperView extends React.Component{
           <Text style={styles.pageIndex}>{index + 1}/{total}</Text>
         </View>
       )
-
   }
 
   togglePagination(){
@@ -46,16 +49,18 @@ class PhotoSwiperView extends React.Component{
     var showStatusBar = this.props.route.showStatusBar;
     var navigator=this.props.navigator;
     var togglePagination = this.togglePagination.bind(this);
+    var showsIndex = this.state.showsIndex;
     return (
       <Swiper style={styles.wrapper} 
         showsButtons={false} 
         loop={false} 
         showsPagination={this.state.showsIndex}
         renderPagination={this.renderPagination}           
-        index={this.props.route.index}>
+        index={this.state.index}
+        onMomentumScrollEnd ={this._onMomentumScrollEnd.bind(this)}>
         {
           photosUrls.map(function(photoUrl, index){
-            return <PhotoView key={index} uri={photoUrl} navigator={navigator} showStatusBar={showStatusBar.bind(this)} togglePagination={togglePagination.bind(this)}/>
+            return <PhotoView key={index} uri={photoUrl} navigator={navigator} showStatusBar={showStatusBar.bind(this)} showsIndex={showsIndex} togglePagination={togglePagination.bind(this)}/>
           })
         }
       </Swiper>

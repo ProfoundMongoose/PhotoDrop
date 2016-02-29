@@ -40,40 +40,65 @@ class PhotoView extends React.Component{
   }
 
   _touch() {
-    if(this.props.togglePagination) {this.props.togglePagination();}
     if(this.state.touched===false) {
       this.setState({touched:true});
     } else if(this.state.touched===true) {
       this.setState({touched:false});
     }
-
+    if(this.props.togglePagination) {this.props.togglePagination();}
   }
 
   render() {
     var uri = this.state.uri;
-    if(this.state.touched===false) {
+    if(this.props.togglePagination) {
+      if(this.props.showsIndex===false) {
+        return (
+          <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
+            <Image style={styles.image} source={{uri: uri}}/>
+          </TouchableWithoutFeedback>
+        )
+      }
       return (
-        <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
-          <Image style={styles.image} source={{uri: uri}}/>
-        </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
+            <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
+
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
+                <IconIon name="ios-close-empty" size={45} color="white" style={styles.closeIcon} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this._shareImage.bind(this)} style={styles.closeButton}>
+                <IconIon name="ios-upload-outline" size={25} color="white" style={styles.shareIcon} />
+              </TouchableOpacity>
+            </View>
+
+            </Image>
+          </TouchableWithoutFeedback>
+      )
+    } else {
+      if(this.state.touched===false) {
+        return (
+          <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
+            <Image style={styles.image} source={{uri: uri}}/>
+          </TouchableWithoutFeedback>
+        )
+      }
+      return (
+          <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
+            <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
+
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
+                <IconIon name="ios-close-empty" size={45} color="white" style={styles.closeIcon} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={this._shareImage.bind(this)} style={styles.closeButton}>
+                <IconIon name="ios-upload-outline" size={25} color="white" style={styles.shareIcon} />
+              </TouchableOpacity>
+            </View>
+
+            </Image>
+          </TouchableWithoutFeedback>
       )
     }
-    return (
-        <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
-          <Image style={styles.image} source={{uri: uri}} onPress={this._touch.bind(this)}>
-
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={this._closeImage.bind(this)} style={styles.closeButton}>
-              <IconIon name="ios-close-empty" size={45} color="white" style={styles.closeIcon} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={this._shareImage.bind(this)} style={styles.closeButton}>
-              <IconIon name="ios-upload-outline" size={25} color="white" style={styles.shareIcon} />
-            </TouchableOpacity>
-          </View>
-
-          </Image>
-        </TouchableWithoutFeedback>
-    )
   }
 }
 
