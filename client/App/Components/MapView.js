@@ -214,8 +214,8 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#FF5A5F',
-    marginLeft: 287,
-    marginBottom: 486
+    marginLeft: 290,
+    marginBottom: 484
   },
   arrowIcon:{
     width:25,
