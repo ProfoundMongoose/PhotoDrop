@@ -81,13 +81,7 @@ class Settings extends React.Component {
         </View>
         <View style={styles.mainContainer}>
           <TouchableHighlight
-            style={styles.button}
-            underlayColor={'#e66365'}
-            onPress={this.openFavorites.bind(this)}>
-            <Text style={styles.buttonText}>Your Favorites</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            style={styles.button}
+            style={styles.yourPhotosButton}
             underlayColor={'#e66365'}
             onPress={this.openMyPhotos.bind(this)}>
             <Text style={styles.buttonText}>Your Photos</Text>
@@ -121,6 +115,18 @@ var styles = StyleSheet.create({
     color: 'white',
     alignSelf: 'center'
   },
+  yourPhotosButton: {
+    height: 45,
+    flexDirection: 'row',
+    backgroundColor: '#FF5A5F',
+    borderColor: '#FF5A5F',
+    borderWidth: 1,
+    borderRadius: 4,
+    marginBottom: 22.5,
+    marginTop: 0,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
   button: {
     height: 45,
     flexDirection: 'row',
@@ -128,13 +134,13 @@ var styles = StyleSheet.create({
     borderColor: '#FF5A5F',
     borderWidth: 1,
     borderRadius: 4,
-    marginBottom: 20,
+    marginBottom: 7.5,
     marginTop: 0,
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
   imageContainer: {
-    flex: 1,
+    flex: 2,
     paddingRight: 30,
     paddingLeft: 30,
     paddingTop: 30,
