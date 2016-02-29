@@ -41,7 +41,7 @@ class PhotoView extends React.Component{
   _shareImage() {
     ActionSheetIOS.showShareActionSheetWithOptions({
       url: this.state.uri,
-      message: 'Checkout this photo I saw I PhotoDrop:'
+      subject: 'Checkout this photo I found From PhotoDrop',
     },
     (error) => alert(error),
     (success, method) => {
