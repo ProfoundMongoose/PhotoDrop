@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true }));
 
-mongoose.connect('mongodb://localhost:27017/profoundmongoose');
+mongoose.connect('mongodb://localhost:27017/photodrop');
 
 require('./config/routes.js')(app, express);
 

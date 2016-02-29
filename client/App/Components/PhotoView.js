@@ -28,7 +28,7 @@ class PhotoView extends React.Component{
     }
     api.getUsername(this.state.userId, (user) => {
       this.setState({
-        uploader: JSON.parse(user).username
+        uploader: JSON.parse(user)
       })
       console.log('in getUseranme, state', this.state.uploader)
     })
