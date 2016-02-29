@@ -15,6 +15,7 @@ module.exports = {
       var userId = req.body.userId;
       if (currentPipes[userId] === undefined) {
         currentPipes[userId] = req.body.data;
+        res.json();
         // if the userId is there, we know that the photo is halfway upladed
       } else if (currentPipes[userId]) {
         var fullImgData = currentPipes[userId] + req.body.data;
@@ -28,6 +29,7 @@ module.exports = {
           })
           .catch(function(err) {
             console.error(err.message);
+            currentPipes[userId] = undefined;
           });
       }
 
@@ -46,9 +48,9 @@ module.exports = {
     }).save().then(function(data) {
       Photo.ensureIndexes({ loc: "2dsphere" });
       console.log('saved new photo model to db ', data)
-      next();
+      res.json();
     }).catch(function(err) {
-      console.log('could not save to db', err)
+      console.error('could not save to db', err.message);
     })
   },
 
@@ -68,7 +70,11 @@ module.exports = {
         }
       }
     }, function(err, photos) {
-      if (err) next(error); 
+      if (err) next(err); 
+      photos = photos.sort(function(a, b){
+        return b.views - a.views
+      });
+      console.log('sorted photos', photos)
       res.json(photos);
     });
   },
@@ -101,7 +107,7 @@ module.exports = {
         }
       }
     }, function(err, photos) {
-      if (err) next(error);
+      if (err) next(err);
       revealedPhotos = photos;
       Photo.find({
         loc: {
@@ -118,7 +124,7 @@ module.exports = {
           })
         }
       }, 'loc', function(err, photos) {
-        if (err) next(error);
+        if (err) next(err);
         res.json(photos);
       });
     })
@@ -126,8 +132,24 @@ module.exports = {
 
   fetchUserPhotos: function(req, res, next) {
     Photo.find({ userId: mongoose.mongo.ObjectID(req.query.userId)}, function(err, photos) {
-      if (err) next(error); 
+      if (err) next(err); 
       res.json(photos);
     });
+  },
+
+  incrementViews: function(req, res, next) {
+    Photo.findOne({ url: req.query.url }, function(err, photo) {
+      if (err) next(err);
+      if (!photo) {
+        return next(new Error('Link not added yet'));
+      }
+      photo.views++;
+      photo.save(function(err, savedPhoto) {
+        console.log('saved photo', savedPhoto);
+        if (err) next(err);
+        res.json(savedPhoto.views);
+      });
+    })
   }
+
 };

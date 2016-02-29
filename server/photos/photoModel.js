@@ -15,7 +15,7 @@ var PhotoSchema = new Schema({
     type: Schema.Types.ObjectId,
     required: true
   },
-  visits: {
+  views: {
     type: Number,
     default: 0
   }

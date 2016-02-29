@@ -44,7 +44,8 @@ class Settings extends React.Component {
 
   changeInfo() {
     this.props.navigator.push({
-      component: ChangeView
+      component: ChangeView,
+      username: this.props.username
     })
   }
 

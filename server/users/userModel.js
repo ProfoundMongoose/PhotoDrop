@@ -15,8 +15,11 @@ var UserSchema = new mongoose.Schema({
     type: String, 
     required: true
   },
+  favorites: {
+    type: Array,
+    default: []
+  },
   salt: String
-  // photos: [ photoID1, photoID2 ];
 });
 
 
@@ -55,7 +58,3 @@ UserSchema.pre('save', function (next) {
 
 
 module.exports = mongoose.model('User', UserSchema);
-
-
-
-

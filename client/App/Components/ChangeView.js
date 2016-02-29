@@ -1,6 +1,7 @@
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var IconIon = require('react-native-vector-icons/Ionicons');
+var Keychain = require('react-native-keychain');
 var api = require('../Utils/api');
 
 var {
@@ -8,6 +9,7 @@ var {
   Text,
   StyleSheet,
   TextInput,
+  ScrollView,
   TouchableHighlight,
   ActivityIndicatorIOS
 } = React;
@@ -16,12 +18,13 @@ class ChangeView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      username: this.props.route.username,
       currentPassword: '',
       newPassword: '',
       confirmNewPassword: '',
       isLoading: false,
-      error: false
+      error: false,
+      passwordError: false
     };
   }
 
@@ -53,30 +56,88 @@ class ChangeView extends React.Component {
     this.props.navigator.pop();
   }
 
-  handleSubmit() {
-    console.log('tap');
-    // this.setState({
-    //   isLoading: true
-    // });
-    // api.change(this.state.username, this.state.currentPassword, this.state.newPassword, this.state.confirmNewPassword)
-    //   .then((res) => {
-    //     this.setState({
-    //       isLoading: false,
-    //       error: false,
-    //       username: '',
-    //       password: ''
-    //     });
-    //   }).catch((err) => {
-    //     this.setState({
-    //       error: 'User not found' + err,
-    //       isLoading: false
-    //     });
-    //   });
+  changeUsername() {
+    this.setState({
+      isLoading: true
+    });
+    api.changeUsername(this.props.route.username, this.state.username)
+      .then((res) => {
+        this.setState({
+          isLoading: false,
+          error: false
+        });
+        console.log('Username Changed');
+        this.props.route.username = this.state.username;
+        Keychain
+          .resetGenericPassword()
+          .then(function() {
+            console.log('Credentials successfully deleted');
+          });
+        this.props.navigator.pop();
+      }).catch((err) => {
+        this.setState({
+          error: 'Could not change username' + err,
+          isLoading: false
+        });
+      });
+  }
+
+  changePassword() {
+    if (this.state.newPassword === this.state.confirmNewPassword) {
+      this.setState({
+        isLoading: true,
+        passwordError: false
+      });
+
+      api.changePassword(this.state.username, this.state.currentPassword, this.state.newPassword)
+        .then((res) => {
+          this.setState({
+            passwordError: false
+          });
+          if (res.status === 500) {
+            this.setState({
+              error: 'User does not exists',
+              isLoading: false
+            });
+          } else {
+
+            this.setState({
+              isLoading: false,
+              error: false,
+              username: '',
+              password: '',
+              newPassword: '',
+              confirmNewPassword: ''
+            });
+            console.log('Password Changed');
+            Keychain
+              .resetGenericPassword()
+              .then(function() {
+                console.log('Credentials successfully deleted');
+              });
+            this.props.navigator.pop();
+          }
+        }).catch((err) => {
+          this.setState({
+            error: 'User does not exists' + err,
+            isLoading: false
+          });
+        });
+    } else {
+       this.setState({
+          error: false,
+          passwordError: 'New passwords dont match',
+          isLoading: false
+        });
+    }
   }
 
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
+    );
+    var showPasswordErr = (
+      this.state.passwordError ? <Text style={styles.err}> {this.state.passwordError} </Text> : <View></View>
     );
     var pageTitle = (
       <Text style={styles.pageTitle}>PhotoDrop</Text>
@@ -90,7 +151,7 @@ class ChangeView extends React.Component {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}} leftButton={backButton}/>
-        <View style={styles.changeContainer}>
+        <ScrollView contentContainerStyle={styles.changeContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
             autoCapitalize={'none'}
@@ -98,12 +159,16 @@ class ChangeView extends React.Component {
             maxLength={16}
             style={styles.userInput}
             value={this.state.username}
-            returnKeyType={'next'}
+            returnKeyType={'go'}
             onChange={this.handleUsernameChange.bind(this)}
-            onSubmitEditing={(event) => { 
-              this.refs.SecondInput.focus(); 
-            }}
+            onSubmitEditing={this.changeUsername.bind(this)}
           />
+          <TouchableHighlight
+            style={styles.button}
+            onPress={this.changeUsername.bind(this)}
+            underlayColor='#e66365'>
+            <Text style={styles.buttonText}> Change Username </Text>
+          </TouchableHighlight>
           <Text style={styles.fieldTitle}> Current Password </Text>
           <TextInput
             ref='SecondInput'
@@ -145,13 +210,13 @@ class ChangeView extends React.Component {
             value={this.state.password}
             returnKeyType={'go'}
             onChange={this.handleConfirmPasswordChange.bind(this)} 
-            onSubmitEditing={this.handleSubmit.bind(this)}
+            onSubmitEditing={this.changePassword.bind(this)}
           />
           <TouchableHighlight
             style={styles.button}
-            onPress={this.handleSubmit.bind(this)}
+            onPress={this.changePassword.bind(this)}
             underlayColor='#e66365'>
-            <Text style={styles.buttonText}> Confirm Changes </Text>
+            <Text style={styles.buttonText}> Change Password </Text>
           </TouchableHighlight>
 
             <ActivityIndicatorIOS
@@ -160,7 +225,8 @@ class ChangeView extends React.Component {
               style={styles.loading} />
             
             {showErr}
-          </View>
+            {showPasswordErr}
+          </ScrollView>
         </View>
       )
     }

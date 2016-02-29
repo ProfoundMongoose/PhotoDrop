@@ -80,7 +80,8 @@ class Signup extends React.Component {
             });
             this.props.navigator.push({
               component: Main,
-              userId: JSON.parse(res._bodyText).userId
+              userId: JSON.parse(res._bodyText).userId,
+              username: JSON.parse(res._bodyText).username
             });
           }
         }).catch((err) => {

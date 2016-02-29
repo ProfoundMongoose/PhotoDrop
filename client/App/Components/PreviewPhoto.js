@@ -29,17 +29,20 @@ class PreviewPhoto extends React.Component{
 
   _sendImage() {
     console.log('image sent');
-    api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId);
-    this.setState({modalVisible: true});
-    setTimeout(()=> {
-      this._closeModal();
-    }, 1300);
+    api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId, (res) => {
+      console.log('got the response');
+      this.setState({modalVisible: true});
+      setTimeout(()=> {
+        this._closeModal();
+      }, 1300);
+    })
   }
 
   _closeModal() {
     this.setState({modalVisible: false});
     this.props.navigator.pop();
   }
+  
 
   _cancelImage() {
     this.props.navigator.pop();
