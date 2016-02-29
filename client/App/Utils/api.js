@@ -128,6 +128,21 @@ var api = {
       });
   },
 
+  fetchUserFavorites(usedId, callback) {
+    var url = 'http://162.243.130.124:8000/fetchUserFavorites?userId=' + userId;
+    return fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(function(photos) {
+        callback(photos._bodyInit);
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  },
+
   incrementViews(url, callback) {
     var url = 'http://162.243.130.124:8000/incrementViews?url=' + url;
     return fetch(url, {
