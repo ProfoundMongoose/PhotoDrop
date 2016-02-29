@@ -71,8 +71,6 @@ class Login extends React.Component {
                isLoading: false
              });
           } else {
-            console.log('positive signin')
-            console.log(res._bodyText)
             // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
             var bodyText = JSON.parse(res._bodyText);
             Keychain.setGenericPassword(null, bodyText.token)

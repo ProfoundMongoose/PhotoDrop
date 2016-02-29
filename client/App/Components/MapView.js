@@ -68,6 +68,7 @@ class Map extends React.Component {
       this.props.navigator.push({
         component: PhotoView,
         uri: uri,
+        userId: this.props.userId,
         uploader: 'dude', //NEED TO UPDATE: THIS IS HARDCODED
         views: 10, //NEED TO UPDATE: THIS IS HARDCODED
         width: this.state.currentScreenWidth,

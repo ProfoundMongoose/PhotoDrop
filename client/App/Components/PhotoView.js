@@ -23,7 +23,8 @@ class PhotoView extends React.Component{
       favorited: false,
       uploader: this.props.uploader || this.props.route.uploader,
       views: this.props.views || this.props.route.views,
-      uri: this.props.uri || this.props.route.uri
+      uri: this.props.uri || this.props.route.uri,
+      userId: this.props.userId || this.props.route.userId
     }
   }
 
@@ -37,7 +38,7 @@ class PhotoView extends React.Component{
   }
 
   _favoriteImage() { 
-    api.toggleFavorite(this.props.userId, this.state.uri, (result) => {
+    api.toggleFavorite(this.state.userId, this.state.uri, (result) => {
       this.state.favorited ? this.setState({favorited:false}) : this.setState({favorited:true})
     });
   }
