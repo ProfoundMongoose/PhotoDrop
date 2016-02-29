@@ -63,23 +63,23 @@ class Map extends React.Component {
 
   showImage(uri) {
     return () => {
-      api.incrementViews(uri, (views) => {
-      });
-      this.props.navigator.push({
-        component: PhotoView,
-        uri: uri,
-        userId: this.props.userId,
-        views: 10, //NEED TO UPDATE: THIS IS HARDCODED
-        width: this.state.currentScreenWidth,
-        sceneConfig: {
-          ...Navigator.SceneConfigs.FloatFromBottom,
-          gestures: {
-            pop: {
-              ...Navigator.SceneConfigs.FloatFromBottom.gestures.pop,
-              edgeHitWidth: Dimensions.get('window').height,
+      api.incrementViews(uri, (data) => {
+        this.props.navigator.push({
+          component: PhotoView,
+          uri: uri,
+          userId: this.props.userId,
+          views: JSON.parse(data).views, 
+          width: this.state.currentScreenWidth,
+          sceneConfig: {
+            ...Navigator.SceneConfigs.FloatFromBottom,
+            gestures: {
+              pop: {
+                ...Navigator.SceneConfigs.FloatFromBottom.gestures.pop,
+                edgeHitWidth: Dimensions.get('window').height,
+              },
             },
-          },
-        }
+          }
+        });
       });
     }
   }

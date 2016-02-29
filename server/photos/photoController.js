@@ -145,7 +145,7 @@ module.exports = {
       photo.views++;
       photo.save(function(err, savedPhoto) {
         if (err) next(err);
-        res.json(savedPhoto.views);
+        res.json({views: savedPhoto.views});
       });
     })
   }
