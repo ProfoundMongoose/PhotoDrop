@@ -137,7 +137,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
   },
   modal: {
-    fontSize: 40,
+    fontSize: 20,
     fontFamily: 'Circular',
     justifyContent: 'center',
   }
