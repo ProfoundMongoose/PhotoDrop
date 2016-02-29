@@ -23,14 +23,13 @@ class PhotoView extends React.Component{
       favorited: false,
       uploader: undefined,
       views: this.props.views || this.props.route.views,
-      uri: this.props.uri || this.props.route.uri,
+      url: this.props.uri || this.props.route.uri,
       userId: this.props.userId || this.props.route.userId
     }
-    api.getUsername(this.state.userId, (user) => {
+    api.getUsername(this.state.url, (user) => {
       this.setState({
         uploader: JSON.parse(user)
       })
-      console.log('in getUseranme, state', this.state.uploader)
     })
   }
 
@@ -77,7 +76,7 @@ class PhotoView extends React.Component{
 
   render() {
     var username = this.state.uploader ? <Text style={styles.infoText}> Uploaded by: {this.state.uploader} </Text> : null;
-    var uri = this.state.uri;
+    var uri = this.state.url;
     if(this.props.togglePagination) {
       if(this.props.showsIndex===false) {
         return (
