@@ -18,6 +18,7 @@ module.exports = function(app, express) {
   // Increment views count on photo and add to Favorites
   app.get('/incrementViews/', photoController.incrementViews);
   app.get('/toggleFavorite/', userController.toggleFavorite);
+  app.get('/getUsername/', userController.getUsername);
 
   // Sign in and sign up routes
   app.post('/login', userController.login);
