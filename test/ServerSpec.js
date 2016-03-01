@@ -5,15 +5,9 @@ var app = require('../server/server.js').app;
 var db = require('../server/server.js').db;
 var User = require('../server/users/userModel');
 
-
 describe('', function() {
 
-  // beforeEach(function(done) {
-  //   done();
-  // });
-
   describe('Photo Fetch:', function() {
-
     it('Fetch Photos should respond with 200', function(done) {
       request(app)
         .get('/fetchPhotos?lat=37.78379&lon=-122.4089&radius=50')
@@ -22,59 +16,78 @@ describe('', function() {
           done();
         });
     });
-
   });
 
   describe('Account Creation:', function() {
-
+    this.timeout(10000);
     it('Signup creates a new user', function(done) {
       request(app)
         .post('/signup')
         .send(JSON.stringify({
-          'username': 'aaabc',
-          'password': 'aaabc' }))
-        .expect(302)
-        .expect(function() {
-          User.findOne({'username': 'aaabc'})
+          'username': 'test',
+          'password': 'test' }))
+        .expect(function(res) {
+          User.findOne({'username': 'test'})
             .exec(function(err, user) {
-              expect(user.username).to.equal('aaabc');
+              if (err) { return done(err); }
+              expect(user.username).to.equal('test');
             });
         })
-        .end(done);
+        .expect(function() {
+          User.remove({'username': 'test'})
+            .exec(function(err, user) {
+              if (err) { return done(err); }
+            });
+        })
+        .expect(200, done);
     });
 
   });
 
-  // describe('Account Login:', function() {
+  describe('Account Login:', function() {
+    this.timeout(10000);
+    
+    beforeEach(function(done) {
+      request(app)
+        .post('/signup')
+        .send(JSON.stringify({
+          'username': 'test',
+          'password': 'test' }))
+        .expect(200, done); 
+    });
+    
+    it('Logs in existing users', function(done) {
+      request(app)
+        .post('/login')
+        .send(JSON.stringify({
+          'username': 'test',
+          'password': 'test' }))
+        .expect(function(res) {
+          expect(res.body.userId).to.not.be.undefined;
+        })
+        .expect(200, done);
+    });
 
-  //   it('Logs in existing users', function(done) {
-  //     request(app)
-  //       .post('/login')
-  //       .send(JSON.stringify({
-  //         'username': 'Svnh',
-  //         'password': 'Svnh' }))
-  //       .expect(function(res) {
-  //           expect(res).to.not.throw(Error);
-  //           done();
-  //         };
-  //         // console.log('res: ', res);
-  //       })
-  //       // .end(done);
-  //   });
+    it('Users that do not exist are not logged in', function(done) {
+      request(app)
+        .post('/login')
+        .send(JSON.stringify({
+          'username': 'Fred',
+          'password': 'Fred' }))
+        .expect(function(res) {
+          expect(res.text).to.equal('User does not exist');
+        })
+        .expect(500, done);
+    });
 
-    // it('Users that do not exist are kept on login page', function(done) {
-    //   request(app)
-    //     .post('/login')
-    //     .send({
-    //       'username': 'Fred',
-    //       'password': 'Fred' })
-    //     .expect(302)
-    //     .expect(function(res) {
-    //       expect(res.headers.location).to.equal('/login');
-    //     })
-    //     .end(done);
-    // });
+    afterEach(function(done) {
+      User.remove({'username': 'test'})
+        .exec(function(err, user) {
+          if (err) { return done(err); }
+          done();
+        });
+    });
 
-  // });
+  });
 
 });

@@ -18,4 +18,4 @@ console.log('Starting server. Listening on 8000');
 module.exports = {
   app: app,
   db: db
-}
+};
