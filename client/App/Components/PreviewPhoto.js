@@ -15,7 +15,7 @@ var {
   StatusBarIOS
 } = React;
 
-class PreviewPhoto extends React.Component{
+class PreviewPhoto extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,7 +34,7 @@ class PreviewPhoto extends React.Component{
       setTimeout(()=> {
         this._closeModal();
       }, 1300);
-    })
+    });
   }
 
   _closeModal() { 
@@ -54,7 +54,8 @@ class PreviewPhoto extends React.Component{
         <Modal
           animated={this.state.animated}
           transparent={this.state.transparent}
-          visible={this.state.modalVisible}>
+          visible={this.state.modalVisible}
+        >
           <View style={[styles.container]}>
             <View style={[styles.innerContainer, this.state.innerContainerTransparentStyle]}>
               <Text style={styles.modal}>Your photo has been uploaded!</Text>
@@ -76,7 +77,7 @@ class PreviewPhoto extends React.Component{
 
         </Image>
       </View>
-    )
+    );
   }
 }
 
@@ -88,43 +89,43 @@ var styles = StyleSheet.create({
   image: {
     flex: 1
   },
-  buttonContainer:{
+  buttonContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor:'transparent',
-    alignItems:'flex-end',
+    backgroundColor: 'transparent',
+    alignItems: 'flex-end',
     justifyContent: 'center',
   },
-  yesButton:{
-    width:50,
-    height:50,
-    backgroundColor:'transparent',
-    borderRadius:35,
-    alignItems:'center',
+  yesButton: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'transparent',
+    borderRadius: 35,
+    alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: 'white',
     margin: 15,
   },
-  yesIcon:{
-    width:60,
-    height:60,
+  yesIcon: {
+    width: 60,
+    height: 60,
     marginLeft: 37
   },
-  noButton:{
-    width:50,
-    height:50,
-    backgroundColor:'transparent',
-    borderRadius:35,
-    alignItems:'center',
+  noButton: {
+    width: 50,
+    height: 50,
+    backgroundColor: 'transparent',
+    borderRadius: 35,
+    alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: 'white',
     margin: 15,
   },
-  noIcon:{
-    width:60,
-    height:60,
+  noIcon: {
+    width: 60,
+    height: 60,
     marginLeft: 37
   },
   container: {

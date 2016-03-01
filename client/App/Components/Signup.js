@@ -65,7 +65,6 @@ class Signup extends React.Component {
             });
           } else {
             // load the JSON Web token into the keychain (keychain is the storage loction given to us by ios)
-            console.log('on client JWT', JSON.parse(res._bodyText))
             Keychain
               .setGenericPassword(null, JSON.parse(res._bodyText).token)
               .then(function() {
@@ -91,11 +90,11 @@ class Signup extends React.Component {
           });
         });
     } else {
-       this.setState({
-          error: false,
-          passwordError: 'Passwords dont match',
-          isLoading: false
-        });
+      this.setState({
+        error: false,
+        passwordError: 'Passwords dont match',
+        isLoading: false
+      });
     }
   }
 
@@ -135,7 +134,8 @@ class Signup extends React.Component {
           title={pageTitle} 
           tintColor={"white"} 
           statusBar={{hidden: false}}
-          leftButton={backButton}/>
+          leftButton={backButton}
+        />
         <View style={styles.mainContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
           <TextInput
@@ -148,7 +148,8 @@ class Signup extends React.Component {
             onChange={this.handleUsernameChange.bind(this)}
             onSubmitEditing={(event) => {
               this.refs.SecondInput.focus();
-            }} />
+            }} 
+          />
           <Text style={styles.fieldTitle}> Password </Text>
           <TextInput
             ref='SecondInput'
@@ -162,7 +163,8 @@ class Signup extends React.Component {
             onChange={this.handlePasswordChange.bind(this)}
             onSubmitEditing={(event) => {
               this.refs.ThirdInput.focus();
-            }} />
+            }} 
+          />
           <Text style={styles.fieldTitle}> Confirm Password </Text>
           <TextInput
             ref='ThirdInput'
@@ -174,31 +176,32 @@ class Signup extends React.Component {
             value={this.state.confirmedPassword}
             returnKeyType={'go'}
             onSubmitEditing={this.handleSubmit.bind(this)}
-            onChange={this.handleConfirmedPasswordChange.bind(this)} />
+            onChange={this.handleConfirmedPasswordChange.bind(this)} 
+          />
           <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
-            underlayColor='#e66365'>
+            underlayColor='#e66365'
+          >
             <Text style={styles.buttonText}> Sign Up </Text>
           </TouchableHighlight>
           <TouchableHighlight
             onPress={this.handleRedirect.bind(this)}
-            underlayColor='#ededed'>
-            <Text style={styles.signup}> Already have an account? Sign in!  </Text>
+            underlayColor='#ededed'
+          >
+            <Text style={styles.signup}> Already have an account? Sign in! </Text>
           </TouchableHighlight>
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
             size='large'
             style={styles.loading}
-            />
-
+          />
           {showErr}
           {showPasswordErr}
         </View>
 
       </View>
-
-    )
+    );
   }
 }
 
@@ -272,6 +275,5 @@ var styles = StyleSheet.create({
     color: '#565b5c'
   }
 });
-
 
 module.exports = Signup;
