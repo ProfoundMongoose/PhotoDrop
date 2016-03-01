@@ -4,6 +4,7 @@ var Keychain = require('react-native-keychain');
 var Login = require('./Login');
 var PhotosView = require('./PhotosView');
 var ChangeView = require('./ChangeView');
+var FriendsList = require('./FriendsList');
 
 var {
   Text,
@@ -60,6 +61,13 @@ class Settings extends React.Component {
     });
   }
 
+  showFriends() {
+    this.props.navigator.push({
+      component: FriendsList,
+      username: this.props.username
+    });
+  }
+
   render() {
     var pageTitle = (
       <Text style={styles.pageTitle}>Settings</Text>
@@ -81,6 +89,12 @@ class Settings extends React.Component {
           >
             <Text style={styles.yourPhotosButtonText}>Your Photos</Text>
           </TouchableHighlight>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.showFriends.bind(this)}
+          >
+          <Text style={styles.buttonText}>Your Friends</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={this.changeInfo.bind(this)}
