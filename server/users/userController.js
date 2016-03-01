@@ -192,8 +192,12 @@ module.exports = {
   },
 
   fetchFriends: function (req, res, next) {
-    res.status(200);
-    res.json({});
+    User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, function (err, user) {
+      if (err) {
+        next(err);
+      }
+      res.json(user.friends);
+    });
   },
 
   fetchFriendRequests: function (req, res, next) {

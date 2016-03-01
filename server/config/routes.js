@@ -30,7 +30,7 @@ module.exports = function(app, express) {
   app.post('/changeUsername', userController.changeUsername);
 
   // Social routes - Please see API.md for API endpoint chart
-  app.get('/friends', userController.fetchFriends);
+  app.get('/friends/:userId', userController.fetchFriends);
   app.get('/friend-requests', userController.fetchFriendRequests);
   app.post('/request-friend', userController.requestFriend);
   app.get('/search-users/:username', userController.searchUsers);
