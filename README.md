@@ -3,7 +3,7 @@
 PhotoDrop is a location-based photo sharing iPhone app. It allows iOS users to find and share photos based on their current geolocation. PhotoDrop offers two main functions: PhotoShare and PhotoExplore. With PhotoShare, users can take photos with the app and store them at their current location for other users to see. With PhotoExplore, users can open the app and see the photos that other users have stored at their current location.
 
 ![super agent](http://i.imgur.com/kM0EQFm.png?1)
-![super agent](http://imgur.com/wwc61Zl)
+![](http://i.imgur.com/wwc61Zl.gifv)
 
 ## Installation
 
