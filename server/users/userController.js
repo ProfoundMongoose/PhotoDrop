@@ -189,6 +189,41 @@ module.exports = {
         res.json(user.favorites);
       }
     });
+  },
+
+  fetchFriends: function (req, res, next) {
+    res.status(200);
+    res.json({});
+  },
+
+  fetchFriendRequests: function (req, res, next) {
+    res.status(200);
+    res.json({});
+  },
+
+  requestFriend: function (req, res, next) {
+    res.status(201);
+    res.json({});
+  },
+
+  searchUsers: function (req, res, next) {
+    res.status(200);
+    res.json({});
+  },
+
+  confirmFriendRequest: function (req, res, next) {
+    res.status(201);
+    res.json({});
+  },
+
+  rejectFriendRequest: function (req, res, next) {
+    res.status(201);
+    res.json({});
+  },
+
+  unfriend: function (req, res, next) {
+    res.status(201);
+    res.json({});
   }
 
 };
