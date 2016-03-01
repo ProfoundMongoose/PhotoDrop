@@ -192,7 +192,7 @@ module.exports = {
   },
 
   fetchFriends: function (req, res, next) {
-    User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, function (err, user) {
+    User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {friends: 1, _id: 0}, function (err, user) {
       if (err) {
         next(err);
       }
@@ -201,13 +201,30 @@ module.exports = {
   },
 
   fetchFriendRequests: function (req, res, next) {
-    res.status(200);
-    res.json({});
+    User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {friendRequests: 1, _id: 0}, function (err, user) {
+      if (err) {
+        next(err);
+      }
+      res.json(user.friendRequests);
+    });
   },
 
   requestFriend: function (req, res, next) {
-    res.status(201);
-    res.json({});
+    console.log('in userController.js in requestFriend... req.body:');
+    console.log(req.body);
+    User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 0}, function (err, currentUser) {
+      if (err) {
+        next(err);
+      }
+      console.log('inside the callback... currentUser: ');
+      console.log(currentUser);
+      User.update({_id: mongoose.mongo.ObjectID(req.body.targetUserId)}, {$push: {friendRequests: currentUser}}, function (err, targetUser) {
+        if (err) {
+          next(err);
+        }
+        res.sendStatus(201);
+      });
+    });
   },
 
   searchUsers: function (req, res, next) {

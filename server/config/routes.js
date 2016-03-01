@@ -31,7 +31,7 @@ module.exports = function(app, express) {
 
   // Social routes - Please see API.md for API endpoint chart
   app.get('/friends/:userId', userController.fetchFriends);
-  app.get('/friend-requests', userController.fetchFriendRequests);
+  app.get('/friend-requests/:userId', userController.fetchFriendRequests);
   app.post('/request-friend', userController.requestFriend);
   app.get('/search-users/:username', userController.searchUsers);
   app.post('/confirm-friend-request', userController.confirmFriendRequest);
