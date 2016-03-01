@@ -3,7 +3,7 @@ var api = {
     var user = { username: username, password: password };
     var url = 'http://162.243.130.124:8000/login';
     return fetch(url, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(user)
     });
   },
@@ -40,8 +40,11 @@ var api = {
         'Content-Type': 'application/json'
       }
     }).then(function(userData) { // handle error here for some reason catch was not working
-      if (userData.status === 404) console.log('Problem with GET request for JWT');
-      else callback(userData._bodyInit);
+      if (userData.status === 404) {
+        console.log('Problem with GET request for JWT');
+      } else {
+        callback(userData._bodyInit);
+      }
     });
   },
 
@@ -49,7 +52,7 @@ var api = {
     var url = 'http://162.243.130.124:8000/imgUpload';
     // cut data in half
     var firstHalf = data.slice(0, Math.floor(data.length / 2));
-    var secondHalf = data.slice(Math.floor(data.length / 2))
+    var secondHalf = data.slice(Math.floor(data.length / 2));
     fetch(url, {
       method: 'POST',
       headers: {
@@ -77,114 +80,114 @@ var api = {
         })
       }).then(function(res) {
         callback(res._bodyText);
-      }).catch(function(err) { console.log(err) });
-    }).catch(function(err) { console.log(err) });
+      }).catch(function(err) { console.log(err); });
+    }).catch(function(err) { console.log(err); });
   },
 
   fetchPhotos(latitude, longitude, radius, callback) {
     var url = 'http://162.243.130.124:8000/fetchPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
     return fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function(photos) {
-        callback(photos._bodyInit);
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
   },
 
   fetchLocations(latitude, longitude, latdelta, londelta, callback) {
     var url = 'http://162.243.130.124:8000/fetchLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta;
     return fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function(photos) {
-        callback(photos._bodyInit);
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
   },
 
 
   fetchUserPhotos(userId, callback) {
     var url = 'http://162.243.130.124:8000/fetchUserPhotos?userId=' + userId;
     return fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function(photos) {
-        callback(photos._bodyInit);
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
   },
 
   fetchUserFavorites(userId, callback) {
     var url = 'http://162.243.130.124:8000/fetchUserFavorites?userId=' + userId;
     return fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function(photos) {
-        callback(photos._bodyInit);
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
   },
 
   incrementViews(url, callback) {
     var url = 'http://162.243.130.124:8000/incrementViews?url=' + url;
     return fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function(result) {
-        callback(result._bodyInit);
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(result) {
+      callback(result._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
   },
 
   toggleFavorite(userId, url, callback) {
     var url = 'http://162.243.130.124:8000/toggleFavorite?userId=' + userId + '&url=' + url;
     return fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function(result) {
-        callback(result._bodyInit);
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(result) {
+      callback(result._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
   },
 
-  getPhotoData(url, userId, callback){
-    var url = 'http://162.243.130.124:8000/getPhotoData?url=' + url +'&userId=' + userId;
+  getPhotoData(url, userId, callback) {
+    var url = 'http://162.243.130.124:8000/getPhotoData?url=' + url + '&userId=' + userId;
     return fetch(url, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(function(data) {
-        callback(data._bodyInit);
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(data) {
+      callback(data._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
   }
 
 };
