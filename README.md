@@ -1,8 +1,8 @@
 # PhotoDrop
+![Alt Text](/PhotoDropLiveDemo.gif?raw=true)
 
 PhotoDrop is a location-based photo sharing iPhone app. It allows iOS users to find and share photos based on their current geolocation. PhotoDrop offers two main functions: PhotoShare and PhotoExplore. With PhotoShare, users can take photos with the app and store them at their current location for other users to see. With PhotoExplore, users can open the app and see the photos that other users have stored at their current location.
 
-![Alt Text](/PhotoDropLiveDemo.gif?raw=true)
 ![super agent](http://i.imgur.com/kM0EQFm.png?1)
 
 ## Installation
@@ -13,13 +13,13 @@ Requirements:
 - npm [install here](http://blog.npmjs.org/post/85484771375/how-to-install-npm)
 - rnpm [install here](https://github.com/rnpm/rnpm)
 
-__Step 1: Run 'npm install' from the root directory__
+__Step 1: Run 'npm install' from the root directory. Run 'npm install' from the client directory__
 
 ```
 $ npm install
 ```
 
-__Step 2: Run 'rnpm link' from the root directory__
+__Step 2: Run 'rnpm link' from the client directory__
 
 ```
 $ rnpm link
