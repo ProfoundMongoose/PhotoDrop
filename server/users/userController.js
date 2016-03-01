@@ -9,9 +9,13 @@ var createUser = Q.nbind(User.create, User);
 
 module.exports = {
   login: function(req, res, next) {
-    var user = JSON.parse(Object.keys(req.body)[0]);
-    var username = user.username;
-    var password = user.password;
+    // console.log('login req.body:');
+    // console.log(req.body);
+    // var user = JSON.parse(Object.keys(req.body)[0]);
+    // var username = user.username;
+    // var password = user.password;
+    var username = req.body.username;
+    var password = req.body.password;
 
     findUser({ username: username })
       .then(function(user) {
@@ -35,9 +39,13 @@ module.exports = {
   },
 
   signup: function(req, res, next) {
-    var user = JSON.parse(Object.keys(req.body)[0]);
-    var username = user.username;
-    var password = user.password;
+    // console.log('signup req.body:');
+    // console.log(req.body);
+    // var user = JSON.parse(Object.keys(req.body)[0]);
+    // var username = user.username;
+    // var password = user.password;
+    var username = req.body.username;
+    var password = req.body.password;
 
     findUser({ username: username })
       .then(function(user) {
