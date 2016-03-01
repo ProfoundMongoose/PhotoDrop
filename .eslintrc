@@ -27,7 +27,7 @@
     'comma-spacing': 1,
     'no-multi-spaces': 1,
     'space-before-blocks': 1,
-    'keyword-spacing': 1,
+    # 'keyword-spacing': 1,
     'space-infix-ops': 1,
     'one-var': [1, 'never'],
     'comma-style': [2, 'last'],
