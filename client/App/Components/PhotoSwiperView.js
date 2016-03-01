@@ -2,6 +2,7 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var Swiper = require('react-native-swiper');
 var PhotoView = require('./PhotoView');
+var api = require('../Utils/api');
 
 var {
   StatusBarIOS,

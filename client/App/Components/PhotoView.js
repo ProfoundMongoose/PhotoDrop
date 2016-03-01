@@ -22,15 +22,16 @@ class PhotoView extends React.Component{
       touched: false,
       favorited: false,
       uploader: undefined,
-      views: this.props.views || this.props.route.views,
+      views: undefined,
       url: this.props.uri || this.props.route.uri,
       userId: this.props.userId || this.props.route.userId
     }
-    api.getPhotoData(this.state.url, (data) => {
+    api.getPhotoData(this.state.url, this.state.userId, (data) => {
       var data = JSON.parse(data);
       this.setState({
         views: data.views,
-        uploader: data.username
+        uploader: data.username,
+        favorited: data.favorited
       })
     })
   }
@@ -78,6 +79,7 @@ class PhotoView extends React.Component{
 
   render() {
     var username = this.state.uploader ? <Text style={styles.infoText}> Uploaded by: {this.state.uploader} </Text> : null;
+    var views = this.state.views ? <Text style={styles.infoText}> Views: {this.state.views} </Text> : null;
     var url = this.state.url;
     if(this.props.togglePagination) {
       if(this.props.showsIndex===false) {
@@ -106,9 +108,7 @@ class PhotoView extends React.Component{
               </View>
               <View style={styles.photoInfoContainer}>
                 {username}
-                <Text style={styles.infoText}>
-                  Views: {this.state.views}
-                </Text>
+                {views} 
               </View>
             </View>
           </Image>
