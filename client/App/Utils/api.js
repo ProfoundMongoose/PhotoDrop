@@ -172,15 +172,15 @@ var api = {
       });
   },
 
-  getUsername(url, callback){
-    var url = 'http://162.243.130.124:8000/getUsername?url=' + url;
+  getPhotoData(url, userId, callback){
+    var url = 'http://162.243.130.124:8000/getPhotoData?url=' + url +'&userId=' + userId;
     return fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then(function(username) {
-        callback(username._bodyInit);
+      }).then(function(data) {
+        callback(data._bodyInit);
       })
       .catch(function(err) {
         console.log(err);

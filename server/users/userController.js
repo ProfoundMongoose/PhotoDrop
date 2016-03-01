@@ -147,16 +147,25 @@ module.exports = {
     });
   },
 
-  getUsername: function(req, res, next) {
-    Photo.findOne({url: req.query.url}, function(err, photo) {
+  getPhotoData: function(req, res, next) {
+    var currentUserId = req.query.userId;
+    Photo.findOne({ url: req.query.url }, function(err, photo) {
       if (err) console.log(err)
-      if(photo){
+      if (photo) {
         User.findOne({ _id: mongoose.mongo.ObjectID(photo.userId) }, function(err, user) {
           if (err) next(err);
           if (!user) {
             console.error('User was not found');
           } else {
-            res.json(user.username);
+            User.findOne({ _id: mongoose.mongo.ObjectID(currentUserId) }, function(err, user) {
+              if (err) next(err);
+              if (!user) {
+                console.error('User was not found 2');
+              } else {
+                var favorited = (user.favorites.indexOf(req.query.url) === -1);
+                res.json({ username: user.username, views: photo.views, favorited: !favorited });
+              }
+            });
           }
         });
       }
