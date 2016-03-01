@@ -12,7 +12,9 @@ var {
   ScrollView,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  StatusBarIOS
+  StatusBarIOS,
+  ListView,
+  Image,
 } = React;
 
 class ChangeView extends React.Component {
@@ -25,7 +27,10 @@ class ChangeView extends React.Component {
       confirmNewPassword: '',
       isLoading: false,
       error: false,
-      passwordError: false
+      passwordError: false,
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
     };
   }
 
@@ -130,6 +135,17 @@ class ChangeView extends React.Component {
     }
   }
 
+  renderFriend(friend) {
+    return (
+      <View style={styles.container}>
+        
+        <View style={styles.rightContainer}>
+          <Text style={styles.friend}>{friend.name}</Text>
+        </View>
+      </View>
+    );
+  }
+
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
@@ -166,6 +182,12 @@ class ChangeView extends React.Component {
             returnKeyType={'go'}
             onChange={this.handleUsernameChange.bind(this)}
             onSubmitEditing={this.changeUsername.bind(this)}
+          />
+
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderFriend}
+            style={styles.listView}
           />
 
           <TextInput
@@ -267,7 +289,10 @@ var styles = StyleSheet.create({
   },
   plusIcon: {
     marginRight: 15,
-  }
+  },
+  friend: {
+    fontSize: 12,
+  },
 });
 
 module.exports = ChangeView;
