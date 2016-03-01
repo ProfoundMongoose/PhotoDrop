@@ -180,6 +180,7 @@ module.exports = {
     })
   },
 
+  // Social routes - Please see API.md for API endpoint chart
   fetchFavorites: function(req, res, next) {
     User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId) }, function(err, user) {
       if (err) next(err);
@@ -210,14 +211,10 @@ module.exports = {
   },
 
   requestFriend: function (req, res, next) {
-    console.log('in userController.js in requestFriend... req.body:');
-    console.log(req.body);
     User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 0}, function (err, currentUser) {
       if (err) {
         next(err);
       }
-      console.log('inside the callback... currentUser: ');
-      console.log(currentUser);
       User.update({_id: mongoose.mongo.ObjectID(req.body.targetUserId)}, {$push: {friendRequests: currentUser}}, function (err, targetUser) {
         if (err) {
           next(err);
@@ -228,8 +225,13 @@ module.exports = {
   },
 
   searchUsers: function (req, res, next) {
-    res.status(200);
-    res.json({});
+    var regexSearch = new RegExp(req.params.username);
+    User.find({username: regexSearch}, {_id: 1, username: 1}, function (err, users) {
+      if (err) {
+        next(err);
+      }
+      res.json(users);
+    });
   },
 
   confirmFriendRequest: function (req, res, next) {
