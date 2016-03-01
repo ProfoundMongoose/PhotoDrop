@@ -11,8 +11,8 @@ var {
   TouchableOpacity
 } = React;
 
-class RedPhotoMarker extends React.Component{
-  constructor(props){
+class RedPhotoMarker extends React.Component {
+  constructor(props) {
     super(props);
   }
 
@@ -29,7 +29,7 @@ class RedPhotoMarker extends React.Component{
         </View>
     );
   }
-};
+}
 
 var styles = StyleSheet.create({
   container: {
