@@ -1,4 +1,3 @@
-//use thisone
 var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var _ = require('lodash');
@@ -175,9 +174,13 @@ class PhotosView extends React.Component{
         var photosUrls = photosArr.map((photo) => {
           return photo.url;
         });
-        // this.setState({ imageUrls: photosUrls });
         this.setState({ userPhotosUrls: photosUrls });
-      }) 
+      })
+      if(this.state.selectedIndex===0) {
+        this.setState({imageUrls: this.state.userPhotosUrls});
+      } else if(this.state.selectedIndex===1) {
+        this.setState({imageUrls: this.state.userFavoritesUrls});
+      } 
     } else {
       navigator.geolocation.getCurrentPosition(
         location => {
@@ -268,10 +271,9 @@ class PhotosView extends React.Component{
                 title="Refreshing..."
               />
             }>
-            {this.state.imageUrls ? this.renderRow(this.state.imageUrls) : null}
+            {this.state.imageUrls ? null : <ActivityIndicatorIOS size={'large'} style={[styles.centering, {height: 550}]} />}
             {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText}>Looks like there are no photos near you...</Text>   : null}
             {this.state.imageUrls && !this.state.imageUrls.length  ? <Text style={styles.noPhotosText2}>Be the first one to drop a photo!</Text>  : null}
-            
           </ScrollView>
         </View>
       ); 
@@ -286,16 +288,18 @@ var styles = StyleSheet.create({
   },
   noPhotosText: {
     marginTop: 65,
-    fontSize: 18,
+    fontSize: 16,
     textAlign: 'center',
-
+    alignItems: 'center',
+    justifyContent: 'center',
     color: '#656565',
     fontFamily: 'circular'
   },
   noPhotosText2: {
-    fontSize: 18,
+    fontSize: 16,
     textAlign: 'center',
-
+    alignItems: 'center',
+    justifyContent: 'center',
     color: '#656565',
     fontFamily: 'circular'
   },
