@@ -2,6 +2,7 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var api = require('../Utils/api');
 var IconIon = require('react-native-vector-icons/Ionicons');
+var _ = require('lodash');
 
 var {
   View,
@@ -36,7 +37,7 @@ class PreviewPhoto extends React.Component{
     })
   }
 
-  _closeModal() {
+  _closeModal() { 
     this.setState({modalVisible: false});
     this.props.navigator.pop();
   }
@@ -65,10 +66,10 @@ class PreviewPhoto extends React.Component{
         <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}>
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={this._cancelImage.bind(this)} style={styles.noButton}>
+            <TouchableOpacity onPress={_.once(this._cancelImage.bind(this))} style={styles.noButton}>
               <IconIon name="ios-close-empty" size={60} color="#FC9396" style={styles.noIcon} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={this._sendImage.bind(this)} style={styles.yesButton}>
+            <TouchableOpacity onPress={_.once(this._sendImage.bind(this))} style={styles.yesButton}>
               <IconIon name="ios-checkmark-empty" size={60} color="#036C69" style={styles.yesIcon} />
             </TouchableOpacity>
           </View>
