@@ -128,31 +128,6 @@ class FriendsList extends React.Component {
 }
 
 var styles = StyleSheet.create({
-  changeContainer: {
-    flex: 1,
-    padding: 30,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: '#ededed'
-  },
-  fieldTitle: {
-    marginTop: 10,
-    marginBottom: 15,
-    fontSize: 18,
-    fontFamily: 'circular',
-    textAlign: 'center',
-    color: '#616161'
-  },
-  userInput: {
-    height: 50,
-    padding: 4,
-    fontSize: 18,
-    fontFamily: 'circular',
-    borderWidth: 1,
-    borderColor: '#616161',
-    borderRadius: 4,
-    color: '#616161'
-  },
   loading: {
     marginTop: 20
   },
