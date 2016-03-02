@@ -43,7 +43,9 @@ class AddFriend extends React.Component {
   }
 
   updateFoundFriends(event) {
-    api.findUsers(event.nativeEvent.text, (users) => { // users array will look like [????]
+    console.log('input text: ', event.nativeEvent.text);
+    api.searchUsers(event.nativeEvent.text, (users) => { // users array will look like [????]
+      console.log(users); // this is not what it should be ...
       var usersArr = JSON.parse(users);
       var userNames = usersArr.map((userObj) => {
         return userObj.username;
