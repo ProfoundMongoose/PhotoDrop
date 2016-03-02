@@ -3,6 +3,7 @@ var NavigationBar = require('react-native-navbar');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var Keychain = require('react-native-keychain');
 var api = require('../Utils/api');
+var AddFriend = require('./AddFriend');
 
 var MOCKED_FRIENDS_DATA = [
   {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
@@ -64,7 +65,7 @@ class FriendsList extends React.Component {
 
   addFriend() {
     this.props.navigator.push({
-      component: Main,
+      component: AddFriend,
     });
   }
 
@@ -81,7 +82,7 @@ class FriendsList extends React.Component {
       </View>
     );
   }
-  
+
   componentDidMount() {
     this.loadFriendsData();
   }
@@ -113,7 +114,7 @@ class FriendsList extends React.Component {
     );
 
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+      <View style={{flex: 1, backgroundColor: '#ededed'}}>
         <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}} leftButton={backButton} rightButton={addButton}/>
         <ScrollView contentContainerStyle={styles.changeContainer}>
           <Text style={styles.fieldTitle}> Friends </Text>
@@ -126,14 +127,14 @@ class FriendsList extends React.Component {
 
           <ActivityIndicatorIOS
             animating= {this.state.isLoading}
-            size='large' 
-            style={styles.loading} 
+            size='large'
+            style={styles.loading}
           />
-          
+
           {showErr}
         </ScrollView>
       </View>
-    )
+    );
   }
 }
 
@@ -151,16 +152,6 @@ var styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'circular',
     textAlign: 'center',
-    color: '#616161'
-  },
-  userInput: {
-    height: 50,
-    padding: 4,
-    fontSize: 18,
-    fontFamily: 'circular',
-    borderWidth: 1,
-    borderColor: '#616161',
-    borderRadius: 4,
     color: '#616161'
   },
   loading: {
