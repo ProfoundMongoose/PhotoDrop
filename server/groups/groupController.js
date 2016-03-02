@@ -1,4 +1,5 @@
 var Group = require('./groupModel');
+var User = require('../users/userModel');
 
 module.exports = {
 
@@ -16,12 +17,18 @@ module.exports = {
   addGroup: function (req, res, next) {
     console.log('in groupController.js ... req.body:');
     console.log(req.body);
-    var group = new Group({groupname: req.body.groupname, description: req.body.description});
-    group.save(function (err) {
-      if (err) {
-        next(err);
-      }
-      res.sendStatus(201);
+    User.findOne({_id: req.body.currentUserId}, {_id: 0, username: 1}, function (err, currentUser) {
+      var group = new Group({
+        groupname: req.body.groupname,
+        description: req.body.description,
+        administrator: currentUser.username
+      });
+      group.save(function (err) {
+        if (err) {
+          next(err);
+        }
+        res.sendStatus(201);
+      });
     });
   }
 

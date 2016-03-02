@@ -9,6 +9,10 @@ var GroupSchema = new mongoose.Schema({
   description: {
     type: String,
   },
+  administrator: {
+    type: String,
+    required: true
+  },
   users: {
     type: Array,
     default: []
