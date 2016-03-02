@@ -62,9 +62,11 @@ class Settings extends React.Component {
   }
 
   showFriends() {
+    console.log('Settings, current userId: ', this.props.userId);
     this.props.navigator.push({
       component: FriendsList,
-      username: this.props.username
+      username: this.props.username,
+      userId: this.props.userId
     });
   }
 
@@ -74,8 +76,8 @@ class Settings extends React.Component {
     );
     return (
       <View style={{ flex: 1, backgroundColor: '#ededed'}}>
-        <NavigationBar 
-          title={pageTitle} 
+        <NavigationBar
+          title={pageTitle}
           tintColor={"white"}
         />
         <View style={styles.imageContainer}>
