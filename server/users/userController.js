@@ -274,8 +274,22 @@ module.exports = {
   },
 
   unfriend: function (req, res, next) {
-    res.status(201);
-    res.json({});
+    User.update({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {$pull: {friends: {username: req.body.targetUsername}}}, function (err, status) {
+      if (err) {
+        next(err);
+      }
+      User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 0}, function (err, currentUser) {
+        if (err) {
+          next(err);
+        }
+        User.update({username: req.body.targetUsername}, {$pull: {friends: {username: currentUser.username}}}, function (err, status) {
+          if (err) {
+            next(err);
+          }
+          res.sendStatus(201);
+        });
+      });
+    });
   }
 
 };
