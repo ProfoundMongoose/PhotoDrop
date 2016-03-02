@@ -3,6 +3,7 @@ var NavigationBar = require('react-native-navbar');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var Keychain = require('react-native-keychain');
 var api = require('../Utils/api');
+var ProfileCamera = require('./ProfileCamera');
 
 var {
   View,
@@ -137,6 +138,15 @@ class ChangeView extends React.Component {
     }
   }
 
+
+  changeProfilePicture() {
+    this.props.navigator.push({
+      component: ProfileCamera,
+      userId: this.props.userId,
+      previousComponent: 'settings',
+    });
+  }
+
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
@@ -222,6 +232,13 @@ class ChangeView extends React.Component {
             onPress={this.changePassword.bind(this)}
             underlayColor='#e66365'>
             <Text style={styles.buttonText}> Change Password </Text>
+          </TouchableHighlight>
+
+          <TouchableHighlight
+            style={styles.button}
+            onPress={this.changeProfilePicture.bind(this)}
+            underlayColor='#e66365'>
+            <Text style={styles.buttonText}> Update Profile Picture </Text>
           </TouchableHighlight>
 
             <ActivityIndicatorIOS
