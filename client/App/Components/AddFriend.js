@@ -22,6 +22,7 @@ class AddFriend extends React.Component {
     super(props);
     this.state = {
       username: this.props.route.username,
+      userId: this.props.route.userId,
       foundFriendsData: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
@@ -44,7 +45,7 @@ class AddFriend extends React.Component {
 
   updateFoundFriends(event) {
     if (event.nativeEvent.text) {
-      api.searchUsers(event.nativeEvent.text, (users) => { // users array will look like [????]
+      api.searchUsers(event.nativeEvent.text, (users) => {
         var usersArr = JSON.parse(users);
         var userNames = usersArr.map((userObj) => {
           return userObj.username;
@@ -62,20 +63,20 @@ class AddFriend extends React.Component {
     }
   }
 
-  consoLog() {
-    console.log('something!');
+  renderFriend(friend) {
+    return (
+      <TouchableHighlight onPress={this.addFriend.bind(this, friend)}>
+        <View style={styles.container}>
+          <View style={styles.rightContainer}>
+            <Text style={styles.friend}>{friend}</Text>
+          </View>
+        </View>
+      </TouchableHighlight>
+    );
   }
 
-  renderFriend(friend) {
-    console.log(friend);
-    return (
-      <View style={styles.container}>
-
-        <View style={styles.rightContainer}>
-          <Text style={styles.friend}>{friend}</Text>
-        </View>
-      </View>
-    );
+  addFriend(friend, event) {
+    api.addFriend(this.state.userId, friend);
   }
 
   render() {
@@ -90,7 +91,11 @@ class AddFriend extends React.Component {
         <IconIon name='ios-arrow-thin-down' size={30} style={styles.backIcon} color="#FF5A5F"/>
       </TouchableHighlight>
     );
-
+    var addButton = (
+      <TouchableHighlight onPress={this.addFriend.bind(this)} underlayColor={'white'}>
+        <IconIon name='ios-plus-empty' size={30} style={styles.plusIcon} color="#FF5A5F"/>
+      </TouchableHighlight>
+    );
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}>
         <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}} leftButton={backButton}/>
@@ -108,8 +113,9 @@ class AddFriend extends React.Component {
           />
           <ListView
             dataSource={this.state.foundFriendsData}
-            renderRow={this.renderFriend} /*write this*/
+            renderRow={this.renderFriend.bind(this)} /*write this*/
             style={styles.listView} /* write this */
+            rightButton={addButton}
           />
           <Text style={styles.fieldTitle}> A field with text </Text>
 
@@ -170,13 +176,31 @@ var styles = StyleSheet.create({
   backIcon: {
     marginLeft: 15,
   },
+  plusIcon: {
+    marginRight: 15,
+  },
   friend: {
     fontSize: 12,
+  },
+  container: {
+    marginBottom: 5,
+    marginLeft: 5,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ededFF',
+  },
+  rightContainer: {
+    flex: 1,
+  },
+  friend: {
+    fontSize: 12,
+    textAlign: 'center',
   },
   listView: {
     paddingTop: 20,
     backgroundColor: '#ededed',
-  },
+  }
 });
 
 module.exports = AddFriend;
