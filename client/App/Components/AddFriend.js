@@ -43,19 +43,14 @@ class AddFriend extends React.Component {
   }
 
   updateFoundFriends(event) {
-    // api.findUsers(event.nativeEvent.text, (users) => { // users array will look like [????]
-    //   var usersArr = JSON.parse(users);
-    //   this.setState({ foundUsers: foundUserNames});
-    //   var photosArr = JSON.parse(photos);
-    //   var photosUrls = photosArr.map((photo) => {
-    //     return photo.url;
-    //   });
-    //   this.setState({ imageUrls: photosUrls });
-    //   this.setState({ userPhotosUrls: photosUrls });
-    // });
-    // this.setState({
-    //
-    // });
+    api.findUsers(event.nativeEvent.text, (users) => { // users array will look like [????]
+      var usersArr = JSON.parse(users);
+      var userNames = usersArr.map((userObj) => {
+        return userObj.username;
+      });
+      this.setState({ foundUsers: userNames});
+      console.log(userNames);
+    });
   }
 
   consoLog() {
@@ -98,7 +93,7 @@ class AddFriend extends React.Component {
             style={styles.userInput}
             value={this.state.username}
             returnKeyType={'go'}
-            /*onChange={this.updateFoundFriends.bind(this)}*/
+            onChange={this.updateFoundFriends.bind(this)}
             onSubmitEditing={this.consoLog} /* update foundFriendsData with a GET*/
           />
           <ListView
