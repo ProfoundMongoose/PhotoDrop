@@ -29,6 +29,7 @@ module.exports = function(app, express) {
   // Change user information
   app.post('/changePassword', userController.changePassword);
   app.post('/changeUsername', userController.changeUsername);
+  app.post('/profile-photo', photoController.uploadPhoto, userController.savePhotoToUserInDB);
 
   // Social routes - Please see API.md for API endpoint chart
   app.get('/friends/:userId', userController.fetchFriends);
