@@ -215,7 +215,7 @@ module.exports = {
       if (err) {
         next(err);
       }
-      User.update({_id: mongoose.mongo.ObjectID(req.body.targetUserId)}, {$push: {friendRequests: currentUser}}, function (err, targetUser) {
+      User.update({username: req.body.targetUsername}, {$push: {friendRequests: currentUser}}, function (err, targetUser) {
         if (err) {
           next(err);
         }
@@ -226,7 +226,7 @@ module.exports = {
 
   searchUsers: function (req, res, next) {
     var regexSearch = new RegExp(req.params.username);
-    User.find({username: regexSearch}, {_id: 1, username: 1}, function (err, users) {
+    User.find({username: regexSearch}, {_id: 0, username: 1}, function (err, users) {
       if (err) {
         next(err);
       }
@@ -235,8 +235,33 @@ module.exports = {
   },
 
   confirmFriendRequest: function (req, res, next) {
-    res.status(201);
-    res.json({});
+    // Add target user to current user's friends list:
+    User.update({
+        // Locates the user to update:
+        _id: mongoose.mongo.ObjectID(req.body.currentUserId)
+      }, {
+        // Adds the friend:
+        $push: {
+          friends: {username: req.body.targetUsername}
+        },
+        // Removes the friend request:
+        $pull: {
+          friendRequests: {username: req.body.targetUsername}
+        }
+      }, function (err, status) {
+      if (err) {
+        next(err);
+      }
+      User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 0}, function (err, currentUser) {
+        // Add current user to target user's friends list:
+        User.update({username: req.body.targetUsername}, {$push: {friends: {username: currentUser.username}}}, function (err, targetUser) {
+          if (err) {
+            next(err);
+          }
+          res.sendStatus(201);
+        });
+      });
+    });
   },
 
   rejectFriendRequest: function (req, res, next) {
