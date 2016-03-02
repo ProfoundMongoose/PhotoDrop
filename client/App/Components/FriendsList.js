@@ -5,24 +5,22 @@ var Keychain = require('react-native-keychain');
 var api = require('../Utils/api');
 
 var MOCKED_FRIENDS_DATA = [
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'shanemcgraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
+  {name: 'Shane McGraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
+  {name: 'Elliot Plant', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/14936355.jpg'}},
+  {name: 'Erick Paepke', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10649202.jpg'}},
+  {name: 'Kyle Corbelli', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/13224446.jpg'}},
+  {name: 'Shane McGraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
+  {name: 'Elliot Plant', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/14936355.jpg'}},
+  {name: 'Erick Paepke', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10649202.jpg'}},
+  {name: 'Kyle Corbelli', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/13224446.jpg'}},
+  {name: 'Shane McGraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
+  {name: 'Elliot Plant', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/14936355.jpg'}},
+  {name: 'Erick Paepke', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10649202.jpg'}},
+  {name: 'Kyle Corbelli', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/13224446.jpg'}},
+  {name: 'Shane McGraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
+  {name: 'Elliot Plant', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/14936355.jpg'}},
+  {name: 'Erick Paepke', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10649202.jpg'}},
+  {name: 'Kyle Corbelli', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/13224446.jpg'}},
 ];
 
 var {
@@ -87,6 +85,7 @@ class FriendsList extends React.Component {
   }
 
   loadFriendsData() {
+    //eventually do an http request to our server to get the friends data
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(MOCKED_FRIENDS_DATA),
       loaded: true,
@@ -98,7 +97,7 @@ class FriendsList extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );
     var pageTitle = (
-      <Text style={styles.pageTitle}>PhotoDrop</Text>
+      <Text style={styles.pageTitle}>Friends</Text>
     );
     var backButton = (
       <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
@@ -115,54 +114,20 @@ class FriendsList extends React.Component {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}> 
         <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}} leftButton={backButton} rightButton={addButton}/>
-        <ScrollView contentContainerStyle={styles.changeContainer}>
-          <Text style={styles.fieldTitle}> Friends </Text>
 
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderFriend}
-            style={styles.listView}
-          />
-
-          <ActivityIndicatorIOS
-            animating= {this.state.isLoading}
-            size='large' 
-            style={styles.loading} 
-          />
-          
-          {showErr}
-        </ScrollView>
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderFriend}
+          style={styles.listView}
+        />
+        
+        {showErr}
       </View>
     )
   }
 }
 
 var styles = StyleSheet.create({
-  changeContainer: {
-    flex: 1,
-    padding: 30,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    backgroundColor: '#ededed'
-  },
-  fieldTitle: {
-    marginTop: 10,
-    marginBottom: 15,
-    fontSize: 18,
-    fontFamily: 'circular',
-    textAlign: 'center',
-    color: '#616161'
-  },
-  userInput: {
-    height: 50,
-    padding: 4,
-    fontSize: 18,
-    fontFamily: 'circular',
-    borderWidth: 1,
-    borderColor: '#616161',
-    borderRadius: 4,
-    color: '#616161'
-  },
   loading: {
     marginTop: 20
   },
@@ -185,11 +150,12 @@ var styles = StyleSheet.create({
     marginRight: 15,
   },
   container: {
+    marginBottom: 5,
+    marginLeft: 5,
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#ededed',
   },
   rightContainer: {
     flex: 1,
@@ -199,12 +165,13 @@ var styles = StyleSheet.create({
     textAlign: 'center',
   },
   thumbnail: {
-    width: 53,
-    height: 81,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
   },
   listView: {
     paddingTop: 20,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#ededed',
   },
 });
 
