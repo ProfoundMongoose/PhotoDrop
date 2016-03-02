@@ -15,8 +15,6 @@ module.exports = {
   },
 
   addGroup: function (req, res, next) {
-    console.log('in groupController.js ... req.body:');
-    console.log(req.body);
     User.findOne({_id: req.body.currentUserId}, {_id: 0, username: 1}, function (err, currentUser) {
       var group = new Group({
         groupname: req.body.groupname,
