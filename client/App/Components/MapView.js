@@ -35,27 +35,15 @@ class Map extends React.Component {
       closeLocations: undefined
     };
     
-    // Define closeLocations and photosLocations depending on filter
+    api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      this.setState({ closeLocations: photosArr });
+    });
 
-    // // Public
-    // if (this.state.filter === 'public') {
-      api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-        var photosArr = JSON.parse(photos);
-        this.setState({ closeLocations: photosArr });
-      });
-
-      api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
-        var photosArr = JSON.parse(photos);
-        this.setState({ photosLocations: photosArr });
-      });
-    // Friends
-    // } else if (this.state.filter === 'friends') {
-    //   console.log('friends filter reached');
-    //   this.setState({ closeLocations: [], photosLocations: []});
-    // // User
-    // } else if (this.state.filter === 'user') {
-
-    // }
+    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+      var photosArr = JSON.parse(photos);
+      this.setState({ photosLocations: photosArr });
+    });
   }
 
   componentDidMount(){
@@ -145,6 +133,19 @@ class Map extends React.Component {
     });
   }
 
+  addUserFilter() {
+    this.setState({filter: 'user'});
+    api.fetchUserPhotos(this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      this.setState({ closeLocations: photosArr });
+    });
+
+    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+      var photosArr = JSON.parse(photos);
+      this.setState({ photosLocations: photosArr });
+    });
+  }
+
   render() {
 
     if(this.state.photosLocations && this.state.closeLocations){
@@ -195,7 +196,7 @@ class Map extends React.Component {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={this.addFriendsFilter.bind(this)}>
+          <TouchableOpacity style={styles.button} onPress={this.addUserFilter.bind(this)}>
             <View style={[styles.bubble, styles.smallButton]}>
               <Text style={styles.openPhotosText}>
                 {`User`}
@@ -263,9 +264,6 @@ var styles = StyleSheet.create({
   latlng: {
     width: 200,
     alignItems: 'stretch'
-  },
-  latlngFriends: {
-    width: 100,
   },
   smallButton: {
     width: 90,
