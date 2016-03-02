@@ -1,10 +1,13 @@
 var mongoose = require('mongoose');
 
 var GroupSchema = new mongoose.Schema({
-  name: {
+  groupname: {
     type: String,
     required: true,
     unique: true
+  },
+  description: {
+    type: String,
   },
   users: {
     type: Array,
