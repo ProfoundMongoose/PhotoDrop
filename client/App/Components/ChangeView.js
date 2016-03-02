@@ -3,7 +3,7 @@ var NavigationBar = require('react-native-navbar');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var Keychain = require('react-native-keychain');
 var api = require('../Utils/api');
-var ProfileCamera = require('./ProfileCamera');
+var ProfileCameraView = require('./ProfileCameraView');
 
 var {
   View,
@@ -138,11 +138,9 @@ class ChangeView extends React.Component {
     }
   }
 
-
   changeProfilePicture() {
     this.props.navigator.push({
-      component: ProfileCamera,
-      userId: this.props.userId,
+      component: ProfileCameraView,
       previousComponent: 'settings',
     });
   }

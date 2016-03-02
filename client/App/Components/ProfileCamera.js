@@ -16,7 +16,9 @@ var {
   StatusBarIOS
 } = React;
 
-class ProfileCameraView extends React.Component {
+console.log("cameera::: ",Camera)
+
+class ProfileCamera extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -62,8 +64,11 @@ class ProfileCameraView extends React.Component {
 
   render() {
     StatusBarIOS.setHidden(true);
+    console.log('generate camera!')
+
     return (
       <View >
+        <Text>Hello!!!!!</Text>
         <Camera
           ref={(cam) => {
             this.camera = cam;
@@ -180,4 +185,4 @@ var styles = StyleSheet.create({
 
 });
 
-module.exports = ProfileCameraView;
+module.exports = ProfileCamera;
