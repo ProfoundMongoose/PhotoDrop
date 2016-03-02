@@ -15,7 +15,7 @@ var UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  profilePhoto: {
+  profilePhotoUrl: {
     type: String
   },
   favorites: {

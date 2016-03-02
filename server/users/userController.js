@@ -194,7 +194,12 @@ module.exports = {
   },
 
   savePhotoToUserInDB: function (req, res, next) {
-
+    User.update({_id: mongoose.mongo.ObjectID(req.body.userId)}, {profilePhotoUrl: req.imgurLink}, function (err, status) {
+      if (err) {
+        next(err);
+      }
+      res.sendStatus(201);
+    });
   },
 
   // Social routes - Please see API.md for API endpoint chart
