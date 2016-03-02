@@ -3,6 +3,7 @@ var NavigationBar = require('react-native-navbar');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var Keychain = require('react-native-keychain');
 var api = require('../Utils/api');
+var AddFriend = require('./AddFriend');
 
 var MOCKED_FRIENDS_DATA = [
   {name: 'Shane McGraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
@@ -62,7 +63,7 @@ class FriendsList extends React.Component {
 
   addFriend() {
     this.props.navigator.push({
-      component: Main,
+      component: AddFriend,
     });
   }
 
@@ -79,7 +80,7 @@ class FriendsList extends React.Component {
       </View>
     );
   }
-  
+
   componentDidMount() {
     this.loadFriendsData();
   }
@@ -112,7 +113,7 @@ class FriendsList extends React.Component {
     );
 
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+      <View style={{flex: 1, backgroundColor: '#ededed'}}>
         <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}} leftButton={backButton} rightButton={addButton}/>
 
         <ListView
@@ -123,7 +124,7 @@ class FriendsList extends React.Component {
         
         {showErr}
       </View>
-    )
+    );
   }
 }
 
