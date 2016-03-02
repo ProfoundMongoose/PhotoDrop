@@ -188,6 +188,21 @@ var api = {
     .catch(function(err) {
       console.log(err);
     });
+  },
+
+  searchUsers(usernameQuery, callback) {
+    var url = 'http://159.203.240.124:8000/search-users/' + usernameQuery;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (usersArr) {
+        callback(usersArr);
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
   }
 
 };
