@@ -86,18 +86,10 @@ class ProfileCameraView extends React.Component {
 
 
           <View style={styles.bottomButtonContainer}>
-            <TouchableOpacity onPress={this.props._goToSettings.bind(this)} style={styles.settingsButton}>
-              <IconIon name="drag" size={40} color="#ededed"/>
-            </TouchableOpacity>
               <TouchableHighlight onPress={this.takePicture.bind(this)} style={styles.snapButton} underlayColor={'#FC9396'}>
                 <Icon name="circle" size={55} color="rgba(237,237,237,0.5)" style={styles.snapIcon} />
               </TouchableHighlight>
-            <TouchableOpacity onPress={this.props._goToMap.bind(this)} style={styles.mapButton}>
-              <IconIon name="map" size={40} color="#ededed" />
-            </TouchableOpacity>
           </View>
-
-
         </Camera>
       </View>
     );
