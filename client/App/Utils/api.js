@@ -208,13 +208,16 @@ var api = {
   addFriend(currentUserId, targetUsername) {
     var request = { currentUserId: currentUserId, targetUsername: targetUsername };
     console.log(`Building request to ${targetUsername}`);
-    return fetch('http://159.203.240.124:8000/signup', {
+    return fetch('http://159.203.240.124:8000/request-friend', {
       method: 'POST',
       body: JSON.stringify(request)
     })
     .then(function (data) {
-      console.log('Friend Request Sent!');
-      console.log(data);
+      if (data.ok) {
+        console.log('Friend Request Sent!');
+      } else {
+        console.log('Something went wrong with your friend request');
+      }
     })
     .catch(function (err) {
       console.error(err);

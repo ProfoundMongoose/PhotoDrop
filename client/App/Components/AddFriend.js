@@ -51,14 +51,14 @@ class AddFriend extends React.Component {
           return userObj.username;
         });
         this.setState({
-          foundFriendsData: this.state.foundFriendsData.cloneWithRows(userNames),
-          loaded: true
+          foundFriendsData: this.state.foundFriendsData.cloneWithRows(userNames)
+          // loaded: true
         });
       });
     } else {
       this.setState({
-        foundFriendsData: this.state.foundFriendsData.cloneWithRows([]),
-        loaded: true,
+        foundFriendsData: this.state.foundFriendsData.cloneWithRows([])
+        // loaded: true,
       });
     }
   }
