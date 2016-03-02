@@ -121,7 +121,7 @@ class FriendsList extends React.Component {
           renderRow={this.renderFriend}
           style={styles.listView}
         />
-        
+
         {showErr}
       </View>
     );
@@ -129,9 +129,6 @@ class FriendsList extends React.Component {
 }
 
 var styles = StyleSheet.create({
-  loading: {
-    marginTop: 20
-  },
   err: {
     fontSize: 14,
     fontFamily: 'circular',
