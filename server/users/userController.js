@@ -253,7 +253,7 @@ module.exports = {
 
   searchUsers: function (req, res, next) {
     var regexSearch = new RegExp(req.params.username);
-    User.find({username: regexSearch}, {_id: 0, username: 1}, function (err, users) {
+    User.find({username: regexSearch}, {_id: 1, username: 1}, function (err, users) {
       if (err) {
         next(err);
       }
@@ -279,9 +279,9 @@ module.exports = {
       if (err) {
         next(err);
       }
-      User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 0}, function (err, currentUser) {
+      User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 1}, function (err, currentUser) {
         // Add current user to target user's friends list:
-        User.update({username: req.body.targetUsername}, {$addToSet: {friends: {username: currentUser.username}}}, function (err, targetUser) {
+        User.update({username: req.body.targetUsername}, {$addToSet: {friends: currentUser}}, function (err, targetUser) {
           if (err) {
             next(err);
           }
