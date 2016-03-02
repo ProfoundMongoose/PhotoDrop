@@ -49,10 +49,16 @@ class AddFriend extends React.Component {
         var userNames = usersArr.map((userObj) => {
           return userObj.username;
         });
-        this.setState({ foundUsers: userNames});
+        this.setState({
+          foundFriendsData: this.state.foundFriendsData.cloneWithRows(userNames),
+          loaded: true
+        });
       });
     } else {
-      this.setState({ foundUsers: [] });
+      this.setState({
+        foundFriendsData: this.state.foundFriendsData.cloneWithRows([]),
+        loaded: true,
+      });
     }
   }
 
@@ -61,11 +67,12 @@ class AddFriend extends React.Component {
   }
 
   renderFriend(friend) {
+    console.log(friend);
     return (
       <View style={styles.container}>
 
         <View style={styles.rightContainer}>
-          <Text style={styles.friend}>{friend.name}</Text>
+          <Text style={styles.friend}>{friend}</Text>
         </View>
       </View>
     );
@@ -165,6 +172,10 @@ var styles = StyleSheet.create({
   },
   friend: {
     fontSize: 12,
+  },
+  listView: {
+    paddingTop: 20,
+    backgroundColor: '#ededed',
   },
 });
 
