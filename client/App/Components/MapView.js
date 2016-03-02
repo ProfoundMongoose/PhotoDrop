@@ -37,8 +37,8 @@ class Map extends React.Component {
     
     // Define closeLocations and photosLocations depending on filter
 
-    // Public
-    if (this.state.filter === 'public') {
+    // // Public
+    // if (this.state.filter === 'public') {
       api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
         var photosArr = JSON.parse(photos);
         this.setState({ closeLocations: photosArr });
@@ -49,13 +49,13 @@ class Map extends React.Component {
         this.setState({ photosLocations: photosArr });
       });
     // Friends
-    } else if (this.state.filter === 'friends') {
-      console.log('friends filter reached');
-      this.setState({ closeLocations: [], photosLocations: []});
-    // User
-    } else if (this.state.filter === 'user') {
+    // } else if (this.state.filter === 'friends') {
+    //   console.log('friends filter reached');
+    //   this.setState({ closeLocations: [], photosLocations: []});
+    // // User
+    // } else if (this.state.filter === 'user') {
 
-    }
+    // }
   }
 
   componentDidMount(){
@@ -127,16 +127,27 @@ class Map extends React.Component {
 
 
   addFriendsFilter() {
-    this.setState({filter: 'friends'}); 
+    // Update closeLocations and photoLocations based on friend data
+    this.setState({filter: 'friends', photoLocations: [], closeLocations: []});
+  }
+
+  addPublicFilter() {
+    this.setState({filter: 'public'});
+
+    api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      this.setState({ closeLocations: photosArr });
+    });
+
+    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+      var photosArr = JSON.parse(photos);
+      this.setState({ photosLocations: photosArr });
+    });
   }
 
   render() {
 
     if(this.state.photosLocations && this.state.closeLocations){
-      if (this.state.filter === 'friends') {
-        this.state.photoLocations = [];
-        this.state.closeLocations = [];
-      }
     return (
       <View style={styles.container}>
         <MapView
@@ -175,13 +186,34 @@ class Map extends React.Component {
           <Icon name="location-arrow" size={25} color="#ededed" style={styles.arrowIcon} />
         </TouchableHighlight>
 
-        <TouchableOpacity style={styles.topButtonContainer} onPress={this.addFriendsFilter.bind(this)}>
-          <View style={[styles.bubble, styles.latlngFriends]}>
-            <Text style={styles.openPhotosText}>
-              {`Friends`}
-            </Text>
-          </View>
-        </TouchableOpacity>
+        <View style={styles.topButtonContainer}>
+          <TouchableOpacity style={styles.button} onPress={this.addPublicFilter.bind(this)}>
+            <View style={[styles.bubble, styles.smallButton]}>
+              <Text style={styles.openPhotosText}>
+                {`Public`}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button} onPress={this.addFriendsFilter.bind(this)}>
+            <View style={[styles.bubble, styles.smallButton]}>
+              <Text style={styles.openPhotosText}>
+                {`User`}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+
+          <TouchableOpacity style={styles.button} onPress={this.addFriendsFilter.bind(this)}>
+            <View style={[styles.bubble, styles.smallButton]}>
+              <Text style={styles.openPhotosText}>
+                {`Friends`}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+        </View>
+
 
         <TouchableOpacity style={styles.bottomButtonContainer} onPress={this.openAllPhotos.bind(this)}>
           <View style={[styles.bubble, styles.latlng]}>
@@ -253,19 +285,7 @@ var styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#FF5A5F',
     marginLeft: 290,
-    marginBottom: 484
-  },
-  friendButton:{
-    width:50,
-    height:50,
-    backgroundColor:'#FF5A5F',
-    borderRadius:25,
-    alignItems:'center',
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: '#FF5A5F',
-    marginLeft: 90,
-    marginBottom: 484
+    marginBottom: 440 // originally 484
   },
   arrowIcon:{
     width:25,
@@ -281,6 +301,7 @@ var styles = StyleSheet.create({
   topButtonContainer: {
     flexDirection: 'row',
     bottom: 550,
+    height: 40,
     backgroundColor: 'transparent'
   },
   bottomButtonContainer: {
