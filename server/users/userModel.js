@@ -16,7 +16,7 @@ var UserSchema = new mongoose.Schema({
     required: true
   },
   profilePhoto: {
-    type: Number // too big? or base 64 so String?
+    type: String
   },
   favorites: {
     type: Array,

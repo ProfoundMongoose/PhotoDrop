@@ -193,8 +193,12 @@ module.exports = {
     });
   },
 
+  savePhotoToUserInDB: function (req, res, next) {
+
+  },
+
   // Social routes - Please see API.md for API endpoint chart
-  fetchFavorites: function(req, res, next) {
+  fetchFavorites: function (req, res, next) {
     User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId) }, function(err, user) {
       if (err) {
         next(err);

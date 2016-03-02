@@ -1,5 +1,6 @@
 var userController = require('../users/userController.js');
 var photoController = require('../photos/photoController.js');
+var groupController = require('../groups/groupController.js');
 var helpers = require('./helpers.js');
 
 module.exports = function(app, express) {
@@ -28,6 +29,7 @@ module.exports = function(app, express) {
   // Change user information
   app.post('/changePassword', userController.changePassword);
   app.post('/changeUsername', userController.changeUsername);
+  app.post('/profile-photo', photoController.uploadPhoto, userController.savePhotoToUserInDB);
 
   // Social routes - Please see API.md for API endpoint chart
   app.get('/friends/:userId', userController.fetchFriends);
@@ -37,6 +39,8 @@ module.exports = function(app, express) {
   app.post('/confirm-friend-request', userController.confirmFriendRequest);
   app.post('/reject-friend-request', userController.rejectFriendRequest);
   app.post('/unfriend', userController.unfriend);
+  app.get('/search-groups/:groupname', groupController.searchGroups);
+  app.post('/groups', groupController.addGroup)
 
   // Handle errors for unsupported requests
   app.use(helpers.errorLogger);
