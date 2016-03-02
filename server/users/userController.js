@@ -240,7 +240,7 @@ module.exports = {
       if (err) {
         next(err);
       }
-      console.log('requesting user: ', currentUser.username);
+      console.log('requesting user: ', currentUser);
       console.log('target user: ', req.body.targetUsername);
       User.update({username: req.body.targetUsername}, {$addToSet: {friendRequests: currentUser}}, function (err, targetUser) {
         if (err) {
