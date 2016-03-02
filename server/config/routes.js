@@ -36,7 +36,7 @@ module.exports = function(app, express) {
   app.get('/search-users/:username', userController.searchUsers);
   app.post('/confirm-friend-request', userController.confirmFriendRequest);
   app.post('/reject-friend-request', userController.rejectFriendRequest);
-  app.post('/unfriend', userController.unfriend)
+  app.post('/unfriend', userController.unfriend);
 
   // Handle errors for unsupported requests
   app.use(helpers.errorLogger);
