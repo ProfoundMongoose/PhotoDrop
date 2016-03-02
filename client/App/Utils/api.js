@@ -48,6 +48,38 @@ var api = {
     });
   },
 
+  uploadProfilePhoto(data, userId, callback) {
+    var url = 'http://159.203.240.124:8000/PROFILEROUTETHATDOESNTEXISTYETGAAAAAAAHHHHH';
+    // cut data in half
+    var firstHalf = data.slice(0, Math.floor(data.length / 2));
+    var secondHalf = data.slice(Math.floor(data.length / 2));
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        data: firstHalf,
+        userId: userId
+      })
+    }).then(function() {
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          data: secondHalf,
+          userId: userId
+        })
+      }).then(function(res) {
+        callback(res._bodyText);
+      }).catch(function(err) { console.log(err); });
+    }).catch(function(err) { console.log(err); });
+  },
+
   uploadPhoto(data, latitude, longitude, userId, callback) {
     var url = 'http://159.203.240.124:8000/imgUpload';
     // cut data in half
