@@ -152,8 +152,15 @@ class Map extends React.Component {
           <Icon name="location-arrow" size={25} color="#ededed" style={styles.arrowIcon} />
         </TouchableHighlight>
 
+        <TouchableOpacity style={styles.topButtonContainer} onPress={this.openAllPhotos.bind(this)}>
+          <View style={[styles.bubble, styles.latlngFriends]}>
+            <Text style={styles.openPhotosText}>
+              {`Friends`}
+            </Text>
+          </View>
+        </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={this.openAllPhotos.bind(this)}>
+        <TouchableOpacity style={styles.bottomButtonContainer} onPress={this.openAllPhotos.bind(this)}>
           <View style={[styles.bubble, styles.latlng]}>
             <Text style={styles.openPhotosText}>
               {`View All Available Photos`}
@@ -202,6 +209,13 @@ var styles = StyleSheet.create({
     width: 200,
     alignItems: 'stretch'
   },
+  latlngFriends: {
+    width: 100,
+  },
+  smallButton: {
+    width: 90,
+    alignItems: 'stretch'
+  },
   currentLocation: {
     width: 100,
     alignItems: 'stretch'
@@ -218,6 +232,18 @@ var styles = StyleSheet.create({
     marginLeft: 290,
     marginBottom: 484
   },
+  friendButton:{
+    width:50,
+    height:50,
+    backgroundColor:'#FF5A5F',
+    borderRadius:25,
+    alignItems:'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#FF5A5F',
+    marginLeft: 90,
+    marginBottom: 484
+  },
   arrowIcon:{
     width:25,
     height:25
@@ -229,9 +255,14 @@ var styles = StyleSheet.create({
     marginHorizontal: 10,
     borderColor: '#FF5A5F'
   },
-  buttonContainer: {
+  topButtonContainer: {
     flexDirection: 'row',
-    marginVertical: 30,
+    bottom: 550,
+    backgroundColor: 'transparent'
+  },
+  bottomButtonContainer: {
+    flexDirection: 'row',
+    bottom: 50,
     backgroundColor: 'transparent'
   },
   openPhotosText: {
