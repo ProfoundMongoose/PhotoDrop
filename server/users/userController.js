@@ -265,8 +265,12 @@ module.exports = {
   },
 
   rejectFriendRequest: function (req, res, next) {
-    res.status(201);
-    res.json({});
+    User.update({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {$pull: {friendRequests: {username: req.body.targetUsername}}}, function (err, status) {
+      if (err) {
+        next(err);
+      }
+      res.sendStatus(201);
+    });
   },
 
   unfriend: function (req, res, next) {
