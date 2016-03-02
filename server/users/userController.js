@@ -215,7 +215,7 @@ module.exports = {
       if (err) {
         next(err);
       }
-      User.update({username: req.body.targetUsername}, {$push: {friendRequests: currentUser}}, function (err, targetUser) {
+      User.update({username: req.body.targetUsername}, {$addToSet: {friendRequests: currentUser}}, function (err, targetUser) {
         if (err) {
           next(err);
         }
@@ -241,7 +241,7 @@ module.exports = {
         _id: mongoose.mongo.ObjectID(req.body.currentUserId)
       }, {
         // Adds the friend:
-        $push: {
+        $addToSet: {
           friends: {username: req.body.targetUsername}
         },
         // Removes the friend request:
@@ -254,7 +254,7 @@ module.exports = {
       }
       User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 0}, function (err, currentUser) {
         // Add current user to target user's friends list:
-        User.update({username: req.body.targetUsername}, {$push: {friends: {username: currentUser.username}}}, function (err, targetUser) {
+        User.update({username: req.body.targetUsername}, {$addToSet: {friends: {username: currentUser.username}}}, function (err, targetUser) {
           if (err) {
             next(err);
           }
