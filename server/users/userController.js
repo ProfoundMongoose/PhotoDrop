@@ -9,9 +9,13 @@ var createUser = Q.nbind(User.create, User);
 
 module.exports = {
   login: function(req, res, next) {
-    var user = JSON.parse(Object.keys(req.body)[0]);
-    var username = user.username;
-    var password = user.password;
+    // console.log('login req.body:');
+    // console.log(req.body);
+    // var user = JSON.parse(Object.keys(req.body)[0]);
+    // var username = user.username;
+    // var password = user.password;
+    var username = req.body.username;
+    var password = req.body.password;
 
     findUser({ username: username })
       .then(function(user) {
@@ -35,9 +39,13 @@ module.exports = {
   },
 
   signup: function(req, res, next) {
-    var user = JSON.parse(Object.keys(req.body)[0]);
-    var username = user.username;
-    var password = user.password;
+    // console.log('signup req.body:');
+    // console.log(req.body);
+    // var user = JSON.parse(Object.keys(req.body)[0]);
+    // var username = user.username;
+    // var password = user.password;
+    var username = req.body.username;
+    var password = req.body.password;
 
     findUser({ username: username })
       .then(function(user) {
@@ -172,6 +180,7 @@ module.exports = {
     })
   },
 
+  // Social routes - Please see API.md for API endpoint chart
   fetchFavorites: function(req, res, next) {
     User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId) }, function(err, user) {
       if (err) next(err);
@@ -180,6 +189,106 @@ module.exports = {
       } else {
         res.json(user.favorites);
       }
+    });
+  },
+
+  fetchFriends: function (req, res, next) {
+    User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {friends: 1, _id: 0}, function (err, user) {
+      if (err) {
+        next(err);
+      }
+      res.json(user.friends);
+    });
+  },
+
+  fetchFriendRequests: function (req, res, next) {
+    User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {friendRequests: 1, _id: 0}, function (err, user) {
+      if (err) {
+        next(err);
+      }
+      res.json(user.friendRequests);
+    });
+  },
+
+  requestFriend: function (req, res, next) {
+    User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 0}, function (err, currentUser) {
+      if (err) {
+        next(err);
+      }
+      User.update({username: req.body.targetUsername}, {$addToSet: {friendRequests: currentUser}}, function (err, targetUser) {
+        if (err) {
+          next(err);
+        }
+        res.sendStatus(201);
+      });
+    });
+  },
+
+  searchUsers: function (req, res, next) {
+    var regexSearch = new RegExp(req.params.username);
+    User.find({username: regexSearch}, {_id: 0, username: 1}, function (err, users) {
+      if (err) {
+        next(err);
+      }
+      res.json(users);
+    });
+  },
+
+  confirmFriendRequest: function (req, res, next) {
+    // Add target user to current user's friends list:
+    User.update({
+        // Locates the user to update:
+        _id: mongoose.mongo.ObjectID(req.body.currentUserId)
+      }, {
+        // Adds the friend:
+        $addToSet: {
+          friends: {username: req.body.targetUsername}
+        },
+        // Removes the friend request:
+        $pull: {
+          friendRequests: {username: req.body.targetUsername}
+        }
+      }, function (err, status) {
+      if (err) {
+        next(err);
+      }
+      User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 0}, function (err, currentUser) {
+        // Add current user to target user's friends list:
+        User.update({username: req.body.targetUsername}, {$addToSet: {friends: {username: currentUser.username}}}, function (err, targetUser) {
+          if (err) {
+            next(err);
+          }
+          res.sendStatus(201);
+        });
+      });
+    });
+  },
+
+  rejectFriendRequest: function (req, res, next) {
+    User.update({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {$pull: {friendRequests: {username: req.body.targetUsername}}}, function (err, status) {
+      if (err) {
+        next(err);
+      }
+      res.sendStatus(201);
+    });
+  },
+
+  unfriend: function (req, res, next) {
+    User.update({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {$pull: {friends: {username: req.body.targetUsername}}}, function (err, status) {
+      if (err) {
+        next(err);
+      }
+      User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 0}, function (err, currentUser) {
+        if (err) {
+          next(err);
+        }
+        User.update({username: req.body.targetUsername}, {$pull: {friends: {username: currentUser.username}}}, function (err, status) {
+          if (err) {
+            next(err);
+          }
+          res.sendStatus(201);
+        });
+      });
     });
   }
 

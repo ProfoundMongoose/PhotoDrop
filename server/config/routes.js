@@ -29,6 +29,15 @@ module.exports = function(app, express) {
   app.post('/changePassword', userController.changePassword);
   app.post('/changeUsername', userController.changeUsername);
 
+  // Social routes - Please see API.md for API endpoint chart
+  app.get('/friends/:userId', userController.fetchFriends);
+  app.get('/friend-requests/:userId', userController.fetchFriendRequests);
+  app.post('/request-friend', userController.requestFriend);
+  app.get('/search-users/:username', userController.searchUsers);
+  app.post('/confirm-friend-request', userController.confirmFriendRequest);
+  app.post('/reject-friend-request', userController.rejectFriendRequest);
+  app.post('/unfriend', userController.unfriend)
+
   // Handle errors for unsupported requests
   app.use(helpers.errorLogger);
   app.use(helpers.errorHandler);

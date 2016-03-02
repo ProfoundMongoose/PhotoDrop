@@ -19,6 +19,14 @@ var UserSchema = new mongoose.Schema({
     type: Array,
     default: []
   },
+  friends: {
+    type: Array,
+    default: []
+  },
+  friendRequests: {
+    type: Array,
+    default: []
+  },
   salt: String
 });
 
