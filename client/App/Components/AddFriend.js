@@ -63,6 +63,11 @@ class AddFriend extends React.Component {
     }
   }
 
+  addFriend(friend, event) {
+    console.log('Request, current userId: ', this.state.userId);
+    api.addFriend(this.state.userId, friend);
+  }
+
   renderFriend(friend) {
     return (
       <TouchableHighlight onPress={this.addFriend.bind(this, friend)}>
@@ -75,9 +80,6 @@ class AddFriend extends React.Component {
     );
   }
 
-  addFriend(friend, event) {
-    api.addFriend(this.state.userId, friend);
-  }
 
   render() {
     var showErr = (

@@ -206,10 +206,17 @@ var api = {
   },
 
   addFriend(currentUserId, targetUsername) {
-    var request = { currentUserId: currentUserId, targetUsername: targetUsername };
+    var request = {
+      currentUserId: currentUserId,
+      targetUsername: targetUsername
+    };
     console.log(`Building request to ${targetUsername}`);
     return fetch('http://159.203.240.124:8000/request-friend', {
       method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(request)
     })
     .then(function (data) {

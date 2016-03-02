@@ -236,11 +236,11 @@ module.exports = {
 
   requestFriend: function (req, res, next) {
     console.log('friend request body: ', req.body);
-    User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 0}, function (err, currentUser) {
+    User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 1}, function (err, currentUser) {
       if (err) {
         next(err);
       }
-      console.log('requesting user: ', currentUser);
+      console.log('requesting user: ', currentUser.username);
       console.log('target user: ', req.body.targetUsername);
       User.update({username: req.body.targetUsername}, {$addToSet: {friendRequests: currentUser}}, function (err, targetUser) {
         if (err) {

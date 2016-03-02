@@ -62,8 +62,11 @@ class FriendsList extends React.Component {
   }
 
   addFriend() {
+    console.log('FriendsList, current userId: ', this.props.route.userId);
     this.props.navigator.push({
       component: AddFriend,
+      username: this.props.username,
+      userId: this.props.route.userId
     });
   }
 
