@@ -15,6 +15,9 @@ var UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  profilePhoto: {
+    type: Number // too big? or base 64 so String?
+  },
   favorites: {
     type: Array,
     default: []
@@ -24,6 +27,10 @@ var UserSchema = new mongoose.Schema({
     default: []
   },
   friendRequests: {
+    type: Array,
+    default: []
+  },
+  groups: {
     type: Array,
     default: []
   },
