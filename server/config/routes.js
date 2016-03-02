@@ -1,5 +1,6 @@
 var userController = require('../users/userController.js');
 var photoController = require('../photos/photoController.js');
+var groupController = require('../groups/groupController.js');
 var helpers = require('./helpers.js');
 
 module.exports = function(app, express) {
@@ -37,6 +38,7 @@ module.exports = function(app, express) {
   app.post('/confirm-friend-request', userController.confirmFriendRequest);
   app.post('/reject-friend-request', userController.rejectFriendRequest);
   app.post('/unfriend', userController.unfriend);
+  app.get('/search-groups/:groupname', groupController.searchGroups);
 
   // Handle errors for unsupported requests
   app.use(helpers.errorLogger);
