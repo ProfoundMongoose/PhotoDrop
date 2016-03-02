@@ -197,13 +197,29 @@ var api = {
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then(function (usersArr) {
-        callback(usersArr);
+    }).then(function (data) {
+      callback(data._bodyText);
     })
     .catch(function (err) {
       console.error(err);
     });
-  }
+  },
+
+  addFriend(currentUserId, targetUsername) {
+    var request = { currentUserId: currentUserId, targetUsername: targetUsername };
+    console.log(`Building request to ${targetUsername}`);
+    return fetch('http://159.203.240.124:8000/signup', {
+      method: 'POST',
+      body: JSON.stringify(request)
+    })
+    .then(function (data) {
+      console.log('Friend Request Sent!');
+      console.log(data);
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+  },
 
 };
 

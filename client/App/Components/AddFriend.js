@@ -22,6 +22,7 @@ class AddFriend extends React.Component {
     super(props);
     this.state = {
       username: this.props.route.username,
+      userId: this.props.route.userId,
       foundFriendsData: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
@@ -43,34 +44,39 @@ class AddFriend extends React.Component {
   }
 
   updateFoundFriends(event) {
-    // api.findUsers(event.nativeEvent.text, (users) => { // users array will look like [????]
-    //   var usersArr = JSON.parse(users);
-    //   this.setState({ foundUsers: foundUserNames});
-    //   var photosArr = JSON.parse(photos);
-    //   var photosUrls = photosArr.map((photo) => {
-    //     return photo.url;
-    //   });
-    //   this.setState({ imageUrls: photosUrls });
-    //   this.setState({ userPhotosUrls: photosUrls });
-    // });
-    // this.setState({
-    //
-    // });
-  }
-
-  consoLog() {
-    console.log('something!');
+    if (event.nativeEvent.text) {
+      api.searchUsers(event.nativeEvent.text, (users) => {
+        var usersArr = JSON.parse(users);
+        var userNames = usersArr.map((userObj) => {
+          return userObj.username;
+        });
+        this.setState({
+          foundFriendsData: this.state.foundFriendsData.cloneWithRows(userNames),
+          loaded: true
+        });
+      });
+    } else {
+      this.setState({
+        foundFriendsData: this.state.foundFriendsData.cloneWithRows([]),
+        loaded: true,
+      });
+    }
   }
 
   renderFriend(friend) {
     return (
-      <View style={styles.container}>
-
-        <View style={styles.rightContainer}>
-          <Text style={styles.friend}>{friend.name}</Text>
+      <TouchableHighlight onPress={this.addFriend.bind(this, friend)}>
+        <View style={styles.container}>
+          <View style={styles.rightContainer}>
+            <Text style={styles.friend}>{friend}</Text>
+          </View>
         </View>
-      </View>
+      </TouchableHighlight>
     );
+  }
+
+  addFriend(friend, event) {
+    api.addFriend(this.state.userId, friend);
   }
 
   render() {
@@ -85,7 +91,11 @@ class AddFriend extends React.Component {
         <IconIon name='ios-arrow-thin-down' size={30} style={styles.backIcon} color="#FF5A5F"/>
       </TouchableHighlight>
     );
-
+    var addButton = (
+      <TouchableHighlight onPress={this.addFriend.bind(this)} underlayColor={'white'}>
+        <IconIon name='ios-plus-empty' size={30} style={styles.plusIcon} color="#FF5A5F"/>
+      </TouchableHighlight>
+    );
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}>
         <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}} leftButton={backButton}/>
@@ -98,13 +108,14 @@ class AddFriend extends React.Component {
             style={styles.userInput}
             value={this.state.username}
             returnKeyType={'go'}
-            /*onChange={this.updateFoundFriends.bind(this)}*/
+            onChange={this.updateFoundFriends.bind(this)}
             onSubmitEditing={this.consoLog} /* update foundFriendsData with a GET*/
           />
           <ListView
             dataSource={this.state.foundFriendsData}
-            renderRow={this.renderFriend} /*write this*/
+            renderRow={this.renderFriend.bind(this)} /*write this*/
             style={styles.listView} /* write this */
+            rightButton={addButton}
           />
           <Text style={styles.fieldTitle}> A field with text </Text>
 
@@ -165,9 +176,31 @@ var styles = StyleSheet.create({
   backIcon: {
     marginLeft: 15,
   },
+  plusIcon: {
+    marginRight: 15,
+  },
   friend: {
     fontSize: 12,
   },
+  container: {
+    marginBottom: 5,
+    marginLeft: 5,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ededFF',
+  },
+  rightContainer: {
+    flex: 1,
+  },
+  friend: {
+    fontSize: 12,
+    textAlign: 'center',
+  },
+  listView: {
+    paddingTop: 20,
+    backgroundColor: '#ededed',
+  }
 });
 
 module.exports = AddFriend;
