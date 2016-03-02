@@ -67,7 +67,11 @@ class SwiperView extends React.Component{
         showsPagination={false} 
         index={this.state.index} 
         onMomentumScrollEnd ={this._onMomentumScrollEnd.bind(this)}>
-        <Settings navigator={this.props.navigator} userId={this.props.route.userId} username={this.props.route.username}/>
+
+        <Settings navigator={this.props.navigator} 
+        userId={this.props.route.userId} 
+        username={this.props.route.username}/>
+
         <Camera navigator={this.props.navigator} 
           latitude={this.state.latitude} 
           longitude={this.state.longitude} 
