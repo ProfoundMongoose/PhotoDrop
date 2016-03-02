@@ -26,6 +26,7 @@ class Map extends React.Component {
     super(props);
 
     this.state = {
+      filter: 'public',
       latitude: this.props.params.latitude,
       longitude: this.props.params.longitude,
       latitudeDelta: 0.003,
@@ -34,15 +35,27 @@ class Map extends React.Component {
       closeLocations: undefined
     };
     
-    api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-      var photosArr = JSON.parse(photos);
-      this.setState({ closeLocations: photosArr });
-    });
+    // Define closeLocations and photosLocations depending on filter
 
-    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
-      var photosArr = JSON.parse(photos);
-      this.setState({ photosLocations: photosArr });
-    });
+    // Public
+    if (this.state.filter === 'public') {
+      api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+        var photosArr = JSON.parse(photos);
+        this.setState({ closeLocations: photosArr });
+      });
+
+      api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+        var photosArr = JSON.parse(photos);
+        this.setState({ photosLocations: photosArr });
+      });
+    // Friends
+    } else if (this.state.filter === 'friends') {
+
+      
+    // User
+    } else if (this.state.filter === 'user') {
+
+    }
   }
 
   componentDidMount(){
@@ -100,6 +113,8 @@ class Map extends React.Component {
   }
 
   openAllPhotos() {
+    console.log('open all photos');
+    console.log('filter ....', this.state.filter)
       this.props.navigator.push({
         component: PhotosView,
         userId: this.props.userId,
@@ -108,6 +123,11 @@ class Map extends React.Component {
         latitude: this.state.latitude,
         longitude: this.state.longitude
       });
+  }
+
+
+  addFriendsFilter() {
+    this.setState({filter: 'friends'}); 
   }
 
   render() {
@@ -152,7 +172,7 @@ class Map extends React.Component {
           <Icon name="location-arrow" size={25} color="#ededed" style={styles.arrowIcon} />
         </TouchableHighlight>
 
-        <TouchableOpacity style={styles.topButtonContainer} onPress={this.openAllPhotos.bind(this)}>
+        <TouchableOpacity style={styles.topButtonContainer} onPress={this.changeFilter.bind(this)}>
           <View style={[styles.bubble, styles.latlngFriends]}>
             <Text style={styles.openPhotosText}>
               {`Friends`}
