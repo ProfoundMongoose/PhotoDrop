@@ -50,8 +50,8 @@ class Map extends React.Component {
       });
     // Friends
     } else if (this.state.filter === 'friends') {
-
-      
+      console.log('friends filter reached');
+      this.setState({ closeLocations: [], photosLocations: []});
     // User
     } else if (this.state.filter === 'user') {
 
@@ -59,19 +59,19 @@ class Map extends React.Component {
   }
 
   componentDidMount(){
-      setInterval(()=> {
-        if(this.props.params.index===2) {
-          this.onLocationPressed();
-          api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
-            var photosArr = JSON.parse(photos);
-            this.setState({ photosLocations: photosArr });
-          });
-          api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-            var photosArr = JSON.parse(photos);
-            this.setState({ closeLocations: photosArr });
-          });
-        }
-      }, 2000)
+      // setInterval(()=> {
+      //   if(this.props.params.index===2) {
+      //     this.onLocationPressed();
+      //     api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+      //       var photosArr = JSON.parse(photos);
+      //       this.setState({ photosLocations: photosArr });
+      //     });
+      //     api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      //       var photosArr = JSON.parse(photos);
+      //       this.setState({ closeLocations: photosArr });
+      //     });
+      //   }
+      // }, 2000)
   }
 
   showImage(uri) {
@@ -133,6 +133,10 @@ class Map extends React.Component {
   render() {
 
     if(this.state.photosLocations && this.state.closeLocations){
+      if (this.state.filter === 'friends') {
+        this.state.photoLocations = [];
+        this.state.closeLocations = [];
+      }
     return (
       <View style={styles.container}>
         <MapView
@@ -149,7 +153,6 @@ class Map extends React.Component {
         <MapView.Marker coordinate={this.state}>
           <CircleMarker navigator={this.props.navigator}/>
         </MapView.Marker>
-
           { this.state.photosLocations.map((photoLocation) => {
               return (
               <MapView.Marker coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}>
@@ -172,7 +175,7 @@ class Map extends React.Component {
           <Icon name="location-arrow" size={25} color="#ededed" style={styles.arrowIcon} />
         </TouchableHighlight>
 
-        <TouchableOpacity style={styles.topButtonContainer} onPress={this.changeFilter.bind(this)}>
+        <TouchableOpacity style={styles.topButtonContainer} onPress={this.addFriendsFilter.bind(this)}>
           <View style={[styles.bubble, styles.latlngFriends]}>
             <Text style={styles.openPhotosText}>
               {`Friends`}
