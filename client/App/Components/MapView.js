@@ -47,19 +47,19 @@ class Map extends React.Component {
   }
 
   componentDidMount(){
-      // setInterval(()=> {
-      //   if(this.props.params.index===2) {
-      //     this.onLocationPressed();
-      //     api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
-      //       var photosArr = JSON.parse(photos);
-      //       this.setState({ photosLocations: photosArr });
-      //     });
-      //     api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-      //       var photosArr = JSON.parse(photos);
-      //       this.setState({ closeLocations: photosArr });
-      //     });
-      //   }
-      // }, 2000)
+      setInterval(()=> {
+        if(this.props.params.index===2) {
+          this.onLocationPressed();
+          // api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+          //   var photosArr = JSON.parse(photos);
+          //   this.setState({ photosLocations: photosArr });
+          // });
+          // api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+          //   var photosArr = JSON.parse(photos);
+          //   this.setState({ closeLocations: photosArr });
+          // });
+        }
+      }, 2000)
   }
 
   showImage(uri) {
@@ -101,8 +101,6 @@ class Map extends React.Component {
   }
 
   openAllPhotos() {
-    console.log('open all photos');
-    console.log('filter ....', this.state.filter)
       this.props.navigator.push({
         component: PhotosView,
         userId: this.props.userId,
@@ -114,11 +112,22 @@ class Map extends React.Component {
   }
 
 
+  // Update closeLocations and photoLocations based on friend data
   addFriendsFilter() {
-    // Update closeLocations and photoLocations based on friend data
-    this.setState({filter: 'friends', photoLocations: [], closeLocations: []});
+    this.setState({filter: 'friends'})
+    this.setState({ closeLocations: [], photosLocations: [] });
+    api.fetchFriendsPhotos(this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      this.setState({ closeLocations: photosArr });
+    });
+
+    api.fetchFriendsLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, this.props.userId, (photos) => {
+      var photosArr = JSON.parse(photos);
+      this.setState({ photosLocations: photosArr });
+    });
   }
 
+  // Update closeLocations and photoLocations based on all data
   addPublicFilter() {
     this.setState({filter: 'public'});
 
@@ -132,7 +141,8 @@ class Map extends React.Component {
       this.setState({ photosLocations: photosArr });
     });
   }
-
+  
+  // Update closeLocations and photoLocations based on specific user
   addUserFilter() {
     this.setState({filter: 'user'});
     api.fetchUserPhotos(this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
@@ -140,7 +150,7 @@ class Map extends React.Component {
       this.setState({ closeLocations: photosArr });
     });
 
-    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+    api.fetchUserLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, this.props.userId, (photos) => {
       var photosArr = JSON.parse(photos);
       this.setState({ photosLocations: photosArr });
     });
@@ -259,7 +269,9 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 4
+    borderRadius: 4,
+    borderColor: '#000000',
+    borderWidth: 0.5
   },
   latlng: {
     width: 200,
@@ -293,7 +305,7 @@ var styles = StyleSheet.create({
     width: 80,
     paddingHorizontal: 12,
     alignItems: 'center',
-    marginHorizontal: 10,
+    marginHorizontal: 15,
     borderColor: '#FF5A5F'
   },
   topButtonContainer: {

@@ -147,9 +147,53 @@ var api = {
     });
   },
 
+  fetchUserLocations(latitude, longitude, latdelta, londelta, userId, callback) {
+    var url = 'http://' + host + ':8000/fetchUserLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
+  fetchFriendsLocations(latitude, longitude, latdelta, londelta, userId, callback) {
+    var url = 'http://' + host + ':8000/fetchFriendsLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
 
   fetchUserPhotos(userId, callback) {
     var url = 'http://' + host + ':8000/fetchUserPhotos?userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
+  fetchFriendsPhotos(userId, callback) {
+    var url = 'http://' + host + ':8000/fetchFriendsPhotos?userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -230,8 +274,8 @@ var api = {
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then(function (data) {
-      callback(data._bodyText);
+    }).then(function (usersArr) {
+        callback(usersArr);
     })
     .catch(function (err) {
       console.error(err);
