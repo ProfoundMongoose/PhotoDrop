@@ -50,14 +50,16 @@ class Map extends React.Component {
       setInterval(()=> {
         if(this.props.params.index===2) {
           this.onLocationPressed();
-          // api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
-          //   var photosArr = JSON.parse(photos);
-          //   this.setState({ photosLocations: photosArr });
-          // });
-          // api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-          //   var photosArr = JSON.parse(photos);
-          //   this.setState({ closeLocations: photosArr });
-          // });
+          if (this.state.filter === 'public') {
+            api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+              var photosArr = JSON.parse(photos);
+              this.setState({ photosLocations: photosArr });
+            });
+            api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+              var photosArr = JSON.parse(photos);
+              this.setState({ closeLocations: photosArr });
+            });
+          }
         }
       }, 2000)
   }
