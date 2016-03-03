@@ -23,7 +23,11 @@ class AddFriend extends React.Component {
     this.state = {
       username: this.props.route.username,
       userId: this.props.route.userId,
+      isLoading: false,
       foundFriendsData: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+      }),
+      pendingFriendRequests: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
     };
@@ -37,34 +41,49 @@ class AddFriend extends React.Component {
     this.props.navigator.pop();
   }
 
-  findUsernameChange(event) {
-    this.setState({
-      usernameToFind: event.nativeEvent.text
-    });
+  componentDidMount() {
+    this.loadFriendRequests();
   }
 
   updateFoundFriends(event) {
     if (event.nativeEvent.text) {
+      this.setState({isLoading: true});
+
       api.searchUsers(event.nativeEvent.text, (users) => {
         var usersArr = JSON.parse(users);
         var userNames = usersArr.map((userObj) => {
           return userObj.username;
         });
         this.setState({
-          foundFriendsData: this.state.foundFriendsData.cloneWithRows(userNames)
-          // loaded: true
+          foundFriendsData: this.state.foundFriendsData.cloneWithRows(userNames),
+          isLoading: false
         });
       });
     } else {
       this.setState({
-        foundFriendsData: this.state.foundFriendsData.cloneWithRows([])
-        // loaded: true,
+        foundFriendsData: this.state.foundFriendsData.cloneWithRows([]),
+        isLoading: false
       });
     }
   }
 
+  loadFriendRequests() {
+    api.getFriendRequests(this.state.userId, (friendRequests) => {
+      var usernames = friendRequests.map((user) => {
+        return user ? user.username : null;
+      });
+      this.setState({
+        pendingFriendRequests: this.state.pendingFriendRequests.cloneWithRows(usernames)
+      });
+    });
+  }
+
   addFriend(friend, event) {
     api.addFriend(this.state.userId, friend);
+  }
+
+  acceptFriendRequest(newFriendUsername, event) {
+    api.acceptFriendRequest(this.state.userId, newFriendUsername);
   }
 
   renderFriend(friend) {
@@ -73,6 +92,18 @@ class AddFriend extends React.Component {
         <View style={styles.container}>
           <View style={styles.rightContainer}>
             <Text style={styles.friend}>{friend}</Text>
+          </View>
+        </View>
+      </TouchableHighlight>
+    );
+  }
+
+  renderFriendRequests(potentialFriend) {
+    return (
+      <TouchableHighlight onPress={this.acceptFriendRequest.bind(this, potentialFriend)}>
+        <View style={styles.container}>
+          <View style={styles.rightContainer}>
+            <Text style={styles.friend}>{potentialFriend}</Text>
           </View>
         </View>
       </TouchableHighlight>
@@ -110,20 +141,26 @@ class AddFriend extends React.Component {
             value={this.state.username}
             returnKeyType={'go'}
             onChange={this.updateFoundFriends.bind(this)}
-            onSubmitEditing={this.consoLog} /* update foundFriendsData with a GET*/
+            onSubmitEditing={this.consoLog}
           />
           <ListView
             dataSource={this.state.foundFriendsData}
-            renderRow={this.renderFriend.bind(this)} /*write this*/
-            style={styles.listView} /* write this */
-            rightButton={addButton}
+            renderRow={this.renderFriend.bind(this)}
+            style={styles.listView}
+            rightButton={addButton} // doesn't appear
           />
-          <Text style={styles.fieldTitle}> Pending Friend Requests </Text>
+          <ActivityIndicatorIOS
+          animating= {this.state.isLoading}
+          size='large'
+          style={styles.loading} />
 
-            <ActivityIndicatorIOS
-              animating= {this.state.isLoading}
-              size='large'
-              style={styles.loading} />
+          <Text style={styles.fieldTitle}> Pending Friend Requests </Text>
+          <ListView
+            dataSource={this.state.pendingFriendRequests} // need to initialize
+            renderRow={this.renderFriendRequests.bind(this)} // todo
+            style={styles.listView}
+            rightButton={addButton} // doesn't appear
+          />
 
             {showErr}
           </ScrollView>
@@ -141,7 +178,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#ededed'
   },
   fieldTitle: {
-    marginTop: 10,
+    marginTop: 2,
     marginBottom: 15,
     fontSize: 18,
     fontFamily: 'circular',
@@ -184,7 +221,7 @@ var styles = StyleSheet.create({
     fontSize: 12,
   },
   container: {
-    marginBottom: 5,
+    marginBottom: 3,
     marginLeft: 5,
     flex: 1,
     flexDirection: 'row',
