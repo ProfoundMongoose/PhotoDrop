@@ -30,6 +30,8 @@ class AddFriend extends React.Component {
       pendingFriendRequests: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
+      unreqestableUsers: [],
+      unloadableFriendRequestUsernames: []
     };
   }
 
@@ -42,8 +44,21 @@ class AddFriend extends React.Component {
   }
 
   componentDidMount() {
+    this.getUnrequestableUsers();
+    this.getUnloadableFriendRequestUsernames();
     this.loadFriendRequests();
   }
+
+  getUnrequestableUsers() {
+    var unreqestableUsers = [this.state.username];
+    // this will require us to get all the users to be sent in via the route
+    // unreqestableUsers.concat(this.state.route.friends.map((user) => {return user.username}));
+    this.setState({
+      unreqestableUsers: unreqestableUsers
+    });
+  }
+
+  // todo: write getUnloadableFriendRequestUsernames
 
   updateFoundFriends(event) {
     if (event.nativeEvent.text) {
@@ -88,10 +103,12 @@ class AddFriend extends React.Component {
     api.addFriend(this.state.userId, friend);
   }
 
-  acceptFriendRequest(newFriend, event) { // make sure this gets passed the right thing
   // acceptFriendRequest(newFriendUsername, event) {
+  acceptFriendRequest(newFriend, event) { // make sure this gets passed the right thing
+  // api.acceptFriendRequest(this.state.userId, newFriendUsername);
     api.acceptFriendRequest(this.state.userId, newFriend.username, newFriend.userId);
-    // api.acceptFriendRequest(this.state.userId, newFriendUsername);
+    // Make this ^ return a promise so we can v
+    // .then(() => { this.loadFriendRequests() });
   }
 
   renderFriend(friend) {

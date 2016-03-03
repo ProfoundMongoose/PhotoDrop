@@ -43,6 +43,7 @@ class FriendsList extends React.Component {
     this.state = {
       isLoading: false,
       username: this.props.route.username,
+      userId: this.props.route.userId,
       error: false,
       passwordError: false,
       dataSource: new ListView.DataSource({
@@ -89,10 +90,10 @@ class FriendsList extends React.Component {
 
   loadFriendsData() {
     //eventually do an http request to our server to get the friends data
-    api.getAllFriends(this.state.username, (data) => {
-      console.log("Data has arrived!", data);
+    api.getAllFriends(this.state.userId, (data) => {
+      console.log('Data has arrived!', data);
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(MOCKED_FRIENDS_DATA),
+        dataSource: this.state.dataSource.cloneWithRows(data),
         loaded: true,
       });
     });
