@@ -11,7 +11,7 @@ var api = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: user
+      body: JSON.stringify(user)
     });
   },
 
@@ -22,7 +22,7 @@ var api = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: user
+      body: JSON.stringify(user)
     });
   },
 
@@ -33,7 +33,7 @@ var api = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: user
+      body: JSON.stringify(user)
     });
   },
 
@@ -44,7 +44,7 @@ var api = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: user
+      body: JSON.stringify(user)
     });
   },
 
@@ -232,7 +232,7 @@ var api = {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: request
+      body: JSON.stringify(request)
     })
     .then(function (data) {
       if (data.ok) {
@@ -246,6 +246,45 @@ var api = {
     });
   },
 
+  acceptFriendRequest(currentUserId, targetUsername) {
+    var request = {
+      currentUserId: currentUserId,
+      targetUsername: targetUsername
+    };
+    return fetch('http://159.203.240.124:8000/confirm-friend-request', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(request)
+    })
+    .then(function (data) {
+      if (data.ok) {
+        console.log('Friend Request Accepted!');
+      } else {
+        console.log('Something went wrong while accepting the friend request');
+      }
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+  },
+
+  getFriendRequests(currentUserId, callback) {
+    var url = 'http://159.203.240.124:8000/friend-requests/' + currentUserId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (data) {
+      callback(JSON.parse(data._bodyText));
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+  }
 };
 
 module.exports = api;
