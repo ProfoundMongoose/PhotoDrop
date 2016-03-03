@@ -1,6 +1,7 @@
 var imgur = require('imgur');
 var Photo = require('./photoModel');
 var mongoose = require('mongoose');
+var User = require('../users/userController');
 
 module.exports = {
   // recieve base64 bit image in two POST request packets
@@ -79,6 +80,35 @@ module.exports = {
       res.json(photos);
     });
   },
+
+  // fetch friends' photos from DB
+  fetchFriendsPhotos: function(req, res, next) {
+    var maxDistance = Number(req.query.radius);
+    var coords = [req.query.lon, req.query.lat];
+
+    Photo.find({
+      loc: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: coords
+          },
+          $maxDistance: maxDistance
+        }
+      }
+    }, function(err, photos) {
+      if (err) {
+        next(err);
+      }
+      if (photos) { 
+        photos = photos.sort(function(a, b) {
+          return b.views - a.views;
+        });
+      }
+      res.json(photos);
+    });
+  },
+
 
   fetchLocations: function(req, res, next) {
     var lat = Number(req.query.lat);

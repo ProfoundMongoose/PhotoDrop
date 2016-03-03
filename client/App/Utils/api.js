@@ -213,8 +213,8 @@ var api = {
       headers: {
         'Content-Type': 'application/json'
       }
-    }).then(function (data) {
-      callback(data._bodyText);
+    }).then(function (usersArr) {
+        callback(usersArr);
     })
     .catch(function (err) {
       console.error(err);
