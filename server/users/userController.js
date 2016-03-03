@@ -223,6 +223,8 @@ module.exports = {
             fullFriendsArray.push(friendInfo);
             if (index === originalFriendsArray.length - 1) {
               res.json(fullFriendsArray);
+            } else {
+              return fullFriendsArray;
             }
           });
         }, []);
