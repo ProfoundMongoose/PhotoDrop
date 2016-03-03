@@ -163,7 +163,6 @@ class AddFriend extends React.Component {
             autoCorrect={false}
             maxLength={16}
             style={styles.userInput}
-            value={this.state.username}
             returnKeyType={'go'}
             onChange={this.updateFoundFriends.bind(this)}
             onSubmitEditing={this.consoLog}
