@@ -1,7 +1,7 @@
 var imgur = require('imgur');
 var Photo = require('./photoModel');
 var mongoose = require('mongoose');
-var User = require('../users/userController');
+var User = require('../users/userModel');
 
 module.exports = {
   // recieve base64 bit image in two POST request packets
@@ -57,7 +57,6 @@ module.exports = {
   fetchPhotos: function(req, res, next) {
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
-
     Photo.find({
       loc: {
         $near: {
@@ -85,6 +84,15 @@ module.exports = {
   fetchFriendsPhotos: function(req, res, next) {
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
+
+     User.findOne({_id: mongoose.mongo.ObjectID(req.query.userId)}, {friends: 1, _id: 0}, function (err, user) {
+      if (err) {
+        next(err);
+      }
+      // pluck userId's from friends
+
+      // conduct a photo query for photos with userIds within the friends userId array
+    });
 
     Photo.find({
       loc: {
@@ -167,7 +175,6 @@ module.exports = {
 
   fetchUserLocations: function(req, res, next) {
     var userId = req.query.userId;
-    console.log('userId.....', userId)
     var lat = Number(req.query.lat);
     var lon = Number(req.query.lon);
     var latdelta = Number(req.query.latdelta);
@@ -202,7 +209,6 @@ module.exports = {
         next(err);
       }
       revealedPhotos = photos;
-      console.log('photos... ', photos)
       Photo.find({
         $and: [
         {loc: {
@@ -224,7 +230,6 @@ module.exports = {
         if (err) {
           next(err);
         }
-        // console.log('photos.... ', JSON.stringify(photos));
         res.json(photos);
       });
     });

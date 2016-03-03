@@ -115,8 +115,8 @@ var api = {
     });
   },
 
-  fetchFriendsPhotos(latitude, longitude, radius, callback) {
-    var url = 'http://' + host + ':8000/fetchFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
+  fetchFriendsPhotos(latitude, longitude, radius, userId, callback) {
+    var url = 'http://' + host + ':8000/fetchFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius + '&userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
