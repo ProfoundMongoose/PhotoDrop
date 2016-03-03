@@ -32,7 +32,7 @@ module.exports = function(app, express) {
   app.post('/profile-photo', userController.savePhotoToUserInDB);
 
   // Social routes - Please see API.md for API endpoint chart
-  app.get('/friends/:userId', userController.fetchFriends);
+  app.get('/friends/:username', userController.fetchFriends);
   app.get('/friend-requests/:userId', userController.fetchFriendRequests);
   app.post('/request-friend', userController.requestFriend);
   app.get('/search-users/:username', userController.searchUsers);

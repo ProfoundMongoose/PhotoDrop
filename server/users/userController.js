@@ -209,7 +209,7 @@ module.exports = {
   },
 
   fetchFriends: function (req, res, next) {
-    User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {friends: 1, _id: 0}, function (err, user) {
+    User.findOne({username: req.params.username}, {friends: 1, _id: 0}, function (err, user) {
       if (err) {
         next(err);
       }
@@ -261,10 +261,7 @@ module.exports = {
     }, {
         // Adds the friend:
       $addToSet: {
-        friends: {
-          username: req.body.targetUsername,
-          userId: req.body.targetUserId
-        }
+        friends: {username: req.body.targetUsername}
       },
       // Removes the friend request:
       $pull: {
