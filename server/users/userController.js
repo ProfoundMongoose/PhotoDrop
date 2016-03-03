@@ -269,7 +269,7 @@ module.exports = {
       $addToSet: {
         friends: {
           username: req.body.targetUsername,
-          userId: req.body.targetUserId
+          _id: mongoose.mongo.ObjectID(req.body.targetUserId)
         }
       },
       // Removes the friend request:
