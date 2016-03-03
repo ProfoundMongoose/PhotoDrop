@@ -70,8 +70,9 @@ class AddFriend extends React.Component {
   loadFriendRequests() {
     api.getFriendRequests(this.state.userId, (friendRequests) => {
       var usernames = friendRequests.map((user) => {
-        return user ? user.username : null
+        return user ? user.username : null;
       });
+      console.log('friendRequests', friendRequests, friendRequests.length);
       this.setState({
         pendingFriendRequests: this.state.pendingFriendRequests.cloneWithRows(usernames)
       });
