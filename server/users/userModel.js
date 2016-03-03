@@ -16,7 +16,8 @@ var UserSchema = new mongoose.Schema({
     required: true
   },
   profilePhotoUrl: {
-    type: String
+    type: String,
+    default: 'http://i.imgur.com/CqSnOQG.jpg'
   },
   favorites: {
     type: Array,

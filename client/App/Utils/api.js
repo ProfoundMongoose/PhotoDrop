@@ -65,7 +65,7 @@ var api = {
   },
 
   uploadProfilePhoto(data, userId, callback) {
-    console.log("data in the api.utils: ", data);
+    console.log('data in the api.utils: ', data);
     var url = 'http://' + host + ':8000/profile-photo';
     fetch(url, {
       method: 'POST',

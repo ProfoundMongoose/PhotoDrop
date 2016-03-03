@@ -241,9 +241,6 @@ var styles = StyleSheet.create({
   plusIcon: {
     marginRight: 15,
   },
-  friend: {
-    fontSize: 12,
-  },
   container: {
     marginBottom: 3,
     marginLeft: 0,
@@ -252,7 +249,6 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'stretch',
     backgroundColor: '#ff595b',
-    textAlign: 'center',
     justifyContent: 'center',
     borderWidth: 1,
     borderRadius: 4,
@@ -261,16 +257,12 @@ var styles = StyleSheet.create({
   rightContainer: {
     flex: 1,
   },
-  friend: {
-    fontSize: 12,
-    textAlign: 'center',
-  },
   listView: {
     paddingTop: 20,
     backgroundColor: '#ededed',
   },
   rightContainer: {
-    
+
   },
   potentialFriend: {
     height: 50,
