@@ -269,7 +269,9 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingHorizontal: 18,
     paddingVertical: 12,
-    borderRadius: 4
+    borderRadius: 4,
+    borderColor: '#000000',
+    borderWidth: 0.5
   },
   latlng: {
     width: 200,
@@ -303,7 +305,7 @@ var styles = StyleSheet.create({
     width: 80,
     paddingHorizontal: 12,
     alignItems: 'center',
-    marginHorizontal: 10,
+    marginHorizontal: 15,
     borderColor: '#FF5A5F'
   },
   topButtonContainer: {
