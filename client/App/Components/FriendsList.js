@@ -74,7 +74,7 @@ class FriendsList extends React.Component {
     return (
       <View style={styles.container}>
         <Image
-          source={{uri: friend.profile.thumbnail}}
+          source={{uri: friend.profile}}
           style={styles.thumbnail}
         />
         <View style={styles.rightContainer}>
@@ -90,12 +90,9 @@ class FriendsList extends React.Component {
 
   loadFriendsData() {
     api.getAllFriends(this.state.username, (data) => {
-      console.log('Data has arrived!', data);
       data.forEach((friend, index) => {
-        // use username instead of name
         friend.name = friend.username;
-        // fix this so it gets the profile image from the database
-        friend.profile = MOCKED_FRIENDS_DATA[index].profile;
+        friend.profile = friend.profilePhotoUrl || MOCKED_FRIENDS_DATA[index].profile.thumbnail;
       });
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(data),
@@ -171,7 +168,6 @@ var styles = StyleSheet.create({
   },
   friend: {
     fontSize: 12,
-    textAlign: 'center',
   },
   thumbnail: {
     width: 90,

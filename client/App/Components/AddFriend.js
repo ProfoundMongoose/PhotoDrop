@@ -116,7 +116,7 @@ class AddFriend extends React.Component {
       <TouchableHighlight onPress={this.addFriend.bind(this, friend)}>
         <View style={styles.container}>
           <View style={styles.rightContainer}>
-            <Text style={styles.friend}>{friend}</Text>
+            <Text style={styles.potentialFriend}>{friend}</Text>
           </View>
         </View>
       </TouchableHighlight>
@@ -128,7 +128,7 @@ class AddFriend extends React.Component {
       <TouchableHighlight onPress={this.acceptFriendRequest.bind(this, potentialFriend)}>
         <View style={styles.container}>
           <View style={styles.rightContainer}>
-            <Text style={styles.friend}>{potentialFriend.username}</Text>
+            <Text style={styles.potentialFriend}>{potentialFriend.username}</Text>
           </View>
         </View>
       </TouchableHighlight>
@@ -246,11 +246,17 @@ var styles = StyleSheet.create({
   },
   container: {
     marginBottom: 3,
-    marginLeft: 5,
+    marginLeft: 0,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ededFF',
+    alignSelf: 'stretch',
+    backgroundColor: '#ff595b',
+    textAlign: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: '#ff595b',
   },
   rightContainer: {
     flex: 1,
@@ -262,6 +268,17 @@ var styles = StyleSheet.create({
   listView: {
     paddingTop: 20,
     backgroundColor: '#ededed',
+  },
+  rightContainer: {
+    
+  },
+  potentialFriend: {
+    height: 50,
+    padding: 13,
+    fontSize: 18,
+    fontFamily: 'circular',
+    color: '#fff',
+    alignSelf: 'center'
   }
 });
 
