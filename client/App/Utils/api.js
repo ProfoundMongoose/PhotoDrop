@@ -1,6 +1,6 @@
 // Uncomment one of the two following lines to use the appriopriate host for your purposes:
-// var host = '159.203.240.124'; // production server
-var host = '127.0.0.1'; // local dev testing server
+var host = '159.203.240.124'; // production server
+// var host = '127.0.0.1'; // local dev testing server
 
 var api = {
   login(username, password) {
