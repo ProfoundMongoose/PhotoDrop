@@ -82,8 +82,10 @@ module.exports = {
 
   // fetch friends' photos from DB
   fetchFriendsPhotos: function(req, res, next) {
-    var maxDistance = Number(req.query.radius);
-    var coords = [req.query.lon, req.query.lat];
+    // var maxDistance = Number(req.query.radius);
+    // var coords = [req.query.lon, req.query.lat];
+
+    console.log('fetching friends photos .. userId', req.query.userId);
 
     User.findOne({_id: mongoose.mongo.ObjectID(req.query.userId)}, {friends: 1, _id: 0}, function (err, user) {
       if (err) {
@@ -94,18 +96,18 @@ module.exports = {
         });
 
       Photo.find({
-      $and: [
-        {loc: {
-          $near: {
-            $geometry: {
-              type: 'Point',
-              coordinates: coords
-            },
-            $maxDistance: maxDistance
-          }
-        }},
-        {userId: {$in: friendIds}}
-      ]  
+      // $and: [
+      //   {loc: {
+      //     $near: {
+      //       $geometry: {
+      //         type: 'Point',
+      //         coordinates: coords
+      //       },
+      //       $maxDistance: maxDistance
+      //     }
+      //   }},
+        userId: {$in: friendIds}
+      // ]  
     }, function(err, photos) {
       if (err) {
         next(err);
@@ -239,6 +241,80 @@ module.exports = {
         res.json(photos);
       });
     });
+  },
+
+  fetchFriendsLocations: function(req, res, next) {
+    var userId = req.query.userId;
+    console.log('userId', userId);
+    var lat = Number(req.query.lat);
+    var lon = Number(req.query.lon);
+    var latdelta = Number(req.query.latdelta);
+    var londelta = Number(req.query.londelta);
+    var coords = [
+      [
+        [lon - londelta, lat + latdelta],
+        [lon + londelta, lat + latdelta],
+        [lon + londelta, lat - latdelta],
+        [lon - londelta, lat - latdelta],
+        [lon - londelta, lat + latdelta]
+      ]
+    ];
+
+    var revealedPhotos = undefined;
+
+    User.findOne({_id: mongoose.mongo.ObjectID(userId)}, {friends: 1, _id: 0}, function (err, user) {
+      if (err) {
+        next(err);
+      }
+      var friendIds =  user.friends.map(function(friend) {
+        return mongoose.mongo.ObjectID(friend.userId);
+        });
+
+      console.log('friend ids', friendIds);
+
+      Photo.find({
+        $and: [
+        {loc: {
+          $near: {
+            $geometry: {
+              type: 'Point',
+              coordinates: [req.query.lon, req.query.lat]
+            },
+            $maxDistance: 50
+          }
+        }},
+        {userId: {$in: friendIds}}
+        ]
+      }, function(err, photos) {
+        if (err) {
+          next(err);
+        }
+        revealedPhotos = photos;
+        Photo.find({
+          $and: [
+          {loc: {
+            $geoWithin: {
+              $geometry: {
+                type: 'Polygon',
+                coordinates: coords
+              }
+            }
+          }},
+           {userId: {$in: friendIds}}
+          ],
+          _id: {
+            $nin: revealedPhotos.map(function(photo) {
+              return photo._id;
+            })
+          }
+        }, 'loc', function(err, photos) {
+          if (err) {
+            next(err);
+          }
+          res.json(photos);
+        });
+      });
+      })
   },
 
   fetchUserPhotos: function(req, res, next) {

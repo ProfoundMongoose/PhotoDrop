@@ -115,21 +115,6 @@ var api = {
     });
   },
 
-  fetchFriendsPhotos(latitude, longitude, radius, userId, callback) {
-    var url = 'http://' + host + ':8000/fetchFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius + '&userId=' + userId;
-    return fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function(photos) {
-      callback(photos._bodyInit);
-    })
-    .catch(function(err) {
-      console.log(err);
-    });
-  },
-
   fetchLocations(latitude, longitude, latdelta, londelta, callback) {
     var url = 'http://' + host + ':8000/fetchLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta;
     return fetch(url, {
@@ -145,6 +130,35 @@ var api = {
     });
   },
 
+  fetchUserLocations(latitude, longitude, latdelta, londelta, userId, callback) {
+    var url = 'http://' + host + ':8000/fetchUserLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
+  fetchFriendsLocations(latitude, longitude, latdelta, londelta, userId, callback) {
+    var url = 'http://' + host + ':8000/fetchFriendsLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
 
   fetchUserPhotos(userId, callback) {
     var url = 'http://' + host + ':8000/fetchUserPhotos?userId=' + userId;
@@ -161,9 +175,8 @@ var api = {
     });
   },
 
-  fetchUserLocations(latitude, longitude, latdelta, londelta, userId, callback) {
-    console.log('fetching userLocations');
-    var url = 'http://' + host + ':8000/fetchUserLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&userId=' + userId;
+  fetchFriendsPhotos(userId, callback) {
+    var url = 'http://' + host + ':8000/fetchFriendsPhotos?userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {

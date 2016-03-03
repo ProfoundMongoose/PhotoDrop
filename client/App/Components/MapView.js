@@ -101,8 +101,6 @@ class Map extends React.Component {
   }
 
   openAllPhotos() {
-    console.log('open all photos');
-    console.log('filter ....', this.state.filter)
       this.props.navigator.push({
         component: PhotosView,
         userId: this.props.userId,
@@ -114,21 +112,22 @@ class Map extends React.Component {
   }
 
 
+  // Update closeLocations and photoLocations based on friend data
   addFriendsFilter() {
-    // Update closeLocations and photoLocations based on friend data
     this.setState({filter: 'friends'})
 
-    api.fetchFriendsPhotos(this.props.params.latitude, this.props.params.longitude, 50, this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    api.fetchFriendsPhotos(this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       this.setState({ closeLocations: photosArr });
     });
 
-    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+    api.fetchFriendsLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, this.props.userId, (photos) => {
       var photosArr = JSON.parse(photos);
       this.setState({ photosLocations: photosArr });
     });
   }
 
+  // Update closeLocations and photoLocations based on all data
   addPublicFilter() {
     this.setState({filter: 'public'});
 
@@ -142,7 +141,8 @@ class Map extends React.Component {
       this.setState({ photosLocations: photosArr });
     });
   }
-
+  
+  // Update closeLocations and photoLocations based on specific user
   addUserFilter() {
     this.setState({filter: 'user'});
     api.fetchUserPhotos(this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
@@ -152,7 +152,6 @@ class Map extends React.Component {
 
     api.fetchUserLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, this.props.userId, (photos) => {
       var photosArr = JSON.parse(photos);
-      console.log('user locations here .... ', photosArr);
       this.setState({ photosLocations: photosArr });
     });
   }
