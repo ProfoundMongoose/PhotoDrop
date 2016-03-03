@@ -65,7 +65,7 @@ var api = {
   },
 
   uploadProfilePhoto(data, userId, callback) {
-    var url = 'http://159.203.240.124:8000/profile-photo';
+    var url = 'http://' + host + ':8000/profile-photo';
     fetch(url, {
       method: 'POST',
       headers: {
@@ -265,12 +265,13 @@ var api = {
     });
   },
 
-  acceptFriendRequest(currentUserId, targetUsername) {
+  acceptFriendRequest(currentUserId, targetUsername, targetUserId) {
     var request = {
       currentUserId: currentUserId,
-      targetUsername: targetUsername
+      targetUsername: targetUsername,
+      targetUserId: targetUserId
     };
-    return fetch('http://159.203.240.124:8000/confirm-friend-request', {
+    return fetch('http://' + host + ':8000/confirm-friend-request', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -290,14 +291,15 @@ var api = {
     });
   },
 
-  getFriendRequests(currentUserId, callback) {
-    var url = 'http://159.203.240.124:8000/friend-requests/' + currentUserId;
+  getFriendRequests(currentUsername, callback) {
+    var url = 'http://' + host + ':8000/friend-requests/' + currentUsername;
     return fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     }).then(function (data) {
+      console.log('friends data: ', data);
       callback(JSON.parse(data._bodyText));
     })
     .catch(function (err) {
@@ -305,8 +307,8 @@ var api = {
     });
   },
 
-  getAllFriends(currentUsername, callback) {
-    var url = 'http://159.203.240.124:8000/friends/' + currentUsername;
+  getAllFriends(currentUserId, callback) {
+    var url = 'http://' + host + ':8000/friends/' + currentUserId;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -314,7 +316,7 @@ var api = {
       }
     }).then(function (data) {
       console.log(data);
-      callback(data._bodyText);
+      callback(JSON.parse(data._bodyText));
     })
     .catch(function (err) {
       console.error(err);

@@ -209,11 +209,17 @@ module.exports = {
   },
 
   fetchFriends: function (req, res, next) {
+    console.log('passed username:', req.params.username);
     User.findOne({username: req.params.username}, {friends: 1, _id: 0}, function (err, user) {
       if (err) {
         next(err);
       }
-      res.json(user.friends);
+      if (user) {
+        res.json(user.friends);
+      } else {
+        console.log('user object isnt what you expected: ', user);
+        res.json(null);
+      }
     });
   },
 
