@@ -151,7 +151,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   imageContainer: {
-    flex: 1.5,
+    flex: 1,
     paddingRight: 30,
     paddingLeft: 30,
     paddingTop: 30,
