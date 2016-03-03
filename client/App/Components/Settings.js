@@ -69,6 +69,14 @@ class Settings extends React.Component {
     });
   }
 
+  showGroups() {
+    this.props.navigator.push({
+      component: GroupsList,
+      username: this.props.username,
+      userId: this.props.userId
+    });
+  }
+
   render() {
     var pageTitle = (
       <Text style={styles.pageTitle}>Settings</Text>
@@ -94,8 +102,16 @@ class Settings extends React.Component {
             style={styles.button}
             onPress={this.showFriends.bind(this)}
           >
-          <Text style={styles.buttonText}>Friends</Text>
+            <Text style={styles.buttonText}>Friends</Text>
           </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.showGroups.bind(this)}
+          >
+            <Text style={styles.buttonText}>Groups</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.button}
             onPress={this.changeInfo.bind(this)}
