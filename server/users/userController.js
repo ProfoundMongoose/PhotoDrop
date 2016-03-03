@@ -209,7 +209,7 @@ module.exports = {
   },
 
   fetchFriends: function (req, res, next) {
-    User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {friends: 1, _id: 0}, function (err, user) {
+    User.findOne({username: req.params.username}, {friends: 1, _id: 0}, function (err, user) {
       if (err) {
         next(err);
       }
