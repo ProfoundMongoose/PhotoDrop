@@ -29,9 +29,9 @@ class AddFriend extends React.Component {
       }),
       pendingFriendRequests: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
-      unreqestableUsers: [],
-      unloadableFriendRequestUsernames: []
+      })
+      // unreqestableUsers: [],
+      // unloadableFriendRequestUsernames: []
     };
   }
 
@@ -44,19 +44,19 @@ class AddFriend extends React.Component {
   }
 
   componentDidMount() {
-    this.getUnrequestableUsers();
-    this.getUnloadableFriendRequestUsernames();
+    // this.getUnrequestableUsers();
+    // this.getUnloadableFriendRequestUsernames();
     this.loadFriendRequests();
   }
 
-  getUnrequestableUsers() {
-    var unreqestableUsers = [this.state.username];
-    // this will require us to get all the users to be sent in via the route
-    // unreqestableUsers.concat(this.state.route.friends.map((user) => {return user.username}));
-    this.setState({
-      unreqestableUsers: unreqestableUsers
-    });
-  }
+  // getUnrequestableUsers() {
+  //   var unreqestableUsers = [this.state.username];
+  //   // this will require us to get all the users to be sent in via the route
+  //   // unreqestableUsers.concat(this.state.route.friends.map((user) => {return user.username}));
+  //   this.setState({
+  //     unreqestableUsers: unreqestableUsers
+  //   });
+  // }
 
   // todo: write getUnloadableFriendRequestUsernames
 
