@@ -89,9 +89,12 @@ class FriendsList extends React.Component {
 
   loadFriendsData() {
     //eventually do an http request to our server to get the friends data
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(MOCKED_FRIENDS_DATA),
-      loaded: true,
+    api.getAllFriends(this.state.username, (data) => {
+      console.log("Data has arrived!", data);
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(MOCKED_FRIENDS_DATA),
+        loaded: true,
+      });
     });
   }
 
