@@ -10,3 +10,4 @@
 | /unfriend | POST | {"currentUserId": "1", "targetUsername": "a"} |  Removes the current user and target user from eachother's friends array |
 | /search-groups/:groupname | GET | empty | Return JSON array of all the groups partially matching the groupname query |
 | /groups | POST | {"groupname": "a", "description": "b", "currentUserId": "1"} | Adds a new group |
+| /join-group | POST | {"currentUserId": "1", "targetGroupname": "a"} | Lets the current user join the targeted group |

@@ -90,7 +90,6 @@ class FriendsList extends React.Component {
 
   loadFriendsData() {
     api.getAllFriends(this.state.username, (data) => {
-      console.log('is data not an array? ', data);
       data.forEach((friend, index) => {
         friend.name = friend.username;
         friend.profile = friend.profilePhotoUrl || MOCKED_FRIENDS_DATA[index].profile.thumbnail;

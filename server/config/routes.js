@@ -41,6 +41,7 @@ module.exports = function(app, express) {
   app.post('/unfriend', userController.unfriend);
   app.get('/search-groups/:groupname', groupController.searchGroups);
   app.post('/groups', groupController.addGroup);
+  app.post('/join-group', groupController.joinGroup);
 
   // Handle errors for unsupported requests
   app.use(helpers.errorLogger);
