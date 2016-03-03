@@ -220,17 +220,13 @@ module.exports = {
             if (err) {
               next(err);
             }
-            console.log('newFriendInfo: ', friendInfo);
-            console.log('index: ', index, 'origArrayLength: ', originalFriendsArray.length);
-
-            fullFriendsArray.push(friendInfo);
-            console.log('fullFriendsArrayAfterInsertion: ', fullFriendsArray, 'index: ', index);
+            if (fullFriendsArray) {
+              fullFriendsArray.push(friendInfo);
+            }
             if (index === originalFriendsArray.length - 1) {
               res.json(fullFriendsArray);
-            } else {
-              console.log('hit the return statement!');
-              return fullFriendsArray;
             }
+            return fullFriendsArray;
           });
         }, []);
       } else {
