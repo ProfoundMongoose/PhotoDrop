@@ -14,6 +14,7 @@ module.exports = function(app, express) {
   app.get('/fetchPhotos/', photoController.fetchPhotos);
   app.get('/fetchFriendsPhotos/', photoController.fetchFriendsPhotos);
   app.get('/fetchLocations/', photoController.fetchLocations);
+  app.get('/fetchUserLocations/', photoController.fetchUserLocations);
   app.get('/fetchUserPhotos/', photoController.fetchUserPhotos);
   app.get('/fetchUserFavorites/', userController.fetchFavorites);
 

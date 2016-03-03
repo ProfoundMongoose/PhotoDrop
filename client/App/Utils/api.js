@@ -1,6 +1,6 @@
 // Uncomment one of the two following lines to use the appriopriate host for your purposes:
-var host = '159.203.240.124'; // production server
-// var host = '127.0.0.1'; // local dev testing server
+// var host = '159.203.240.124'; // production server
+var host = '127.0.0.1'; // local dev testing server
 
 var api = {
   login(username, password) {
@@ -115,6 +115,21 @@ var api = {
     });
   },
 
+  fetchFriendsPhotos(latitude, longitude, radius, callback) {
+    var url = 'http://' + host + ':8000/fetchFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
   fetchLocations(latitude, longitude, latdelta, londelta, callback) {
     var url = 'http://' + host + ':8000/fetchLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta;
     return fetch(url, {
@@ -133,6 +148,22 @@ var api = {
 
   fetchUserPhotos(userId, callback) {
     var url = 'http://' + host + ':8000/fetchUserPhotos?userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
+  fetchUserLocations(latitude, longitude, latdelta, londelta, userId, callback) {
+    console.log('fetching userLocations');
+    var url = 'http://' + host + ':8000/fetchUserLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {

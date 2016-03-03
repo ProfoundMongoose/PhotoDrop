@@ -47,19 +47,19 @@ class Map extends React.Component {
   }
 
   componentDidMount(){
-      // setInterval(()=> {
-      //   if(this.props.params.index===2) {
-      //     this.onLocationPressed();
-      //     api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
-      //       var photosArr = JSON.parse(photos);
-      //       this.setState({ photosLocations: photosArr });
-      //     });
-      //     api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-      //       var photosArr = JSON.parse(photos);
-      //       this.setState({ closeLocations: photosArr });
-      //     });
-      //   }
-      // }, 2000)
+      setInterval(()=> {
+        if(this.props.params.index===2) {
+          this.onLocationPressed();
+          // api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+          //   var photosArr = JSON.parse(photos);
+          //   this.setState({ photosLocations: photosArr });
+          // });
+          // api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+          //   var photosArr = JSON.parse(photos);
+          //   this.setState({ closeLocations: photosArr });
+          // });
+        }
+      }, 2000)
   }
 
   showImage(uri) {
@@ -152,8 +152,9 @@ class Map extends React.Component {
       this.setState({ closeLocations: photosArr });
     });
 
-    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+    api.fetchUserLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, this.props.userId, (photos) => {
       var photosArr = JSON.parse(photos);
+      console.log('user locations here .... ', photosArr);
       this.setState({ photosLocations: photosArr });
     });
   }

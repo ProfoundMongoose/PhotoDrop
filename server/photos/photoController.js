@@ -165,6 +165,71 @@ module.exports = {
     });
   },
 
+  fetchUserLocations: function(req, res, next) {
+    var userId = req.query.userId;
+    console.log('userId.....', userId)
+    var lat = Number(req.query.lat);
+    var lon = Number(req.query.lon);
+    var latdelta = Number(req.query.latdelta);
+    var londelta = Number(req.query.londelta);
+    var coords = [
+      [
+        [lon - londelta, lat + latdelta],
+        [lon + londelta, lat + latdelta],
+        [lon + londelta, lat - latdelta],
+        [lon - londelta, lat - latdelta],
+        [lon - londelta, lat + latdelta]
+      ]
+    ];
+
+    var revealedPhotos = undefined;
+
+    Photo.find({
+      $and: [
+      {loc: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [req.query.lon, req.query.lat]
+          },
+          $maxDistance: 50
+        }
+      }},
+      {userId: userId}
+      ]
+    }, function(err, photos) {
+      if (err) {
+        next(err);
+      }
+      revealedPhotos = photos;
+      console.log('photos... ', photos)
+      Photo.find({
+        $and: [
+        {loc: {
+          $geoWithin: {
+            $geometry: {
+              type: 'Polygon',
+              coordinates: coords
+            }
+          }
+        }},
+        {userId: userId}
+        ],
+        _id: {
+          $nin: revealedPhotos.map(function(photo) {
+            return photo._id;
+          })
+        }
+      }, 'loc', function(err, photos) {
+        if (err) {
+          next(err);
+        }
+        // console.log('photos.... ', JSON.stringify(photos));
+        res.json(photos);
+      });
+    });
+  },
+
   fetchUserPhotos: function(req, res, next) {
     Photo.find({ userId: mongoose.mongo.ObjectID(req.query.userId) }, function(err, photos) {
       if (err) {
