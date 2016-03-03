@@ -261,7 +261,10 @@ module.exports = {
     }, {
         // Adds the friend:
       $addToSet: {
-        friends: {username: req.body.targetUsername}
+        friends: {
+          username: req.body.targetUsername,
+          userId: req.body.targetUserId
+        }
       },
       // Removes the friend request:
       $pull: {
