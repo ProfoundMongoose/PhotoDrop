@@ -81,11 +81,8 @@ class CameraView extends React.Component {
 
   render() {
     StatusBarIOS.setHidden(true);
-    console.log('generate camera!')
-
     return (
       <View >
-        <Text>Hello!!!!!</Text>
         <Camera
           ref={(cam) => {
             this.camera = cam;
