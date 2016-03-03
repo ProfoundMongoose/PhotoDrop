@@ -92,19 +92,20 @@ module.exports = {
       var friendIds =  user.friends.map(function(friend) {
         return friend.userId;
         });
-      // conduct a photo query for photos with userIds within the friends userId array
-    });
 
-    Photo.find({
-      loc: {
-        $near: {
-          $geometry: {
-            type: 'Point',
-            coordinates: coords
-          },
-          $maxDistance: maxDistance
-        }
-      }
+      Photo.find({
+      $and: [
+        {loc: {
+          $near: {
+            $geometry: {
+              type: 'Point',
+              coordinates: coords
+            },
+            $maxDistance: maxDistance
+          }
+        }},
+        {userId: {$in: friendIds}}
+      ]  
     }, function(err, photos) {
       if (err) {
         next(err);
@@ -116,6 +117,10 @@ module.exports = {
       }
       res.json(photos);
     });
+      // conduct a photo query for photos with userIds within the friends userId array
+    });
+
+
   },
 
 
