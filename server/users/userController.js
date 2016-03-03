@@ -216,16 +216,19 @@ module.exports = {
       }
       if (user) {
         user.friends.reduce((fullFriendsArray, friendObj, index, originalFriendsArray) => {
-          User.findOne({username: friendObj.username}, {username: 1, userId: 1, profilePhotoUrl: 1}, (err, friendInfo) => {
+          User.findOne({username: friendObj.username}, {username: 1, profilePhotoUrl: 1}, (err, friendInfo) => {
             if (err) {
               next(err);
             }
-            console.log('originalFriendsArray: ',originalFriendsArray);
+            console.log('newFriendInfo: ', friendInfo);
+            console.log('index: ', index, 'origArrayLength: ', originalFriendsArray.length);
+
             fullFriendsArray.push(friendInfo);
             console.log('fullFriendsArrayAfterInsertion: ', fullFriendsArray, 'index: ', index);
             if (index === originalFriendsArray.length - 1) {
               res.json(fullFriendsArray);
             } else {
+              console.log('hit the return statement!');
               return fullFriendsArray;
             }
           });
