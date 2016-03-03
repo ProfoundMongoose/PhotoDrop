@@ -226,8 +226,9 @@ var api = {
       currentUserId: currentUserId,
       targetUsername: targetUsername
     };
+    console.log('request: ', request);
     console.log(`Building request to ${targetUsername}`);
-    return fetch('http://' + host + ':8000/signup', {
+    return fetch('http://' + host + ':8000/request-friend', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -235,6 +236,7 @@ var api = {
       body: JSON.stringify(request)
     })
     .then(function (data) {
+      console.log('friend request sent?');
       if (data.ok) {
         console.log('Friend Request Sent!');
       } else {
