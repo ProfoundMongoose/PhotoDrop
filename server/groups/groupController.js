@@ -8,7 +8,7 @@ module.exports = {
     var regexSearch = new RegExp(req.params.groupname, 'i');
     Group.find({groupname: regexSearch}, {_id: 1, groupname: 1, description: 1}, function (err, groups) {
       if (err) {
-        next(err);
+        return next(err);
       } else {
         res.json(groups);
       }
