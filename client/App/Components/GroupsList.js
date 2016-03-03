@@ -37,7 +37,7 @@ var {
   Image,
 } = React;
 
-class FriendsList extends React.Component {
+class GroupsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -182,4 +182,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = FriendsList;
+module.exports = GroupsList;
