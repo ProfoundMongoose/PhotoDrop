@@ -303,7 +303,24 @@ var api = {
     .catch(function (err) {
       console.error(err);
     });
+  },
+
+  getAllFriends(currentUsername, callback) {
+    var url = 'http://159.203.240.124:8000/friends/' + currentUsername;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (data) {
+      console.log(data);
+      callback(data._bodyText);
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
   }
+
 };
 
 module.exports = api;
