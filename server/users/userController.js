@@ -186,7 +186,7 @@ module.exports = {
   },
 
   savePhotoToUserInDB: function (req, res, next) {
-    User.update({_id: mongoose.mongo.ObjectID(req.body.userId)}, {profilePhotoUrl: req.imgurLink}, function (err, status) {
+    User.update({_id: mongoose.mongo.ObjectID(req.body.userId)}, {profilePhotoUrl: req.body.url}, function (err, status) {
       if (err) {
         next(err);
       }
