@@ -210,12 +210,22 @@ module.exports = {
 
   fetchFriends: function (req, res, next) {
     console.log('passed username:', req.params.username);
-    User.findOne({username: req.params.username}, {friends: 1, _id: 0, profilePhotoUrl: 1}, function (err, user) {
+    User.findOne({username: req.params.username}, {friends: 1}, function (err, user) {
       if (err) {
         next(err);
       }
       if (user) {
-        res.json(user.friends);
+        user.friends.reduce((fullFriendsArray, friendObj, index, originalFriendsArray) => {
+          User.findOne({username: friendObj.username}, {username: 1, userId: 1, profilePhotoUrl: 1}, (err, friendInfo) => {
+            if (err) {
+              next(err);
+            }
+            fullFriendsArray.push(friendInfo);
+            if (index === originalFriendsArray.length - 1) {
+              res.json(fullFriendsArray);
+            }
+          });
+        }, []);
       } else {
         console.log('user object isnt what you expected: ', user);
         res.json(null);
