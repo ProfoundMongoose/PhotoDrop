@@ -9,13 +9,8 @@ var createUser = Q.nbind(User.create, User);
 
 module.exports = {
   login: function(req, res, next) {
-    // console.log('login req.body:');
-    // console.log(req.body);
-    var user = JSON.parse(Object.keys(req.body)[0]);
-    var username = user.username;
-    var password = user.password;
-    // var username = req.body.username;
-    // var password = req.body.password;
+    var username = req.body.username;
+    var password = req.body.password;
 
     findUser({ username: username })
       .then(function(user) {
@@ -39,13 +34,8 @@ module.exports = {
   },
 
   signup: function(req, res, next) {
-    // console.log('signup req.body:');
-    // console.log(req.body);
-    var user = JSON.parse(Object.keys(req.body)[0]);
-    var username = user.username;
-    var password = user.password;
-    // var username = req.body.username;
-    // var password = req.body.password;
+    var username = req.body.username;
+    var password = req.body.password;
 
     findUser({ username: username })
       .then(function(user) {
@@ -88,10 +78,9 @@ module.exports = {
   },
 
   changePassword: function(req, res, next) {
-    var user = JSON.parse(Object.keys(req.body)[0]);
-    var username = user.username;
-    var password = user.password;
-    var newPassword = user.newPassword;
+    var username = req.body.username;
+    var password = req.body.password;
+    var newPassword = req.body.newPassword;
 
     findUser({ username: username })
       .then(function(user) {
@@ -100,13 +89,17 @@ module.exports = {
         } else {
           return user.comparePasswords(password)
             .then(function(foundUser) {
-              user.password = newPassword;
-              user.save(function(err, savedUser) {
-                if (err) {
-                  next(err);
-                }
-                res.json();
-              });
+              if (foundUser) {
+                user.password = newPassword;
+                user.save(function(err, savedUser) {
+                  if (err) {
+                    next(err);
+                  }
+                  res.sendStatus(201);
+                });
+              } else {
+                return next(new Error('Incorrect password'));
+              }
             }).catch(function(err) {
               console.error('problem changing user info', err);
             });
@@ -118,9 +111,8 @@ module.exports = {
   },
 
   changeUsername: function(req, res, next) {
-    var user = JSON.parse(Object.keys(req.body)[0]);
-    var username = user.username;
-    var newUsername = user.newUsername;
+    var username = req.body.username;
+    var newUsername = req.body.newUsername;
 
     findUser({ username: username })
       .then(function(user) {
@@ -194,7 +186,7 @@ module.exports = {
   },
 
   savePhotoToUserInDB: function (req, res, next) {
-    User.update({_id: mongoose.mongo.ObjectID(req.body.userId)}, {profilePhotoUrl: req.imgurLink}, function (err, status) {
+    User.update({_id: mongoose.mongo.ObjectID(req.body.userId)}, {profilePhotoUrl: req.body.url}, function (err, status) {
       if (err) {
         next(err);
       }
