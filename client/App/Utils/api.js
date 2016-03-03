@@ -65,6 +65,7 @@ var api = {
   },
 
   uploadProfilePhoto(data, userId, callback) {
+    console.log("data in the api.utils: ", data);
     var url = 'http://' + host + ':8000/profile-photo';
     fetch(url, {
       method: 'POST',
@@ -73,7 +74,7 @@ var api = {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        data: data,
+        url: data,
         userId: userId
       })
     }).then(function(res) {
@@ -305,8 +306,8 @@ var api = {
     });
   },
 
-  getAllFriends(currentUserId, callback) {
-    var url = 'http://' + host + ':8000/friends/' + currentUserId;
+  getAllFriends(currentUsername, callback) {
+    var url = 'http://' + host + ':8000/friends/' + currentUsername;
     return fetch(url, {
       method: 'GET',
       headers: {
