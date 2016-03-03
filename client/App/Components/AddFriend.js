@@ -262,7 +262,6 @@ var styles = StyleSheet.create({
     backgroundColor: '#ededed',
   },
   rightContainer: {
-
   },
   potentialFriend: {
     height: 50,

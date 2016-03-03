@@ -210,7 +210,7 @@ module.exports = {
 
   fetchFriends: function (req, res, next) {
     console.log('passed username:', req.params.username);
-    User.findOne({username: req.params.username}, {friends: 1}, function (err, user) {
+    User.findOne({username: req.params.username}, {friends: 1, _id: 0, profilePhotoUrl: 1}, function (err, user) {
       if (err) {
         next(err);
       }
@@ -282,7 +282,7 @@ module.exports = {
       $addToSet: {
         friends: {
           username: req.body.targetUsername,
-          userId: req.body.targetUserId
+          _id: mongoose.mongo.ObjectID(req.body.targetUserId)
         }
       },
       // Removes the friend request:
