@@ -220,6 +220,7 @@ module.exports = {
             if (err) {
               next(err);
             }
+            console.log('fullFriendsArray: ', fullFriendsArray, 'index: ', index);
             fullFriendsArray.push(friendInfo);
             if (index === originalFriendsArray.length - 1) {
               res.json(fullFriendsArray);
