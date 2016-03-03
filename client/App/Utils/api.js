@@ -291,8 +291,8 @@ var api = {
     });
   },
 
-  getFriendRequests(currentUserId, callback) {
-    var url = 'http://' + host + ':8000/friend-requests/' + currentUserId;
+  getFriendRequests(currentUsername, callback) {
+    var url = 'http://' + host + ':8000/friend-requests/' + currentUsername;
     return fetch(url, {
       method: 'GET',
       headers: {
