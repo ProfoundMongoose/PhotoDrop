@@ -265,10 +265,11 @@ var api = {
     });
   },
 
-  acceptFriendRequest(currentUserId, targetUsername) {
+  acceptFriendRequest(currentUserId, targetUsername, targetUserId) {
     var request = {
       currentUserId: currentUserId,
-      targetUsername: targetUsername
+      targetUsername: targetUsername,
+      targetUserId: targetUserId
     };
     return fetch('http://159.203.240.124:8000/confirm-friend-request', {
       method: 'POST',
