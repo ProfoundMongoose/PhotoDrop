@@ -83,8 +83,10 @@ class AddFriend extends React.Component {
     api.addFriend(this.state.userId, friend);
   }
 
-  acceptFriendRequest(newFriendUsername, event) {
-    api.acceptFriendRequest(this.state.userId, newFriendUsername);
+  // acceptFriendRequest(newFriend, event) { // make sure this gets passed the right thing
+  acceptFriendRequest(newFriendUsername, event) { // make sure this gets passed the right thing
+    // api.acceptFriendRequest(this.state.userId, newFriend.username, newFriend.userId); // fix api
+    api.acceptFriendRequest(this.state.userId, newFriendUsername); // fix api
   }
 
   renderFriend(friend) {
