@@ -1,39 +1,55 @@
+// Uncomment one of the two following lines to use the appriopriate host for your purposes:
+var host = '159.203.240.124'; // production server
+// var host = '127.0.0.1'; // local dev testing server
+
 var api = {
   login(username, password) {
     var user = { username: username, password: password };
-    var url = 'http://159.203.240.124:8000/login';
+    var url = 'http://' + host + ':8000/login';
     return fetch(url, {
       method: 'POST',
-      body: JSON.stringify(user)
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: user
     });
   },
 
   signup(username, password) {
     var user = { username: username, password: password };
-    return fetch('http://159.203.240.124:8000/signup', {
+    return fetch('http://' + host + ':8000/signup', {
       method: 'POST',
-      body: JSON.stringify(user)
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: user
     });
   },
 
   changePassword(username, password, newPassword) {
     var user = { username: username, password: password, newPassword: newPassword };
-    return fetch('http://159.203.240.124:8000/changePassword', {
-      method: 'POST',
-      body: JSON.stringify(user)
+    return fetch('http://' + host + ':8000/changePassword', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: user
     });
   },
 
   changeUsername(username, newUsername) {
     var user = { username: username, newUsername: newUsername };
-    return fetch('http://159.203.240.124:8000/changeUsername', {
+    return fetch('http://' + host + ':8000/changeUsername', {
       method: 'POST',
-      body: JSON.stringify(user)
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: user
     });
   },
 
   checkJWT(JWT, callback) {
-    var url = 'http://159.203.240.124:8000/checkJWT/' + JWT;
+    var url = 'http://' + host + ':8000/checkJWT/' + JWT;
     fetch(url, {
       method: 'GET',
       headers: {
@@ -49,7 +65,7 @@ var api = {
   },
 
   uploadPhoto(data, latitude, longitude, userId, callback) {
-    var url = 'http://159.203.240.124:8000/imgUpload';
+    var url = 'http://' + host + ':8000/imgUpload';
     // cut data in half
     var firstHalf = data.slice(0, Math.floor(data.length / 2));
     var secondHalf = data.slice(Math.floor(data.length / 2));
@@ -85,7 +101,7 @@ var api = {
   },
 
   fetchPhotos(latitude, longitude, radius, callback) {
-    var url = 'http://159.203.240.124:8000/fetchPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
+    var url = 'http://' + host + ':8000/fetchPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -100,7 +116,7 @@ var api = {
   },
 
   fetchLocations(latitude, longitude, latdelta, londelta, callback) {
-    var url = 'http://159.203.240.124:8000/fetchLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta;
+    var url = 'http://' + host + ':8000/fetchLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -116,7 +132,7 @@ var api = {
 
 
   fetchUserPhotos(userId, callback) {
-    var url = 'http://159.203.240.124:8000/fetchUserPhotos?userId=' + userId;
+    var url = 'http://' + host + ':8000/fetchUserPhotos?userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -131,7 +147,7 @@ var api = {
   },
 
   fetchUserFavorites(userId, callback) {
-    var url = 'http://159.203.240.124:8000/fetchUserFavorites?userId=' + userId;
+    var url = 'http://' + host + ':8000/fetchUserFavorites?userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -146,7 +162,7 @@ var api = {
   },
 
   incrementViews(url, callback) {
-    var url = 'http://159.203.240.124:8000/incrementViews?url=' + url;
+    var url = 'http://' + host + ':8000/incrementViews?url=' + url;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -161,7 +177,7 @@ var api = {
   },
 
   toggleFavorite(userId, url, callback) {
-    var url = 'http://159.203.240.124:8000/toggleFavorite?userId=' + userId + '&url=' + url;
+    var url = 'http://' + host + ':8000/toggleFavorite?userId=' + userId + '&url=' + url;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -176,7 +192,7 @@ var api = {
   },
 
   getPhotoData(url, userId, callback) {
-    var url = 'http://159.203.240.124:8000/getPhotoData?url=' + url + '&userId=' + userId;
+    var url = 'http://' + host + ':8000/getPhotoData?url=' + url + '&userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -191,7 +207,7 @@ var api = {
   },
 
   searchUsers(usernameQuery, callback) {
-    var url = 'http://159.203.240.124:8000/search-users/' + usernameQuery;
+    var url = 'http://' + host + ':8000/search-users/' + usernameQuery;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -211,13 +227,12 @@ var api = {
       targetUsername: targetUsername
     };
     console.log(`Building request to ${targetUsername}`);
-    return fetch('http://159.203.240.124:8000/request-friend', {
+    return fetch('http://' + host + ':8000/signup', {
       method: 'POST',
       headers: {
-        'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(request)
+      body: request
     })
     .then(function (data) {
       if (data.ok) {

@@ -27,7 +27,7 @@ module.exports = function(app, express) {
   app.get('/checkJWT/:JWT', userController.checkJWT);
 
   // Change user information
-  app.post('/changePassword', userController.changePassword);
+  app.put('/changePassword', userController.changePassword);
   app.post('/changeUsername', userController.changeUsername);
   app.post('/profile-photo', photoController.uploadPhoto, userController.savePhotoToUserInDB);
 
