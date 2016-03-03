@@ -69,9 +69,14 @@ class AddFriend extends React.Component {
 
   loadFriendRequests() {
     api.getFriendRequests(this.state.userId, (friendRequests) => {
-      var usernames = friendRequests.map((user) => {
-        return user ? user.username : null;
-      });
+      console.log('state username: ', this.state.username);
+      var usernames = friendRequests.reduce((validRequests, user) => {
+        if (user && user.username !== this.state.username) {
+          validRequests.push(user);
+        }
+        return validRequests;
+        // return user ? user : null;
+      }, []);
       console.log('friendRequests', friendRequests, friendRequests.length);
       this.setState({
         pendingFriendRequests: this.state.pendingFriendRequests.cloneWithRows(usernames)
@@ -83,10 +88,10 @@ class AddFriend extends React.Component {
     api.addFriend(this.state.userId, friend);
   }
 
-  // acceptFriendRequest(newFriend, event) { // make sure this gets passed the right thing
-  acceptFriendRequest(newFriendUsername, event) { // make sure this gets passed the right thing
-    // api.acceptFriendRequest(this.state.userId, newFriend.username, newFriend.userId); // fix api
-    api.acceptFriendRequest(this.state.userId, newFriendUsername); // fix api
+  acceptFriendRequest(newFriend, event) { // make sure this gets passed the right thing
+  // acceptFriendRequest(newFriendUsername, event) {
+    api.acceptFriendRequest(this.state.userId, newFriend.username, newFriend.userId);
+    // api.acceptFriendRequest(this.state.userId, newFriendUsername);
   }
 
   renderFriend(friend) {
@@ -106,7 +111,7 @@ class AddFriend extends React.Component {
       <TouchableHighlight onPress={this.acceptFriendRequest.bind(this, potentialFriend)}>
         <View style={styles.container}>
           <View style={styles.rightContainer}>
-            <Text style={styles.friend}>{potentialFriend}</Text>
+            <Text style={styles.friend}>{potentialFriend.username}</Text>
           </View>
         </View>
       </TouchableHighlight>
