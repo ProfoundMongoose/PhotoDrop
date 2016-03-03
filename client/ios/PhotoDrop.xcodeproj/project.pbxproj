@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		0093FB9D25024A458C467C24 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CC8E29D9675640FAA5BB8073 /* FontAwesome.ttf */; };
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
@@ -470,7 +469,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 720;
 				ORGANIZATIONNAME = "Profound Mongoose";
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -478,7 +477,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = 2ZJJNLJ4P3;
+						DevelopmentTeam = W96QPJ86X3;
 						SystemCapabilities = {
 							com.apple.Maps.iOS = {
 								enabled = 1;
@@ -822,7 +821,7 @@
 				INFOPLIST_FILE = ProfoundMongoose/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = PhotoDrop;
+				PRODUCT_BUNDLE_IDENTIFIER = PhotoDropSplash;
 				PRODUCT_NAME = PhotoDrop;
 				PROVISIONING_PROFILE = "";
 			};
@@ -847,7 +846,7 @@
 				INFOPLIST_FILE = ProfoundMongoose/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = PhotoDrop;
+				PRODUCT_BUNDLE_IDENTIFIER = PhotoDropSplash;
 				PRODUCT_NAME = PhotoDrop;
 				PROVISIONING_PROFILE = "";
 			};

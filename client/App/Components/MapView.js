@@ -26,6 +26,7 @@ class Map extends React.Component {
     super(props);
 
     this.state = {
+      filter: 'public',
       latitude: this.props.params.latitude,
       longitude: this.props.params.longitude,
       latitudeDelta: 0.003,
@@ -46,19 +47,19 @@ class Map extends React.Component {
   }
 
   componentDidMount(){
-      setInterval(()=> {
-        if(this.props.params.index===2) {
-          this.onLocationPressed();
-          api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
-            var photosArr = JSON.parse(photos);
-            this.setState({ photosLocations: photosArr });
-          });
-          api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-            var photosArr = JSON.parse(photos);
-            this.setState({ closeLocations: photosArr });
-          });
-        }
-      }, 2000)
+      // setInterval(()=> {
+      //   if(this.props.params.index===2) {
+      //     this.onLocationPressed();
+      //     api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+      //       var photosArr = JSON.parse(photos);
+      //       this.setState({ photosLocations: photosArr });
+      //     });
+      //     api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      //       var photosArr = JSON.parse(photos);
+      //       this.setState({ closeLocations: photosArr });
+      //     });
+      //   }
+      // }, 2000)
   }
 
   showImage(uri) {
@@ -100,6 +101,8 @@ class Map extends React.Component {
   }
 
   openAllPhotos() {
+    console.log('open all photos');
+    console.log('filter ....', this.state.filter)
       this.props.navigator.push({
         component: PhotosView,
         userId: this.props.userId,
@@ -108,6 +111,39 @@ class Map extends React.Component {
         latitude: this.state.latitude,
         longitude: this.state.longitude
       });
+  }
+
+
+  addFriendsFilter() {
+    // Update closeLocations and photoLocations based on friend data
+    this.setState({filter: 'friends', photoLocations: [], closeLocations: []});
+  }
+
+  addPublicFilter() {
+    this.setState({filter: 'public'});
+
+    api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      this.setState({ closeLocations: photosArr });
+    });
+
+    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+      var photosArr = JSON.parse(photos);
+      this.setState({ photosLocations: photosArr });
+    });
+  }
+
+  addUserFilter() {
+    this.setState({filter: 'user'});
+    api.fetchUserPhotos(this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      this.setState({ closeLocations: photosArr });
+    });
+
+    api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+      var photosArr = JSON.parse(photos);
+      this.setState({ photosLocations: photosArr });
+    });
   }
 
   render() {
@@ -129,7 +165,6 @@ class Map extends React.Component {
         <MapView.Marker coordinate={this.state}>
           <CircleMarker navigator={this.props.navigator}/>
         </MapView.Marker>
-
           { this.state.photosLocations.map((photoLocation) => {
               return (
               <MapView.Marker coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}>
@@ -152,8 +187,36 @@ class Map extends React.Component {
           <Icon name="location-arrow" size={25} color="#ededed" style={styles.arrowIcon} />
         </TouchableHighlight>
 
+        <View style={styles.topButtonContainer}>
+          <TouchableOpacity style={styles.button} onPress={this.addPublicFilter.bind(this)}>
+            <View style={[styles.bubble, styles.smallButton]}>
+              <Text style={styles.openPhotosText}>
+                {`Public`}
+              </Text>
+            </View>
+          </TouchableOpacity>
 
-        <TouchableOpacity style={styles.buttonContainer} onPress={this.openAllPhotos.bind(this)}>
+          <TouchableOpacity style={styles.button} onPress={this.addUserFilter.bind(this)}>
+            <View style={[styles.bubble, styles.smallButton]}>
+              <Text style={styles.openPhotosText}>
+                {`User`}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+
+          <TouchableOpacity style={styles.button} onPress={this.addFriendsFilter.bind(this)}>
+            <View style={[styles.bubble, styles.smallButton]}>
+              <Text style={styles.openPhotosText}>
+                {`Friends`}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+        </View>
+
+
+        <TouchableOpacity style={styles.bottomButtonContainer} onPress={this.openAllPhotos.bind(this)}>
           <View style={[styles.bubble, styles.latlng]}>
             <Text style={styles.openPhotosText}>
               {`View All Available Photos`}
@@ -202,6 +265,10 @@ var styles = StyleSheet.create({
     width: 200,
     alignItems: 'stretch'
   },
+  smallButton: {
+    width: 90,
+    alignItems: 'stretch'
+  },
   currentLocation: {
     width: 100,
     alignItems: 'stretch'
@@ -216,7 +283,7 @@ var styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#FF5A5F',
     marginLeft: 290,
-    marginBottom: 484
+    marginBottom: 440 // originally 484
   },
   arrowIcon:{
     width:25,
@@ -229,9 +296,15 @@ var styles = StyleSheet.create({
     marginHorizontal: 10,
     borderColor: '#FF5A5F'
   },
-  buttonContainer: {
+  topButtonContainer: {
     flexDirection: 'row',
-    marginVertical: 30,
+    bottom: 550,
+    height: 40,
+    backgroundColor: 'transparent'
+  },
+  bottomButtonContainer: {
+    flexDirection: 'row',
+    bottom: 50,
     backgroundColor: 'transparent'
   },
   openPhotosText: {
