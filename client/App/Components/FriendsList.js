@@ -6,22 +6,7 @@ var api = require('../Utils/api');
 var AddFriend = require('./AddFriend');
 
 var MOCKED_FRIENDS_DATA = [
-  {name: 'Shane McGraw', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Elliot Plant', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Erick Paepke', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Kyle Corbelli', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Shane McGraw', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Elliot Plant', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Erick Paepke', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Kyle Corbelli', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Shane McGraw', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Elliot Plant', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Erick Paepke', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Kyle Corbelli', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Shane McGraw', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Elliot Plant', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Erick Paepke', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-  {name: 'Kyle Corbelli', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
 ];
 
 var {
@@ -157,19 +142,24 @@ var styles = StyleSheet.create({
   },
   container: {
     marginBottom: 5,
-    marginLeft: 5,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#ededed',
   },
   rightContainer: {
-    flex: 1,
   },
   friend: {
-    fontSize: 12,
+    height: 50,
+    padding: 13,
+    paddingLeft: 37,
+    fontSize: 18,
+    fontFamily: 'circular',
+    color: '#565b5c',
+    alignSelf: 'center'
   },
   thumbnail: {
+    marginLeft: 8,
     width: 90,
     height: 90,
     borderRadius: 45,
