@@ -62,7 +62,6 @@ class Settings extends React.Component {
   }
 
   showFriends() {
-    console.log('Settings, current userId: ', this.props.userId);
     this.props.navigator.push({
       component: FriendsList,
       username: this.props.username,

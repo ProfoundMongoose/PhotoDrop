@@ -64,7 +64,6 @@ class AddFriend extends React.Component {
   }
 
   addFriend(friend, event) {
-    console.log('Request, current userId: ', this.state.userId);
     api.addFriend(this.state.userId, friend);
   }
 
@@ -119,7 +118,7 @@ class AddFriend extends React.Component {
             style={styles.listView} /* write this */
             rightButton={addButton}
           />
-          <Text style={styles.fieldTitle}> A field with text </Text>
+          <Text style={styles.fieldTitle}> Pending Friend Requests </Text>
 
             <ActivityIndicatorIOS
               animating= {this.state.isLoading}
