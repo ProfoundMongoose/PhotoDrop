@@ -316,7 +316,7 @@ var api = {
       }
     }).then(function (data) {
       console.log(data);
-      callback(data._bodyText);
+      callback(JSON.parse(data._bodyText));
     })
     .catch(function (err) {
       console.error(err);

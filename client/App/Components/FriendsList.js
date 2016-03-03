@@ -6,22 +6,22 @@ var api = require('../Utils/api');
 var AddFriend = require('./AddFriend');
 
 var MOCKED_FRIENDS_DATA = [
-  {name: 'Shane McGraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'Elliot Plant', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/14936355.jpg'}},
-  {name: 'Erick Paepke', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10649202.jpg'}},
-  {name: 'Kyle Corbelli', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/13224446.jpg'}},
-  {name: 'Shane McGraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'Elliot Plant', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/14936355.jpg'}},
-  {name: 'Erick Paepke', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10649202.jpg'}},
-  {name: 'Kyle Corbelli', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/13224446.jpg'}},
-  {name: 'Shane McGraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'Elliot Plant', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/14936355.jpg'}},
-  {name: 'Erick Paepke', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10649202.jpg'}},
-  {name: 'Kyle Corbelli', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/13224446.jpg'}},
-  {name: 'Shane McGraw', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10692718.jpg'}},
-  {name: 'Elliot Plant', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/14936355.jpg'}},
-  {name: 'Erick Paepke', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/10649202.jpg'}},
-  {name: 'Kyle Corbelli', profile: {thumbnail: 'file:///Users/shanemcgraw/Desktop/13224446.jpg'}},
+  {name: 'Shane McGraw', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Elliot Plant', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Erick Paepke', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Kyle Corbelli', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Shane McGraw', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Elliot Plant', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Erick Paepke', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Kyle Corbelli', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Shane McGraw', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Elliot Plant', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Erick Paepke', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Kyle Corbelli', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Shane McGraw', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Elliot Plant', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Erick Paepke', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
+  {name: 'Kyle Corbelli', profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
 ];
 
 var {
@@ -89,9 +89,14 @@ class FriendsList extends React.Component {
   }
 
   loadFriendsData() {
-    //eventually do an http request to our server to get the friends data
     api.getAllFriends(this.state.username, (data) => {
       console.log('Data has arrived!', data);
+      data.forEach((friend, index) => {
+        // use username instead of name
+        friend.name = friend.username;
+        // fix this so it gets the profile image from the database
+        friend.profile = MOCKED_FRIENDS_DATA[index].profile;
+      });
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(data),
         loaded: true,
