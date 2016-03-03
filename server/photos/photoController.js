@@ -85,12 +85,13 @@ module.exports = {
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
 
-     User.findOne({_id: mongoose.mongo.ObjectID(req.query.userId)}, {friends: 1, _id: 0}, function (err, user) {
+    User.findOne({_id: mongoose.mongo.ObjectID(req.query.userId)}, {friends: 1, _id: 0}, function (err, user) {
       if (err) {
         next(err);
       }
-      // pluck userId's from friends
-
+      var friendIds =  user.friends.map(function(friend) {
+        return friend.userId;
+        });
       // conduct a photo query for photos with userIds within the friends userId array
     });
 
