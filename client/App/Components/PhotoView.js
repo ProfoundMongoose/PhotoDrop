@@ -60,9 +60,10 @@ class PhotoView extends React.Component{
   _setImageAsProfilePicture() {
     api.uploadProfilePhoto(this.state.url, this.state.userId, (result) => {
       this.setState.modalVisible = true;
+      this.setState.transparent = false;
       setTimeout(()=> {
         this._closeModal();
-      }, 500);
+      }, 1500);
     });
   }
 
@@ -90,11 +91,9 @@ class PhotoView extends React.Component{
       this.setState({touched:false});
     }
     if(this.props.togglePagination) {this.props.togglePagination();}
-    console.log(this.state);
   }
 
   _closeModal() { 
-    console.log("closing time!");
     this.setState({modalVisible: false});
     this.props.navigator.pop();
   }
@@ -120,7 +119,7 @@ class PhotoView extends React.Component{
           >
             <View style={[styles.container]}>
               <View style={[styles.innerContainer, this.state.innerContainerTransparentStyle]}>
-                <Text style={styles.modal}>Your photo has been uploaded!</Text>
+                <Text style={styles.modal}>New profile picture set!</Text>
                 <IconIon name="ios-checkmark-empty" size={90} color="#036C69" style={styles.yesIcon} />
               </View>
             </View>
