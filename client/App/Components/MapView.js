@@ -7,6 +7,7 @@ var PhotosView = require('./PhotosView');
 var api = require('../Utils/api');
 var BlackPhotoMarker = require('./BlackPhotoMarker');
 var RedPhotoMarker = require('./RedPhotoMarker');
+var FriendsList = require('./FriendsList');
 
 var {
   Navigator,
@@ -32,7 +33,8 @@ class Map extends React.Component {
       latitudeDelta: 0.003,
       longitudeDelta: (this.props.params.width / this.props.params.height) * 0.003, // division is aspect ratio
       photosLocations: undefined,
-      closeLocations: undefined
+      closeLocations: undefined,
+      currentGroup: ''
     };
     
     api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
@@ -47,21 +49,21 @@ class Map extends React.Component {
   }
 
   componentDidMount(){
-      setInterval(()=> {
-        if(this.props.params.index===2) {
-          this.onLocationPressed();
-          if (this.state.filter === 'public') {
-            api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
-              var photosArr = JSON.parse(photos);
-              this.setState({ photosLocations: photosArr });
-            });
-            api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-              var photosArr = JSON.parse(photos);
-              this.setState({ closeLocations: photosArr });
-            });
-          }
+    setInterval(()=> {
+      if(this.props.params.index===2) {
+        this.onLocationPressed();
+        if (this.state.filter === 'public') {
+          api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+            var photosArr = JSON.parse(photos);
+            this.setState({ photosLocations: photosArr });
+          });
+          api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+            var photosArr = JSON.parse(photos);
+            this.setState({ closeLocations: photosArr });
+          });
         }
-      }, 2000)
+      }
+    }, 2000)
   }
 
   showImage(uri) {
@@ -158,6 +160,16 @@ class Map extends React.Component {
     });
   }
 
+
+  showFriends() {
+    console.log('username....', this.props);
+    this.props.navigator.push({
+      component: FriendsList,
+      username: this.props.username,
+      userId: this.props.userId
+    });
+  }
+
   render() {
 
     if(this.state.photosLocations && this.state.closeLocations){
@@ -216,11 +228,18 @@ class Map extends React.Component {
             </View>
           </TouchableOpacity>
 
-
           <TouchableOpacity style={styles.button} onPress={this.addFriendsFilter.bind(this)}>
             <View style={[styles.bubble, styles.smallButton]}>
               <Text style={styles.openPhotosText}>
                 {`Friends`}
+              </Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.button} onPress={this.showFriends.bind(this)}>
+            <View style={[styles.bubble, styles.smallButton]}>
+              <Text style={styles.openPhotosText}>
+                {this.state.currentGroup || `Groups`}
               </Text>
             </View>
           </TouchableOpacity>
@@ -280,7 +299,7 @@ var styles = StyleSheet.create({
     alignItems: 'stretch'
   },
   smallButton: {
-    width: 90,
+    width: 85,
     alignItems: 'stretch'
   },
   currentLocation: {
@@ -288,8 +307,8 @@ var styles = StyleSheet.create({
     alignItems: 'stretch'
   },
   arrowButton:{
-    width:50,
-    height:50,
+    width:40,
+    height:40,
     backgroundColor:'#FF5A5F',
     borderRadius:25,
     alignItems:'center',
@@ -304,10 +323,10 @@ var styles = StyleSheet.create({
     height:25
   },
   button: {
-    width: 80,
-    paddingHorizontal: 12,
+    width: 50,
+    paddingHorizontal: 10,
     alignItems: 'center',
-    marginHorizontal: 15,
+    marginHorizontal: 20,
     borderColor: '#FF5A5F'
   },
   topButtonContainer: {
