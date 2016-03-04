@@ -82,6 +82,7 @@ class GroupsList extends React.Component {
   }
 
   render() {
+    this.loadGroupsData();
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );

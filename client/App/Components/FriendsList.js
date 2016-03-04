@@ -88,6 +88,7 @@ class FriendsList extends React.Component {
   }
 
   render() {
+    this.loadFriendsData();
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );
