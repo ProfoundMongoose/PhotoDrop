@@ -94,6 +94,13 @@ class AddGroups extends React.Component {
     );
   }
 
+  createGroup(event) {
+    if (event.nativeEvent.text) {
+      console.log('this is the userId', this.state.userId);
+      api.createGroup(this.state.userId, event.nativeEvent.text, 'the description!');
+    }
+  }
+
   render() {
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>

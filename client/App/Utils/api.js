@@ -2,6 +2,14 @@
 var host = '159.203.240.124'; // production server
 // var host = '127.0.0.1'; // local dev testing server
 
+var mockGroupData = [
+  {groupname: 'shane mcgrain', users: [,,,,,,,,,,,,,,]},
+  {groupname: 'tigers sclub', users: [,,,,,,,,]},
+  {groupname: 'katterbox lobby', users: [,,,,,,,,,,,,,,,,,,]},
+];
+
+
+
 var api = {
   login(username, password) {
     var user = { username: username, password: password };
@@ -368,18 +376,19 @@ var api = {
 
   getUserGroups(userId, callback) {
     var url = 'http://' + host + ':8000/groups/' + userId;
-    return fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    }).then(function (data) {
-      console.log(data);
-      callback(JSON.parse(data._bodyText));
-    })
-    .catch(function (err) {
-      console.error(err);
-    });
+    return callback(mockGroupData);
+    // return fetch(url, {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   }
+    // }).then(function (data) {
+    //   console.log(data);
+    //   callback(JSON.parse(data._bodyText));
+    // })
+    // .catch(function (err) {
+    //   console.error(err);
+    // });
   },
 
   searchGroups(groupNameQuery, callback) {
@@ -446,7 +455,33 @@ var api = {
     .catch(function (err) {
       console.error(err);
     });
-  }
+  },
+
+  createGroup(currentUserId, groupname, description) {
+      var request = {
+        currentUserId: currentUserId,
+        groupname: groupname,
+        description: description
+      };
+
+      return fetch('http://' + host + ':8000/groups', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(request)
+      })
+      .then(function (data) {
+        if (data.ok) {
+          console.log('Group Created!');
+        } else {
+          console.log('Something went wrong with your group creation');
+        }
+      })
+      .catch(function (err) {
+        console.error(err);
+      });
+    },
 };
 
 module.exports = api;
