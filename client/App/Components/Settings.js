@@ -5,6 +5,7 @@ var Login = require('./Login');
 var PhotosView = require('./PhotosView');
 var ChangeView = require('./ChangeView');
 var FriendsList = require('./FriendsList');
+var GroupsList = require('./GroupsList');
 
 var {
   Text,
