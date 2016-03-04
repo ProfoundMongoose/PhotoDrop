@@ -8,7 +8,7 @@ module.exports = {
     var regexSearch = new RegExp(req.params.groupname, 'i');
     Group.find({groupname: regexSearch}, {_id: 1, groupname: 1, description: 1}, function (err, groups) {
       if (err) {
-        next(err);
+        return next(err);
       } else {
         res.json(groups);
       }
@@ -77,6 +77,15 @@ module.exports = {
           });
         });
       }
+    });
+  },
+
+  getUsersGroups: function (req, res, next) {
+    User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {_id: 0, groups: 1}, function (err, user) {
+      if (err) {
+        return next(err);
+      }
+      res.json(user.groups);
     });
   }
 
