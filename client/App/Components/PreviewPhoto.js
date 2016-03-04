@@ -41,7 +41,6 @@ class PreviewPhoto extends React.Component {
     this.setState({modalVisible: false});
     this.props.navigator.pop();
   }
-  
 
   _cancelImage() {
     this.props.navigator.pop();

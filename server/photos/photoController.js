@@ -1,6 +1,7 @@
 var imgur = require('imgur');
 var Photo = require('./photoModel');
 var mongoose = require('mongoose');
+var User = require('../users/userModel');
 
 module.exports = {
   // recieve base64 bit image in two POST request packets
@@ -56,7 +57,6 @@ module.exports = {
   fetchPhotos: function(req, res, next) {
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
-
     Photo.find({
       loc: {
         $near: {
@@ -79,6 +79,33 @@ module.exports = {
       res.json(photos);
     });
   },
+
+  // fetch friends' photos from DB
+  fetchFriendsPhotos: function(req, res, next) {
+    User.findOne({_id: mongoose.mongo.ObjectID(req.query.userId)}, {friends: 1, _id: 0}, function (err, user) {
+      if (err) {
+        next(err);
+      }
+      var friendIds =  user.friends.map(function(friend) {
+        return friend.userId;
+        });
+
+      Photo.find({
+        userId: {$in: friendIds}
+    }, function(err, photos) {
+      if (err) {
+        next(err);
+      }
+      if (photos) { 
+        photos = photos.sort(function(a, b) {
+          return b.views - a.views;
+        });
+      }
+      res.json(photos);
+    });
+    });
+  },
+
 
   fetchLocations: function(req, res, next) {
     var lat = Number(req.query.lat);
@@ -133,6 +160,139 @@ module.exports = {
         res.json(photos);
       });
     });
+  },
+
+  fetchUserLocations: function(req, res, next) {
+    var userId = req.query.userId;
+    var lat = Number(req.query.lat);
+    var lon = Number(req.query.lon);
+    var latdelta = Number(req.query.latdelta);
+    var londelta = Number(req.query.londelta);
+    var coords = [
+      [
+        [lon - londelta, lat + latdelta],
+        [lon + londelta, lat + latdelta],
+        [lon + londelta, lat - latdelta],
+        [lon - londelta, lat - latdelta],
+        [lon - londelta, lat + latdelta]
+      ]
+    ];
+
+    var revealedPhotos = undefined;
+
+    Photo.find({
+      $and: [
+      {loc: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [req.query.lon, req.query.lat]
+          },
+          $maxDistance: 50
+        }
+      }},
+      {userId: userId}
+      ]
+    }, function(err, photos) {
+      if (err) {
+        next(err);
+      }
+      revealedPhotos = photos;
+      Photo.find({
+        $and: [
+        {loc: {
+          $geoWithin: {
+            $geometry: {
+              type: 'Polygon',
+              coordinates: coords
+            }
+          }
+        }},
+        {userId: userId}
+        ],
+        _id: {
+          $nin: revealedPhotos.map(function(photo) {
+            return photo._id;
+          })
+        }
+      }, 'loc', function(err, photos) {
+        if (err) {
+          next(err);
+        }
+        res.json(photos);
+      });
+    });
+  },
+
+  fetchFriendsLocations: function(req, res, next) {
+    var userId = req.query.userId;
+    var lat = Number(req.query.lat);
+    var lon = Number(req.query.lon);
+    var latdelta = Number(req.query.latdelta);
+    var londelta = Number(req.query.londelta);
+    var coords = [
+      [
+        [lon - londelta, lat + latdelta],
+        [lon + londelta, lat + latdelta],
+        [lon + londelta, lat - latdelta],
+        [lon - londelta, lat - latdelta],
+        [lon - londelta, lat + latdelta]
+      ]
+    ];
+
+    var revealedPhotos = undefined;
+
+    User.findOne({_id: mongoose.mongo.ObjectID(userId)}, {friends: 1, _id: 0}, function (err, user) {
+      if (err) {
+        next(err);
+      }
+      var friendIds =  user.friends.map(function(friend) {
+        return mongoose.mongo.ObjectID(friend.userId);
+        });
+
+      Photo.find({
+        $and: [
+        {loc: {
+          $near: {
+            $geometry: {
+              type: 'Point',
+              coordinates: [req.query.lon, req.query.lat]
+            },
+            $maxDistance: 50
+          }
+        }},
+        {userId: {$in: friendIds}}
+        ]
+      }, function(err, photos) {
+        if (err) {
+          next(err);
+        }
+        revealedPhotos = photos;
+        Photo.find({
+          $and: [
+          {loc: {
+            $geoWithin: {
+              $geometry: {
+                type: 'Polygon',
+                coordinates: coords
+              }
+            }
+          }},
+           {userId: {$in: friendIds}}
+          ],
+          _id: {
+            $nin: revealedPhotos.map(function(photo) {
+              return photo._id;
+            })
+          }
+        }, 'loc', function(err, photos) {
+          if (err) {
+            next(err);
+          }
+          res.json(photos);
+        });
+      });
+      })
   },
 
   fetchUserPhotos: function(req, res, next) {

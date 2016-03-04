@@ -209,11 +209,30 @@ module.exports = {
   },
 
   fetchFriends: function (req, res, next) {
-    User.findOne({username: req.params.username}, {friends: 1, _id: 0}, function (err, user) {
+    console.log('passed username:', req.params.username);
+    User.findOne({username: req.params.username}, {friends: 1, _id: 0, profilePhotoUrl: 1}, function (err, user) {
       if (err) {
         next(err);
       }
-      res.json(user.friends);
+      if (user) {
+        user.friends.reduce((fullFriendsArray, friendObj, index, originalFriendsArray) => {
+          User.findOne({username: friendObj.username}, {username: 1, profilePhotoUrl: 1}, (err, friendInfo) => {
+            if (err) {
+              next(err);
+            }
+            if (fullFriendsArray) {
+              fullFriendsArray.push(friendInfo);
+            }
+            if (index === originalFriendsArray.length - 1) {
+              res.json(fullFriendsArray);
+            }
+            return fullFriendsArray;
+          });
+        }, []);
+      } else {
+        console.log('user object isnt what you expected: ', user);
+        res.json(null);
+      }
     });
   },
 
@@ -263,7 +282,7 @@ module.exports = {
       $addToSet: {
         friends: {
           username: req.body.targetUsername,
-          userId: req.body.targetUserId
+          _id: mongoose.mongo.ObjectID(req.body.targetUserId)
         }
       },
       // Removes the friend request:

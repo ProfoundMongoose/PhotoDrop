@@ -64,6 +64,23 @@ var api = {
     });
   },
 
+  uploadProfilePhoto(data, userId, callback) {
+    var url = 'http://' + host + ':8000/profile-photo';
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        url: data,
+        userId: userId
+      })
+    }).then(function(res) {
+      callback(res._bodyText);
+    }).catch(function(err) { console.log(err); });
+  },
+
   uploadPhoto(data, latitude, longitude, userId, callback) {
     var url = 'http://' + host + ':8000/imgUpload';
     // cut data in half
@@ -130,9 +147,53 @@ var api = {
     });
   },
 
+  fetchUserLocations(latitude, longitude, latdelta, londelta, userId, callback) {
+    var url = 'http://' + host + ':8000/fetchUserLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
+  fetchFriendsLocations(latitude, longitude, latdelta, londelta, userId, callback) {
+    var url = 'http://' + host + ':8000/fetchFriendsLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
 
   fetchUserPhotos(userId, callback) {
     var url = 'http://' + host + ':8000/fetchUserPhotos?userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
+  fetchFriendsPhotos(userId, callback) {
+    var url = 'http://' + host + ':8000/fetchFriendsPhotos?userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -226,7 +287,6 @@ var api = {
       currentUserId: currentUserId,
       targetUsername: targetUsername
     };
-    console.log('request: ', request);
     console.log(`Building request to ${targetUsername}`);
     return fetch('http://' + host + ':8000/request-friend', {
       method: 'POST',
@@ -236,7 +296,6 @@ var api = {
       body: JSON.stringify(request)
     })
     .then(function (data) {
-      console.log('friend request sent?');
       if (data.ok) {
         console.log('Friend Request Sent!');
       } else {
@@ -248,12 +307,13 @@ var api = {
     });
   },
 
-  acceptFriendRequest(currentUserId, targetUsername) {
+  acceptFriendRequest(currentUserId, targetUsername, targetUserId) {
     var request = {
       currentUserId: currentUserId,
-      targetUsername: targetUsername
+      targetUsername: targetUsername,
+      targetUserId: targetUserId
     };
-    return fetch('http://159.203.240.124:8000/confirm-friend-request', {
+    return fetch('http://' + host + ':8000/confirm-friend-request', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -273,15 +333,115 @@ var api = {
     });
   },
 
-  getFriendRequests(currentUserId, callback) {
-    var url = 'http://159.203.240.124:8000/friend-requests/' + currentUserId;
+  getFriendRequests(currentUsername, callback) {
+    var url = 'http://' + host + ':8000/friend-requests/' + currentUsername;
     return fetch(url, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       }
     }).then(function (data) {
+      console.log('friends data: ', data);
       callback(JSON.parse(data._bodyText));
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+  },
+
+  getAllFriends(currentUsername, callback) {
+    console.log('supposed username', currentUsername);
+    var url = 'http://' + host + ':8000/friends/' + currentUsername;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (data) {
+      console.log(data);
+      callback(JSON.parse(data._bodyText));
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+  },
+
+  getUserGroups(userId, callback) {
+    var url = 'http://' + host + ':8000/groups/' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (data) {
+      console.log(data);
+      callback(JSON.parse(data._bodyText));
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+  },
+
+  searchGroups(groupNameQuery, callback) {
+    var url = 'http://' + host + ':8000/search-groups/' + groupNameQuery;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (data) {
+      callback(data._bodyText);
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+  },
+
+  acceptFriendRequest(currentUserId, targetUsername, targetUserId) {
+    var request = {
+      currentUserId: currentUserId,
+      targetUsername: targetUsername,
+      targetUserId: targetUserId
+    };
+    return fetch('http://' + host + ':8000/confirm-friend-request', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(request)
+    })
+    .then(function (data) {
+      if (data.ok) {
+        console.log('Friend Request Accepted!');
+      } else {
+        console.log('Something went wrong while accepting the friend request');
+      }
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+  },
+
+  joinGroup(currentUserId, targetGroupname) {
+    var request = {
+      currentUserId: currentUserId,
+      targetGroupname: targetGroupname
+    };
+    console.log(`Building request to ${targetGroupname}`);
+    return fetch('http://' + host + ':8000/join-group', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(request)
+    })
+    .then(function (data) {
+      if (data.ok) {
+        console.log('Group Joined!');
+      } else {
+        console.log('Something went wrong with your group request');
+      }
     })
     .catch(function (err) {
       console.error(err);

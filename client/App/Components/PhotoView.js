@@ -8,6 +8,7 @@ var {
   View,
   StyleSheet,
   Image,
+  Modal,
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -19,19 +20,24 @@ class PhotoView extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      animated: true,
+      modalVisible: false,
+      transparent: true,
       touched: false,
       favorited: false,
       uploader: undefined,
       views: undefined,
       url: this.props.uri || this.props.route.uri,
-      userId: this.props.userId || this.props.route.userId
+      userId: this.props.userId || this.props.route.userId,
     }
     api.getPhotoData(this.state.url, this.state.userId, (data) => {
       var data = JSON.parse(data);
       this.setState({
+        data: data,
         views: data.views,
         uploader: data.username,
-        favorited: data.favorited
+        favorited: data.favorited,
+        innerContainerTransparentStyle: null,
       })
     })
   }
@@ -48,6 +54,16 @@ class PhotoView extends React.Component{
   _favoriteImage() {
     api.toggleFavorite(this.state.userId, this.state.url, (result) => {
       this.state.favorited ? this.setState({favorited:false}) : this.setState({favorited:true})
+    });
+  }
+
+  _setImageAsProfilePicture() {
+    api.uploadProfilePhoto(this.state.url, this.state.userId, (result) => {
+      this.setState.modalVisible = true;
+      this.setState.transparent = false;
+      setTimeout(()=> {
+        this._closeModal();
+      }, 1500);
     });
   }
 
@@ -77,6 +93,11 @@ class PhotoView extends React.Component{
     if(this.props.togglePagination) {this.props.togglePagination();}
   }
 
+  _closeModal() { 
+    this.setState({modalVisible: false});
+    this.props.navigator.pop();
+  }
+
   render() {
     var username = this.state.uploader ? <Text style={styles.infoText}> Uploaded by: {this.state.uploader} </Text> : null;
     var views = this.state.views ? <Text style={styles.infoText}> Views: {this.state.views} </Text> : null;
@@ -90,7 +111,19 @@ class PhotoView extends React.Component{
         )
       }
       return (
-        <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
+        <View onPress={this._touch.bind(this)} style={styles.imageContainer}>
+          <Modal
+            animated={this.state.animated}
+            transparent={this.state.transparent}
+            visible={this.state.modalVisible}
+          >
+            <View style={[styles.container]}>
+              <View style={[styles.innerContainer, this.state.innerContainerTransparentStyle]}>
+                <Text style={styles.modal}>New profile picture set!</Text>
+                <IconIon name="ios-checkmark-empty" size={90} color="#036C69" style={styles.yesIcon} />
+              </View>
+            </View>
+          </Modal>
           <Image style={styles.image} source={{uri: url}} onPress={this._touch.bind(this)}>
             <View style={styles.buttonContainer}>
               <View style={styles.leftContainer}>
@@ -99,6 +132,9 @@ class PhotoView extends React.Component{
                 </TouchableOpacity>
               </View>
               <View style={styles.rightContainer}>
+                <TouchableOpacity onPress={this._setImageAsProfilePicture.bind(this)} style={styles.favoriteButton}>
+                  <IconIon name="ios-plus-empty" size={20} color="white" style={styles.shareIcon} />
+                </TouchableOpacity>
                 <TouchableOpacity onPress={this._favoriteImage.bind(this)} style={styles.favoriteButton}>
                   {this.state.favorited ? <Icon name="heart" size={20} color="white" style={styles.favoriteIcon} /> : <Icon name="heart-o" size={20} color="white" style={styles.favoriteIcon} />}
                 </TouchableOpacity>
@@ -112,7 +148,7 @@ class PhotoView extends React.Component{
               </View>
             </View>
           </Image>
-        </TouchableWithoutFeedback>
+        </View>
       )
     } else {
       if(this.state.touched===false) {
@@ -240,7 +276,22 @@ var styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'circular',
     color: 'white'
-  }
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#f5fcff',
+  },
+  innerContainer: {
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modal: {
+    fontSize: 20,
+    fontFamily: 'Circular',
+    justifyContent: 'center',
+  },
 });
 
 module.exports = PhotoView;
