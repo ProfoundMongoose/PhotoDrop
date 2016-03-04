@@ -52,16 +52,16 @@ class Map extends React.Component {
     setInterval(()=> {
       if(this.props.params.index===2) {
         this.onLocationPressed();
-        if (this.state.filter === 'public') {
-          api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
-            var photosArr = JSON.parse(photos);
-            this.setState({ photosLocations: photosArr });
-          });
-          api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-            var photosArr = JSON.parse(photos);
-            this.setState({ closeLocations: photosArr });
-          });
-        }
+        // if (this.state.filter === 'public') {
+        //   api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
+        //     var photosArr = JSON.parse(photos);
+        //     this.setState({ photosLocations: photosArr });
+        //   });
+        //   api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+        //     var photosArr = JSON.parse(photos);
+        //     this.setState({ closeLocations: photosArr });
+        //   });
+        // }
       }
     }, 2000)
   }
@@ -120,7 +120,7 @@ class Map extends React.Component {
   addFriendsFilter() {
     this.setState({filter: 'friends'})
     this.setState({ closeLocations: [], photosLocations: [] });
-    api.fetchFriendsPhotos(this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    api.fetchFriendsPhotos(this.props.params.latitude, this.props.params.longitude, 50, this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       this.setState({ closeLocations: photosArr });
     });
@@ -161,13 +161,18 @@ class Map extends React.Component {
     });
   }
 
+  // In progress...
+
+  // addGroupFilter(group) {
+  //  this.setState({ photosLocations: [], closeLocations: [] });
+  // }
 
   showGroups() {
-    console.log('username....', this.props);
     this.props.navigator.push({
       component: GroupsList,
       username: this.props.username,
       userId: this.props.userId
+      // addGroupFilter: this.addGroupFilter.bind(this)
     });
   }
 
