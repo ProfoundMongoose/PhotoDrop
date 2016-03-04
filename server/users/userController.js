@@ -222,30 +222,42 @@ module.exports = {
 
   fetchFriends: function (req, res, next) {
     console.log('passed username:', req.params.username);
-    User.findOne({username: req.params.username}, {friends: 1, _id: 0, profilePhotoUrl: 1}, function (err, user) {
+    User.find({ friends: { $elemMatch: { username: req.params.username } } }, (err, friends) => {
       if (err) {
-        next(err);
+        return next(err);
       }
-      if (user) {
-        user.friends.reduce((fullFriendsArray, friendObj, index, originalFriendsArray) => {
-          User.findOne({username: friendObj.username}, {username: 1, profilePhotoUrl: 1}, (err, friendInfo) => {
-            if (err) {
-              next(err);
-            }
-            if (fullFriendsArray) {
-              fullFriendsArray.push(friendInfo);
-            }
-            if (index === originalFriendsArray.length - 1) {
-              res.json(fullFriendsArray);
-            }
-            return fullFriendsArray;
-          });
-        }, []);
+      console.log('friends (should be an array of objects):', friends);
+      if (friends) {
+        res.json(friends);
       } else {
-        console.log('user object isnt what you expected: ', user);
         res.json(null);
       }
     });
+    //
+    // User.findOne({username: req.params.username}, {friends: 1, _id: 0, profilePhotoUrl: 1}, function (err, user) {
+    //   if (err) {
+    //     next(err);
+    //   }
+    //   if (user) {
+    //     user.friends.reduce((fullFriendsArray, friendObj, index, originalFriendsArray) => {
+    //       User.findOne({username: friendObj.username}, {username: 1, profilePhotoUrl: 1}, (err, friendInfo) => {
+    //         if (err) {
+    //           next(err);
+    //         }
+    //         if (fullFriendsArray) {
+    //           fullFriendsArray.push(friendInfo);
+    //         }
+    //         if (index === originalFriendsArray.length - 1) {
+    //           res.json(fullFriendsArray);
+    //         }
+    //         return fullFriendsArray;
+    //       });
+    //     }, []);
+    //   } else {
+    //     console.log('user object isnt what you expected: ', user);
+    //     res.json(null);
+    //   }
+    // });
   },
 
   fetchFriendRequests: function (req, res, next) {
