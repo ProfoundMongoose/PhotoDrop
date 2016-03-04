@@ -28,14 +28,13 @@ class PreviewPhoto extends React.Component {
     };
   }
 
-  _selectGroups() {
-    this.props.navigator.push({
-      component: SelectGroups,
-      image64: this.props.route.image64,
-      latitude: this.state.latitude,
-      longitude: this.state.longitude,
-      userId: this.props.userId
-    })
+  _sendImage() {
+    api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId, (res) => {
+      this.setState({modalVisible: true});
+      setTimeout(()=> {
+        this._closeModal();
+      }, 1300);
+    });
   }
 
   _closeModal() { 
@@ -70,7 +69,7 @@ class PreviewPhoto extends React.Component {
             <TouchableOpacity onPress={_.once(this._cancelImage.bind(this))} style={styles.noButton}>
               <IconIon name="ios-close-empty" size={60} color="#FC9396" style={styles.noIcon} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={_.once(this._selectGroups.bind(this))} style={styles.yesButton}>
+            <TouchableOpacity onPress={_.once(this._sendImage.bind(this))} style={styles.yesButton}>
               <IconIon name="ios-checkmark-empty" size={60} color="#036C69" style={styles.yesIcon} />
             </TouchableOpacity>
           </View>
