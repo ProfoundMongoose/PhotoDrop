@@ -202,7 +202,7 @@ var api = {
 
   fetchUserPhotosNearby(latitude, longitude, radius, userId, callback) {
     console.log('fetchUserPhotosNearby');
-    var url = 'http://' + host + ':8000/fetchUserPhotosNearby?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius+ '&userId=' + userId;
+    var url = 'http://' + host + ':8000/fetchUserPhotosNearby?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius + '&userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -216,8 +216,8 @@ var api = {
     });
   },
 
-  fetchFriendsPhotos(userId, callback) {
-    var url = 'http://' + host + ':8000/fetchFriendsPhotos?userId=' + userId;
+  fetchFriendsPhotos(latitude, longitude, radius, userId, callback) {
+    var url = 'http://' + host + ':8000/fetchFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
