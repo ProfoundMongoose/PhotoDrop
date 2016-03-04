@@ -92,7 +92,40 @@ module.exports = {
 
       Photo.find({
         userId: {$in: friendIds}
+      }, function(err, photos) {
+        if (err) {
+          next(err);
+        }
+        if (photos) { 
+          photos = photos.sort(function(a, b) {
+            return b.views - a.views;
+          });
+        }
+        res.json(photos);
+      });
+    });
+  },
+
+  fetchUserPhotosNearby: function(req, res, next) {
+    var maxDistance = Number(req.query.radius);
+    var coords = [req.query.lon, req.query.lat];
+    var userId = req.query.userId;
+    console.log('userId... ', userId);
+    Photo.find({
+      $and: [
+      {loc: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: coords
+          },
+          $maxDistance: maxDistance
+        }
+      }},
+      {userId: userId}
+      ]
     }, function(err, photos) {
+      console.log('photos... ', photos);
       if (err) {
         next(err);
       }
@@ -103,9 +136,7 @@ module.exports = {
       }
       res.json(photos);
     });
-    });
   },
-
 
   fetchLocations: function(req, res, next) {
     var lat = Number(req.query.lat);

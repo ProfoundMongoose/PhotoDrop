@@ -200,6 +200,22 @@ var api = {
     });
   },
 
+  fetchUserPhotosNearby(latitude, longitude, radius, userId, callback) {
+    console.log('fetchUserPhotosNearby');
+    var url = 'http://' + host + ':8000/fetchUserPhotosNearby?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius+ '&userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
   fetchFriendsPhotos(userId, callback) {
     var url = 'http://' + host + ':8000/fetchFriendsPhotos?userId=' + userId;
     return fetch(url, {

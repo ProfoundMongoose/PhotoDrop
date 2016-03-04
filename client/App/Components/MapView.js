@@ -7,7 +7,7 @@ var PhotosView = require('./PhotosView');
 var api = require('../Utils/api');
 var BlackPhotoMarker = require('./BlackPhotoMarker');
 var RedPhotoMarker = require('./RedPhotoMarker');
-var FriendsList = require('./FriendsList');
+var GroupsList = require('./GroupsList');
 
 var {
   Navigator,
@@ -149,7 +149,8 @@ class Map extends React.Component {
   // Update closeLocations and photoLocations based on specific user
   addUserFilter() {
     this.setState({filter: 'user'});
-    api.fetchUserPhotos(this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    this.setState({ closeLocations: [], photosLocations: [] });
+    api.fetchUserPhotosNearby(this.props.params.latitude, this.props.params.longitude, 50, this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       this.setState({ closeLocations: photosArr });
     });
@@ -161,10 +162,10 @@ class Map extends React.Component {
   }
 
 
-  showFriends() {
+  showGroups() {
     console.log('username....', this.props);
     this.props.navigator.push({
-      component: FriendsList,
+      component: GroupsList,
       username: this.props.username,
       userId: this.props.userId
     });
@@ -236,7 +237,7 @@ class Map extends React.Component {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.button} onPress={this.showFriends.bind(this)}>
+          <TouchableOpacity style={styles.button} onPress={this.showGroups.bind(this)}>
             <View style={[styles.bubble, styles.smallButton]}>
               <Text style={styles.openPhotosText}>
                 {this.state.currentGroup || `Groups`}
