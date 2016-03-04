@@ -78,6 +78,15 @@ module.exports = {
         });
       }
     });
+  },
+
+  getUsersGroups: function (req, res, next) {
+    User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {_id: 0, groups: 1}, function (err, user) {
+      if (err) {
+        return next(err);
+      }
+      res.json(user.groups);
+    });
   }
 
 };
