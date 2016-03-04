@@ -80,13 +80,43 @@ module.exports = {
     });
   },
 
+
   getUsersGroups: function (req, res, next) {
-    User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {_id: 0, groups: 1}, function (err, user) {
+    Group.find({ members: { $elemMatch: { _id: mongoose.mongo.ObjectID(req.params.userId) } } }, (err, groups) => {
       if (err) {
         return next(err);
       }
-      res.json(user.groups);
+      console.log('groups (should be an array of objects):', groups);
+      if (groups) {
+        res.json(groups);
+      } else {
+        res.json(null);
+      }
     });
+    // User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {_id: 0, groups: 1}, function (err, user) {
+    //   if (err) {
+    //     return next(err);
+    //   }
+    //   if (user) {
+    //     user.groups.reduce((groupsWithUsers, groupObj, index, originalGroupsArr) => {
+    //       Group.findOne({groupname: groupObj.groupname}, {groupname: 1, administrator: 1, members: 1, description: 1}, (err, groupInfo) => {
+    //         console.log('found group:', groupInfo);
+    //         if (err) {
+    //           next(err);
+    //         }
+    //         if (groupsWithUsers) {
+    //           groupsWithUsers.push(groupInfo);
+    //         }
+    //         if (index === groupsWithUsers.length - 1) {
+    //           res.json(groupsWithUsers);
+    //         }
+    //         return groupsWithUsers;
+    //       });
+    //     }, []);
+    //   } else {
+    //     console.log('user object isnt what you expected: ', user);
+    //     res.json(null);
+    //   }
+    // });
   }
-
 };
