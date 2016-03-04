@@ -363,6 +363,22 @@ var api = {
     .catch(function (err) {
       console.error(err);
     });
+  },
+
+  getUserGroupd(userId, callback) {
+    var url = 'http://' + host + ':8000/groups/' + currentUsername;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (data) {
+      console.log(data);
+      callback(JSON.parse(data._bodyText));
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
   }
 
 };
