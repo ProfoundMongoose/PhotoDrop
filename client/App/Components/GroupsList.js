@@ -64,6 +64,10 @@ class GroupsList extends React.Component {
     );
   }
 
+  componentWillUpdate() {
+    this.loadGroupsData();
+  }
+
   componentDidMount() {
     this.loadGroupsData();
   }
@@ -74,10 +78,12 @@ class GroupsList extends React.Component {
       data.forEach((group, index) => {
         group.groupname = group.groupname;
       });
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(data),
-        loaded: true,
-      });
+      if (this.state.dataSource._cachedRowCount === undefined || this.state.dataSource._cachedRowCount !== data.length) {
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(data),
+          loaded: true,
+        });
+      }
     });
   }
 
