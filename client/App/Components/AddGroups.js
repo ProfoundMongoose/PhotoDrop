@@ -82,7 +82,7 @@ class AddGroups extends React.Component {
     api.joinGroup(this.state.userId, targetGroup);
   }
 
-  renderFriend(friend) {
+  renderGroup(group) {
     return (
       <TouchableHighlight onPress={this.joinGroup.bind(this, group)}>
         <View style={styles.container}>
@@ -134,7 +134,7 @@ class AddGroups extends React.Component {
           />
           <ListView
             dataSource={this.state.foundGroupNamesData}
-            renderRow={this.renderFriend.bind(this)}
+            renderRow={this.renderGroup.bind(this)}
             style={styles.listView}
             rightButton={addButton} // doesn't appear
           />
