@@ -5,9 +5,6 @@ var Keychain = require('react-native-keychain');
 var api = require('../Utils/api');
 var AddGroups = require('./AddGroups');
 
-var MOCKED_Groups_DATA = [
-];
-
 var {
   View,
   Text,
@@ -61,7 +58,7 @@ class GroupsList extends React.Component {
           <Text style={styles.group}>{group.groupname}</Text>
         </View>
         <View style={styles.rightContainer}>
-          <Text style={styles.group}>{2+2 + ' Users'}</Text>
+          <Text style={styles.group}>{group.users.length + ' Users'}</Text>
         </View>
       </View>
     );
