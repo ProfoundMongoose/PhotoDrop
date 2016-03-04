@@ -376,19 +376,18 @@ var api = {
 
   getUserGroups(userId, callback) {
     var url = 'http://' + host + ':8000/groups/' + userId;
-    return callback(mockGroupData);
-    // return fetch(url, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then(function (data) {
-    //   console.log(data);
-    //   callback(JSON.parse(data._bodyText));
-    // })
-    // .catch(function (err) {
-    //   console.error(err);
-    // });
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function (data) {
+      console.log(data);
+      callback(JSON.parse(data._bodyText));
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
   },
 
   searchGroups(groupNameQuery, callback) {
