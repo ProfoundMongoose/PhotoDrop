@@ -19,6 +19,12 @@ var deleteFrom = function (arr, optionObj) {
   return arr;
 };
 
+var handleError = function (err, next) {
+  if (err) {
+    return next(err);
+  }
+};
+
 module.exports = {
   login: function(req, res, next) {
     var username = req.body.username;
@@ -200,7 +206,7 @@ module.exports = {
   savePhotoToUserInDB: function (req, res, next) {
     User.update({_id: mongoose.mongo.ObjectID(req.body.userId)}, {profilePhotoUrl: req.body.url}, function (err, status) {
       if (err) {
-        next(err);
+        return next(err);
       }
       res.sendStatus(201);
     });
@@ -210,7 +216,7 @@ module.exports = {
   fetchFavorites: function (req, res, next) {
     User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId) }, function(err, user) {
       if (err) {
-        next(err);
+        return next(err);
       }
       if (!user) {
         console.error('User was not found');
@@ -222,27 +228,14 @@ module.exports = {
 
   fetchFriends: function (req, res, next) {
     console.log('passed username:', req.params.username);
-    User.findOne({username: req.params.username}, {friends: 1, _id: 0, profilePhotoUrl: 1}, function (err, user) {
+    User.find({ friends: { $elemMatch: { username: req.params.username } } }, (err, friends) => {
       if (err) {
-        next(err);
+        return next(err);
       }
-      if (user) {
-        user.friends.reduce((fullFriendsArray, friendObj, index, originalFriendsArray) => {
-          User.findOne({username: friendObj.username}, {username: 1, profilePhotoUrl: 1}, (err, friendInfo) => {
-            if (err) {
-              next(err);
-            }
-            if (fullFriendsArray) {
-              fullFriendsArray.push(friendInfo);
-            }
-            if (index === originalFriendsArray.length - 1) {
-              res.json(fullFriendsArray);
-            }
-            return fullFriendsArray;
-          });
-        }, []);
+      console.log('friends (should be an array of objects):', friends);
+      if (friends) {
+        res.json(friends);
       } else {
-        console.log('user object isnt what you expected: ', user);
         res.json(null);
       }
     });
@@ -251,7 +244,7 @@ module.exports = {
   fetchFriendRequests: function (req, res, next) {
     User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {friendRequests: 1, _id: 0}, function (err, user) {
       if (err) {
-        next(err);
+        return next(err);
       }
       res.json(user.friendRequests);
     });
@@ -261,13 +254,13 @@ module.exports = {
     console.log('friend request body: ', req.body);
     User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 1}, function (err, currentUser) {
       if (err) {
-        next(err);
+        return next(err);
       }
       console.log('requesting user: ', currentUser.username);
       console.log('target user: ', req.body.targetUsername);
       User.update({username: req.body.targetUsername}, {$addToSet: {friendRequests: currentUser}}, function (err, targetUser) {
         if (err) {
-          next(err);
+          return next(err);
         }
         res.sendStatus(201);
       });
@@ -278,7 +271,7 @@ module.exports = {
     var regexSearch = new RegExp(req.params.username);
     User.find({username: regexSearch}, {_id: 1, username: 1}, function (err, users) {
       if (err) {
-        next(err);
+        return next(err);
       }
       res.json(users);
     });
@@ -320,7 +313,7 @@ module.exports = {
   rejectFriendRequest: function (req, res, next) {
     User.update({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {$pull: {friendRequests: {username: req.body.targetUsername}}}, function (err, status) {
       if (err) {
-        next(err);
+        return next(err);
       }
       res.sendStatus(201);
     });
@@ -329,15 +322,15 @@ module.exports = {
   unfriend: function (req, res, next) {
     User.update({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {$pull: {friends: {username: req.body.targetUsername}}}, function (err, status) {
       if (err) {
-        next(err);
+        return next(err);
       }
       User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 0}, function (err, currentUser) {
         if (err) {
-          next(err);
+          return next(err);
         }
         User.update({username: req.body.targetUsername}, {$pull: {friends: {username: currentUser.username}}}, function (err, status) {
           if (err) {
-            next(err);
+            return next(err);
           }
           res.sendStatus(201);
         });
