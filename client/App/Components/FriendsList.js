@@ -74,7 +74,8 @@ class FriendsList extends React.Component {
   }
 
   loadFriendsData() {
-    api.getAllFriends(this.state.username, (data) => {
+    console.log('supposed state username', this.props.route.username);
+    api.getAllFriends(this.props.route.username, (data) => {
       data.forEach((friend, index) => {
         friend.name = friend.username;
         friend.profile = friend.profilePhotoUrl || MOCKED_FRIENDS_DATA[index].profile.thumbnail;
