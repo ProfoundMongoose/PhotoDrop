@@ -85,8 +85,54 @@ module.exports = {
       if (err) {
         return next(err);
       }
-      res.json(user.groups);
+      if (user) {
+        user.groups.reduce((groupsWithUsers, groupObj, index, originalGroupsArr) => {
+          Group.findOne({groupname: groupObj.groupname}, {groupname: 1, administrator: 1, members: 1, description: 1}, (err, groupInfo) => {
+            if (err) {
+              next(err);
+            }
+            if (groupsWithUsers) {
+              groupsWithUsers.push(groupInfo);
+            }
+            if (index === groupsWithUsers.length - 1) {
+              res.json(groupsWithUsers);
+            }
+            return groupsWithUsers;
+          });
+        }, []);
+      } else {
+        console.log('user object isnt what you expected: ', user);
+        res.json(null);
+      }
     });
-  }
+  },
+
+  fetchFriends: function (req, res, next) {
+    console.log('passed username:', req.params.username);
+    User.findOne({username: req.params.username}, {friends: 1, _id: 0, profilePhotoUrl: 1}, function (err, user) {
+      if (err) {
+        next(err);
+      }
+      if (user) {
+        user.friends.reduce((fullFriendsArray, friendObj, index, originalFriendsArray) => {
+          User.findOne({username: friendObj.username}, {username: 1, profilePhotoUrl: 1}, (err, friendInfo) => {
+            if (err) {
+              next(err);
+            }
+            if (fullFriendsArray) {
+              fullFriendsArray.push(friendInfo);
+            }
+            if (index === originalFriendsArray.length - 1) {
+              res.json(fullFriendsArray);
+            }
+            return fullFriendsArray;
+          });
+        }, []);
+      } else {
+        console.log('user object isnt what you expected: ', user);
+        res.json(null);
+      }
+    });
+  },
 
 };
