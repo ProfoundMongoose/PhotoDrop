@@ -3,11 +3,7 @@ var NavigationBar = require('react-native-navbar');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var Keychain = require('react-native-keychain');
 var api = require('../Utils/api');
-var AddFriend = require('./AddFriend');
-
-var MOCKED_FRIENDS_DATA = [
-  {profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-];
+var AddGroups = require('./AddGroups');
 
 var {
   View,
@@ -22,7 +18,7 @@ var {
   Image,
 } = React;
 
-class FriendsList extends React.Component {
+class GroupsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -47,38 +43,36 @@ class FriendsList extends React.Component {
     this.props.navigator.pop();
   }
 
-  addFriend() {
+  addGroups() {
     this.props.navigator.push({
-      component: AddFriend,
+      component: AddGroups,
       username: this.props.route.username,
       userId: this.props.route.userId
     });
   }
 
-  renderFriend(friend) {
+  renderGroup(group) {
     return (
       <View style={styles.container}>
-        <Image
-          source={{uri: friend.profile}}
-          style={styles.thumbnail}
-        />
         <View style={styles.rightContainer}>
-          <Text style={styles.friend}>{friend.name}</Text>
+          <Text style={styles.group}>{group.groupname}</Text>
+        </View>
+        <View style={styles.rightContainer}>
+          <Text style={styles.number}>{group.members.length + ' Users'}</Text>
         </View>
       </View>
     );
   }
 
   componentDidMount() {
-    this.loadFriendsData();
+    this.loadGroupsData();
   }
 
-  loadFriendsData() {
-    console.log('supposed state username', this.props.route.username);
-    api.getAllFriends(this.props.route.username, (data) => {
-      data.forEach((friend, index) => {
-        friend.name = friend.username;
-        friend.profile = friend.profilePhotoUrl || MOCKED_FRIENDS_DATA[index].profile.thumbnail;
+  loadGroupsData() {
+    api.getUserGroups(this.state.userId, (data) => {
+      console.log('Data has arrived!', data);
+      data.forEach((group, index) => {
+        group.groupname = group.groupname;
       });
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(data),
@@ -92,7 +86,7 @@ class FriendsList extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );
     var pageTitle = (
-      <Text style={styles.pageTitle}>Friends</Text>
+      <Text style={styles.pageTitle}>Groups</Text>
     );
     var backButton = (
       <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
@@ -101,7 +95,7 @@ class FriendsList extends React.Component {
     );
 
     var addButton = (
-      <TouchableHighlight onPress={this.addFriend.bind(this)} underlayColor={'white'}>
+      <TouchableHighlight onPress={this.addGroups.bind(this)} underlayColor={'white'}>
         <IconIon name='ios-plus-empty' size={30} style={styles.plusIcon} color="#FF5A5F"/>
       </TouchableHighlight>
     );
@@ -112,7 +106,7 @@ class FriendsList extends React.Component {
 
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this.renderFriend}
+          renderRow={this.renderGroup}
           style={styles.listView}
         />
 
@@ -143,24 +137,27 @@ var styles = StyleSheet.create({
   },
   container: {
     marginBottom: 5,
+    marginLeft: 5,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#ededed',
   },
   rightContainer: {
+    flex: 1,
   },
-  friend: {
-    height: 50,
-    padding: 13,
-    paddingLeft: 37,
+  group: {
+    marginBottom: 10,
     fontSize: 18,
-    fontFamily: 'circular',
-    color: '#565b5c',
-    alignSelf: 'center'
+    textAlign: 'center',
+    fontFamily: 'circular'
+  },
+  number: {
+    marginBottom: 10,
+    fontSize: 18,
+    textAlign: 'center'
   },
   thumbnail: {
-    marginLeft: 8,
     width: 90,
     height: 90,
     borderRadius: 45,
@@ -171,4 +168,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = FriendsList;
+module.exports = GroupsList;

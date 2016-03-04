@@ -7,6 +7,18 @@ var Photo = require('./../photos/photoModel');
 var findUser = Q.nbind(User.findOne, User);
 var createUser = Q.nbind(User.create, User);
 
+// helper function for deleting specific items from arrays inside of mongoose object instances:
+// example usage: deleteFrom(currentUser.friends, {username: "snarf"}) --> will remove snarf as a friend. Note optionObj can only specify a single property, in this example, "username".
+var deleteFrom = function (arr, optionObj) {
+  var key = Object.keys(optionObj)[0];
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i][key] === optionObj[key]) {
+      arr.splice(i, 1);
+    }
+  }
+  return arr;
+};
+
 module.exports = {
   login: function(req, res, next) {
     var username = req.body.username;
@@ -209,11 +221,30 @@ module.exports = {
   },
 
   fetchFriends: function (req, res, next) {
-    User.findOne({username: req.params.username}, {friends: 1, _id: 0}, function (err, user) {
+    console.log('passed username:', req.params.username);
+    User.findOne({username: req.params.username}, {friends: 1, _id: 0, profilePhotoUrl: 1}, function (err, user) {
       if (err) {
         next(err);
       }
-      res.json(user.friends);
+      if (user) {
+        user.friends.reduce((fullFriendsArray, friendObj, index, originalFriendsArray) => {
+          User.findOne({username: friendObj.username}, {username: 1, profilePhotoUrl: 1}, (err, friendInfo) => {
+            if (err) {
+              next(err);
+            }
+            if (fullFriendsArray) {
+              fullFriendsArray.push(friendInfo);
+            }
+            if (index === originalFriendsArray.length - 1) {
+              res.json(fullFriendsArray);
+            }
+            return fullFriendsArray;
+          });
+        }, []);
+      } else {
+        console.log('user object isnt what you expected: ', user);
+        res.json(null);
+      }
     });
   },
 
@@ -254,33 +285,33 @@ module.exports = {
   },
 
   confirmFriendRequest: function (req, res, next) {
-    // Add target user to current user's friends list:
-    User.update({
-        // Locates the user to update:
-      _id: mongoose.mongo.ObjectID(req.body.currentUserId)
-    }, {
-        // Adds the friend:
-      $addToSet: {
-        friends: {
-          username: req.body.targetUsername,
-          userId: req.body.targetUserId
-        }
-      },
-      // Removes the friend request:
-      $pull: {
-        friendRequests: {username: req.body.targetUsername}
-      }
-    }, function (err, status) {
+    User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {_id: 1, username: 1, friends: 1, friendRequests: 1}, function (err, currentUser) {
       if (err) {
-        next(err);
+        return next(err);
       }
-      User.findOne({_id: mongoose.mongo.ObjectID(req.body.currentUserId)}, {username: 1, _id: 1}, function (err, currentUser) {
-        // Add current user to target user's friends list:
-        User.update({username: req.body.targetUsername}, {$addToSet: {friends: currentUser}}, function (err, targetUser) {
+      User.findOne({_id: mongoose.mongo.ObjectID(req.body.targetUserId)}, {_id: 1, username: 1, friends: 1}, function (err, targetUser) {
+        if (err) {
+          return next(err);
+        }
+        currentUser.friends.addToSet({
+          _id: mongoose.mongo.ObjectID(targetUser._id),
+          username: targetUser.username
+        });
+        deleteFrom(currentUser.friendRequests, {username: targetUser.username});
+        currentUser.save(function (err) {
           if (err) {
-            next(err);
+            return next(err);
           }
-          res.sendStatus(201);
+          targetUser.friends.addToSet({
+            _id: mongoose.mongo.ObjectID(currentUser._id),
+            username: currentUser.username
+          });
+          targetUser.save(function (err) {
+            if (err) {
+              return next(err);
+            }
+            res.sendStatus(201);
+          });
         });
       });
     });
