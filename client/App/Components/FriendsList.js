@@ -69,21 +69,28 @@ class FriendsList extends React.Component {
     );
   }
 
+  componentWillUpdate() {
+    this.loadFriendsData();
+  }
+
   componentDidMount() {
     this.loadFriendsData();
   }
 
   loadFriendsData() {
-    console.log('supposed state username', this.props.route.username);
+    // from the login bug
+    //console.log('supposed state username', this.props.route.username);
     api.getAllFriends(this.props.route.username, (data) => {
       data.forEach((friend, index) => {
         friend.name = friend.username;
         friend.profile = friend.profilePhotoUrl || MOCKED_FRIENDS_DATA[index].profile.thumbnail;
       });
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(data),
-        loaded: true,
-      });
+      if (this.state.dataSource._cachedRowCount === undefined || this.state.dataSource._cachedRowCount !== data.length) {
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(data),
+          loaded: true,
+        });
+      }
     });
   }
 
