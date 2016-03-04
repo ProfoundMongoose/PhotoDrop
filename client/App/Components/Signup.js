@@ -129,10 +129,10 @@ class Signup extends React.Component {
     );
     return (
 
-      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
-        <NavigationBar 
-          title={pageTitle} 
-          tintColor={"white"} 
+      <View style={{flex: 1, backgroundColor: '#ededed'}}>
+        <NavigationBar
+          title={pageTitle}
+          tintColor={"white"}
           statusBar={{hidden: false}}
           leftButton={backButton}
         />
@@ -148,7 +148,7 @@ class Signup extends React.Component {
             onChange={this.handleUsernameChange.bind(this)}
             onSubmitEditing={(event) => {
               this.refs.SecondInput.focus();
-            }} 
+            }}
           />
           <Text style={styles.fieldTitle}> Password </Text>
           <TextInput
@@ -163,7 +163,7 @@ class Signup extends React.Component {
             onChange={this.handlePasswordChange.bind(this)}
             onSubmitEditing={(event) => {
               this.refs.ThirdInput.focus();
-            }} 
+            }}
           />
           <Text style={styles.fieldTitle}> Confirm Password </Text>
           <TextInput
@@ -176,7 +176,7 @@ class Signup extends React.Component {
             value={this.state.confirmedPassword}
             returnKeyType={'go'}
             onSubmitEditing={this.handleSubmit.bind(this)}
-            onChange={this.handleConfirmedPasswordChange.bind(this)} 
+            onChange={this.handleConfirmedPasswordChange.bind(this)}
           />
           <TouchableHighlight
             style={styles.button}

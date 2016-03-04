@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server/server.js",
-    "deploy": "git push ssh://root@162.243.130.124/root/sync/repo.git"
+    "deploy": "git push ssh://root@159.203.240.124/root/sync/repo.git"
   },
   "repository": {
     "type": "git",
@@ -30,6 +30,7 @@
     "imgur": "^0.1.7",
     "jsonwebtoken": "^5.7.0",
     "mongoose": "^4.4.4",
+    "morgan": "^1.7.0",
     "nodemon": "^1.9.0",
     "q": "^1.4.1",
     "request": "^2.69.0"

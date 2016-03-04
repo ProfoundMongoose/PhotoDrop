@@ -12,10 +12,26 @@ var UserSchema = new mongoose.Schema({
   },
   // password will be hashed with salt appended using bcrypt
   password: {
-    type: String, 
+    type: String,
     required: true
   },
+  profilePhotoUrl: {
+    type: String,
+    default: 'http://i.imgur.com/CqSnOQG.jpg'
+  },
   favorites: {
+    type: Array,
+    default: []
+  },
+  friends: {
+    type: Array,
+    default: []
+  },
+  friendRequests: {
+    type: Array,
+    default: []
+  },
+  groups: {
     type: Array,
     default: []
   },
@@ -42,7 +58,7 @@ UserSchema.pre('save', function (next) {
   if (!user.isModified('password')) {
     return next();
   }
-  
+
   bcrypt.genSalt(SALT_WORK_FACTOR, function (err, salt) {
     if (err) {
       return next(err);

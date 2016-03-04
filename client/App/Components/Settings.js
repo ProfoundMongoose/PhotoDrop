@@ -4,6 +4,8 @@ var Keychain = require('react-native-keychain');
 var Login = require('./Login');
 var PhotosView = require('./PhotosView');
 var ChangeView = require('./ChangeView');
+var FriendsList = require('./FriendsList');
+var GroupsList = require('./GroupsList');
 
 var {
   Text,
@@ -60,14 +62,30 @@ class Settings extends React.Component {
     });
   }
 
+  showFriends() {
+    this.props.navigator.push({
+      component: FriendsList,
+      username: this.props.username,
+      userId: this.props.userId
+    });
+  }
+
+  showGroups() {
+    this.props.navigator.push({
+      component: GroupsList,
+      username: this.props.username,
+      userId: this.props.userId
+    });
+  }
+
   render() {
     var pageTitle = (
-      <Text style={styles.pageTitle}>Settings</Text>
+      <Text style={styles.pageTitle}>PhotoDrop</Text>
     );
     return (
       <View style={{ flex: 1, backgroundColor: '#ededed'}}>
-        <NavigationBar 
-          title={pageTitle} 
+        <NavigationBar
+          title={pageTitle}
           tintColor={"white"}
         />
         <View style={styles.imageContainer}>
@@ -75,17 +93,31 @@ class Settings extends React.Component {
         </View>
         <View style={styles.mainContainer}>
           <TouchableHighlight
-            style={styles.yourPhotosButton}
+            style={styles.button}
             underlayColor={'#e66365'}
             onPress={this.openMyPhotos.bind(this)}
           >
-            <Text style={styles.yourPhotosButtonText}>Your Photos</Text>
+            <Text style={styles.buttonText}>Photos</Text>
           </TouchableHighlight>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.showFriends.bind(this)}
+          >
+            <Text style={styles.buttonText}>Friends</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={this.showGroups.bind(this)}
+          >
+            <Text style={styles.buttonText}>Groups</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity
             style={styles.button}
             onPress={this.changeInfo.bind(this)}
           >
-            <Text style={styles.buttonText}>Update Profile</Text>
+            <Text style={styles.buttonText}>Settings</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
@@ -101,29 +133,11 @@ class Settings extends React.Component {
 }
 
 var styles = StyleSheet.create({
-  yourPhotosButtonText: {
-    fontSize: 18,
-    fontFamily: 'circular',
-    color: 'white',
-    alignSelf: 'center'
-  },
   buttonText: {
     fontSize: 18,
     fontFamily: 'circular',
     color: '#565b5c',
     alignSelf: 'center'
-  },
-  yourPhotosButton: {
-    height: 45,
-    flexDirection: 'row',
-    backgroundColor: '#FF5A5F',
-    borderColor: '#FF5A5F',
-    borderWidth: 1,
-    borderRadius: 4,
-    marginBottom: 22.5,
-    marginTop: 0,
-    alignSelf: 'stretch',
-    justifyContent: 'center'
   },
   button: {
     height: 45,
@@ -138,7 +152,7 @@ var styles = StyleSheet.create({
     justifyContent: 'center'
   },
   imageContainer: {
-    flex: 2,
+    flex: 1,
     paddingRight: 30,
     paddingLeft: 30,
     paddingTop: 30,
