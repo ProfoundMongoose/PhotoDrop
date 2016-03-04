@@ -80,7 +80,7 @@ class Settings extends React.Component {
 
   render() {
     var pageTitle = (
-      <Text style={styles.pageTitle}>Settings</Text>
+      <Text style={styles.pageTitle}>PhotoDrop</Text>
     );
     return (
       <View style={{ flex: 1, backgroundColor: '#ededed'}}>
@@ -117,7 +117,7 @@ class Settings extends React.Component {
             style={styles.button}
             onPress={this.changeInfo.bind(this)}
           >
-            <Text style={styles.buttonText}>Profile</Text>
+            <Text style={styles.buttonText}>Settings</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}

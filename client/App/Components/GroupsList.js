@@ -58,7 +58,7 @@ class GroupsList extends React.Component {
           <Text style={styles.group}>{group.groupname}</Text>
         </View>
         <View style={styles.rightContainer}>
-          <Text style={styles.group}>{group.users.length + ' Users'}</Text>
+          <Text style={styles.number}>{group.members.length + ' Users'}</Text>
         </View>
       </View>
     );
@@ -147,8 +147,15 @@ var styles = StyleSheet.create({
     flex: 1,
   },
   group: {
-    fontSize: 12,
+    marginBottom: 10,
+    fontSize: 18,
     textAlign: 'center',
+    fontFamily: 'circular'
+  },
+  number: {
+    marginBottom: 10,
+    fontSize: 18,
+    textAlign: 'center'
   },
   thumbnail: {
     width: 90,
