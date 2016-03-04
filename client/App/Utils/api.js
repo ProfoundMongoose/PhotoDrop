@@ -2,14 +2,6 @@
 var host = '159.203.240.124'; // production server
 // var host = '127.0.0.1'; // local dev testing server
 
-var mockGroupData = [
-  {groupname: 'shane mcgrain', users: [,,,,,,,,,,,,,,]},
-  {groupname: 'tigers sclub', users: [,,,,,,,,]},
-  {groupname: 'katterbox lobby', users: [,,,,,,,,,,,,,,,,,,]},
-];
-
-
-
 var api = {
   login(username, password) {
     var user = { username: username, password: password };
