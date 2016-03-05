@@ -43,6 +43,7 @@ class SelectGroups extends React.Component {
       this.setState({modalVisible: true});
       setTimeout(()=> {
         this._closeModal();
+        this.props.navigator.pop();
       }, 2000);
     });
   }
