@@ -21,6 +21,7 @@ var {
   ActivityIndicatorIOS
 } = React;
 
+
 class Map extends React.Component {
 
   constructor(props) {
@@ -46,22 +47,20 @@ class Map extends React.Component {
       var photosArr = JSON.parse(photos);
       this.setState({ photosLocations: photosArr });
     });
+
   }
 
   componentDidMount(){
     setInterval(()=> {
       if(this.props.params.index===2) {
         this.onLocationPressed();
-        // if (this.state.filter === 'public') {
-        //   api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
-        //     var photosArr = JSON.parse(photos);
-        //     this.setState({ photosLocations: photosArr });
-        //   });
-        //   api.fetchNearbyPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-        //     var photosArr = JSON.parse(photos);
-        //     this.setState({ closeLocations: photosArr });
-        //   });
-        // }
+        if (this.state.filter === 'public') {
+          this.addPublicFilter()
+        } else if (this.state.filter === 'friends') {
+          this.addFriendsFilter();
+        } else if (this.state.filter === 'user') {
+          this.addUserFilter();
+        }
       }
     }, 2000)
   }
@@ -115,6 +114,18 @@ class Map extends React.Component {
       });
   }
 
+  openGroupPhotos() {
+    this.props.navigator.push({
+      component: PhotosView,
+      userId: this.props.userId,
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+      previousComponent: 'map',
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
+      currentGroup: this.state.currentGroup
+    });
+  }
+
   // Update closeLocations and photoLocations based on all data
   addPublicFilter() {
     this.setState({currentGroup: '', filter: 'public'});
@@ -162,10 +173,10 @@ class Map extends React.Component {
   // Update closeLocations and photoLocations based on specified group data
   addGroupFilter(group, navigator) {
     var name = group.groupname;
-    if (name.length > 4) {
-      name = group.groupname.substring(0,4) + '...';
-    }
-    this.setState({currentGroup: name, photosLocations: [], closeLocations: [] });
+    // if (name.length > 4) {
+    //   name = group.groupname.substring(0,4) + '...';
+    // }
+    this.setState({filter: 'group', currentGroup: name, photosLocations: [], closeLocations: [] });
 
     api.fetchNearbyGroupPhotos(this.props.params.latitude, this.props.params.longitude, 50, group.groupname, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
@@ -190,6 +201,24 @@ class Map extends React.Component {
   }
 
   render() {
+    console.log('current group state... ', this.state.currentGroup)
+    if (this.state.currentGroup) {
+      this.bottomButton = <TouchableOpacity style={styles.bottomButtonContainer} onPress={this.openGroupPhotos.bind(this)}>
+            <View style={[styles.bubble, styles.latlng]}>
+              <Text style={styles.openPhotosText}>
+                {`${this.state.currentGroup}`}
+              </Text>
+            </View>
+          </TouchableOpacity>
+    } else {
+        this.bottomButton = <TouchableOpacity style={styles.bottomButtonContainer} onPress={this.openAllPhotos.bind(this)}>
+            <View style={[styles.bubble, styles.latlng]}>
+              <Text style={styles.openPhotosText}>
+                {`View All Available Photos`}
+              </Text>
+            </View>
+          </TouchableOpacity>
+    }
 
     if(this.state.photosLocations && this.state.closeLocations){
     return (
@@ -204,10 +233,10 @@ class Map extends React.Component {
           rotateEnabled={false}
           maxDelta={0.003}
         >
-
         <MapView.Marker coordinate={this.state}>
           <CircleMarker navigator={this.props.navigator}/>
         </MapView.Marker>
+
           { this.state.photosLocations.map((photoLocation) => {
               return (
               <MapView.Marker coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}>
@@ -258,21 +287,14 @@ class Map extends React.Component {
           <TouchableOpacity style={styles.button} onPress={this.showGroups.bind(this)}>
             <View style={[styles.bubble, styles.smallButton]}>
               <Text style={styles.openPhotosText}>
-                {this.state.currentGroup || `Groups`}
+                {`Groups`}
               </Text>
             </View>
           </TouchableOpacity>
 
         </View>
 
-
-        <TouchableOpacity style={styles.bottomButtonContainer} onPress={this.openAllPhotos.bind(this)}>
-          <View style={[styles.bubble, styles.latlng]}>
-            <Text style={styles.openPhotosText}>
-              {`View All Available Photos`}
-            </Text>
-          </View>
-        </TouchableOpacity>
+        {this.bottomButton}
 
       </View>
     );
@@ -374,7 +396,7 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: '#656565',
     fontFamily: 'circular'
-  },
+  }
 });
 
 module.exports = Map;

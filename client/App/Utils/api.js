@@ -120,7 +120,6 @@ var api = {
   },
 
   fetchNearbyPhotos(latitude, longitude, radius, callback) {
-    console.log('fetch nearby photos!!!');
     var url = 'http://' + host + ':8000/fetchNearbyPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
     return fetch(url, {
       method: 'GET',
