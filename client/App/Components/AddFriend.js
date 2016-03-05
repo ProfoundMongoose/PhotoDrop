@@ -92,7 +92,8 @@ class AddFriend extends React.Component {
       }, []);
       console.log('friendRequests', friendRequests, friendRequests.length);
       this.setState({
-        pendingFriendRequests: this.state.pendingFriendRequests.cloneWithRows(usernames)
+        pendingFriendRequests: this.state.pendingFriendRequests.cloneWithRows(usernames),
+        numFriendRequests: usernames.length
       });
     });
   }
@@ -135,7 +136,20 @@ class AddFriend extends React.Component {
   }
 
 
+
   render() {
+    var showFriendRequests = (
+      this.state.numFriendRequests && this.state.numFriendRequests ?
+      <View>
+      <Text style={styles.fieldTitle}> Pending Friend Requests </Text>
+      <ListView
+        dataSource={this.state.pendingFriendRequests} // need to initialize
+        renderRow={this.renderFriendRequests.bind(this)} // todo
+        style={styles.listView}
+        rightButton={addButton} // doesn't appear
+      />
+      </View>: <View></View>
+    );
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );
@@ -177,13 +191,8 @@ class AddFriend extends React.Component {
           size='large'
           style={styles.loading} />
 
-          <Text style={styles.fieldTitle}> Pending Friend Requests </Text>
-          <ListView
-            dataSource={this.state.pendingFriendRequests} // need to initialize
-            renderRow={this.renderFriendRequests.bind(this)} // todo
-            style={styles.listView}
-            rightButton={addButton} // doesn't appear
-          />
+          {showFriendRequests}
+
 
             {showErr}
           </ScrollView>

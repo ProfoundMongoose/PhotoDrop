@@ -121,7 +121,7 @@ class Login extends React.Component {
     );
     var pageTitle = (
       <Text style={styles.pageTitle}>PhotoDrop</Text>
-    )
+    );
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}>
         <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}}/>
