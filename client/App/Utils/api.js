@@ -209,9 +209,9 @@ var api = {
     });
   },
 
-  fetchUserPhotosNearby(latitude, longitude, radius, userId, callback) {
+  fetchNearbyUserPhotos(latitude, longitude, radius, userId, callback) {
     console.log('fetchUserPhotosNearby');
-    var url = 'http://' + host + ':8000/fetchUserPhotosNearby?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius + '&userId=' + userId;
+    var url = 'http://' + host + ':8000/fetchNearbyUserPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius + '&userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -225,8 +225,8 @@ var api = {
     });
   },
 
-  fetchFriendsPhotos(latitude, longitude, radius, userId, callback) {
-    var url = 'http://' + host + ':8000/fetchFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&userId=' + userId;
+  fetchNearbyFriendsPhotos(latitude, longitude, radius, userId, callback) {
+    var url = 'http://' + host + ':8000/fetchNearbyFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -241,9 +241,9 @@ var api = {
     });
   },
 
-  fetchGroupPhotosNearby(latitude, longitude, radius, groupname, callback) {
+  fetchNearbyGroupPhotos(latitude, longitude, radius, groupname, callback) {
     console.log('api fetch group photos');
-    var url = 'http://' + host + ':8000/fetchGroupPhotosNearby?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&groupname=' + groupname;
+    var url = 'http://' + host + ':8000/fetchNearbyGroupPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&groupname=' + groupname;
     return fetch(url, {
       method: 'GET',
       headers: {
