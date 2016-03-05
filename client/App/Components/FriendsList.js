@@ -51,7 +51,8 @@ class FriendsList extends React.Component {
     this.props.navigator.push({
       component: AddFriend,
       username: this.props.route.username,
-      userId: this.props.route.userId
+      userId: this.props.route.userId,
+      friendsData: this.state.friendsList
     });
   }
 
@@ -87,6 +88,7 @@ class FriendsList extends React.Component {
       });
       if (this.state.dataSource._cachedRowCount === undefined || this.state.dataSource._cachedRowCount !== data.length) {
         this.setState({
+          friendsList: data.map(friend => friend.username),
           dataSource: this.state.dataSource.cloneWithRows(data),
           loaded: true,
         });
