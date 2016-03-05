@@ -36,7 +36,7 @@ class Map extends React.Component {
       closeLocations: undefined,
       currentGroup: ''
     };
-    
+
     api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       this.setState({ closeLocations: photosArr });
@@ -73,7 +73,7 @@ class Map extends React.Component {
           component: PhotoView,
           uri: uri,
           userId: this.props.userId,
-          views: JSON.parse(data).views, 
+          views: JSON.parse(data).views,
           width: this.state.currentScreenWidth,
           sceneConfig: {
             ...Navigator.SceneConfigs.FloatFromBottom,
@@ -122,6 +122,7 @@ class Map extends React.Component {
     console.log('friends filter user iD...', this.props.userId);
     api.fetchFriendsPhotos(this.props.params.latitude, this.props.params.longitude, 50, this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
+      console.log('returned photos arr: ', photosArr);
       this.setState({ closeLocations: photosArr });
     });
 
@@ -145,7 +146,7 @@ class Map extends React.Component {
       this.setState({ photosLocations: photosArr });
     });
   }
-  
+
   // Update closeLocations and photoLocations based on specific user
   addUserFilter() {
     this.setState({filter: 'user', closeLocations: [], photosLocations: [] });
@@ -280,7 +281,7 @@ class Map extends React.Component {
         <Text style={styles.noMapText}>Getting your location...</Text>
       </View>
     );
-  } 
+  }
 };
 }
 

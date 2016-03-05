@@ -93,9 +93,9 @@ module.exports = {
       if (err) {
         next(err);
       }
-      var friendIds =  user.friends.map(function(friend) {
-        return friend.userId;
-        });
+      var friendIds = user.friends.map(function(friend) {
+        return friend._id;
+      });
 
       Photo.find({
         $and: [

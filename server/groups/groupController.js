@@ -86,7 +86,6 @@ module.exports = {
       if (err) {
         return next(err);
       }
-      console.log('groups (should be an array of objects):', groups);
       if (groups) {
         res.json(groups);
       } else {
