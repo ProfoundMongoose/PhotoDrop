@@ -89,7 +89,7 @@ var api = {
     }).catch(function(err) { console.log(err); });
   },
 
-  uploadPhoto(data, latitude, longitude, userId, callback) {
+  uploadPhoto(data, latitude, longitude, userId, taggedGroups, callback) {
     var url = 'http://' + host + ':8000/imgUpload';
     // cut data in half
     var firstHalf = data.slice(0, Math.floor(data.length / 2));
@@ -104,7 +104,8 @@ var api = {
         data: firstHalf,
         latitude: latitude,
         longitude: longitude,
-        userId: userId
+        userId: userId,
+        taggedGroups: taggedGroups
       })
     }).then(function() {
       fetch(url, {
@@ -117,7 +118,8 @@ var api = {
           data: secondHalf,
           latitude: latitude,
           longitude: longitude,
-          userId: userId
+          userId: userId,
+          taggedGroups: taggedGroups
         })
       }).then(function(res) {
         callback(res._bodyText);
