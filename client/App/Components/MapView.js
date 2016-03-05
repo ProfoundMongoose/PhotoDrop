@@ -57,7 +57,7 @@ class Map extends React.Component {
         //     var photosArr = JSON.parse(photos);
         //     this.setState({ photosLocations: photosArr });
         //   });
-        //   api.fetchPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+        //   api.fetchNearbyPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
         //     var photosArr = JSON.parse(photos);
         //     this.setState({ closeLocations: photosArr });
         //   });
