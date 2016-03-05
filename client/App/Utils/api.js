@@ -119,8 +119,9 @@ var api = {
     }).catch(function(err) { console.log(err); });
   },
 
-  fetchPhotos(latitude, longitude, radius, callback) {
-    var url = 'http://' + host + ':8000/fetchPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
+  fetchNearbyPhotos(latitude, longitude, radius, callback) {
+    console.log('fetch nearby photos!!!');
+    var url = 'http://' + host + ':8000/fetchNearbyPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
     return fetch(url, {
       method: 'GET',
       headers: {
