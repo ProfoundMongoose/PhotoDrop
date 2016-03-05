@@ -209,6 +209,13 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#ededed'
   },
+  changeContainerTall: {
+    flex: 2,
+    padding: 0,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: '#ededed'
+  },
   fieldTitle: {
     marginTop: 2,
     marginBottom: 15,
