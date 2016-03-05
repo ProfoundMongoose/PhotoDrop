@@ -423,7 +423,6 @@ var api = {
         'Content-Type': 'application/json'
       }
     }).then(function (data) {
-      console.log(data);
       callback(JSON.parse(data._bodyText));
     })
     .catch(function (err) {
