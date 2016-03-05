@@ -5,9 +5,7 @@ var Keychain = require('react-native-keychain');
 var api = require('../Utils/api');
 var AddFriend = require('./AddFriend');
 
-var MOCKED_FRIENDS_DATA = [
-  {profile: {thumbnail: 'http://iconbug.com/data/f8/256/fde579446855b2c35fcb817e46fbed9e.png'}},
-];
+var defaultProfilePic = 'http://jennstrends.com/wp-content/uploads/2013/10/bad-profile-pic-2.jpeg';
 
 var {
   View,
@@ -84,7 +82,7 @@ class FriendsList extends React.Component {
     api.getAllFriends(this.props.route.username, (data) => {
       data.forEach((friend, index) => {
         friend.name = friend.username;
-        friend.profile = friend.profilePhotoUrl || MOCKED_FRIENDS_DATA[index].profile.thumbnail;
+        friend.profile = friend.profilePhotoUrl || defaultProfilePic;
       });
       if (this.state.dataSource._cachedRowCount === undefined || this.state.dataSource._cachedRowCount !== data.length) {
         this.setState({
