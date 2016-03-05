@@ -93,17 +93,29 @@ class SelectGroups extends React.Component {
     }
   }
 
+  // renderGroup(group) {
+  //   return (
+  //     <View style={styles.container}>
+  //       <View style={styles.rightContainer}>
+  //         <Text style={styles.group}>{group.groupname}</Text>
+  //       </View>
+  //       <View style={styles.rightContainer}>
+  //         <Text onPress={this.addGroupToList.bind(this, group.groupname)}
+  //         style={styles.number}>{'Share with members'}</Text>
+  //       </View>
+  //     </View>
+  //   );
+  // }
+
   renderGroup(group) {
     return (
-      <View style={styles.container}>
-        <View style={styles.rightContainer}>
-          <Text style={styles.group}>{group.groupname}</Text>
+      <TouchableHighlight onPress={this.addGroupToList.bind(this, group.groupname)}>
+        <View style={styles.container}>
+          <View style={styles.rightContainer}>
+            <Text style={styles.potentialGroup}>{group.groupname}</Text>
+          </View>
         </View>
-        <View style={styles.rightContainer}>
-          <Text onPress={this.addGroupToList.bind(this, group.groupname)}
-          style={styles.number}>{'Share with members'}</Text>
-        </View>
-      </View>
+      </TouchableHighlight>
     );
   }
 
@@ -212,12 +224,18 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
   },
   container: {
-    marginBottom: 5,
-    marginLeft: 5,
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 4,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#ededed',
+    alignSelf: 'stretch',
+    backgroundColor: '#ff595b',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: '#ff595b',
   },
   rightContainer: {
     flex: 1,
@@ -246,7 +264,15 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Circular',
     justifyContent: 'center',
-  }
+  },
+  potentialGroup: {
+    height: 50,
+    padding: 13,
+    fontSize: 18,
+    fontFamily: 'circular',
+    color: '#fff',
+    alignSelf: 'center'
+  },
 });
 
 module.exports = SelectGroups;
