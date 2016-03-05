@@ -104,9 +104,10 @@ class AddFriend extends React.Component {
   // acceptFriendRequest(newFriendUsername, event) {
   acceptFriendRequest(newFriend, event) { // make sure this gets passed the right thing
   // api.acceptFriendRequest(this.state.userId, newFriendUsername);
-    api.acceptFriendRequest(this.state.userId, newFriend.username, newFriend._id);
-    // Make this ^ return a promise so we can v
-    // .then(() => { this.loadFriendRequests() });
+    api.acceptFriendRequest(this.state.userId, newFriend.username, newFriend._id, () => {
+      console.log('callback in accept friend Request got called');
+      this.loadFriendRequests();
+    });
   }
 
   renderFriend(friend) {
