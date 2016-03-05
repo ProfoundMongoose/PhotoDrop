@@ -3,7 +3,7 @@ var NavigationBar = require('react-native-navbar');
 var api = require('../Utils/api');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var _ = require('lodash');
-
+var SelectGroups = require('./SelectGroups');
 var {
   View,
   StyleSheet,
@@ -32,9 +32,9 @@ class PreviewPhoto extends React.Component {
     this.props.navigator.push({
       component: SelectGroups,
       image64: this.props.route.image64,
-      latitude: this.state.latitude,
-      longitude: this.state.longitude,
-      userId: this.props.userId
+      latitude: this.props.route.latitude,
+      longitude: this.props.route.longitude,
+      userId: this.props.route.userId
     })
   }
 
@@ -51,21 +51,8 @@ class PreviewPhoto extends React.Component {
     // because we are sending the captured image in as a string we have to tell react-native how it is encoded
     return (
       <View style={styles.imageContainer}>
-        <Modal
-          animated={this.state.animated}
-          transparent={this.state.transparent}
-          visible={this.state.modalVisible}
-        >
-          <View style={[styles.container]}>
-            <View style={[styles.innerContainer, this.state.innerContainerTransparentStyle]}>
-              <Text style={styles.modal}>Your photo has been uploaded!</Text>
-              <IconIon name="ios-checkmark-empty" size={90} color="#036C69" style={styles.yesIcon} />
-            </View>
-          </View>
-        </Modal>
         <NavigationBar title={{title: 'Share this image?', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: true}}/>
         <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}>
-
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={_.once(this._cancelImage.bind(this))} style={styles.noButton}>
               <IconIon name="ios-close-empty" size={60} color="#FC9396" style={styles.noIcon} />
@@ -74,7 +61,6 @@ class PreviewPhoto extends React.Component {
               <IconIon name="ios-checkmark-empty" size={60} color="#036C69" style={styles.yesIcon} />
             </TouchableOpacity>
           </View>
-
         </Image>
       </View>
     );
