@@ -129,7 +129,7 @@ class PhotoView extends React.Component{
               </View>
               <View style={styles.photoInfoContainer}>
                 {username}
-                {views} 
+                {views}
               </View>
             </View>
           </Image>

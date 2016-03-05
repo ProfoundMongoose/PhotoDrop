@@ -213,8 +213,6 @@ var styles = StyleSheet.create({
     paddingTop: 20,
     backgroundColor: '#ededed',
   },
-  rightContainer: {
-  },
   potentialGroup: {
     height: 50,
     padding: 13,
