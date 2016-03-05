@@ -154,6 +154,43 @@ module.exports = {
     });
   },
 
+  fetchGroupPhotosNearby: function(req, res, next) {
+    var maxDistance = Number(req.query.radius);
+    var coords = [req.query.lon, req.query.lat];
+    var groupname = req.query.groupname;
+
+    Group.findOne({groupname: groupname}, {friends: 1, _id: 0}, function (err, group) {
+      if (err) {
+        next(err);
+      }
+      Photo.find({
+        $and: [
+        {loc: {
+          $near: {
+            $geometry: {
+              type: 'Point',
+              coordinates: coords
+            },
+            $maxDistance: maxDistance
+          }
+        }},
+        {url: {$in: group.photoUrls}}
+        ]
+      }, function(err, photos) {
+        if (err) {
+          next(err);
+        }
+        if (photos) { 
+          photos = photos.sort(function(a, b) {
+            return b.views - a.views;
+          });
+        }
+        res.json(photos);
+      });
+    })
+  },
+
+
   fetchLocations: function(req, res, next) {
     var lat = Number(req.query.lat);
     var lon = Number(req.query.lon);
@@ -392,7 +429,7 @@ module.exports = {
               }
             }
           }},
-           {userId: {$in: friendIds}}
+          {url: {$in: group.photoUrls}}
           ],
           _id: {
             $nin: revealedPhotos.map(function(photo) {
