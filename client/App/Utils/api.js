@@ -357,7 +357,7 @@ var api = {
     });
   },
 
-  acceptFriendRequest(currentUserId, targetUsername, targetUserId) {
+  acceptFriendRequest(currentUserId, targetUsername, targetUserId, callback) {
     var request = {
       currentUserId: currentUserId,
       targetUsername: targetUsername,
@@ -374,6 +374,7 @@ var api = {
     .then(function (data) {
       if (data.ok) {
         console.log('Friend Request Accepted!');
+        callback(data);
       } else {
         console.log('Something went wrong while accepting the friend request');
       }
@@ -391,7 +392,6 @@ var api = {
         'Content-Type': 'application/json'
       }
     }).then(function (data) {
-      console.log('friends data: ', data);
       callback(JSON.parse(data._bodyText));
     })
     .catch(function (err) {
@@ -400,7 +400,6 @@ var api = {
   },
 
   getAllFriends(currentUsername, callback) {
-    console.log('supposed username', currentUsername);
     var url = 'http://' + host + ':8000/friends/' + currentUsername;
     return fetch(url, {
       method: 'GET',
@@ -408,7 +407,6 @@ var api = {
         'Content-Type': 'application/json'
       }
     }).then(function (data) {
-      console.log(data);
       callback(JSON.parse(data._bodyText));
     })
     .catch(function (err) {
@@ -447,32 +445,6 @@ var api = {
     });
   },
 
-  acceptFriendRequest(currentUserId, targetUsername, targetUserId) {
-    var request = {
-      currentUserId: currentUserId,
-      targetUsername: targetUsername,
-      targetUserId: targetUserId
-    };
-    return fetch('http://' + host + ':8000/confirm-friend-request', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(request)
-    })
-    .then(function (data) {
-      if (data.ok) {
-        console.log('Friend Request Accepted!');
-      } else {
-        console.log('Something went wrong while accepting the friend request');
-      }
-    })
-    .catch(function (err) {
-      console.error(err);
-    });
-  },
-
   joinGroup(currentUserId, targetGroupname) {
     var request = {
       currentUserId: currentUserId,
@@ -499,30 +471,30 @@ var api = {
   },
 
   createGroup(currentUserId, groupname, description) {
-      var request = {
-        currentUserId: currentUserId,
-        groupname: groupname,
-        description: description
-      };
+    var request = {
+      currentUserId: currentUserId,
+      groupname: groupname,
+      description: description
+    };
 
-      return fetch('http://' + host + ':8000/groups', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(request)
-      })
-      .then(function (data) {
-        if (data.ok) {
-          console.log('Group Created!');
-        } else {
-          console.log('Something went wrong with your group creation');
-        }
-      })
-      .catch(function (err) {
-        console.error(err);
-      });
-    },
+    return fetch('http://' + host + ':8000/groups', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(request)
+    })
+    .then(function (data) {
+      if (data.ok) {
+        console.log('Group Created!');
+      } else {
+        console.log('Something went wrong with your group creation');
+      }
+    })
+    .catch(function (err) {
+      console.error(err);
+    });
+  },
 };
 
 module.exports = api;
