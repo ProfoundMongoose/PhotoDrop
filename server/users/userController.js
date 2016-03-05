@@ -38,8 +38,8 @@ module.exports = {
           return user.comparePasswords(password)
             .then(function(foundUser) {
               if (foundUser) {
-                var token = jwt.sign({ username: username, userId: user._id }, 'FRANKJOEVANMAX');
-                res.json({ userId: user._id, username: user.username, token: token });
+                var token = jwt.sign({ username: username, userId: foundUser._id }, 'FRANKJOEVANMAX');
+                res.json({ userId: foundUser._id, username: foundUser.username, token: token });
               } else {
                 return next(new Error('Incorrect password'));
               }
