@@ -93,9 +93,10 @@ module.exports = {
       if (err) {
         next(err);
       }
-      var friendIds =  user.friends.map(function(friend) {
+      var friendIds = user.friends.map(function(friend) {
         return friend.userId;
-        });
+      });
+      console.log('friendIds (array of ids):', friendIds);
 
       Photo.find({
         $and: [
