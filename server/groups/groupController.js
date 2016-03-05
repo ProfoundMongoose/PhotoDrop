@@ -45,9 +45,8 @@ module.exports = {
           currentUser.save(function (err) {
             if (err) {
               return next(err);
-            } else {
-              res.sendStatus(201);
             }
+            res.sendStatus(201);
           });
         }
       });
