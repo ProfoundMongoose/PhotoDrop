@@ -161,8 +161,20 @@ class Map extends React.Component {
   }
 
   addGroupFilter(group, navigator) {
-   this.setState({ photosLocations: [], closeLocations: [] });
-   navigator.pop()
+    var name = group.groupname.substring(0,4) + '...';
+    this.setState({currentGroup: name, photosLocations: [], closeLocations: [] });
+
+    api.fetchGroupPhotosNearby(this.props.params.latitude, this.props.params.longitude, 50, group.groupname, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      this.setState({ closeLocations: photosArr });
+    });
+
+    api.fetchGroupLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, group.groupname, (photos) => {
+      var photosArr = JSON.parse(photos);
+      this.setState({ photosLocations: photosArr });
+    });
+
+    navigator.pop()
   }
 
   showGroups() {

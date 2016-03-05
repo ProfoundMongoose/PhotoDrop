@@ -179,6 +179,21 @@ var api = {
     });
   },
 
+  fetchGroupLocations(latitude, longitude, latdelta, londelta, groupname, callback) {
+    var url = 'http://' + host + ':8000/fetchGroupLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&groupname=' + groupname;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
   fetchUserPhotos(userId, callback) {
     var url = 'http://' + host + ':8000/fetchUserPhotos?userId=' + userId;
     return fetch(url, {
@@ -212,6 +227,22 @@ var api = {
 
   fetchFriendsPhotos(latitude, longitude, radius, userId, callback) {
     var url = 'http://' + host + ':8000/fetchFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
+  fetchGroupPhotosNearby(latitude, longitude, radius, groupname, callback) {
+    console.log('api fetch group photos');
+    var url = 'http://' + host + ':8000/fetchGroupPhotosNearby?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&groupname=' + groupname;
     return fetch(url, {
       method: 'GET',
       headers: {
