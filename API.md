@@ -12,3 +12,4 @@
 | /groups | POST | {"groupname": "a", "description": "b", "currentUserId": "1"} | Adds a new group |
 | /join-group | POST | {"currentUserId": "1", "targetGroupname": "a"} | Lets the current user join the targeted group |
 | /groups/:userId | GET | empty | Returns JSON array of all the groups a user is in |
+| /imgUpload | POST | {"userId": "1", "data": "x", "longitude": "1", "latitude": "1", "taggedGroups": "['a']" } | Adds photo to photo database and to appropriate groups |

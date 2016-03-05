@@ -1,5 +1,6 @@
 var imgur = require('imgur');
 var Photo = require('./photoModel');
+var Group = require('../photos/photoModel');
 var mongoose = require('mongoose');
 var User = require('../users/userModel');
 
@@ -38,18 +39,20 @@ module.exports = {
 
   // save that photo as  a model in db
   savePhotoModelToDB: function(req, res, next) {
-    new Photo({
+    var photo = new Photo({
       url: req.imgurLink,
       loc: {
         type: 'Point',
         coordinates: [req.body.longitude, req.body.latitude]
       },
       userId: mongoose.mongo.ObjectID(req.body.userId)
-    }).save().then(function(data) {
+    });
+    photo.save(function (err) {
+      if (err) {
+        return next(err);
+      }
       Photo.ensureIndexes({ loc: '2dsphere' });
-      res.json();
-    }).catch(function(err) {
-      console.error('could not save to db', err.message);
+      next();
     });
   },
 
@@ -71,7 +74,7 @@ module.exports = {
       if (err) {
         next(err);
       }
-      if (photos) { 
+      if (photos) {
         photos = photos.sort(function(a, b) {
           return b.views - a.views;
         });
@@ -111,7 +114,7 @@ module.exports = {
         if (err) {
           next(err);
         }
-        if (photos) { 
+        if (photos) {
           photos = photos.sort(function(a, b) {
             return b.views - a.views;
           });
@@ -142,7 +145,7 @@ module.exports = {
       if (err) {
         next(err);
       }
-      if (photos) { 
+      if (photos) {
         photos = photos.sort(function(a, b) {
           return b.views - a.views;
         });
