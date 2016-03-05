@@ -79,7 +79,6 @@ class GroupsList extends React.Component {
 
   loadGroupsData() {
     api.getUserGroups(this.state.userId, (data) => {
-      console.log('Data has arrived!', data);
       data.forEach((group, index) => {
         group.groupname = group.groupname;
       });

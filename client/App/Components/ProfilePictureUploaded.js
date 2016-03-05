@@ -3,7 +3,6 @@ var NavigationBar = require('react-native-navbar');
 var api = require('../Utils/api');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var _ = require('lodash');
-var GroupsList = require('./GroupsList');
 
 var {
   View,
@@ -20,7 +19,7 @@ var {
   StatusBarIOS
 } = React;
 
-class SelectGroups extends React.Component {
+class ProfileUploaded extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,111 +29,24 @@ class SelectGroups extends React.Component {
       innerContainerTransparentStyle: null,
       active: false,
       colorStyle: '#000',
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => row1 !== row2,
-      }),
       selectedGroups: []
     };
   }
 
-  _sendImage() {
-    api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId, this.state.selectedGroups, (res) => {
-      this.setState({modalVisible: true});
-      setTimeout(()=> {
-        this._closeModal();
-        this.props.navigator.pop();
-      }, 2000);
-    });
-  }
-
-  _closeModal() { 
-    this.setState({modalVisible: false});
-    this.props.navigator.pop();
-  }
-
-  _cancelImage() {
-    this.props.navigator.pop();
-  }
-
   componentDidMount() {
-    this.loadGroupsData();
+    //this.loadGroupsData();
   }
-
-  loadGroupsData() {
-    api.getUserGroups(this.props.route.userId, (data) => {
-      
-      data.forEach((group, index) => {
-        group.groupname = group.groupname;
-      });
-      var newData = data;
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(newData),
-        loaded: true,
-      });
-    });
-  }
-
-  addGroupToList(groupname) {
-    var currentGroups = this.state.selectedGroups.slice();
-    if(currentGroups.indexOf(groupname) === -1){
-      currentGroups.push(groupname);
-      this.setState({
-        selectedGroups: currentGroups
-      });
-    }
-  }
-
-  renderGroup(group) {
-    return (
-      <View style={styles.container}>
-        <View style={styles.rightContainer}>
-          <Text style={styles.group}>{group.groupname}</Text>
-        </View>
-        <View style={styles.rightContainer}>
-          <Text onPress={this.addGroupToList.bind(this, group.groupname)}
-          style={styles.number}>{'Share with members'}</Text>
-        </View>
-      </View>
-    );
-  }
-
-
 
   render() {
     // because we are sending the captured image in as a string we have to tell react-native how it is encoded
     return (
       <View style={styles.imageContainer}>
-        <Modal
-          animated={this.state.animated}
-          transparent={this.state.transparent}
-          visible={this.state.modalVisible}
-        >
           <View style={styles.modalContainer}>
             <View style={[styles.innerContainer, this.state.innerContainerTransparentStyle]}>
-              <Text style={styles.modal}>Your photo has been uploaded!</Text>
+              <Text style={styles.modal}>Profile picture updated!</Text>
               <IconIon name="ios-checkmark-empty" size={90} color="#036C69" style={styles.yesIcon} />
             </View>
           </View>
-        </Modal>
-        <NavigationBar title={{title: 'Select Groups to Share', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: true}}/>
-        
-        <View style={{flex: 1, backgroundColor: '#ededed'}}>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderGroup.bind(this)}
-            style={styles.listView}
-          />
-        </View>
-
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={_.once(this._cancelImage.bind(this))} style={styles.noButton}>
-              <IconIon name="ios-close-empty" size={60} color="#FC9396" style={styles.noIcon} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={_.once(this._sendImage.bind(this))} style={styles.yesButton}>
-              <IconIon name="ios-checkmark-empty" size={60} color="#036C69" style={styles.yesIcon} />
-            </TouchableOpacity>
-          </View>
-
       </View>
     );
   }
@@ -240,4 +152,4 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = SelectGroups;
+module.exports = ProfileUploaded;
