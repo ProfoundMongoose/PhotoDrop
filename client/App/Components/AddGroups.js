@@ -28,7 +28,8 @@ class AddGroups extends React.Component {
       foundGroupNamesData: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
-      unrequestableGroups: this.props.route.usersGroups
+      unrequestableGroups: this.props.route.usersGroups,
+      createGroupMessage: false
     };
   }
 
@@ -53,6 +54,15 @@ class AddGroups extends React.Component {
           foundGroupNamesData: this.state.foundGroupNamesData.cloneWithRows(groupnames),
           isLoading: false
         });
+        if (groupnames.length === 0 && groupsArr.indexOf(groupnames)) {
+          this.setState({
+            createGroupMessage : true
+          });
+        } else {
+          this.setState({
+            createGroupMessage : false
+          });
+        }
       });
     } else {
       this.setState({
@@ -71,7 +81,7 @@ class AddGroups extends React.Component {
       <TouchableHighlight onPress={this.joinGroup.bind(this, group)}>
         <View style={styles.container}>
           <View style={styles.rightContainer}>
-            <Text style={styles.potentialFriend}>{group}</Text>
+            <Text style={styles.potentialGroup}>{group}</Text>
           </View>
         </View>
       </TouchableHighlight>
@@ -116,6 +126,7 @@ class AddGroups extends React.Component {
             onChange={this.updateFoundGroups.bind(this)}
             onSubmitEditing={this.createGroup.bind(this)} // make this work
           />
+          <Text style={this.state.createGroupMessage ? styles.addGroupMessage : styles.noAddGroupMessage}>Submit to create group!</Text>
           <ListView
             dataSource={this.state.foundGroupNamesData}
             renderRow={this.renderGroup.bind(this)}
@@ -204,13 +215,24 @@ var styles = StyleSheet.create({
   },
   rightContainer: {
   },
-  potentialFriend: {
+  potentialGroup: {
     height: 50,
     padding: 13,
     fontSize: 18,
     fontFamily: 'circular',
     color: '#fff',
     alignSelf: 'center'
+  },
+  addGroupMessage : {
+    margin: 20,
+    marginLeft: 80,
+    fontFamily: 'circular',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noAddGroupMessage :{
+    opacity: 0
   }
 });
 
