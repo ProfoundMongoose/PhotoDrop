@@ -53,20 +53,28 @@ class GroupsList extends React.Component {
   }
 
   renderGroup(group) {
-    return (
-      <View style={styles.container}>
+    return this.props.route.addGroupFilter ?
+     (<TouchableHighlight onPress={()=>{
+       if (this.props.route.addGroupFilter) {
+         this.props.route.addGroupFilter(group, this.props.navigator);
+       }
+     }}>
+        <View style={styles.buttonContainer}>
+          <View style={styles.rightContainer}>
+            <Text style={styles.potentialGroup}>{group.groupname}</Text>
+          </View>
+        </View>
+      </TouchableHighlight>) :
+      (<View style={styles.container}>
         <View style={styles.rightContainer}>
-          <Text style={styles.group} onPress={()=>{
-            if (this.props.route.addGroupFilter) {
-              this.props.route.addGroupFilter(group, this.props.navigator)
-            }
-          }}>{group.groupname}</Text>
+          <Text style={styles.group}>
+            {group.groupname}
+          </Text>
         </View>
         <View style={styles.rightContainer}>
           <Text style={styles.number}>{group.members.length + ' Users'}</Text>
         </View>
-      </View>
-    );
+      </View>);
   }
 
   componentWillUpdate() {
@@ -155,6 +163,20 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#ededed',
   },
+  buttonContainer: {
+    marginLeft: 30,
+    marginRight: 30,
+    marginTop: 4,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    backgroundColor: '#ff595b',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: '#ff595b',
+  },
   rightContainer: {
     flex: 1,
   },
@@ -177,6 +199,14 @@ var styles = StyleSheet.create({
   listView: {
     paddingTop: 20,
     backgroundColor: '#ededed',
+  },
+  potentialGroup: {
+    height: 50,
+    padding: 13,
+    fontSize: 18,
+    fontFamily: 'circular',
+    color: '#fff',
+    alignSelf: 'center'
   },
 });
 
