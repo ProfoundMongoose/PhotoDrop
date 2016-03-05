@@ -109,7 +109,7 @@ class SelectGroups extends React.Component {
           transparent={this.state.transparent}
           visible={this.state.modalVisible}
         >
-          <View style={[styles.container]}>
+          <View style={styles.modalContainer}>
             <View style={[styles.innerContainer, this.state.innerContainerTransparentStyle]}>
               <Text style={styles.modal}>Your photo has been uploaded!</Text>
               <IconIon name="ios-checkmark-empty" size={90} color="#036C69" style={styles.yesIcon} />
@@ -187,7 +187,7 @@ var styles = StyleSheet.create({
     height: 60,
     marginLeft: 37
   },
-  container: {
+  modalContainer: {
     flex: 1,
     justifyContent: 'center',
     padding: 20,
