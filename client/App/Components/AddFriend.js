@@ -2,6 +2,7 @@ var React = require('react-native');
 var NavigationBar = require('react-native-navbar');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var Keychain = require('react-native-keychain');
+var _ = require('lodash');
 var api = require('../Utils/api');
 
 var {
@@ -29,9 +30,9 @@ class AddFriend extends React.Component {
       }),
       pendingFriendRequests: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
-      })
-      // unreqestableUsers: [],
-      // unloadableFriendRequestUsernames: []
+      }),
+      friendsData: this.props.route.friendsData,
+      unreqestableUsers: [],
     };
   }
 
@@ -44,21 +45,18 @@ class AddFriend extends React.Component {
   }
 
   componentDidMount() {
-    // this.getUnrequestableUsers();
-    // this.getUnloadableFriendRequestUsernames();
+    this.getUnrequestableUsers();
     this.loadFriendRequests();
   }
 
-  // getUnrequestableUsers() {
-  //   var unreqestableUsers = [this.state.username];
-  //   // this will require us to get all the users to be sent in via the route
-  //   // unreqestableUsers.concat(this.state.route.friends.map((user) => {return user.username}));
-  //   this.setState({
-  //     unreqestableUsers: unreqestableUsers
-  //   });
-  // }
-
-  // todo: write getUnloadableFriendRequestUsernames
+  getUnrequestableUsers() {
+  //   you, your friends, people in your pending friend request list
+    var unreqestableUsers = [this.state.username].concat(this.state.friendsData);
+    console.log('unrequestable users: ', unreqestableUsers);
+    this.setState({
+      unreqestableUsers: unreqestableUsers
+    });
+  }
 
   updateFoundFriends(event) {
     if (event.nativeEvent.text) {
@@ -66,9 +64,10 @@ class AddFriend extends React.Component {
 
       api.searchUsers(event.nativeEvent.text, (users) => {
         var usersArr = JSON.parse(users);
-        var userNames = usersArr.map((userObj) => {
+        var userNames = _.difference(usersArr.map((userObj) => {
           return userObj.username;
-        });
+        }), this.state.unreqestableUsers);
+
         this.setState({
           foundFriendsData: this.state.foundFriendsData.cloneWithRows(userNames),
           isLoading: false
@@ -90,7 +89,6 @@ class AddFriend extends React.Component {
           validRequests.push(user);
         }
         return validRequests;
-        // return user ? user : null;
       }, []);
       console.log('friendRequests', friendRequests, friendRequests.length);
       this.setState({

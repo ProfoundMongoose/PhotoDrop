@@ -20,15 +20,15 @@ var {
 class AddGroups extends React.Component {
   constructor(props) {
     super(props);
+    console.log('users groups:', this.props.route.usersGroups);
     this.state = {
       username: this.props.route.username,
       userId: this.props.route.userId,
       isLoading: false,
       foundGroupNamesData: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
-      })
-      // unreqestableUsers: [],
-      // unloadableFriendRequestUsernames: []
+      }),
+      unrequestableGroups: this.props.route.usersGroups
     };
   }
 
@@ -40,31 +40,15 @@ class AddGroups extends React.Component {
     this.props.navigator.pop();
   }
 
-  componentDidMount() {
-    // this.getUnrequestableUsers();
-    // this.getUnloadableFriendRequestUsernames();
-  }
-
-  // getUnrequestableUsers() {
-  //   var unreqestableUsers = [this.state.username];
-  //   // this will require us to get all the users to be sent in via the route
-  //   // unreqestableUsers.concat(this.state.route.friends.map((user) => {return user.username}));
-  //   this.setState({
-  //     unreqestableUsers: unreqestableUsers
-  //   });
-  // }
-
-  // todo: write getUnloadableFriendRequestUsernames
-
   updateFoundGroups(event) {
     if (event.nativeEvent.text) {
       this.setState({isLoading: true});
 
       api.searchGroups(event.nativeEvent.text, (groups) => {
         var groupsArr = JSON.parse(groups);
-        var groupnames = groupsArr.map((groupObj) => {
+        var groupnames = _.difference(groupsArr.map((groupObj) => {
           return groupObj.groupname;
-        });
+        }), this.state.unrequestableGroups);
         this.setState({
           foundGroupNamesData: this.state.foundGroupNamesData.cloneWithRows(groupnames),
           isLoading: false
