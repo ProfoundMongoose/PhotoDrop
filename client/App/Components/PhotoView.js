@@ -9,7 +9,6 @@ var {
   View,
   StyleSheet,
   Image,
-  Modal,
   ScrollView,
   TouchableOpacity,
   TouchableWithoutFeedback,
@@ -21,9 +20,6 @@ class PhotoView extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      animated: true,
-      modalVisible: false,
-      transparent: true,
       touched: false,
       favorited: false,
       uploader: undefined,
@@ -41,12 +37,6 @@ class PhotoView extends React.Component{
         innerContainerTransparentStyle: null,
       })
     })
-  }
-  componentDidMount() {
-    console.log(this.state.modalVisible);
-    // setTimeout(() => {
-
-    // });
   }
 
   componentWillUnmount() {
@@ -67,11 +57,6 @@ class PhotoView extends React.Component{
   _setImageAsProfilePicture() {
     api.uploadProfilePhoto(this.state.url, this.state.userId, (result) => {
       this.profilePictureUploaded();
-      this.setState.modalVisible = true;
-      this.setState.transparent = false;
-      // setTimeout(()=> {
-      //   this._closeModal();
-      // }, 1500);
     });
   }
 
@@ -99,11 +84,6 @@ class PhotoView extends React.Component{
       this.setState({touched:false});
     }
     if(this.props.togglePagination) {this.props.togglePagination();}
-  }
-
-  _closeModal() { 
-    this.setState({modalVisible: false});
-    this.props.navigator.pop();
   }
 
   profilePictureUploaded() {
@@ -291,18 +271,7 @@ var styles = StyleSheet.create({
   innerContainer: {
     borderRadius: 10,
     alignItems: 'center',
-  },
-  modal: {
-    fontSize: 20,
-    fontFamily: 'Circular',
-    justifyContent: 'center',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#f5fcff',
-  },
+  }
 });
 
 module.exports = PhotoView;
