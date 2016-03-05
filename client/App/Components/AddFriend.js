@@ -140,7 +140,7 @@ class AddFriend extends React.Component {
   render() {
     var showFriendRequests = (
       this.state.numFriendRequests && this.state.numFriendRequests ?
-      <View>
+      <View style={styles.changeContainerTall}>
       <Text style={styles.fieldTitle}> Pending Friend Requests </Text>
       <ListView
         dataSource={this.state.pendingFriendRequests} // need to initialize
