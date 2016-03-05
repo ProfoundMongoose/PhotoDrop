@@ -1,6 +1,6 @@
 // Uncomment one of the two following lines to use the appriopriate host for your purposes:
-var host = '159.203.240.124'; // production server
-// var host = '127.0.0.1'; // local dev testing server
+// var host = '159.203.240.124'; // production server
+var host = '127.0.0.1'; // local dev testing server
 
 var api = {
   login(username, password) {
@@ -179,6 +179,21 @@ var api = {
     });
   },
 
+  fetchGroupLocations(latitude, longitude, latdelta, londelta, groupname, callback) {
+    var url = 'http://' + host + ':8000/fetchFriendsLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&groupname=' + groupname;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
   fetchUserPhotos(userId, callback) {
     var url = 'http://' + host + ':8000/fetchUserPhotos?userId=' + userId;
     return fetch(url, {
@@ -212,6 +227,22 @@ var api = {
 
   fetchFriendsPhotos(latitude, longitude, radius, userId, callback) {
     var url = 'http://' + host + ':8000/fetchFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
+  fetchGroupPhotosNearby(latitude, longitude, radius, groupname, callback) {
+    console.log('api fetch group photos');
+    var url = 'http://' + host + ':8000/fetchFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&userId=' + groupname;
     return fetch(url, {
       method: 'GET',
       headers: {

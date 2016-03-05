@@ -15,11 +15,13 @@ module.exports = function(app, express) {
   // Fetching photos for the map view and user photos
   app.get('/fetchPhotos/', photoController.fetchPhotos);
   app.get('/fetchFriendsPhotos/', photoController.fetchFriendsPhotos);
+  app.get('/fetchUserPhotos/', photoController.fetchUserPhotos);
+  app.get('/fetchGroupPhotosNearby/', photoController.fetchGroupPhotosNearby);
+  app.get('/fetchUserPhotosNearby/', photoController.fetchUserPhotosNearby);
   app.get('/fetchLocations/', photoController.fetchLocations);
   app.get('/fetchUserLocations/', photoController.fetchUserLocations);
   app.get('/fetchFriendsLocations/', photoController.fetchFriendsLocations);
-  app.get('/fetchUserPhotos/', photoController.fetchUserPhotos);
-  app.get('/fetchUserPhotosNearby/', photoController.fetchUserPhotosNearby);
+  app.get('/fetchGroupLocations/', photoController.fetchGroupLocations);
   app.get('/fetchUserFavorites/', userController.fetchFavorites);
 
   // Increment views count on photo and add to Favorites
