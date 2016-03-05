@@ -47,7 +47,7 @@ class SelectGroups extends React.Component {
     });
   }
 
-  _closeModal() { 
+  _closeModal() {
     this.setState({modalVisible: false});
     this.props.navigator.pop();
   }
@@ -60,15 +60,23 @@ class SelectGroups extends React.Component {
     this.loadGroupsData();
   }
 
+  filterOutGroups(allGroups, selectedGroupNames) {
+    return allGroups.reduce((aggregate, group) => {
+      if (selectedGroupNames.indexOf(group.groupname) === -1) {
+        aggregate.push(group);
+      }
+      return aggregate;
+    }, []);
+  }
+
   loadGroupsData() {
     api.getUserGroups(this.props.route.userId, (data) => {
-      
       data.forEach((group, index) => {
         group.groupname = group.groupname;
       });
-      var newData = data;
+      filteredGroupData = this.filterOutGroups(data, this.state.selectedGroups);
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(newData),
+        dataSource: this.state.dataSource.cloneWithRows(filteredGroupData),
         loaded: true,
       });
     });
@@ -81,6 +89,7 @@ class SelectGroups extends React.Component {
       this.setState({
         selectedGroups: currentGroups
       });
+      this.loadGroupsData();
     }
   }
 
@@ -117,7 +126,7 @@ class SelectGroups extends React.Component {
           </View>
         </Modal>
         <NavigationBar title={{title: 'Select Groups to Share', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: true}}/>
-        
+
         <View style={{flex: 1, backgroundColor: '#ededed'}}>
           <ListView
             dataSource={this.state.dataSource}
