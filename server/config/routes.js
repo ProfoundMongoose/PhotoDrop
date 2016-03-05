@@ -17,6 +17,7 @@ module.exports = function(app, express) {
   app.get('/fetchUserLocations/', photoController.fetchUserLocations);
   app.get('/fetchFriendsLocations/', photoController.fetchFriendsLocations);
   app.get('/fetchUserPhotos/', photoController.fetchUserPhotos);
+  app.get('/fetchUserPhotosNearby/', photoController.fetchUserPhotosNearby);
   app.get('/fetchUserFavorites/', userController.fetchFavorites);
 
   // Increment views count on photo and add to Favorites

@@ -200,8 +200,24 @@ var api = {
     });
   },
 
-  fetchFriendsPhotos(userId, callback) {
-    var url = 'http://' + host + ':8000/fetchFriendsPhotos?userId=' + userId;
+  fetchUserPhotosNearby(latitude, longitude, radius, userId, callback) {
+    console.log('fetchUserPhotosNearby');
+    var url = 'http://' + host + ':8000/fetchUserPhotosNearby?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius + '&userId=' + userId;
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(function(photos) {
+      callback(photos._bodyInit);
+    })
+    .catch(function(err) {
+      console.log(err);
+    });
+  },
+
+  fetchFriendsPhotos(latitude, longitude, radius, userId, callback) {
+    var url = 'http://' + host + ':8000/fetchFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {

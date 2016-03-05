@@ -55,7 +55,11 @@ class GroupsList extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.rightContainer}>
-          <Text style={styles.group}>{group.groupname}</Text>
+          <Text style={styles.group} onPress={()=>{
+            if (this.props.route.addGroupFilter) {
+              this.props.route.addGroupFilter(group, this.props.navigator)
+            }
+          }}>{group.groupname}</Text>
         </View>
         <View style={styles.rightContainer}>
           <Text style={styles.number}>{group.members.length + ' Users'}</Text>
@@ -113,7 +117,7 @@ class GroupsList extends React.Component {
 
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={this.renderGroup}
+          renderRow={this.renderGroup.bind(this)}
           style={styles.listView}
         />
 
