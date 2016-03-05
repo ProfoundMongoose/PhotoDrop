@@ -93,20 +93,6 @@ class SelectGroups extends React.Component {
     }
   }
 
-  // renderGroup(group) {
-  //   return (
-  //     <View style={styles.container}>
-  //       <View style={styles.rightContainer}>
-  //         <Text style={styles.group}>{group.groupname}</Text>
-  //       </View>
-  //       <View style={styles.rightContainer}>
-  //         <Text onPress={this.addGroupToList.bind(this, group.groupname)}
-  //         style={styles.number}>{'Share with members'}</Text>
-  //       </View>
-  //     </View>
-  //   );
-  // }
-
   renderGroup(group) {
     return (
       <TouchableHighlight onPress={this.addGroupToList.bind(this, group.groupname)}>
@@ -118,8 +104,6 @@ class SelectGroups extends React.Component {
       </TouchableHighlight>
     );
   }
-
-
 
   render() {
     // because we are sending the captured image in as a string we have to tell react-native how it is encoded
