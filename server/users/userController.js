@@ -39,7 +39,7 @@ module.exports = {
             .then(function(foundUser) {
               if (foundUser) {
                 var token = jwt.sign({ username: username, userId: user._id }, 'FRANKJOEVANMAX');
-                res.json({ userId: user._id, token: token });
+                res.json({ userId: user._id, username: user.username, token: token });
               } else {
                 return next(new Error('Incorrect password'));
               }
