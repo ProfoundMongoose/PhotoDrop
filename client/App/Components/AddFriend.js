@@ -140,7 +140,7 @@ class AddFriend extends React.Component {
   render() {
     var showFriendRequests = (
       this.state.numFriendRequests && this.state.numFriendRequests ?
-      <View>
+      <View style={styles.changeContainerTall}>
       <Text style={styles.fieldTitle}> Pending Friend Requests </Text>
       <ListView
         dataSource={this.state.pendingFriendRequests} // need to initialize
@@ -205,6 +205,13 @@ var styles = StyleSheet.create({
   changeContainer: {
     flex: 1,
     padding: 30,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: '#ededed'
+  },
+  changeContainerTall: {
+    flex: 2,
+    padding: 0,
     flexDirection: 'column',
     justifyContent: 'center',
     backgroundColor: '#ededed'
