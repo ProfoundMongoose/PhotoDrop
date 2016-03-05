@@ -75,7 +75,7 @@ class AddGroups extends React.Component {
             createGroupMessage : false,
             alreadyInGroupMessage : false
           });
-        } 
+        }
       });
     } else {
       this.setState({
@@ -105,6 +105,7 @@ class AddGroups extends React.Component {
     if (event.nativeEvent.text) {
       console.log('this is the userId', this.state.userId);
       api.createGroup(this.state.userId, event.nativeEvent.text, 'the description!');
+      this._backButton();
     }
   }
 
