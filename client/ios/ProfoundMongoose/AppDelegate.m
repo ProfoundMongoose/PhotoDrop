@@ -32,7 +32,7 @@
    */
 
   jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
-    
+  
     // Uncomment here to disable errors in iOS simulator
 //  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=false"];
   /**
@@ -45,7 +45,7 @@
     // To disable yellow errors here, select your device in the devices menu, go to product > scheme > edit scheme
     // then switch develop to release
 //   jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
-    
+  
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"ProfoundMongoose"
                                                initialProperties:nil
