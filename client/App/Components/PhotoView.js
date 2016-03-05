@@ -3,6 +3,7 @@ var NavigationBar = require('react-native-navbar');
 var Icon = require('react-native-vector-icons/FontAwesome');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var api = require('../Utils/api');
+var profilePictureUploaded = require('./ProfilePictureUploaded')
 
 var {
   View,
@@ -41,6 +42,12 @@ class PhotoView extends React.Component{
       })
     })
   }
+  componentDidMount() {
+    console.log(this.state.modalVisible);
+    // setTimeout(() => {
+
+    // });
+  }
 
   componentWillUnmount() {
     if(this.props.showStatusBar) {this.props.showStatusBar();}
@@ -59,11 +66,12 @@ class PhotoView extends React.Component{
 
   _setImageAsProfilePicture() {
     api.uploadProfilePhoto(this.state.url, this.state.userId, (result) => {
+      this.profilePictureUploaded();
       this.setState.modalVisible = true;
       this.setState.transparent = false;
-      setTimeout(()=> {
-        this._closeModal();
-      }, 1500);
+      // setTimeout(()=> {
+      //   this._closeModal();
+      // }, 1500);
     });
   }
 
@@ -98,6 +106,15 @@ class PhotoView extends React.Component{
     this.props.navigator.pop();
   }
 
+  profilePictureUploaded() {
+    this.props.navigator.push({
+      component: profilePictureUploaded
+    });
+    setTimeout(() => {
+      this.props.navigator.pop();
+    }, 1500);
+  }
+
   render() {
     var username = this.state.uploader ? <Text style={styles.infoText}> Uploaded by: {this.state.uploader} </Text> : null;
     var views = this.state.views ? <Text style={styles.infoText}> Views: {this.state.views} </Text> : null;
@@ -111,19 +128,7 @@ class PhotoView extends React.Component{
         )
       }
       return (
-        <View onPress={this._touch.bind(this)} style={styles.imageContainer}>
-          <Modal
-            animated={this.state.animated}
-            transparent={this.state.transparent}
-            visible={this.state.modalVisible}
-          >
-            <View style={[styles.container]}>
-              <View style={[styles.innerContainer, this.state.innerContainerTransparentStyle]}>
-                <Text style={styles.modal}>New profile picture set!</Text>
-                <IconIon name="ios-checkmark-empty" size={90} color="#036C69" style={styles.yesIcon} />
-              </View>
-            </View>
-          </Modal>
+        <TouchableWithoutFeedback onPress={this._touch.bind(this)} style={styles.imageContainer}>
           <Image style={styles.image} source={{uri: url}} onPress={this._touch.bind(this)}>
             <View style={styles.buttonContainer}>
               <View style={styles.leftContainer}>
@@ -148,7 +153,7 @@ class PhotoView extends React.Component{
               </View>
             </View>
           </Image>
-        </View>
+        </TouchableWithoutFeedback>
       )
     } else {
       if(this.state.touched===false) {
@@ -291,6 +296,12 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Circular',
     justifyContent: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#f5fcff',
   },
 });
 
