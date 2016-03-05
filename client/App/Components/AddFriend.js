@@ -154,7 +154,7 @@ class AddFriend extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );
     var pageTitle = (
-      <Text style={styles.pageTitle}>PhotoDrop</Text>
+      <Text style={styles.pageTitle}>Friends</Text>
     );
     var backButton = (
       <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>

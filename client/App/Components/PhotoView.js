@@ -118,7 +118,7 @@ class PhotoView extends React.Component{
               </View>
               <View style={styles.rightContainer}>
                 <TouchableOpacity onPress={this._setImageAsProfilePicture.bind(this)} style={styles.favoriteButton}>
-                  <IconIon name="ios-plus-empty" size={20} color="white" style={styles.shareIcon} />
+                  <IconIon name="ios-person-outline" size={30} color="white" style={styles.profileIcon} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={this._favoriteImage.bind(this)} style={styles.favoriteButton}>
                   {this.state.favorited ? <Icon name="heart" size={20} color="white" style={styles.favoriteIcon} /> : <Icon name="heart-o" size={20} color="white" style={styles.favoriteIcon} />}
@@ -245,6 +245,12 @@ var styles = StyleSheet.create({
     height:35,
     paddingTop: 4,
     paddingLeft: 22
+  },
+  profileIcon:{
+    width:60,
+    height:35,
+    paddingTop: 2,
+    paddingLeft: 20
   },
   favoriteIcon:{
     width:35,

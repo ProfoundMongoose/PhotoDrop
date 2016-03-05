@@ -44,25 +44,38 @@ class AddGroups extends React.Component {
   updateFoundGroups(event) {
     if (event.nativeEvent.text) {
       this.setState({isLoading: true});
+      var searchText = event.nativeEvent.text;
 
       api.searchGroups(event.nativeEvent.text, (groups) => {
         var groupsArr = JSON.parse(groups);
         var groupnames = _.difference(groupsArr.map((groupObj) => {
           return groupObj.groupname;
         }), this.state.unrequestableGroups);
+
+        var groupsUserIsIn = _.difference(groupsArr, groupnames);
+
+
         this.setState({
           foundGroupNamesData: this.state.foundGroupNamesData.cloneWithRows(groupnames),
           isLoading: false
         });
-        if (groupnames.length === 0 && groupsArr.indexOf(groupnames)) {
+        if (groupnames.length === 0 && groupsUserIsIn.length === 1 && groupsUserIsIn[0]["groupname"] === searchText) {
+          console.log('the group searched for:', searchText);
           this.setState({
-            createGroupMessage : true
+            createGroupMessage: false,
+            alreadyInGroupMessage : true
+          });
+        } else if (groupnames.length === 0) {
+          this.setState({
+            createGroupMessage : true,
+            alreadyInGroupMessage : false
           });
         } else {
           this.setState({
-            createGroupMessage : false
+            createGroupMessage : false,
+            alreadyInGroupMessage : false
           });
-        }
+        } 
       });
     } else {
       this.setState({
@@ -100,7 +113,7 @@ class AddGroups extends React.Component {
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );
     var pageTitle = (
-      <Text style={styles.pageTitle}>PhotoDrop</Text>
+      <Text style={styles.pageTitle}>Groups</Text>
     );
     var backButton = (
       <TouchableHighlight onPress={this._backButton.bind(this)} underlayColor={'white'}>
@@ -115,18 +128,19 @@ class AddGroups extends React.Component {
     return (
       <View style={{flex: 1, backgroundColor: '#ededed'}}>
         <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}} leftButton={backButton}/>
-        <ScrollView contentContainerStyle={styles.changeContainer}>
+        <ScrollView contentContainerStyle={styles.changeContainer} rejectResponderTermination={false}>
           <Text style={styles.fieldTitle}> Find Group </Text>
           <TextInput
             autoCapitalize={'none'}
             autoCorrect={false}
             maxLength={16}
             style={styles.userInput}
-            returnKeyType={'go'}
+            returnKeyType={'join'}
             onChange={this.updateFoundGroups.bind(this)}
             onSubmitEditing={this.createGroup.bind(this)} // make this work
           />
-          <Text style={this.state.createGroupMessage ? styles.addGroupMessage : styles.noAddGroupMessage}>Submit to create group!</Text>
+          <Text style={this.state.createGroupMessage ? styles.addGroupMessage : styles.noAddGroupMessage}>Press 'Join' to create group!</Text>
+          <Text style={this.state.alreadyInGroupMessage ? styles.addGroupMessage : styles.noAddGroupMessage}>You're already in this group!</Text>
           <ListView
             dataSource={this.state.foundGroupNamesData}
             renderRow={this.renderGroup.bind(this)}
