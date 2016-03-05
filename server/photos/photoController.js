@@ -59,7 +59,6 @@ module.exports = {
 
   // fetch all photos from DB
   fetchNearbyPhotos: function(req, res, next) {
-    console.log('back end photos controller reached');
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
     Photo.find({

@@ -116,19 +116,6 @@ class Map extends React.Component {
   }
 
 
-  // Update closeLocations and photoLocations based on friend data
-  addFriendsFilter() {
-    this.setState({filter: 'friends', closeLocations: [], photosLocations: [], currentGroup: ''});
-    api.fetchNearbyFriendsPhotos(this.props.params.latitude, this.props.params.longitude, 50, this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-      var photosArr = JSON.parse(photos);
-      this.setState({ closeLocations: photosArr });
-    });
-
-    api.fetchFriendsLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, this.props.userId, (photos) => {
-      var photosArr = JSON.parse(photos);
-      this.setState({ photosLocations: photosArr });
-    });
-  }
 
   // Update closeLocations and photoLocations based on all data
   addPublicFilter() {
@@ -145,6 +132,7 @@ class Map extends React.Component {
     });
   }
 
+  
   // Update closeLocations and photoLocations based on specific user
   addUserFilter() {
     this.setState({filter: 'user', closeLocations: [], photosLocations: [], currentGroup: '' });
@@ -159,6 +147,21 @@ class Map extends React.Component {
     });
   }
 
+  // Update closeLocations and photoLocations based on friend data
+  addFriendsFilter() {
+    this.setState({filter: 'friends', closeLocations: [], photosLocations: [], currentGroup: ''});
+    api.fetchNearbyFriendsPhotos(this.props.params.latitude, this.props.params.longitude, 50, this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+      var photosArr = JSON.parse(photos);
+      this.setState({ closeLocations: photosArr });
+    });
+
+    api.fetchFriendsLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, this.props.userId, (photos) => {
+      var photosArr = JSON.parse(photos);
+      this.setState({ photosLocations: photosArr });
+    });
+  }
+
+  // Update closeLocations and photoLocations based on specified group data
   addGroupFilter(group, navigator) {
     var name = group.groupname;
     if (name.length > 4) {
