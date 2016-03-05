@@ -47,7 +47,8 @@ class GroupsList extends React.Component {
     this.props.navigator.push({
       component: AddGroups,
       username: this.props.route.username,
-      userId: this.props.route.userId
+      userId: this.props.route.userId,
+      usersGroups: this.state.usersGroups
     });
   }
 
@@ -84,6 +85,7 @@ class GroupsList extends React.Component {
       });
       if (this.state.dataSource._cachedRowCount === undefined || this.state.dataSource._cachedRowCount !== data.length) {
         this.setState({
+          usersGroups: data.map(data => data.groupname),
           dataSource: this.state.dataSource.cloneWithRows(data),
           loaded: true,
         });
