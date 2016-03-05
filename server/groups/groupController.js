@@ -21,8 +21,7 @@ module.exports = {
         return next(err);
       }
       if (!currentUser) {
-        helpers.badReturnedObjectCheck('user', 'ID', res);
-        return;
+        return helpers.badReturnedObjectResponse('user', 'ID', res);
       }
       var group = new Group({
         groupname: req.body.groupname,
@@ -61,16 +60,14 @@ module.exports = {
         return next(err);
       }
       if (!currentUser) {
-        helpers.badReturnedObjectCheck('user', 'ID', res);
-        return;
+        return helpers.badReturnedObjectResponse('user', 'ID', res);
       }
       Group.findOne({groupname: req.body.targetGroupname}, {_id: 1, groupname: 1, members: 1}, function (err, targetGroup) {
         if (err) {
           return next(err);
         }
         if (!targetGroup) {
-          helpers.badReturnedObjectCheck('group', 'groupname', res);
-          return;
+          return helpers.badReturnedObjectResponse('group', 'groupname', res);
         }
         targetGroup.members.addToSet({
           _id: mongoose.mongo.ObjectID(currentUser._id),
