@@ -52,16 +52,13 @@ class Map extends React.Component {
     setInterval(()=> {
       if(this.props.params.index===2) {
         this.onLocationPressed();
-        // if (this.state.filter === 'public') {
-        //   api.fetchLocations(this.state.latitude, this.state.longitude, this.state.latitudeDelta, this.state.longitudeDelta, (photos) => {
-        //     var photosArr = JSON.parse(photos);
-        //     this.setState({ photosLocations: photosArr });
-        //   });
-        //   api.fetchNearbyPhotos(this.state.latitude, this.state.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
-        //     var photosArr = JSON.parse(photos);
-        //     this.setState({ closeLocations: photosArr });
-        //   });
-        // }
+        if (this.state.filter === 'public') {
+          this.addPublicFilter()
+        } else if (this.state.filter === 'friends') {
+          this.addFriendsFilter();
+        } else if (this.state.filter === 'user') {
+          this.addUserFilter();
+        }
       }
     }, 2000)
   }
@@ -165,7 +162,7 @@ class Map extends React.Component {
     if (name.length > 4) {
       name = group.groupname.substring(0,4) + '...';
     }
-    this.setState({currentGroup: name, photosLocations: [], closeLocations: [] });
+    this.setState({filter: 'group', currentGroup: name, photosLocations: [], closeLocations: [] });
 
     api.fetchNearbyGroupPhotos(this.props.params.latitude, this.props.params.longitude, 50, group.groupname, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
@@ -204,10 +201,10 @@ class Map extends React.Component {
           rotateEnabled={false}
           maxDelta={0.003}
         >
-
         <MapView.Marker coordinate={this.state}>
           <CircleMarker navigator={this.props.navigator}/>
         </MapView.Marker>
+
           { this.state.photosLocations.map((photoLocation) => {
               return (
               <MapView.Marker coordinate={{latitude: photoLocation.loc.coordinates[1], longitude: photoLocation.loc.coordinates[0]}}>
@@ -374,7 +371,7 @@ var styles = StyleSheet.create({
     textAlign: 'center',
     color: '#656565',
     fontFamily: 'circular'
-  },
+  }
 });
 
 module.exports = Map;
