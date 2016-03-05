@@ -24,6 +24,8 @@ class Settings extends React.Component {
   }
 
   openMyPhotos() {
+    console.log('maybe we do have the userId: ', this.props.userId);
+    console.log('maybe we do have the username too: ', this.props.username);
     this.props.navigator.push({
       component: PhotosView,
       userId: this.props.userId,

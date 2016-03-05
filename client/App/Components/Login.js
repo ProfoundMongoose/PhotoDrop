@@ -78,6 +78,7 @@ class Login extends React.Component {
             this.props.navigator.push({
               component: Main,
               userId: bodyText.userId,
+              username: bodyText.username,
               sceneConfig: {
                 ...Navigator.SceneConfigs.FloatFromBottom,
                 gestures: {}
@@ -122,7 +123,7 @@ class Login extends React.Component {
       <Text style={styles.pageTitle}>PhotoDrop</Text>
     )
     return (
-      <View style={{flex: 1, backgroundColor: '#ededed'}}> 
+      <View style={{flex: 1, backgroundColor: '#ededed'}}>
         <NavigationBar title={pageTitle} tintColor={"white"} statusBar={{hidden: false}}/>
         <View style={styles.loginContainer}>
           <Text style={styles.fieldTitle}> Username </Text>
@@ -134,8 +135,8 @@ class Login extends React.Component {
             value={this.state.username}
             returnKeyType={'next'}
             onChange={this.handleUsernameChange.bind(this)}
-            onSubmitEditing={(event) => { 
-              this.refs.SecondInput.focus(); 
+            onSubmitEditing={(event) => {
+              this.refs.SecondInput.focus();
             }}
              />
           <Text style={styles.fieldTitle}> Password </Text>
@@ -148,7 +149,7 @@ class Login extends React.Component {
             style={styles.userInput}
             value={this.state.password}
             returnKeyType={'go'}
-            onChange={this.handlePasswordChange.bind(this)} 
+            onChange={this.handlePasswordChange.bind(this)}
             onSubmitEditing={this.handleSubmit.bind(this)}/>
           <TouchableHighlight
             style={styles.button}
@@ -165,9 +166,9 @@ class Login extends React.Component {
 
             <ActivityIndicatorIOS
               animating= {this.state.isLoading}
-              size='large' 
+              size='large'
               style={styles.loading} />
-            
+
             {showErr}
           </View>
         </View>
