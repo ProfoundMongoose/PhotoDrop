@@ -93,5 +93,15 @@ module.exports = {
         res.json(null);
       }
     });
+  },
+
+  addPhotoToGroups: function (req, res, next) {
+    Group.update({groupname: {$in: req.body.taggedGroups}}, {$addToSet: {photoUrls: req.imgurLink}}, {multi: true}, function (err, status) {
+      if (err) {
+        return next(err);
+      }
+      res.sendStatus(201);
+    });
   }
+
 };

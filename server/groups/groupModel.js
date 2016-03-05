@@ -16,6 +16,10 @@ var GroupSchema = new mongoose.Schema({
   members: {
     type: Array,
     default: []
+  },
+  photoUrls: {
+    type: Array,
+    default: []
   }
 });
 

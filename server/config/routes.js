@@ -8,7 +8,9 @@ module.exports = function(app, express) {
   // upload photo to imgur and store link in database
   app.post('/imgUpload',
     photoController.uploadPhoto,
-    photoController.savePhotoModelToDB);
+    photoController.savePhotoModelToDB,
+    groupController.addPhotoToGroups
+  );
 
   // Fetching photos for the map view and user photos
   app.get('/fetchPhotos/', photoController.fetchPhotos);
