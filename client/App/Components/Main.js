@@ -23,7 +23,9 @@ class SwiperView extends React.Component {
       width: Dimensions.get('window').width,
       height: Dimensions.get('window').height,
       latitude: undefined,
-      longitude: undefined
+      longitude: undefined,
+      userId: this.props.route.userId,
+      username: this.props.route.username
     };
     navigator.geolocation.getCurrentPosition(
       location => {
