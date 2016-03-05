@@ -3,6 +3,7 @@ var Photo = require('./photoModel');
 var Group = require('../photos/photoModel');
 var mongoose = require('mongoose');
 var User = require('../users/userModel');
+var Group = require('../groups/groupModel');
 
 module.exports = {
   // recieve base64 bit image in two POST request packets
@@ -85,7 +86,6 @@ module.exports = {
 
   // fetch friends' photos from DB
   fetchFriendsPhotos: function(req, res, next) {
-    console.log('fetch friends photo query ...', req.query);
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
     var userId = req.query.userId;
@@ -158,8 +158,7 @@ module.exports = {
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
     var groupname = req.query.groupname;
-
-    Group.findOne({groupname: groupname}, {friends: 1, _id: 0}, function (err, group) {
+    Group.findOne({groupname: groupname}, {photoUrls: 1, _id: 0}, function (err, group) {
       if (err) {
         next(err);
       }
@@ -397,7 +396,7 @@ module.exports = {
 
     var revealedPhotos = undefined;
 
-    Group.findOne({groupname: groupname}, {friends: 1, _id: 0}, function (err, group) {
+    Group.findOne({groupname: groupname}, {photoUrls: 1, _id: 0}, function (err, group) {
       if (err) {
         next(err);
       }

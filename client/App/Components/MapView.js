@@ -182,8 +182,7 @@ class Map extends React.Component {
       component: GroupsList,
       username: this.props.username,
       userId: this.props.userId,
-      addGroupFilter: this.addGroupFilter.bind(this),
-      currentGroup: this.state.currentGroup
+      addGroupFilter: this.addGroupFilter.bind(this)
     });
   }
 

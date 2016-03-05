@@ -1,6 +1,6 @@
 // Uncomment one of the two following lines to use the appriopriate host for your purposes:
-// var host = '159.203.240.124'; // production server
-var host = '127.0.0.1'; // local dev testing server
+var host = '159.203.240.124'; // production server
+// var host = '127.0.0.1'; // local dev testing server
 
 var api = {
   login(username, password) {
@@ -180,7 +180,7 @@ var api = {
   },
 
   fetchGroupLocations(latitude, longitude, latdelta, londelta, groupname, callback) {
-    var url = 'http://' + host + ':8000/fetchFriendsLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&groupname=' + groupname;
+    var url = 'http://' + host + ':8000/fetchGroupLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta + '&groupname=' + groupname;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -242,7 +242,7 @@ var api = {
 
   fetchGroupPhotosNearby(latitude, longitude, radius, groupname, callback) {
     console.log('api fetch group photos');
-    var url = 'http://' + host + ':8000/fetchFriendsPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&userId=' + groupname;
+    var url = 'http://' + host + ':8000/fetchGroupPhotosNearby?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius +'&groupname=' + groupname;
     return fetch(url, {
       method: 'GET',
       headers: {
