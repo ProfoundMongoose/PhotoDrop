@@ -57,7 +57,7 @@ class GroupsList extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.rightContainer}>
-          <Text style={styles.group}>{group.groupname}</Text>
+          <Text style={styles.group} onPress={()=>this.props.route.addGroupFilter(group, this.props.navigator)}>{group.groupname}</Text>
         </View>
         <View style={styles.rightContainer}>
           <Text style={styles.number}>{group.members.length + ' Users'}</Text>
