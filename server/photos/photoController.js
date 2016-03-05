@@ -85,7 +85,6 @@ module.exports = {
 
   // fetch friends' photos from DB
   fetchFriendsPhotos: function(req, res, next) {
-    console.log('fetch friends photo query ...', req.query);
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
     var userId = req.query.userId;
@@ -96,7 +95,6 @@ module.exports = {
       var friendIds = user.friends.map(function(friend) {
         return friend._id;
       });
-      console.log('friendIds (array of ids):', friendIds);
 
       Photo.find({
         $and: [
