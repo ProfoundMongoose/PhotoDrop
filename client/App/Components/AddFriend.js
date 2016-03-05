@@ -92,7 +92,8 @@ class AddFriend extends React.Component {
       }, []);
       console.log('friendRequests', friendRequests, friendRequests.length);
       this.setState({
-        pendingFriendRequests: this.state.pendingFriendRequests.cloneWithRows(usernames)
+        pendingFriendRequests: this.state.pendingFriendRequests.cloneWithRows(usernames),
+        numFriendRequests: usernames.length
       });
     });
   }
@@ -104,9 +105,10 @@ class AddFriend extends React.Component {
   // acceptFriendRequest(newFriendUsername, event) {
   acceptFriendRequest(newFriend, event) { // make sure this gets passed the right thing
   // api.acceptFriendRequest(this.state.userId, newFriendUsername);
-    api.acceptFriendRequest(this.state.userId, newFriend.username, newFriend._id);
-    // Make this ^ return a promise so we can v
-    // .then(() => { this.loadFriendRequests() });
+    api.acceptFriendRequest(this.state.userId, newFriend.username, newFriend._id, () => {
+      console.log('callback in accept friend Request got called');
+      this.loadFriendRequests();
+    });
   }
 
   renderFriend(friend) {
@@ -134,7 +136,20 @@ class AddFriend extends React.Component {
   }
 
 
+
   render() {
+    var showFriendRequests = (
+      this.state.numFriendRequests && this.state.numFriendRequests ?
+      <View style={styles.changeContainerTall}>
+      <Text style={styles.fieldTitle}> Pending Friend Requests </Text>
+      <ListView
+        dataSource={this.state.pendingFriendRequests} // need to initialize
+        renderRow={this.renderFriendRequests.bind(this)} // todo
+        style={styles.listView}
+        rightButton={addButton} // doesn't appear
+      />
+      </View>: <View></View>
+    );
     var showErr = (
       this.state.error ? <Text style={styles.err}> {this.state.error} </Text> : <View></View>
     );
@@ -176,13 +191,8 @@ class AddFriend extends React.Component {
           size='large'
           style={styles.loading} />
 
-          <Text style={styles.fieldTitle}> Pending Friend Requests </Text>
-          <ListView
-            dataSource={this.state.pendingFriendRequests} // need to initialize
-            renderRow={this.renderFriendRequests.bind(this)} // todo
-            style={styles.listView}
-            rightButton={addButton} // doesn't appear
-          />
+          {showFriendRequests}
+
 
             {showErr}
           </ScrollView>
@@ -195,6 +205,13 @@ var styles = StyleSheet.create({
   changeContainer: {
     flex: 1,
     padding: 30,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    backgroundColor: '#ededed'
+  },
+  changeContainerTall: {
+    flex: 2,
+    padding: 0,
     flexDirection: 'column',
     justifyContent: 'center',
     backgroundColor: '#ededed'

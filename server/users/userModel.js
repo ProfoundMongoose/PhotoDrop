@@ -17,7 +17,7 @@ var UserSchema = new mongoose.Schema({
   },
   profilePhotoUrl: {
     type: String,
-    default: 'http://i.imgur.com/CqSnOQG.jpg'
+    default: 'http://jennstrends.com/wp-content/uploads/2013/10/bad-profile-pic-2.jpeg'
   },
   favorites: {
     type: Array,
