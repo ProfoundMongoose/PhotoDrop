@@ -36,8 +36,8 @@ class Map extends React.Component {
       closeLocations: undefined,
       currentGroup: ''
     };
-
-    api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    
+    api.fetchNearbyPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       this.setState({ closeLocations: photosArr });
     });
@@ -119,10 +119,8 @@ class Map extends React.Component {
   // Update closeLocations and photoLocations based on friend data
   addFriendsFilter() {
     this.setState({filter: 'friends', closeLocations: [], photosLocations: [], currentGroup: ''});
-    console.log('friends filter user iD...', this.props.userId);
-    api.fetchFriendsPhotos(this.props.params.latitude, this.props.params.longitude, 50, this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    api.fetchNearbyFriendsPhotos(this.props.params.latitude, this.props.params.longitude, 50, this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
-      console.log('returned photos arr: ', photosArr);
       this.setState({ closeLocations: photosArr });
     });
 
@@ -136,7 +134,7 @@ class Map extends React.Component {
   addPublicFilter() {
     this.setState({currentGroup: '', filter: 'public'});
 
-    api.fetchPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    api.fetchNearbyPhotos(this.props.params.latitude, this.props.params.longitude, 50, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       this.setState({ closeLocations: photosArr });
     });
@@ -150,7 +148,7 @@ class Map extends React.Component {
   // Update closeLocations and photoLocations based on specific user
   addUserFilter() {
     this.setState({filter: 'user', closeLocations: [], photosLocations: [], currentGroup: '' });
-    api.fetchUserPhotosNearby(this.props.params.latitude, this.props.params.longitude, 50, this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    api.fetchNearbyUserPhotos(this.props.params.latitude, this.props.params.longitude, 50, this.props.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       this.setState({ closeLocations: photosArr });
     });
@@ -168,7 +166,7 @@ class Map extends React.Component {
     }
     this.setState({currentGroup: name, photosLocations: [], closeLocations: [] });
 
-    api.fetchGroupPhotosNearby(this.props.params.latitude, this.props.params.longitude, 50, group.groupname, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+    api.fetchNearbyGroupPhotos(this.props.params.latitude, this.props.params.longitude, 50, group.groupname, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
       var photosArr = JSON.parse(photos);
       this.setState({ closeLocations: photosArr });
     });
