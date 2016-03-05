@@ -115,8 +115,6 @@ class Map extends React.Component {
       });
   }
 
-
-
   // Update closeLocations and photoLocations based on all data
   addPublicFilter() {
     this.setState({currentGroup: '', filter: 'public'});
