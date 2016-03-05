@@ -41,6 +41,7 @@ class PhotosView extends React.Component {
       userFavoritesUrls: undefined,
       allViewablePhotos: undefined,
       isRefreshing: false,
+      filter: this.props.route.filter,
       currentGroup: this.props.route.currentGroup
     };
     console.log('photos view current view ', this.state.currentGroup)
@@ -57,8 +58,16 @@ class PhotosView extends React.Component {
         this.setState({ imageUrls: photosUrls });
         this.setState({ userPhotosUrls: photosUrls });
       });
-    } else if (this.state.currentGroup) {
+    } else if (this.state.filter === "group") {
       api.fetchNearbyGroupPhotos(this.state.latitude, this.state.longitude, 50, this.state.currentGroup, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
+        var photosArr = JSON.parse(photos);
+        var photosUrls = photosArr.map((photo) => {
+          return photo.url;
+        });
+        this.setState({ imageUrls: photosUrls });
+      });
+    } else if (this.state.filter === "friends") {
+      api.fetchNearbyFriendsPhotos(this.state.latitude, this.state.longitude, 50, this.state.userId, (photos) => { // need to pass in the radius (in m) from the MapView; hardcoding as 50m for now
         var photosArr = JSON.parse(photos);
         var photosUrls = photosArr.map((photo) => {
           return photo.url;

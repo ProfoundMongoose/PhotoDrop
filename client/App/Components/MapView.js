@@ -122,7 +122,20 @@ class Map extends React.Component {
       previousComponent: 'map',
       latitude: this.state.latitude,
       longitude: this.state.longitude,
+      filter: 'group',
       currentGroup: this.state.currentGroup
+    });
+  }
+
+  openFriendsPhotos() {
+    this.props.navigator.push({
+      component: PhotosView,
+      userId: this.props.userId,
+      sceneConfig: Navigator.SceneConfigs.FloatFromBottom,
+      previousComponent: 'map',
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
+      filter: 'friends'
     });
   }
 
@@ -201,15 +214,22 @@ class Map extends React.Component {
   }
 
   render() {
-    console.log('current group state... ', this.state.currentGroup)
-    if (this.state.currentGroup) {
+    if (this.state.filter === "group") {
       this.bottomButton = <TouchableOpacity style={styles.bottomButtonContainer} onPress={this.openGroupPhotos.bind(this)}>
             <View style={[styles.bubble, styles.latlng]}>
               <Text style={styles.openPhotosText}>
-                {`${this.state.currentGroup}`}
+                {this.state.currentGroup}
               </Text>
             </View>
           </TouchableOpacity>
+    } else if (this.state.filter === "friends") {
+        this.bottomButton = <TouchableOpacity style={styles.bottomButtonContainer} onPress={this.openFriendsPhotos.bind(this)}>
+          <View style={[styles.bubble, styles.latlng]}>
+            <Text style={styles.openPhotosText}>
+              {`View Friends Photos`}
+            </Text>
+          </View>
+        </TouchableOpacity>
     } else {
         this.bottomButton = <TouchableOpacity style={styles.bottomButtonContainer} onPress={this.openAllPhotos.bind(this)}>
             <View style={[styles.bubble, styles.latlng]}>
