@@ -39,7 +39,6 @@ class SelectGroups extends React.Component {
 
   _sendImage() {
     api.uploadPhoto(this.props.route.image64, this.props.route.latitude, this.props.route.longitude, this.props.route.userId, this.state.selectedGroups, (res) => {
-      console.log(res);
       this.setState({modalVisible: true});
       setTimeout(()=> {
         this._closeModal();
@@ -57,10 +56,6 @@ class SelectGroups extends React.Component {
     this.props.navigator.pop();
   }
 
-  // componentWillUpdate() {
-  //   this.loadGroupsData();
-  // }
-
   componentDidMount() {
     this.loadGroupsData();
   }
@@ -72,13 +67,10 @@ class SelectGroups extends React.Component {
         group.groupname = group.groupname;
       });
       var newData = data;
-      console.log("newData",newData);
-      //if (this.state.dataSource._cachedRowCount === undefined || this.state.dataSource._cachedRowCount !== data.length) {
-        this.setState({
-          dataSource: this.state.dataSource.cloneWithRows(newData),
-          loaded: true,
-        });
-      //}
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(newData),
+        loaded: true,
+      });
     });
   }
 
@@ -93,7 +85,6 @@ class SelectGroups extends React.Component {
   }
 
   renderGroup(group) {
-    console.log(this);
     return (
       <View style={styles.container}>
         <View style={styles.rightContainer}>
