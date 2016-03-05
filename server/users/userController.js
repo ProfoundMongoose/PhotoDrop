@@ -3,6 +3,7 @@ var User = require('./userModel');
 var jwt = require('jsonwebtoken');
 var mongoose = require('mongoose');
 var Photo = require('./../photos/photoModel');
+var helpers = require('../config/helpers');
 
 var findUser = Q.nbind(User.findOne, User);
 var createUser = Q.nbind(User.create, User);
@@ -17,12 +18,6 @@ var deleteFrom = function (arr, optionObj) {
     }
   }
   return arr;
-};
-
-var handleError = function (err, next) {
-  if (err) {
-    return next(err);
-  }
 };
 
 module.exports = {
@@ -58,7 +53,7 @@ module.exports = {
     findUser({ username: username })
       .then(function(user) {
         if (user) {
-          next(new Error('User already exist!'));
+          return next(new Error('User already exist!'));
         } else {
           return createUser({
             username: username,
@@ -103,7 +98,7 @@ module.exports = {
     findUser({ username: username })
       .then(function(user) {
         if (!user) {
-          next(new Error('User does not exist!'));
+          return next(new Error('User does not exist!'));
         } else {
           return user.comparePasswords(password)
             .then(function(foundUser) {
@@ -135,7 +130,7 @@ module.exports = {
     findUser({ username: username })
       .then(function(user) {
         if (!user) {
-          next(new Error('User does not exist!'));
+          return next(new Error('User does not exist!'));
         } else {
           user.username = newUsername;
           user.save(function(err, savedUser) {
@@ -155,10 +150,10 @@ module.exports = {
     var url = req.query.url;
     User.findOne({ _id: mongoose.mongo.ObjectID(req.query.userId) }, function(err, user) {
       if (err) {
-        next(err);
+        return next(err);
       }
       if (!user) {
-        console.error('User was not found');
+        return helpers.badReturnedObjectResponse('user', 'ID', res);
       } else {
         if (user.favorites.indexOf(url) === -1) {
           user.favorites.push(url);
@@ -176,22 +171,22 @@ module.exports = {
     var currentUserId = req.query.userId;
     Photo.findOne({ url: req.query.url }, function(err, photo) {
       if (err) {
-        console.log(err);
+        return next(err);
       }
       if (photo) {
         User.findOne({ _id: mongoose.mongo.ObjectID(photo.userId) }, function(err, user) {
           if (err) {
-            next(err);
+            return next(err);
           }
           if (!user) {
-            console.error('User was not found');
+            return helpers.badReturnedObjectResponse('user', 'ID', res);
           } else {
             User.findOne({ _id: mongoose.mongo.ObjectID(currentUserId) }, function(err, user) {
               if (err) {
                 next(err);
               }
               if (!user) {
-                console.error('User was not found 2');
+                return helpers.badReturnedObjectResponse('user', 'ID', res);
               } else {
                 var favorited = (user.favorites.indexOf(req.query.url) === -1);
                 res.json({ username: user.username, views: photo.views, favorited: !favorited });
@@ -199,6 +194,8 @@ module.exports = {
             });
           }
         });
+      } else {
+        return helpers.badReturnedObjectResponse('photo', 'url', res);
       }
     });
   },
@@ -219,10 +216,9 @@ module.exports = {
         return next(err);
       }
       if (!user) {
-        console.error('User was not found');
-      } else {
-        res.json(user.favorites);
+        return helpers.badReturnedObjectResponse('user', 'ID', res);
       }
+      res.json(user.favorites);
     });
   },
 
@@ -231,11 +227,7 @@ module.exports = {
       if (err) {
         return next(err);
       }
-      if (friends) {
-        res.json(friends);
-      } else {
-        res.json(null);
-      }
+      res.json(friends);
     });
   },
 
@@ -243,6 +235,9 @@ module.exports = {
     User.findOne({_id: mongoose.mongo.ObjectID(req.params.userId)}, {friendRequests: 1, _id: 0}, function (err, user) {
       if (err) {
         return next(err);
+      }
+      if (!user) {
+        return helpers.badReturnedObjectResponse('user', 'ID', res);
       }
       res.json(user.friendRequests);
     });
@@ -253,9 +248,15 @@ module.exports = {
       if (err) {
         return next(err);
       }
-      User.update({username: req.body.targetUsername}, {$addToSet: {friendRequests: currentUser}}, function (err, targetUser) {
+      if (!currentUser) {
+        return helpers.badReturnedObjectResponse('user', 'ID', res);
+      }
+      User.update({username: req.body.targetUsername}, {$addToSet: {friendRequests: currentUser}}, function (err, status) {
         if (err) {
           return next(err);
+        }
+        if (status.nModified === 0) {
+          return helpers.badReturnedObjectResponse('target user', 'username', res);
         }
         res.sendStatus(201);
       });
@@ -277,9 +278,15 @@ module.exports = {
       if (err) {
         return next(err);
       }
+      if (!currentUser) {
+        return helpers.badReturnedObjectResponse('user', 'ID', res);
+      }
       User.findOne({_id: mongoose.mongo.ObjectID(req.body.targetUserId)}, {_id: 1, username: 1, friends: 1}, function (err, targetUser) {
         if (err) {
           return next(err);
+        }
+        if (!targetUser) {
+          return helpers.badReturnedObjectResponse('target user', 'ID', res);
         }
         currentUser.friends.addToSet({
           _id: mongoose.mongo.ObjectID(targetUser._id),
@@ -310,6 +317,9 @@ module.exports = {
       if (err) {
         return next(err);
       }
+      if (status.nModified === 0) {
+        return helpers.badReturnedObjectResponse('user or target user', 'ID or username', res);
+      }
       res.sendStatus(201);
     });
   },
@@ -323,9 +333,15 @@ module.exports = {
         if (err) {
           return next(err);
         }
+        if (!currentUser) {
+          return helpers.badReturnedObjectResponse('user', 'ID', res);
+        }
         User.update({username: req.body.targetUsername}, {$pull: {friends: {username: currentUser.username}}}, function (err, status) {
           if (err) {
             return next(err);
+          }
+          if (status.nModified === 0) {
+            return helpers.badReturnedObjectResponse('target user', 'username', res);
           }
           res.sendStatus(201);
         });
