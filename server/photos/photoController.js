@@ -58,7 +58,7 @@ module.exports = {
   },
 
   // fetch all photos from DB
-  fetchPhotos: function(req, res, next) {
+  fetchNearbyPhotos: function(req, res, next) {
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
     Photo.find({
@@ -85,7 +85,7 @@ module.exports = {
   },
 
   // fetch friends' photos from DB
-  fetchFriendsPhotos: function(req, res, next) {
+  fetchNearbyFriendsPhotos: function(req, res, next) {
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
     var userId = req.query.userId;
@@ -124,7 +124,7 @@ module.exports = {
     });
   },
 
-  fetchUserPhotosNearby: function(req, res, next) {
+  fetchNearbyUserPhotos: function(req, res, next) {
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
     var userId = req.query.userId;
@@ -154,7 +154,7 @@ module.exports = {
     });
   },
 
-  fetchGroupPhotosNearby: function(req, res, next) {
+  fetchNearbyGroupPhotos: function(req, res, next) {
     var maxDistance = Number(req.query.radius);
     var coords = [req.query.lon, req.query.lat];
     var groupname = req.query.groupname;
