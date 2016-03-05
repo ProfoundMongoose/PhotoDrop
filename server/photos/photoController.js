@@ -94,7 +94,7 @@ module.exports = {
         next(err);
       }
       var friendIds = user.friends.map(function(friend) {
-        return friend.userId;
+        return friend._id;
       });
       console.log('friendIds (array of ids):', friendIds);
 
