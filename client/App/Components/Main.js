@@ -15,7 +15,7 @@ var {
   ActivityIndicatorIOS
 } = React;
 
-class SwiperView extends React.Component{
+class SwiperView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,8 +23,10 @@ class SwiperView extends React.Component{
       width: Dimensions.get('window').width,
       height: Dimensions.get('window').height,
       latitude: undefined,
-      longitude: undefined
-    }
+      longitude: undefined,
+      userId: this.props.route.userId,
+      username: this.props.route.username
+    };
     navigator.geolocation.getCurrentPosition(
       location => {
         this.setState({
@@ -48,36 +50,40 @@ class SwiperView extends React.Component{
     }
   }
 
-  _goToMap(){
+  _goToMap() {
     this.refs.scrollView.scrollTo(1);
   }
 
-  _goToSettings(){
+  _goToSettings() {
     this.refs.scrollView.scrollTo(-1);
   }
 
   render () {
-    if(this.state.latitude && this.state.longitude){
-     return (
-      <Swiper 
+    if(this.state.latitude && this.state.longitude) {
+      return (
+      <Swiper
         ref="scrollView"
-        style={styles.wrapper} 
-        showsButtons={false} 
-        loop={false} 
-        showsPagination={false} 
-        index={this.state.index} 
+        style={styles.wrapper}
+        showsButtons={false}
+        loop={false}
+        showsPagination={false}
+        index={this.state.index}
         onMomentumScrollEnd ={this._onMomentumScrollEnd.bind(this)}>
-        <Settings navigator={this.props.navigator} userId={this.props.route.userId} username={this.props.route.username}/>
-        <Camera navigator={this.props.navigator} 
-          latitude={this.state.latitude} 
-          longitude={this.state.longitude} 
-          params={this.state} 
-          userId={this.props.route.userId} 
-          _goToSettings={this._goToSettings.bind(this)} 
+
+        <Settings navigator={this.props.navigator}
+        userId={this.props.route.userId}
+        username={this.props.route.username}/>
+
+        <Camera navigator={this.props.navigator}
+          latitude={this.state.latitude}
+          longitude={this.state.longitude}
+          params={this.state}
+          userId={this.props.route.userId}
+          _goToSettings={this._goToSettings.bind(this)}
           _goToMap={this._goToMap.bind(this)}/>
-        <MapView navigator={this.props.navigator} params={this.state} showsButtons={false} userId={this.props.route.userId}/>
+        <MapView navigator={this.props.navigator} params={this.state} showsButtons={false} username = {this.props.route.username} userId={this.props.route.userId}/>
        </Swiper>
-     )
+     );
     } else {
       return (
         <View style={{ flex: 1, backgroundColor: '#ededed'}}>
@@ -91,10 +97,10 @@ class SwiperView extends React.Component{
   }
 }
 
-var styles = StyleSheet.create({ 
+var styles = StyleSheet.create({
   wrapper: {
     //not used for now
-  },  
+  },
   centering: {
     flex: 1,
     alignItems: 'center',
@@ -106,6 +112,6 @@ var styles = StyleSheet.create({
     height: 114,
     margin: 40
   },
-})
+});
 
 module.exports = SwiperView;

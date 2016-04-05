@@ -3,6 +3,7 @@ var NavigationBar = require('react-native-navbar');
 var Icon = require('react-native-vector-icons/FontAwesome');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var api = require('../Utils/api');
+var profilePictureUploaded = require('./ProfilePictureUploaded')
 
 var {
   View,
@@ -24,14 +25,16 @@ class PhotoView extends React.Component{
       uploader: undefined,
       views: undefined,
       url: this.props.uri || this.props.route.uri,
-      userId: this.props.userId || this.props.route.userId
+      userId: this.props.userId || this.props.route.userId,
     }
     api.getPhotoData(this.state.url, this.state.userId, (data) => {
       var data = JSON.parse(data);
       this.setState({
+        data: data,
         views: data.views,
         uploader: data.username,
-        favorited: data.favorited
+        favorited: data.favorited,
+        innerContainerTransparentStyle: null,
       })
     })
   }
@@ -48,6 +51,12 @@ class PhotoView extends React.Component{
   _favoriteImage() {
     api.toggleFavorite(this.state.userId, this.state.url, (result) => {
       this.state.favorited ? this.setState({favorited:false}) : this.setState({favorited:true})
+    });
+  }
+
+  _setImageAsProfilePicture() {
+    api.uploadProfilePhoto(this.state.url, this.state.userId, (result) => {
+      this.profilePictureUploaded();
     });
   }
 
@@ -77,6 +86,15 @@ class PhotoView extends React.Component{
     if(this.props.togglePagination) {this.props.togglePagination();}
   }
 
+  profilePictureUploaded() {
+    this.props.navigator.push({
+      component: profilePictureUploaded
+    });
+    setTimeout(() => {
+      this.props.navigator.pop();
+    }, 1500);
+  }
+
   render() {
     var username = this.state.uploader ? <Text style={styles.infoText}> Uploaded by: {this.state.uploader} </Text> : null;
     var views = this.state.views ? <Text style={styles.infoText}> Views: {this.state.views} </Text> : null;
@@ -99,6 +117,9 @@ class PhotoView extends React.Component{
                 </TouchableOpacity>
               </View>
               <View style={styles.rightContainer}>
+                <TouchableOpacity onPress={this._setImageAsProfilePicture.bind(this)} style={styles.favoriteButton}>
+                  <IconIon name="ios-person-outline" size={30} color="white" style={styles.profileIcon} />
+                </TouchableOpacity>
                 <TouchableOpacity onPress={this._favoriteImage.bind(this)} style={styles.favoriteButton}>
                   {this.state.favorited ? <Icon name="heart" size={20} color="white" style={styles.favoriteIcon} /> : <Icon name="heart-o" size={20} color="white" style={styles.favoriteIcon} />}
                 </TouchableOpacity>
@@ -108,7 +129,7 @@ class PhotoView extends React.Component{
               </View>
               <View style={styles.photoInfoContainer}>
                 {username}
-                {views} 
+                {views}
               </View>
             </View>
           </Image>
@@ -225,6 +246,12 @@ var styles = StyleSheet.create({
     paddingTop: 4,
     paddingLeft: 22
   },
+  profileIcon:{
+    width:60,
+    height:35,
+    paddingTop: 2,
+    paddingLeft: 20
+  },
   favoriteIcon:{
     width:35,
     height:35,
@@ -240,6 +267,16 @@ var styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'circular',
     color: 'white'
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+    backgroundColor: '#f5fcff',
+  },
+  innerContainer: {
+    borderRadius: 10,
+    alignItems: 'center',
   }
 });
 

@@ -3,19 +3,23 @@ var NavigationBar = require('react-native-navbar');
 var api = require('../Utils/api');
 var IconIon = require('react-native-vector-icons/Ionicons');
 var _ = require('lodash');
-var SelectGroups = require('./SelectGroups');
+
 var {
   View,
   StyleSheet,
   Image,
   Text,
+  ScrollView,
+  TouchableHighlight,
+  ActivityIndicatorIOS,
   TouchableOpacity,
   Modal,
+  ListView,
   SwitchIOS,
   StatusBarIOS
 } = React;
 
-class PreviewPhoto extends React.Component {
+class ProfileUploaded extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,44 +28,25 @@ class PreviewPhoto extends React.Component {
       transparent: true,
       innerContainerTransparentStyle: null,
       active: false,
-      colorStyle: '#000' 
+      colorStyle: '#000',
+      selectedGroups: []
     };
   }
 
-  _selectGroups() {
-    this.props.navigator.push({
-      component: SelectGroups,
-      image64: this.props.route.image64,
-      latitude: this.props.route.latitude,
-      longitude: this.props.route.longitude,
-      userId: this.props.route.userId
-    })
-  }
-
-  _closeModal() { 
-    this.setState({modalVisible: false});
-    this.props.navigator.pop();
-  }
-
-  _cancelImage() {
-    this.props.navigator.pop();
+  componentDidMount() {
+    //this.loadGroupsData();
   }
 
   render() {
     // because we are sending the captured image in as a string we have to tell react-native how it is encoded
     return (
       <View style={styles.imageContainer}>
-        <NavigationBar title={{title: 'Share this image?', tintColor: '#565b5c'}} tintColor={"white"} statusBar={{hidden: true}}/>
-        <Image style={styles.image} source={{uri: 'data:image/bmp;base64,' + this.props.route.image64}}>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={_.once(this._cancelImage.bind(this))} style={styles.noButton}>
-              <IconIon name="ios-close-empty" size={60} color="#FC9396" style={styles.noIcon} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={_.once(this._selectGroups.bind(this))} style={styles.yesButton}>
-              <IconIon name="ios-checkmark-empty" size={60} color="#036C69" style={styles.yesIcon} />
-            </TouchableOpacity>
+          <View style={styles.modalContainer}>
+            <View style={[styles.innerContainer, this.state.innerContainerTransparentStyle]}>
+              <Text style={styles.modal}>Profile picture updated!</Text>
+              <IconIon name="ios-checkmark-empty" size={90} color="#036C69" style={styles.yesIcon} />
+            </View>
           </View>
-        </Image>
       </View>
     );
   }
@@ -114,7 +99,7 @@ var styles = StyleSheet.create({
     height: 60,
     marginLeft: 37
   },
-  container: {
+  modalContainer: {
     flex: 1,
     justifyContent: 'center',
     padding: 20,
@@ -128,7 +113,43 @@ var styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'Circular',
     justifyContent: 'center',
+  },
+  container: {
+    marginBottom: 5,
+    marginLeft: 5,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#ededed',
+  },
+  rightContainer: {
+    flex: 1,
+  },
+  group: {
+    marginBottom: 10,
+    fontSize: 18,
+    textAlign: 'center',
+    fontFamily: 'circular'
+  },
+  number: {
+    marginBottom: 10,
+    fontSize: 18,
+    textAlign: 'center'
+  },
+  thumbnail: {
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+  },
+  listView: {
+    paddingTop: 20,
+    backgroundColor: '#ededed',
+  },
+  modal: {
+    fontSize: 20,
+    fontFamily: 'Circular',
+    justifyContent: 'center',
   }
 });
 
-module.exports = PreviewPhoto;
+module.exports = ProfileUploaded;
