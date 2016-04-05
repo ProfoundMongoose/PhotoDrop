@@ -42,7 +42,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['mochaTest', 'lint']);
 
   grunt.registerTask('upload', function(n) {
-    grunt.task.run([ 'shell:prodServer' ]);
+    grunt.task.run(['shell:prodServer']);
   });
 
   grunt.registerTask('deploy', ['lint', 'mochaTest', 'upload']);
