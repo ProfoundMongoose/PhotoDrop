@@ -5,7 +5,7 @@ var PhotoView = require('./PhotoView');
 var api = require('../Utils/api');
 
 var {
-  StatusBarIOS,
+  StatusBar,
   View,
   StyleSheet,
   Image,

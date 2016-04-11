@@ -12,7 +12,7 @@ var {
   TouchableOpacity,
   Modal,
   SwitchIOS,
-  StatusBarIOS
+  StatusBar
 } = React;
 
 class PreviewPhoto extends React.Component {

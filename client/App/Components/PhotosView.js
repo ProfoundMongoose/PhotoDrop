@@ -14,7 +14,7 @@ var {
   Image,
   ScrollView,
   ActivityIndicatorIOS,
-  StatusBarIOS,
+  StatusBar,
   TouchableHighlight,
   SegmentedControlIOS,
   RefreshControl,
@@ -83,8 +83,8 @@ class PhotosView extends React.Component{
   }
 
   componentWillUnmount() {
-    if(this.state.previousComponent==='settings') {StatusBarIOS.setHidden(false);}
-    if(this.state.previousComponent==='map') {StatusBarIOS.setHidden(true);}
+    if(this.state.previousComponent==='settings') {StatusBar.setHidden(false);}
+    if(this.state.previousComponent==='map') {StatusBar.setHidden(true);}
   }
 
   handleRotation(event) {

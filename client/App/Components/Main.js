@@ -8,7 +8,7 @@ var MapView = require('./MapView');
 var {
   StyleSheet,
   Dimensions,
-  StatusBarIOS,
+  StatusBar,
   View,
   ScrollView,
   Image,
@@ -38,13 +38,13 @@ class SwiperView extends React.Component{
   _onMomentumScrollEnd(e, state, context) {
     if (state.index === 0) {
       this.setState({ index: 0 });
-      StatusBarIOS.setHidden(false);
+      StatusBar.setHidden(false);
     } else if (state.index === 1) {
       this.setState({ index: 1 });
-      StatusBarIOS.setHidden(true);
+      StatusBar.setHidden(true);
     } else if (state.index === 2) {
       this.setState({ index: 2 });
-      StatusBarIOS.setHidden(true);
+      StatusBar.setHidden(true);
     }
   }
 
