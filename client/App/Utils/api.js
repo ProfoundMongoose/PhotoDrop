@@ -1,7 +1,7 @@
 var api = {
   login(username, password) {
     var user = { username: username, password: password };
-    var url = 'http://162.243.130.124:8000/login';
+    var url = 'http://45.55.20.238:8000/login';
     return fetch(url, {
       method: 'POST',
       body: JSON.stringify(user)
@@ -10,7 +10,7 @@ var api = {
 
   signup(username, password) {
     var user = { username: username, password: password };
-    return fetch('http://162.243.130.124:8000/signup', {
+    return fetch('http://45.55.20.238:8000/signup', {
       method: 'POST',
       body: JSON.stringify(user)
     });
@@ -18,7 +18,7 @@ var api = {
 
   changePassword(username, password, newPassword) {
     var user = { username: username, password: password, newPassword: newPassword };
-    return fetch('http://162.243.130.124:8000/changePassword', {
+    return fetch('http://45.55.20.238:8000/changePassword', {
       method: 'POST',
       body: JSON.stringify(user)
     });
@@ -26,14 +26,14 @@ var api = {
 
   changeUsername(username, newUsername) {
     var user = { username: username, newUsername: newUsername };
-    return fetch('http://162.243.130.124:8000/changeUsername', {
+    return fetch('http://45.55.20.238:8000/changeUsername', {
       method: 'POST',
       body: JSON.stringify(user)
     });
   },
 
   checkJWT(JWT, callback) {
-    var url = 'http://162.243.130.124:8000/checkJWT/' + JWT;
+    var url = 'http://45.55.20.238:8000/checkJWT/' + JWT;
     fetch(url, {
       method: 'GET',
       headers: {
@@ -49,7 +49,7 @@ var api = {
   },
 
   uploadPhoto(data, latitude, longitude, userId, callback) {
-    var url = 'http://162.243.130.124:8000/imgUpload';
+    var url = 'http://45.55.20.238:8000/imgUpload';
     // cut data in half
     var firstHalf = data.slice(0, Math.floor(data.length / 2));
     var secondHalf = data.slice(Math.floor(data.length / 2));
@@ -85,7 +85,7 @@ var api = {
   },
 
   fetchPhotos(latitude, longitude, radius, callback) {
-    var url = 'http://162.243.130.124:8000/fetchPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
+    var url = 'http://45.55.20.238:8000/fetchPhotos?lat=' + latitude + '&lon=' + longitude + '&radius=' + radius;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -100,7 +100,7 @@ var api = {
   },
 
   fetchLocations(latitude, longitude, latdelta, londelta, callback) {
-    var url = 'http://162.243.130.124:8000/fetchLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta;
+    var url = 'http://45.55.20.238:8000/fetchLocations?lat=' + latitude + '&lon=' + longitude + '&latdelta=' + latdelta + '&londelta=' + londelta;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -116,7 +116,7 @@ var api = {
 
 
   fetchUserPhotos(userId, callback) {
-    var url = 'http://162.243.130.124:8000/fetchUserPhotos?userId=' + userId;
+    var url = 'http://45.55.20.238:8000/fetchUserPhotos?userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -131,7 +131,7 @@ var api = {
   },
 
   fetchUserFavorites(userId, callback) {
-    var url = 'http://162.243.130.124:8000/fetchUserFavorites?userId=' + userId;
+    var url = 'http://45.55.20.238:8000/fetchUserFavorites?userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -146,7 +146,7 @@ var api = {
   },
 
   incrementViews(url, callback) {
-    var url = 'http://162.243.130.124:8000/incrementViews?url=' + url;
+    var url = 'http://45.55.20.238:8000/incrementViews?url=' + url;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -161,7 +161,7 @@ var api = {
   },
 
   toggleFavorite(userId, url, callback) {
-    var url = 'http://162.243.130.124:8000/toggleFavorite?userId=' + userId + '&url=' + url;
+    var url = 'http://45.55.20.238:8000/toggleFavorite?userId=' + userId + '&url=' + url;
     return fetch(url, {
       method: 'GET',
       headers: {
@@ -176,7 +176,7 @@ var api = {
   },
 
   getPhotoData(url, userId, callback) {
-    var url = 'http://162.243.130.124:8000/getPhotoData?url=' + url + '&userId=' + userId;
+    var url = 'http://45.55.20.238:8000/getPhotoData?url=' + url + '&userId=' + userId;
     return fetch(url, {
       method: 'GET',
       headers: {

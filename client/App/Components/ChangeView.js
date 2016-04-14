@@ -12,7 +12,7 @@ var {
   ScrollView,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  StatusBarIOS
+  StatusBar
 } = React;
 
 class ChangeView extends React.Component {
@@ -30,7 +30,7 @@ class ChangeView extends React.Component {
   }
 
   componentWillUnmount() {
-    StatusBarIOS.setHidden(false);
+    StatusBar.setHidden(false);
   }
 
   handleUsernameChange(event) {

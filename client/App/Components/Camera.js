@@ -13,7 +13,7 @@ var {
   TouchableHighlight,
   TouchableOpacity,
   NativeModules,
-  StatusBarIOS
+  StatusBar
 } = React;
 
 class CameraView extends React.Component {
@@ -80,7 +80,7 @@ class CameraView extends React.Component {
   }
 
   render() {
-    StatusBarIOS.setHidden(true);
+    StatusBar.setHidden(true);
     return (
       <View >
         <Camera

@@ -16,7 +16,7 @@ var {
   Dimensions,
   TouchableOpacity,
   TouchableHighlight,
-  StatusBarIOS,
+  StatusBar,
   ActivityIndicatorIOS
 } = React;
 
